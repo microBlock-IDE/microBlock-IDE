@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body > header {
+    height: 60px;
+    background-color: #000000;
+}
+
+body > section {
+    flex-grow: 1;
+    height: 100%;
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+body > section > .block-category {
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
+    z-index: 9999;
+    background-color: #FDFEFE;
+}
+
+body > section > .block-category > ul {
+    padding: 0;
+    margin: 0;
+}
+
+body > section > .block-category > ul > li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+body > section > .block-category > ul > li.active {
+    background-color: #ECF0F1;
+}
+
+body > section > .block-category > ul > li > .label {
+    font-size: 14px;
+    padding: 6px;
+    padding-bottom: 10px;
+    padding-top: 0;
+}
+
+body > section > .block-category > ul > li.active > .label {
+    font-weight: bold;
+}
+
+body > section > .block-category > ul > li > .icon {
+    padding: 6px;
+    padding-top: 10px;
+}
+
+body > section > .block-category > ul > li > .icon > img {
+    width: 60%;
+}
+
+body > section > .work-box {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+#blocklyArea {
+    width: 100%;
+    height: 100%;
+}
+
+.blocklyPathLight, .blocklyPathDark {
+    display: none;
+}
