@@ -1,5 +1,5 @@
 Blockly.Python['pin_digital_write'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
@@ -9,8 +9,8 @@ Blockly.Python['pin_digital_write'] = function(block) {
 };
 
 Blockly.Python['pin_pwm_write'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['from_machine_import_pwm'] = 'from machine import PWM';
 
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
@@ -19,7 +19,7 @@ Blockly.Python['pin_pwm_write'] = function(block) {
 };
 
 Blockly.Python['pin_digital_read'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var code = `Pin(${value_pin}, Pin.IN).value()`;
@@ -27,7 +27,7 @@ Blockly.Python['pin_digital_read'] = function(block) {
 };
 
 Blockly.Python['pin_analog_read'] = function(block) {
-  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
+  Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
 
   var functionName = Blockly.Python.provideFunction_(
     'adcRead',

@@ -1,27 +1,51 @@
+let extensionList = [ ];
 
+let updateBlockCategory = () => {
+    $("#blockCategoryList").html('');
 
-// Block Tree to Category
-for (let category of blocksTree) {
-    $("#blockCategoryList").append(`
-        <li data-name="${category.name}">
-            <div class="icon"><img src="${category.icon}" alt=""></div>
-            <div class="label">${category.name}</div>
-        </li>
-    `);
-}
+    // Block Tree to Category
+    for (let category of blocksTree) {
+        $("#blockCategoryList").append(`
+            <li data-name="${category.name}">
+                <div class="icon"><img src="${category.icon}" alt=""></div>
+                <div class="label">${category.name}</div>
+            </li>
+        `);
+    }
 
-let changeToolbox = (categoryName) => {
-    let category = blocksTree.find(obj => obj.name == categoryName);
+    // Extension List to Category
+    for (let extension of extensionList) {
+        $("#blockCategoryList").append(`
+            <li data-name="${extension.name}" data-extension="1">
+                <div class="icon"><img src="${extension.git}/raw/${extension.git_branch || 'master'}/${extension.icon}" alt=""></div>
+                <div class="label">${extension.name}</div>
+            </li>
+        `);
+    }
+
+    $("#blockCategoryList > li").click(function() {
+        changeToolbox($(this).attr("data-name"), $(this).attr("data-extension") == 1);
+    });
+};
+
+updateBlockCategory();
+
+let changeToolbox = (categoryName, extension) => {
+    let category = (extension ? extensionList : blocksTree).find(obj => obj.name == categoryName);
     let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
     if (typeof category.blocks === "object") {
         for (let block of category.blocks) {
             if (typeof block === "object") {
                 toolboxTextXML += block.xml;
             } else {
-                if (typeof Blockly.Blocks[block].xml !== "undefined") {
-                    toolboxTextXML += Blockly.Blocks[block].xml;
+                if (typeof Blockly.Blocks[block] !== "undefined") {
+                    if (typeof Blockly.Blocks[block].xml !== "undefined") {
+                        toolboxTextXML += Blockly.Blocks[block].xml;
+                    } else {
+                        toolboxTextXML += `<block type="${block}"></block>`;
+                    }
                 } else {
-                    toolboxTextXML += `<block type="${block}"></block>`;
+                    console.warn(block, "undefined, forget add blocks_xxx.js ?");
                 }
             }
         }
@@ -33,7 +57,7 @@ let changeToolbox = (categoryName) => {
     }
     toolboxTextXML += `</xml>`;
     let toolboxXML = Blockly.Xml.textToDom(toolboxTextXML);
-    console.log(toolboxXML);
+    // console.log(toolboxXML);
     blocklyWorkspace.updateToolbox(toolboxXML);
 
     $("#blockCategoryList > li").removeClass("active").css({ color: "" });
@@ -43,10 +67,6 @@ let changeToolbox = (categoryName) => {
 
     blocklyWorkspace.scrollbar.resize();
 }
-
-$("#blockCategoryList > li").click(function() {
-    changeToolbox($(this).attr("data-name"));
-});
 
 var blocklyArea = document.getElementById('blocklyArea');
 var blocklyDiv = document.getElementById('blocklyDiv');
@@ -78,7 +98,7 @@ var blocklyWorkspace = Blockly.inject(blocklyDiv, {
     sounds : true, 
 });
 
-var onresize = function(e) {
+Blockly.triggleResize = function(e) {
     // Compute the absolute coordinates and dimensions of blocklyArea.
     var element = blocklyArea;
     var x = 0;
@@ -96,21 +116,34 @@ var onresize = function(e) {
     Blockly.svgResize(blocklyWorkspace);
 };
 
-window.addEventListener('resize', onresize, false);
-onresize();
+window.addEventListener('resize', Blockly.triggleResize, false);
+Blockly.triggleResize();
 
 changeToolbox(blocksTree[0].name);
 
+Blockly.updateToolbox = () => $("#blockCategoryList > li.active").click();
+
 /* Auto Save to localStorage */
-let oldCode = localStorage.getItem("autoSaveCode");
-if (typeof oldCode === "string") {
-    try {
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(oldCode), blocklyWorkspace);
-    } catch (e) {
-        console.log(e);
+let loadBlockFromAutoSave = async () => {
+    let extensionListInProject = JSON.parse(localStorage.getItem("autoSaveExtension"));
+    if (Array.isArray(extensionListInProject)) {
+        if (await updateExtensionIndex()) {
+            for (const extensionInfo of extensionListInProject) {
+                await installExtension(extensionInfo.id);
+            }
+        }
+    }
+
+    let oldCode = localStorage.getItem("autoSaveCode");
+    if (typeof oldCode === "string") {
+        try {
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(oldCode), blocklyWorkspace);
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
-delete oldCode;
+$(loadBlockFromAutoSave);
 
 blocklyWorkspace.addChangeListener(() => {
     try {
@@ -119,128 +152,24 @@ blocklyWorkspace.addChangeListener(() => {
     } catch (e) {
         console.log(e);
     }
+    localStorage.setItem("autoSaveExtension", JSON.stringify(extensionList));
 });
 /* -------------- */
 
-let serialPort = null;
-
-let writer = null, reader = null;
-
-let loopReadFlag = false;
-
-let handleSerialRead = async () => {
-    if (loopReadFlag) return;
-    loopReadFlag = true;
-
-    while (1) {
-        const { value, done } = await reader.read()
-        if (done) break;
-        // console.log(value);
-        var string = new TextDecoder("ascii").decode(value);
-        // console.log(string);
-        $("#terminal > section")[0].textContent += string;
-        $("#terminal > section").scrollTop($("#terminal > section")[0].scrollHeight);
-    }
-};
-
-$("#upload-program").click(async function() {
-    let code = Blockly.Python.workspaceToCode(blocklyWorkspace);
-    if (!serialPort) {
-        try {
-            serialPort = await navigator.serial.requestPort();
-        } catch(e) {
-            alert("Upload fail, you not select port");
-            console.log(e);
-            return;
-        }
-
-        try {
-            await serialPort.open({ baudrate: 115200 });
-        } catch(e) {
-            alert("Upload fail, can't open serial port, some program use this port ?");
-            console.log(e);
-            serialPort = null;
-            return;
-        }
-
-        console.log("Port opened");
-
-        if (!writer) writer = serialPort.writable.getWriter();
-        if (!reader) reader = serialPort.readable.getReader();
-
-        handleSerialRead();
-
-        // console.log(reader);
-    }
-
-    for (let i=0;i<5;i++) {
-        await writeSerial("\x03");
-        await sleep(50);
-    }
-
-    await writeSerialNewLine(`f = open("main.py", "w")`);
-    for (const chunkCode of code.match(/.{1,100}/gs)) {
-        await writeSerialNewLine(`f.write(${JSON.stringify(chunkCode)})`);
-        await sleep(100);
-    }
-    await writeSerialNewLine(`f.close()`);
-
-    await sleep(100);
-
-    await writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
-    
-    
-/*
-    console.log("Close port");
-    serialPort.close();*/
-});
-
-async function writeSerial(text) {
-    data = new TextEncoder("utf-8").encode(text);
-    buff = new ArrayBuffer(data.length);
-    view = new Uint8Array(buff);
-    view.set(data);
-    await writer.write(buff);
-    console.log(buff);
-}
-
-let writeSerialNewLine = (text) => writeSerial(text + "\r\n");
-
-let sleep = (time) => {
+let NotifyS = (msg) => Notiflix.Notify.Success(msg, { clickToClose: true }); 
+let NotifyI = (msg) => Notiflix.Notify.Info(msg, { clickToClose: true }); 
+let NotifyW = (msg) => Notiflix.Notify.Warning(msg, { clickToClose: true }); 
+let NotifyE = (msg) => Notiflix.Notify.Failure(msg, { clickToClose: true }); 
+let NotifyConfirm = (msg) => {
     return new Promise((resolve, reject) => {
-        setTimeout(resolve, time);
+        Notiflix.Confirm.Show('Are you Confirm ?', msg, 'Yes', 'No', function(){
+            resolve(true);
+        },
+        function(){
+            resolve(false);
+        });
     });
 }
 
-$("#terminal > section").keydown((event) => {
-    event.preventDefault()
-    console.log(event);
+tippy('[data-tippy-content]');
 
-    var isWordCharacter = event.key.length === 1;
-
-    if (!event.ctrlKey) {
-        if (isWordCharacter) {
-            writeSerial(event.key);
-        } else if (event.keyCode === 13) {
-            writeSerial("\r\n");
-        }
-    } else {
-        if (event.which === 67) { // C
-            writeSerial("\x03");
-        }
-    }
-});
-
-function moveCursorToEnd(el) {
-    console.log("Move");
-    if (typeof el.selectionStart == "number") {
-        el.selectionStart = el.selectionEnd = el.value.length;
-    } else if (typeof el.createTextRange != "undefined") {
-        el.focus();
-        var range = el.createTextRange();
-        range.collapse(false);
-        range.select();
-    }
-}
-
-$("#terminal > section").click(() => moveCursorToEnd($(this)[0]));

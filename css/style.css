@@ -15,23 +15,39 @@ html, body {
 }
 
 body {
-    display: flex;
-    flex-direction: column;
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
     color: #212F3C;
+    user-select: none;
 }
 
-body > header {
+.page {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.page > .main {
+    height: 100%;
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.page > .main > header {
     background-color: #F1C40F;
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
-    z-index: 99999;
+    z-index: 3990;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-body > header > .center {
+.page > .main > .center {
 
 }
 
@@ -57,12 +73,41 @@ ul.switch-mode > li {
     padding: 10px 16px;
     color: #FFF;
     cursor: pointer;
+    transition: background-color 300mS;
+    border-radius: 100px;
 }
 
 ul.switch-mode > li.active {
     background-color: #FFF;
-    border-radius: 100px;
     color: #B7950B;
+}
+
+ul.top-bar-button {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    padding-right: 20px;
+}
+
+ul.top-bar-button > li {
+    list-style: none;
+}
+
+ul.top-bar-button > li > button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: #FFF;
+    outline: none;
+    border-radius: 500px;
+    background-color: #B7950B;
+    border: none;
+    margin-right: 10px;
+}
+
+ul.top-bar-button > li > button:hover {
+    background-color: #9A7D0A;
 }
 
 /*
@@ -75,9 +120,9 @@ ul.switch-mode > li:last-child {
 }
 */
 
-body > section {
+.page > .main > section {
     flex-grow: 1;
-    height: 100%;
+    height: 100px;
     background-color: #FFFFFF;
 
     display: flex;
@@ -85,20 +130,26 @@ body > section {
     width: 100%;
 }
 
-body > section > .block-category {
+#blocks-editor {
+    display: flex;
+}
+
+#blocks-editor > .block-category {
     width: 100px;
     height: 100%;
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
-    z-index: 9999;
+    z-index: 3989;
     background-color: #FDFEFE;
 }
 
-body > section > .block-category > ul {
+#blocks-editor > .block-category > ul {
     padding: 0;
     margin: 0;
+    overflow: auto;
+    height: 100%;
 }
 
-body > section > .block-category > ul > li {
+#blocks-editor > .block-category > ul > li {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -106,61 +157,76 @@ body > section > .block-category > ul > li {
     cursor: pointer;
 }
 
-body > section > .block-category > ul > li.active {
+#blocks-editor > .block-category > ul > li.active {
     background-color: #ECF0F1;
 }
 
-body > section > .block-category > ul > li > .label {
+#blocks-editor > .block-category > ul > li > .label {
     font-size: 14px;
     padding: 6px;
     padding-bottom: 10px;
     padding-top: 0;
 }
 
-body > section > .block-category > ul > li.active > .label {
+#blocks-editor > .block-category > ul > li.active > .label {
     font-weight: bold;
 }
 
-body > section > .block-category > ul > li > .icon {
+#blocks-editor > .block-category > ul > li > .icon {
     padding: 6px;
     padding-top: 10px;
 }
 
-body > section > .block-category > ul > li > .icon > img {
+#blocks-editor > .block-category > ul > li > .icon > img {
     width: 60%;
 }
 
-body > section > .work-box {
+#blocks-editor > .work-box {
     flex-grow: 1;
     width: 100%;
     height: 100%;
 }
 
-body > footer {
+
+#code-editor {
+    display: none;
+    padding: 10px 0;
+}
+
+#code-editor > article {
+    width: 100%;
+    height: 100%;
+}
+
+.page > .main > footer {
     width: 100%;
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
-    z-index: 99999;
+    z-index: 3990;
     background-color: #FFF;
 }
 
-body > footer > .control-box {
-    padding: 14px;
+.page > .main > footer > .control-box {
+    padding: 14px 30px;
+    background-color: #212F3C;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-body > footer > .control-box > ul.button-list {
+.page > .main > footer > .control-box > ul.button-list {
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: row;
 }
 
-body > footer > .control-box > ul.button-list > li {
+.page > .main > footer > .control-box > ul.button-list > li {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-body > footer > .control-box > ul.button-list > li > button {
+.page > .main > footer > .control-box > ul.button-list > li > button {
     border-radius: 100%;
     width: 50px;
     height: 50px;
@@ -168,10 +234,60 @@ body > footer > .control-box > ul.button-list > li > button {
     outline: none;
     font-size: 22px;
     margin-right: 14px;
+    border: none;
+    background-color: #34495E;
+    color: #FFF;
 }
 
-body > footer > .control-box > ul.button-list > li > button.zoom {
-    transform: scale(1.6) translate(20px, -14px);
+.page > .main > footer > .control-box > ul.button-list > li > button:hover {
+    background-color: #2E4053;
+}
+
+.page > .main > footer > .control-box > ul.button-list > li > button.loading > i {
+    animation: goOutToTop 1.6s;
+    transform: translateY(-300%);
+}
+
+.page > .main > footer > .control-box > ul.button-list > li > button.loading::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    border-radius: 500px;
+    border: 3px solid transparent;
+    border-top-color: #85929E;
+    border-bottom-color: #85929E;
+
+    animation: loadingRotate 1s linear infinite;
+}
+
+@keyframes loadingRotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes goOutToTop {
+    0% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(-300%);
+    }
+}
+
+.page > .main > footer > .control-box > ul.button-list > li > button.zoom {
+    transform: scale(2) translateY(-20px);
+    box-shadow: 0 0 6px rgb(0 0 0 / 60%);
 }
 
 #blocklyArea {
@@ -183,63 +299,56 @@ body > footer > .control-box > ul.button-list > li > button.zoom {
     display: none;
 }
 
-.dialog {
-    position: absolute;
-    width:500px;
-    height: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999999;
-
-    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
-
-    display: flex;
+#terminal {
+    /* display: flex; */
     flex-direction: column;
+    height: 100%;
+    z-index: 3988;
+    overflow: hidden;
+    width: 300px;
+
+    display: none;
 }
 
-.dialog > header {
+#terminal > header {
     background-color: #7F8C8D;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
+    width: 100%;
 }
 
-.dialog > header > .title {
+#terminal > header > .title {
     color: #FFF;
-    padding: 4px 8px;
+    padding: 20px;
+    font-size: 24px;
+    /* text-align: center; */
+    width: 100%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
 }
 
-.dialog > header > .icon {
-    padding: 4px 8px;
+#terminal > header > .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.dialog > header > .icon > button {
+#terminal > header > .icon > button {
     border-radius: 100px;
     border: none;
-    width: 20px;
-    height: 20px;
-    font-size: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
     outline: none;
     color: #FFF;
+    background-color: #616A6B;
 }
 
-.dialog > header > .icon > button > i {
-    vertical-align: middle;
+#terminal > header > .icon > button:hover {
+    background-color: #515A5A;
+}
+
+#terminal > header > .icon > button > i {
     text-align: center;
-}
-
-.dialog > header > .icon > button.red {
-    background-color: #E74C3C;
-}
-
-.dialog > header > .icon > button.green {
-    background-color: #27AE60;
-}
-
-.dialog > header > .icon > button.blue {
-    background-color: #3498DB;
 }
  
 #terminal > section {
@@ -251,16 +360,262 @@ body > footer > .control-box > ul.button-list > li > button.zoom {
     white-space: pre;
     overflow: auto;
     font-size: 14px;
+    padding: 10px;
 }
 
 .makeVariableStyle {
-    fill: #2980B9;
+    fill: #ac5e2e;
 }
 
 .makeVariableStyle:hover {
-    fill: #1A5276;
+    fill: #733f1f;
 }
 
 .makeVariableStyle > .blocklyFlyoutButtonShadow {
     display: none;
+}
+
+#NotiflixNotifyWrap {
+    z-index: 999999 !important;
+}
+
+.dialog {
+    position: fixed;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+
+    /* display: flex; */
+    display: none;
+    flex-direction: column;
+    z-index: 999999;
+
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
+}
+
+.dialog::before {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    content: '';
+}
+
+.dialog > header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F1C40F;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 10px 10px -8px rgb(0 0 0 / 26%);
+    z-index: 999999;
+}
+
+.dialog > header > .title {
+    font-size: 24px;
+    padding: 14px 20px;
+    color: #FFF;
+}
+
+.dialog > header > .icon {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.dialog > header > .icon > button {
+    padding: 0 20px;
+    height: 100%;
+    background-color: #F1C40F;
+    color: #FFF;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.dialog > header > .icon > button:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.dialog > header > .icon > button:hover {
+    background-color: #D4AC0D;
+}
+
+.dialog > section {
+    width: 100%;
+    flex-grow: 1;
+    background-color: #F8F9F9;
+    border-radius: 0 0 10px 10px;
+    overflow: auto;
+}
+
+.dialog.show {
+    animation: dialogShow 400mS ease;
+    opacity: 1;
+    display: flex;
+    transform: scale(1);
+}
+
+.dialog.hide {
+    animation: dialogHide 400mS ease;
+    opacity: 0;
+    display: flex;
+    transform: scale(1);
+}
+
+@keyframes dialogShow {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes dialogHide {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+}
+
+#extension-keyword {
+    padding: 10px 14px;
+    background-color: #FFF;
+    border-radius: 500px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    text-align: center;
+    transition: border 300mS, width 300mS;
+    border: 2px solid #F1C40F;
+    width: 140px;
+}
+
+#extension-keyword:focus {
+    border: 2px solid #D4AC0D;
+    width: 200px;
+}
+
+.extension-list {
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.extension-list > li {
+    width: 20%;
+    list-style: none;
+    padding: 10px;
+}
+
+.extension-box {
+    border-radius: 4px;
+    background-color: #FFF;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 16%), 0 0 3px rgb(0 0 0 / 17%);
+    overflow: hidden;
+}
+
+.extension-box > .cover {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    position: relative;
+}
+
+.extension-box > .cover > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: all 300mS;
+}
+
+.extension-box > .cover > button {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #FFF;
+    font-size: 80px;
+    border: none;
+    outline: none;
+    opacity: 0;
+    transition: all 300mS;
+    cursor: pointer;
+}
+
+.extension-box > .cover > button.extension-install {
+    display: block;
+}
+
+.extension-box > .cover > button.extension-uninstall {
+    display: none;
+}
+
+.extension-box.installed > .cover > button.extension-install {
+    display: none !important;
+}
+
+.extension-box.installed > .cover > button.extension-uninstall {
+    display: block !important;
+}
+
+.extension-box > .cover:hover > img {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.extension-box > .cover:hover > button {
+    opacity: 1;
+    font-size: 60px;
+}
+
+.extension-box > .name {
+    font-size: 18px;
+    padding: 10px;
+    padding-bottom: 0;
+    color: #212F3C;
+    font-weight: bold;
+}
+
+.extension-box > .author {
+    font-size: 12px;
+    padding: 0 10px;
+    color: #85929E;
+}
+
+.extension-box > .description {
+    color: #212F3C;
+    padding: 10px;
+    font-size: 14px;
 }

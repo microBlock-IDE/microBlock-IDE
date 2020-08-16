@@ -129,13 +129,15 @@ Blockly.Variables.allDeveloperVariables = function(workspace) {
  * @return {!Array.<!Element>} Array of XML elements.
  */
 Blockly.Variables.flyoutCategory = function(workspace) {
+  return [];
   var xmlList = [];
   var button = document.createElement('button');
   button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
   button.setAttribute('callbackKey', 'CREATE_VARIABLE');
 
   workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
-    Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace());
+    console.log("CREATE_VARIABLE", button);
+    Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), Blockly.updateToolbox);
   });
 
   xmlList.push(button);
@@ -306,6 +308,7 @@ Blockly.Variables.createVariableButtonHandler = function(
               opt_callback(null);
             }
           }
+          
         });
   };
   promptAndCheckWithAlert('');

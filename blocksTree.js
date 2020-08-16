@@ -89,6 +89,13 @@ let blocksTree = [
                   `
             },
             "controls_if",
+            {
+                xml: `
+                    <block type="controls_if">
+                        <mutation else="1"></mutation>
+                    </block>
+                `
+            },
             "controls_wait_until",
             "controls_whileUntil",
         ]
@@ -106,6 +113,58 @@ let blocksTree = [
                                 <field name="NUM">1</field>
                             </shadow>
                         </value>
+                        <field name="OP">ADD</field>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="math_arithmetic">
+                        <value name="A">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                        <field name="OP">MINUS</field>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="math_arithmetic">
+                        <value name="A">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                        <field name="OP">MULTIPLY</field>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="math_arithmetic">
+                        <value name="A">
+                            <shadow type="math_number">
+                                <field name="NUM">1</field>
+                            </shadow>
+                        </value>
+                        <field name="OP">DIVIDE</field>
                         <value name="B">
                             <shadow type="math_number">
                                 <field name="NUM">1</field>
@@ -138,6 +197,41 @@ let blocksTree = [
                                 <field name="NUM">5</field>
                             </shadow>
                         </value>
+                        <field name="OP">GT</field>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">5</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="logic_compare">
+                        <value name="A">
+                            <shadow type="math_number">
+                                <field name="NUM">5</field>
+                            </shadow>
+                        </value>
+                        <field name="OP">LT</field>
+                        <value name="B">
+                            <shadow type="math_number">
+                                <field name="NUM">5</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="logic_compare">
+                        <value name="A">
+                            <shadow type="math_number">
+                                <field name="NUM">5</field>
+                            </shadow>
+                        </value>
+                        <field name="OP">EQ</field>
                         <value name="B">
                             <shadow type="math_number">
                                 <field name="NUM">5</field>
@@ -164,7 +258,24 @@ let blocksTree = [
         name: "Variables",
         icon: "images/icon/relativity.png",
         color: "#ac5e2e",
-        blocks: Blockly.Variables.flyoutCategory
+        blocks: (workspace) => {
+            // Copy from D:\GitHub\uBlock-IDE\blockly\core\variables.js
+            var xmlList = [];
+            var button = document.createElement('button');
+            button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
+            button.setAttribute('callbackKey', 'CREATE_VARIABLE');
+            button.setAttribute('web-class', 'makeVariableStyle');
+
+            workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
+                Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), Blockly.updateToolbox);
+            });
+
+            xmlList.push(button);
+
+            var blockList = Blockly.Variables.flyoutCategoryBlocks(workspace);
+            xmlList = xmlList.concat(blockList);
+            return xmlList;
+        }
     },
     {
         name: "Function",

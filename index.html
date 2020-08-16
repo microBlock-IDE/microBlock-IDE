@@ -5,68 +5,162 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>uBlock IDE by IOXhop</title>
 
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyABEJA4KrSMFtObWQTABwPQIUAPAOPbMSQ",
+            authDomain: "ublock-c0a08.firebaseapp.com",
+            databaseURL: "https://ublock-c0a08.firebaseio.com",
+            projectId: "ublock-c0a08",
+            storageBucket: "ublock-c0a08.appspot.com",
+            messagingSenderId: "366312741890",
+            appId: "1:366312741890:web:127ed254d28d61e1c7db1b",
+            measurementId: "G-CZ30D0N22C"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        </script>
+
+        <!-- Blockly -->
         <script src="blockly/blockly_compressed.js"></script>
         <script src="blockly/blocks_compressed.js"></script>
         <script src="blockly/python_compressed.js"></script>
         <script src="blockly/msg/js/en.js"></script>
+
+        <!-- Overwrite some Blockly file -->
+        <script src="blockly/blocks/procedures.js"></script>
+
+        <!-- jQuery -->
         <script src="js/jquery-3.5.1.min.js"></script>
 
+        <!-- Notiflix -->
+        <link rel="stylesheet" href="notiflix/notiflix-2.3.3.min.css">
+        <script src="notiflix/notiflix-2.3.3.min.js"></script>
+
+        <!-- Tippy.js -->
+        <script src="tippyjs/popper.min.js"></script>
+        <script src="tippyjs/tippy-bundle.umd.min.js"></script>
+
+        <!-- Monaco -->
+        <link rel="stylesheet" href="monaco-editor/min/vs/editor/editor.main.css">
+
+        <!-- Font Awesome -->
         <link rel="stylesheet" href="fontawesome/css/all.min.css">
+
+        <!-- Animate.css -->
+        <link rel="stylesheet" href="css/animate.min.css">
+
         <link rel="stylesheet" href="css/style.css">
+
+        
     </head>
 
     <body>
-        <header>
-            <div class="left">
-                <div class="header-logo">&micro;Block</div>
-            </div>
-            <div class="center">
-                <ul class="switch-mode">
-                    <li class="active">Block</li>
-                    <li>Code</li>
-                </ul>
-            </div>
-            <div class="right">
+        <section class="page">
+            <article class="main">
+                <header>
+                    <div class="left">
+                        <div class="header-logo animate__animated animate__bounceInLeft">&micro;Block</div>
+                    </div>
+                    <div class="center">
+                        <ul class="switch-mode" id="mode-select-switch">
+                            <li data-value="1" data-tippy-content="Switch to Block mode" class="active">Block</li>
+                            <li data-value="2" data-tippy-content="Switch to Code mode" data-tippy-content="Extension">Code</li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <ul class="top-bar-button">
+                            <li><button id="open-extension-dialog" data-tippy-content="Extension"><i class="fas fa-cubes"></i></button></li>
+                            <li><button id="open-help" data-tippy-content="Help"><i class="fas fa-question"></i></button></li>
+                        </ul>
+                    </div>
+                </header>
+                <section id="blocks-editor">
+                    <section class="block-category">
+                        <ul id="blockCategoryList">
+                            <!--
+                            <li>
+                                <div class="icon"></div>
+                                <div class="label"></div>
+                            </li>
+                            -->
+                        </ul>
+                    </section>
+                    <section class="work-box">
+                        <div id="blocklyArea"></div>
+                        <div id="blocklyDiv" style="position: absolute;"></div>
+                    </section>
+                </section>
+                <section id="code-editor">
+                    <article></article>
+                </section>
+                <footer>
+                    <div class="control-box">
+                        <ul class="button-list left">
+                            <li><button id="new-project" data-tippy-content="New project"><i class="far fa-file"></i></button></li>
+                            <li><button id="save-project" data-tippy-content="Save project"><i class="far fa-save"></i></button></li>
+                            <li><button id="open-project" data-tippy-content="Open project"><i class="far fa-folder-open"></i></button></li>
+                        </ul>
+                        <ul class="button-list center">
+                            <li><button id="upload-program" data-tippy-content="Upload" class="zoom"><i class="fas fa-upload"></i></button></li>
+                        </ul>
+                        <ul class="button-list right">
+                            <li><button id="open-terminal" data-tippy-content="Open Terminal"><i class="fas fa-terminal"></i></button></li>
+                        </ul>
+                    </div>
+                </footer>
+            </article>
 
-            </div>
-        </header>
-        <section>
-            <section class="block-category">
-                <ul id="blockCategoryList">
-                    <!--
-                    <li>
-                        <div class="icon"></div>
-                        <div class="label"></div>
-                    </li>
-                    -->
-                </ul>
-            </section>
-            <section class="work-box">
-                <div id="blocklyArea"></div>
-            </section>
+            <!-- Right Terminal -->
+            <article class="terminal" id="terminal">
+                <header>
+                    <div class="title">Terminal</div>
+                    <div class="icon">
+                        <button id="clear-terminal" data-tippy-content="Clear"><i class="fas fa-eraser"></i></button>
+                        <button id="resize-terminal" data-tippy-content="Resize"><i class="fas fa-expand-alt"></i></button>
+                        <button id="close-terminal" data-tippy-content="Close"><i class="fas fa-times"></i></button>
+                    </div>
+                </header>
+                <section contenteditable="true"></section>
+            </article>
+
         </section>
-        <footer>
-            <div class="control-box">
-                <ul class="button-list">
-                    <li><button id="upload-program" class="zoom"><i class="fas fa-upload"></i></button></li>
-                    <li><button id="new-project"><i class="far fa-file"></i></button></li>
-                    <li><button id="save-project"><i class="far fa-save"></i></button></li>
-                    <li><button id="open-project"><i class="far fa-folder-open"></i></button></li>
-                    <li><button id="open-terminal"><i class="fas fa-terminal"></i></button></li>
-                </ul>
-            </div>
-        </footer>
 
-        <div class="dialog" id="terminal">
+        <div id="dialog-backdrop"></div>
+
+        <div class="dialog" id="extension-dialog">
             <header>
-                <div class="title">MicroPython Terminal</div>
+                <div class="title">Extension</div>
+                <div class="center">
+                    <input type="text" id="extension-keyword" placeholder="Search">
+                </div>
                 <div class="icon">
-                    <button id="connect-terminal" class="green"><i class="fas fa-plug"></i></button>
-                    <button id="resize-terminal" class="blue"><i class="fas fa-expand-alt"></i></button>
-                    <button id="close-terminal" class="red"><i class="fas fa-times"></i></button>
+                    <button id="open-extension-creator" data-tippy-content="Extension Creator"><i class="fas fa-plus"></i></button>
+                    <button data-tippy-content="Close" class="close-dialog"><i class="fas fa-times"></i></button>
                 </div>
             </header>
-            <section contenteditable="true"></section>
+            <section>
+                <ul class="extension-list">
+                    <li>
+                        <div class="extension-box" data-extension-id="1">
+                            <div class="cover">
+                                <img src="images/og_fb.png" alt="">
+                                <button class="extension-install"><i class="fas fa-download"></i></button>
+                                <button class="extension-uninstall"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="name">MQTT</div>
+                            <div class="author">Sonthaya Nongnuch</div>
+                            <div class="description">Connect everything with MQTT</div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
         </div>
 
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
@@ -81,19 +175,32 @@
             <block type="text_print"></block>
         </xml>
 
-        <div id="blocklyDiv" style="position: absolute"></div>
+        <script>var require = { paths: { 'vs': 'monaco-editor/min/vs' } };</script>
+        <script src="monaco-editor/min/vs/loader.js"></script>
+	    <script src="monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+	    <script src="monaco-editor/min/vs/editor/editor.main.js"></script>
 
         <!-- Blocks -->
         <script src="blocks/blocks_pin.js"></script>
         <script src="blocks/blocks_controls.js"></script>
         <script src="blocks/blocks_operators.js"></script>
         <script src="blocks/blocks_variables.js"></script>
+        <script src="blocks/blocks_text_code.js"></script>
 
         <!-- Generators -->
         <script src="blocks/generators_pin.js"></script>
         <script src="blocks/generators_controls.js"></script>
+        <script src="blocks/generators_text_code.js"></script>
+
+        <!-- Python to Code converter -->
+        <script src="js/code2block.js"></script>
 
         <script src="blocksTree.js"></script>
         <script src="js/app.js"></script>
+        <script src="js/mode.js"></script>
+        <script src="js/serial.js"></script>
+        <script src="js/terminal.js"></script>
+        <script src="js/dialog.js"></script>
+        <script src="js/extension.js"></script>
     </body>
 </html>

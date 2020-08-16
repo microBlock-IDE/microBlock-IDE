@@ -9,7 +9,7 @@
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
-
+/*
 goog.provide('Blockly.Blocks.procedures');
 
 goog.require('Blockly');
@@ -20,7 +20,7 @@ goog.require('Blockly.FieldLabel');
 goog.require('Blockly.FieldTextInput');
 goog.require('Blockly.Mutator');
 goog.require('Blockly.Warning');
-
+*/
 
 Blockly.Blocks['procedures_defnoreturn'] = {
   /**
