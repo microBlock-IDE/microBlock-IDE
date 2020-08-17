@@ -14,6 +14,7 @@ let updateBlockCategory = () => {
     }
 
     // Extension List to Category
+    /*
     for (let extension of extensionList) {
         $("#blockCategoryList").append(`
             <li data-name="${extension.name}" data-extension="1">
@@ -22,16 +23,35 @@ let updateBlockCategory = () => {
             </li>
         `);
     }
+    */
+
+    for (const extensionId of fs.ls("/extension")) {
+        let extension = fs.read(`/extension/${extensionId}/extension.js`);
+        extension = eval(extension);
+        let image = fs.read(`/extension/${extensionId}/${extension.icon}`);
+        $("#blockCategoryList").append(`
+            <li data-name="${extension.name}" data-extension="1" data-extension-id="${extensionId}">
+                <div class="icon"><img src="${image}" alt=""></div>
+                <div class="label">${extension.name}</div>
+            </li>
+        `);
+    }
 
     $("#blockCategoryList > li").click(function() {
-        changeToolbox($(this).attr("data-name"), $(this).attr("data-extension") == 1);
+        changeToolbox($(this).attr("data-name"), $(this).attr("data-extension") == 1, $(this).attr("data-extension-id"));
     });
+
+    changeToolbox(blocksTree[0].name);
 };
 
-updateBlockCategory();
-
-let changeToolbox = (categoryName, extension) => {
-    let category = (extension ? extensionList : blocksTree).find(obj => obj.name == categoryName);
+let changeToolbox = (categoryName, extension, extensionId) => {
+    let category;
+    if (!extension) {
+        category = blocksTree.find(obj => obj.name == categoryName);
+    } else {
+        category = eval(fs.read(`/extension/${extensionId}/extension.js`));
+    }
+    // console.log(category);
     let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
     if (typeof category.blocks === "object") {
         for (let block of category.blocks) {
@@ -119,23 +139,39 @@ Blockly.triggleResize = function(e) {
 window.addEventListener('resize', Blockly.triggleResize, false);
 Blockly.triggleResize();
 
-changeToolbox(blocksTree[0].name);
-
 Blockly.updateToolbox = () => $("#blockCategoryList > li.active").click();
 
 /* Auto Save to localStorage */
-let loadBlockFromAutoSave = async () => {
-    let extensionListInProject = JSON.parse(localStorage.getItem("autoSaveExtension"));
-    if (Array.isArray(extensionListInProject)) {
-        if (await updateExtensionIndex()) {
-            for (const extensionInfo of extensionListInProject) {
-                await installExtension(extensionInfo.id);
+let updataWorkspaceAndCategoryFromvFS = async () => {
+    if (!vFSTree) {
+        vFSTree = { };
+    }
+    
+    for (const extensionId of fs.ls("/extension")) {
+        let extensionLocalPath = `/extension/${extensionId}`;
+        let blocksFile = fs.walk(`${extensionLocalPath}/blocks`);
+        for (const file of blocksFile) {
+            if (file.endsWith(".js")) {
+                let jsContent = fs.read(`${extensionLocalPath}/blocks/${file}`);
+                try {
+                    eval(jsContent);
+                } catch (e) {
+                    NotifyE("Script run error: " + e.toString());
+                    console.error(e);
+                }
+            } else {
+                console.warn("Why file " + file + " in blocks ? support .js only so skip it");
             }
         }
     }
 
-    let oldCode = localStorage.getItem("autoSaveCode");
+    updateBlockCategory();
+
+
+
+    let oldCode = fs.read("/main.xml");
     if (typeof oldCode === "string") {
+        blocklyWorkspace.clear();
         try {
             Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(oldCode), blocklyWorkspace);
         } catch (e) {
@@ -143,16 +179,18 @@ let loadBlockFromAutoSave = async () => {
         }
     }
 }
-$(loadBlockFromAutoSave);
+// $(loadBlockFromAutoSave);
+vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
+updataWorkspaceAndCategoryFromvFS();
 
 blocklyWorkspace.addChangeListener(() => {
     try {
         var xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(blocklyWorkspace));
-        localStorage.setItem("autoSaveCode", xmlText);
+        fs.write("/main.xml", xmlText);
     } catch (e) {
         console.log(e);
     }
-    localStorage.setItem("autoSaveExtension", JSON.stringify(extensionList));
+    localStorage.setItem("autoSaveFS", JSON.stringify(vFSTree));
 });
 /* -------------- */
 
@@ -173,3 +211,50 @@ let NotifyConfirm = (msg) => {
 
 tippy('[data-tippy-content]');
 
+
+$("#new-project").click(async () => {
+    if (await NotifyConfirm("All blocks will lost. Are you sure of new project ?")) {
+        blocklyWorkspace.clear();
+        vFSTree = "";
+        vFSTree = { };
+
+        updateBlockCategory();
+    }
+});
+
+$("#save-project").click(() => {
+    let data = JSON.stringify(vFSTree);
+    let blob = new Blob([data], { type: "application/json" });
+	let url = window.URL.createObjectURL(blob);
+    
+    let link = document.createElement("a");
+    link.download = $("#project-name").val() + ".mby";
+    link.href = url;
+    link.click();
+
+	window.URL.revokeObjectURL(url);
+});
+
+$("#open-project").click(async () => {
+    if (!await NotifyConfirm("All blocks will lost. Are you sure of open project ?")) {
+        return;
+    }
+
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".mby";
+    input.addEventListener("change", function() {
+        // console.log(this.files);
+        let fileName = this.files[0].name.replace(".mby", "");
+        let fr = new FileReader();
+        fr.onload = () => {
+            // console.log(fr.result);
+            vFSTree = JSON.parse(fr.result);
+            updataWorkspaceAndCategoryFromvFS();
+            NotifyS("Open project " + fileName)
+            $("#project-name").val(fileName);
+        };
+        fr.readAsText(this.files[0]);
+    }, false); 
+    input.click();
+});

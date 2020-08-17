@@ -218,6 +218,7 @@ ul.switch-mode > li:last-child {
     margin: 0;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .page > .main > footer > .control-box > ul.button-list > li {
@@ -237,6 +238,25 @@ ul.switch-mode > li:last-child {
     border: none;
     background-color: #34495E;
     color: #FFF;
+}
+
+.page > .main > footer > .control-box > ul.button-list > li > input {
+    margin-right: 14px;
+    padding: 10px 14px;
+    background-color: #FFF;
+    border-radius: 500px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    text-align: center;
+    transition: border 300mS, width 300mS;
+    border: 2px solid #212F3C;
+    width: 140px;
+}
+
+.page > .main > footer > .control-box > ul.button-list > li > input:focus {
+    border: 2px solid #34495E;
+    width: 200px;
 }
 
 .page > .main > footer > .control-box > ul.button-list > li > button:hover {
