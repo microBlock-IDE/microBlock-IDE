@@ -100,4 +100,4 @@ $("#open-terminal").click(() => {
     if (editor) editor.layout();
 });
 
-$("#open-terminal").click();
+$(() => $("#open-terminal").click());

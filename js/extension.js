@@ -1,7 +1,5 @@
-let modulesContent = [ ];
-
 let extensionIndexURL = "https://raw.githubusercontent.com/microBlock-IDE/microBlock-extension-index/master/main.json";
-let extensionIndex = [ ];
+let extensionIndex = null;
 
 let updateExtensionIndex = async () => {
     let extensionIndexFromAPI = await fetch(extensionIndexURL, { redirect: 'follow' });
@@ -51,6 +49,16 @@ let installExtension = async (extensionId) => {
     return true;
 }
 
+let removeExtension = async (extensionId) => {
+    fs.remove(`/extension/${extensionId}`);
+
+    updateBlockCategory();
+
+    NotifyS(`Uninstall ${extensionId} successful`);
+
+    return true;
+}
+
 $("#open-extension-dialog").click(async () => {
     $("#extension-dialog .extension-list").html('');
 
@@ -58,15 +66,18 @@ $("#open-extension-dialog").click(async () => {
 
     Notiflix.Block.Standard("#extension-dialog > section", 'Loading...');
 
-    if (!(await updateExtensionIndex())) {
-        Notiflix.Block.Remove("#extension-dialog > section");
-        return;
+    if (!extensionIndex) {
+        if (!(await updateExtensionIndex())) {
+            Notiflix.Block.Remove("#extension-dialog > section");
+            return;
+        }
     }
     
+    let extensionInstalledList = fs.ls("/extension");
     for (const [id, info] of Object.entries(extensionIndex)) {
         $("#extension-dialog .extension-list").append(`
         <li>
-            <div class="extension-box" data-extension-id="${id}">
+            <div class="extension-box${extensionInstalledList.indexOf(id) >= 0 ? " installed" : ""}" data-extension-id="${id}">
                 <div class="cover">
                     <img src="${info.github}/raw/master/${info.image}" alt="">
                     <button class="extension-install"><i class="fas fa-download"></i></button>
@@ -92,6 +103,15 @@ $("#open-extension-dialog").click(async () => {
         }
 
         Notiflix.Block.Remove(queryBox);
+    });
+
+    $(".extension-uninstall").click(async function() {
+        let extensionId = $(this).parents(".extension-box").attr("data-extension-id");
+        let queryBox = `.extension-box[data-extension-id='${extensionId}']`;
+
+        if (removeExtension(extensionId)) {
+            $(queryBox).removeClass("installed");
+        }
     });
 });
 

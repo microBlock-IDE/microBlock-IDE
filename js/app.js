@@ -181,17 +181,51 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 }
 // $(loadBlockFromAutoSave);
 vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
-updataWorkspaceAndCategoryFromvFS();
-
-blocklyWorkspace.addChangeListener(() => {
-    try {
-        var xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(blocklyWorkspace));
-        fs.write("/main.xml", xmlText);
-    } catch (e) {
-        console.log(e);
+let configFileContent = fs.read("/config.json");
+// console.log(configFileContent)
+if (configFileContent) {
+    let projectConfig = JSON.parse(configFileContent);
+    if (projectConfig) {
+        useMode = projectConfig.mode;
+        if (useMode === "block") {
+            updataWorkspaceAndCategoryFromvFS();
+        } else if (useMode === "code") {
+            $("#mode-select-switch > li[data-value='2']").click();
+            $(() => {
+                while(!editor) {
+                    sleep(100);
+                }
+                let code = fs.read("main.py");
+                if (code) {
+                    editor.setValue(code);
+                }
+            });
+        }
     }
+} else {
+    updataWorkspaceAndCategoryFromvFS();
+}
+
+let saveCodeToLocal = () => {
+    if (useMode === "block") {
+        fs.remove("/main.py");
+        try {
+            var xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(blocklyWorkspace));
+            fs.write("/main.xml", xmlText);
+        } catch (e) {
+            console.log(e);
+        }
+    } else if (useMode === "code") {
+        fs.remove("/main.xml");
+        fs.write("/main.py", editor.getValue());
+    }
+    fs.write("/config.json", JSON.stringify({
+        mode: useMode
+    }));
     localStorage.setItem("autoSaveFS", JSON.stringify(vFSTree));
-});
+};
+
+blocklyWorkspace.addChangeListener(saveCodeToLocal);
 /* -------------- */
 
 let NotifyS = (msg) => Notiflix.Notify.Success(msg, { clickToClose: true }); 

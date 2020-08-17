@@ -62,6 +62,25 @@ let fileRead = (path) => {
     return undefined;
 }
 
+let pathDelete = (path) => {
+    let nextPoint = vFSTree;
+    let pathSplit = path.split("/");
+    for (let i=0;i<pathSplit.length;i++) {
+        subPath = pathSplit[i];
+        if (subPath.length === 0) continue;
+
+        if (typeof nextPoint[subPath] === "undefined") {
+            return true;
+        }
+        if (pathSplit.length == i + 1) {
+            delete nextPoint[subPath];
+        } else {
+            nextPoint = nextPoint[subPath];
+        }
+    }
+    return undefined;
+}
+
 let walk = (path) => {
     let nextPoint = vFSTree;
     let pathSplit = path.split("/");
@@ -93,6 +112,7 @@ let walk = (path) => {
 let fs = {
     write: fileWrite,
     read: fileRead,
+    remove: pathDelete,
     ls: listFileFolder,
     walk: walk
 };
