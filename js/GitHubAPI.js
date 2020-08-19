@@ -43,13 +43,13 @@ let downloadFile = async (url, saveAs) => {
             fs.write(saveAs, Base64.decode(content));
         }
     } else {
-        if (saveAs.endsWith(".js") || saveAs.endsWith(".json")) {
-            fs.write(saveAs, await fileDownload.text());
-        } else if (saveAs.endsWith(".png") || saveAs.endsWith(".jpg")) {
+        if (saveAs.endsWith(".png") || saveAs.endsWith(".jpg")) {
             let imageType = saveAs.endsWith(".png") ? "png" : saveAs.endsWith(".jpg") ? "jpg" : "";
             let uint8_content = new Uint8Array(await fileDownload.arrayBuffer());
             console.log(uint8_content);
             fs.write(saveAs, "data:image/" + imageType + ";base64," + btoa(String.fromCharCode.apply(null, uint8_content)));
+        } else {
+            fs.write(saveAs, await fileDownload.text());
         }
     }
 

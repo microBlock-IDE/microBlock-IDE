@@ -45,6 +45,7 @@ let installExtension = async (extensionId) => {
     updateBlockCategory();
 
     NotifyS(`Install ${extension.name} extension successful`);
+    saveCodeToLocal();
 
     return true;
 }
@@ -55,6 +56,7 @@ let removeExtension = async (extensionId) => {
     updateBlockCategory();
 
     NotifyS(`Uninstall ${extensionId} successful`);
+    saveCodeToLocal();
 
     return true;
 }
@@ -117,7 +119,7 @@ $("#open-extension-dialog").click(async () => {
 
 let uploadModuleList = [];
 
-Blockly.Python.uploadModule = (module) => {
+Blockly.Python.addUploadModule = (module) => {
     uploadModuleList.push(module);
 }
 

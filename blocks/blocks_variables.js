@@ -38,11 +38,11 @@ Blockly.defineBlocksWithJsonArray([
     "extensions": ["contextMenu_variableSetterGetter"]
   }
 ]);
-
+/*
 if (Blockly.Blocks['math_change']) {
   delete Blockly.Blocks['math_change'];
 }
-
+*/
 // Copy from blockly\core\variables.js
 Blockly.Variables.flyoutCategoryBlocks = function(workspace) {
   var variableModelList = workspace.getVariablesOfType('');

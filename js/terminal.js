@@ -65,7 +65,7 @@ let updateTerminalCurser = () => {
 $("#terminal > section").mousedown(function(e) {
     e.preventDefault();
 
-    updateTerminalCurser();
+    // updateTerminalCurser();
 });
 
 $("#close-terminal").click(() => {

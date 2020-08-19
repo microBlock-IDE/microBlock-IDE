@@ -89,7 +89,7 @@ let walk = (path) => {
         if (subPath.length === 0) continue;
 
         if (typeof nextPoint[subPath] === "undefined") {
-            break;
+            return [ ];
         }
         nextPoint = nextPoint[subPath];
     }

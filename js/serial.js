@@ -62,14 +62,17 @@ let serialUploadFile = async (fileName, content) => {
         }
     }
 
-    await writeSerialNewLine(`f = open("${fileName}", "w")`);
-    for (const chunkContent of content.match(/.{1,100}/gs)) {
-        await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent)})`);
-        await sleep(100);
+    let firstWriteFlag = true;
+    for (const chunkContent1 of content.match(/.{1,500}/gs)) {
+        await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}")`);
+        for (const chunkContent2 of chunkContent1.match(/.{1,100}/gs)) {
+            await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
+            await sleep(100);
+        }
+        await writeSerialNewLine(`f.close()`);
+        await sleep(500);
+        firstWriteFlag = false;
     }
-    await writeSerialNewLine(`f.close()`);
-
-    await sleep(100);
 }
 
 $("#upload-program").click(async function() {
@@ -78,8 +81,12 @@ $("#upload-program").click(async function() {
     uploadModuleList = null;
     uploadModuleList = [];
 
-    let code = Blockly.Python.workspaceToCode(blocklyWorkspace);
-
+    let code;
+    if (useMode === "block") {
+        code = Blockly.Python.workspaceToCode(blocklyWorkspace);
+    } else if (useMode === "code") {
+        code = editor.getValue();
+    }
     if (!serialPort) {
         try {
             serialPort = await navigator.serial.requestPort();
@@ -119,7 +126,7 @@ $("#upload-program").click(async function() {
                 }
 
                 $("#terminal > section").scrollTop($("#terminal > section")[0].scrollHeight);
-                updateTerminalCurser();
+                // updateTerminalCurser();
             }
         }));
 
@@ -128,16 +135,22 @@ $("#upload-program").click(async function() {
         // console.log(reader);
     }
 
-    console.log(uploadModuleList);
+    // console.log(uploadModuleList);
 
-    for (const moduleName of uploadModuleList) {
-        let module = modulesContent.find((module) => module.name === moduleName);
-        console.log(module);
-        if (module) {
-            // await serialUploadFile(/\/?([^\/]+)$/g.exec(module.name)[1], module.content);
-            await serialUploadFile(/\/?([^\/]+)$/g.exec(module.name)[1], new TextDecoder("ascii").decode(module.content));
+    let listAllModule = [];
+    for (const extensionId of fs.ls("/extension")) {
+        for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
+            listAllModule.push(`/extension/${extensionId}/modules/${filePath.replace(/^\//gm, "")}`);
+        }
+    }
+    // console.log(listAllModule);
+
+    for (const moduleWillUpload of uploadModuleList) {
+        let modulePath = listAllModule.find((moduleFile) => moduleFile.endsWith(moduleWillUpload));
+        if (modulePath) {
+            await serialUploadFile(moduleWillUpload, fs.read(modulePath));
         } else {
-            console.warn("not found module", moduleName, "in modules content list");
+            console.warn("not found module", moduleWillUpload);
         }
     }
 
