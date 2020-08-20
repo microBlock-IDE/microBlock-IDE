@@ -88,6 +88,11 @@ $("#upload-program").click(async function() {
         code = editor.getValue();
     }
     if (!serialPort) {
+        navigator.serial.ondisconnect = () => {
+            NotifyW("Serial port disconnect");
+            serialPort = null;
+            $("#clear-terminal").click();
+        }
         try {
             serialPort = await navigator.serial.requestPort();
         } catch(e) {

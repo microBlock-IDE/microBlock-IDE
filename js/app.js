@@ -1,92 +1,86 @@
 let extensionList = [ ];
 
 let updateBlockCategory = () => {
-    $("#blockCategoryList").html('');
+    var categoryIconList = [];
+    let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
 
-    // Block Tree to Category
+    // blockTree
     for (let category of blocksTree) {
-        $("#blockCategoryList").append(`
-            <li data-name="${category.name}">
-                <div class="icon"><img src="${category.icon}" alt=""></div>
-                <div class="label">${category.name}</div>
-            </li>
-        `);
+        toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
+        if (typeof category.blocks === "object") {
+            for (let block of category.blocks) {
+                if (typeof block === "object") {
+                    toolboxTextXML += block.xml;
+                } else {
+                    if (typeof Blockly.Blocks[block] !== "undefined") {
+                        if (typeof Blockly.Blocks[block].xml !== "undefined") {
+                            toolboxTextXML += Blockly.Blocks[block].xml;
+                        } else {
+                            toolboxTextXML += `<block type="${block}"></block>`;
+                        }
+                    } else {
+                        console.warn(block, "undefined, forget add blocks_xxx.js ?");
+                    }
+                }
+            }
+        } else if (typeof category.blocks === "function") {
+            let xmlList = category.blocks(blocklyWorkspace);
+            for (let xml of xmlList) {
+                toolboxTextXML += Blockly.Xml.domToText(xml);
+            }
+        }
+        toolboxTextXML += `</category>`;
+        categoryIconList.push(category.icon);
     }
 
-    // Extension List to Category
-    /*
-    for (let extension of extensionList) {
-        $("#blockCategoryList").append(`
-            <li data-name="${extension.name}" data-extension="1">
-                <div class="icon"><img src="${extension.git}/raw/${extension.git_branch || 'master'}/${extension.icon}" alt=""></div>
-                <div class="label">${extension.name}</div>
-            </li>
-        `);
-    }
-    */
-
+    // Extenstion
+    extenstionTree = [];
     for (const extensionId of fs.ls("/extension")) {
         let extension = fs.read(`/extension/${extensionId}/extension.js`);
         extension = eval(extension);
-        let image = fs.read(`/extension/${extensionId}/${extension.icon}`);
-        $("#blockCategoryList").append(`
-            <li data-name="${extension.name}" data-extension="1" data-extension-id="${extensionId}">
-                <div class="icon"><img src="${image}" alt=""></div>
-                <div class="label">${extension.name}</div>
-            </li>
-        `);
+        extenstionTree.push(extension);
+        categoryIconList.push(fs.read(`/extension/${extensionId}/${extension.icon}`));
     }
-
-    $("#blockCategoryList > li").click(function() {
-        changeToolbox($(this).attr("data-name"), $(this).attr("data-extension") == 1, $(this).attr("data-extension-id"));
-    });
-
-    changeToolbox(blocksTree[0].name);
-};
-
-let changeToolbox = (categoryName, extension, extensionId) => {
-    let category;
-    if (!extension) {
-        category = blocksTree.find(obj => obj.name == categoryName);
-    } else {
-        category = eval(fs.read(`/extension/${extensionId}/extension.js`));
-    }
-    // console.log(category);
-    let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
-    if (typeof category.blocks === "object") {
-        for (let block of category.blocks) {
-            if (typeof block === "object") {
-                toolboxTextXML += block.xml;
-            } else {
-                if (typeof Blockly.Blocks[block] !== "undefined") {
-                    if (typeof Blockly.Blocks[block].xml !== "undefined") {
-                        toolboxTextXML += Blockly.Blocks[block].xml;
-                    } else {
-                        toolboxTextXML += `<block type="${block}"></block>`;
-                    }
+    for (let category of extenstionTree) {
+        toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
+        if (typeof category.blocks === "object") {
+            for (let block of category.blocks) {
+                if (typeof block === "object") {
+                    toolboxTextXML += block.xml;
                 } else {
-                    console.warn(block, "undefined, forget add blocks_xxx.js ?");
+                    if (typeof Blockly.Blocks[block] !== "undefined") {
+                        if (typeof Blockly.Blocks[block].xml !== "undefined") {
+                            toolboxTextXML += Blockly.Blocks[block].xml;
+                        } else {
+                            toolboxTextXML += `<block type="${block}"></block>`;
+                        }
+                    } else {
+                        console.warn(block, "undefined, forget add blocks_xxx.js ?");
+                    }
                 }
             }
+        } else if (typeof category.blocks === "function") {
+            let xmlList = category.blocks(blocklyWorkspace);
+            for (let xml of xmlList) {
+                toolboxTextXML += Blockly.Xml.domToText(xml);
+            }
         }
-    } else if (typeof category.blocks === "function") {
-        let xmlList = category.blocks(blocklyWorkspace);
-        for (let xml of xmlList) {
-            toolboxTextXML += Blockly.Xml.domToText(xml);
+        toolboxTextXML += `</category>`;
+    }
+
+    toolboxTextXML += `</xml>`;
+
+    let toolboxXML = Blockly.Xml.textToDom(toolboxTextXML);
+
+    blocklyWorkspace.updateToolbox(toolboxXML);
+    /* blocklyWorkspace.scrollbar.resize(); */
+
+    for (const [index, element] of Object.entries($("span.blocklyTreeIcon"))) {
+        if (typeof element === "object" && element.nodeType !== undefined) {
+            $(element).append(`<img src="${categoryIconList[index]}" alt="">`);
         }
     }
-    toolboxTextXML += `</xml>`;
-    let toolboxXML = Blockly.Xml.textToDom(toolboxTextXML);
-    // console.log(toolboxXML);
-    blocklyWorkspace.updateToolbox(toolboxXML);
-
-    $("#blockCategoryList > li").removeClass("active").css({ color: "" });
-    $(`#blockCategoryList > li[data-name='${categoryName}']`).addClass("active").css({ 
-        color: category.color
-    });
-
-    blocklyWorkspace.scrollbar.resize();
-}
+};
 
 var blocklyArea = document.getElementById('blocklyArea');
 var blocklyDiv = document.getElementById('blocklyDiv');
@@ -139,7 +133,7 @@ Blockly.triggleResize = function(e) {
 window.addEventListener('resize', Blockly.triggleResize, false);
 Blockly.triggleResize();
 
-Blockly.updateToolbox = () => $("#blockCategoryList > li.active").click();
+Blockly.updateToolbox = () => { };
 
 /* Auto Save to localStorage */
 let updataWorkspaceAndCategoryFromvFS = async () => {
@@ -166,9 +160,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
     }
 
     updateBlockCategory();
-
-
-
+    
     let oldCode = fs.read("/main.xml");
     if (typeof oldCode === "string") {
         blocklyWorkspace.clear();

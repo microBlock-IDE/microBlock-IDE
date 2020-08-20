@@ -258,29 +258,12 @@ let blocksTree = [
         name: "Variables",
         icon: "images/icon/relativity.png",
         color: "#ac5e2e",
-        blocks: (workspace) => {
-            // Copy from D:\GitHub\uBlock-IDE\blockly\core\variables.js
-            var xmlList = [];
-            var button = document.createElement('button');
-            button.setAttribute('text', '%{BKY_NEW_VARIABLE}');
-            button.setAttribute('callbackKey', 'CREATE_VARIABLE');
-            button.setAttribute('web-class', 'makeVariableStyle');
-
-            workspace.registerButtonCallback('CREATE_VARIABLE', function(button) {
-                Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), Blockly.updateToolbox);
-            });
-
-            xmlList.push(button);
-
-            var blockList = Blockly.Variables.flyoutCategoryBlocks(workspace);
-            xmlList = xmlList.concat(blockList);
-            return xmlList;
-        }
+        blocks: "VARIABLE"
     },
     {
         name: "Function",
         icon: "images/icon/jigsaw.png",
         color: "#17A589",
-        blocks: Blockly.Procedures.flyoutCategory
+        blocks: "PROCEDURE"
     }
 ];

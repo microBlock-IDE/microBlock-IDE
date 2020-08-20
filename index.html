@@ -82,16 +82,16 @@
                     </div>
                 </header>
                 <section id="blocks-editor">
-                    <section class="block-category">
-                        <ul id="blockCategoryList">
+                    <!-- <section class="block-category">
+                        <ul id="blockCategoryList"> -->
                             <!--
                             <li>
                                 <div class="icon"></div>
                                 <div class="label"></div>
                             </li>
                             -->
-                        </ul>
-                    </section>
+                        <!-- </ul>
+                    </section> -->
                     <section class="work-box">
                         <div id="blocklyArea"></div>
                         <div id="blocklyDiv" style="position: absolute;"></div>
@@ -165,15 +165,17 @@
         </div>
 
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-            <block type="controls_if"></block>
-            <block type="logic_compare"></block>
-            <block type="controls_repeat_ext"></block>
-            <block type="math_number">
-              <field name="NUM">123</field>
-            </block>
-            <block type="math_arithmetic"></block>
-            <block type="text"></block>
-            <block type="text_print"></block>
+            <category name="test">
+                <block type="controls_if"></block>
+                <block type="logic_compare"></block>
+                <block type="controls_repeat_ext"></block>
+                <block type="math_number">
+                <field name="NUM">123</field>
+                </block>
+                <block type="math_arithmetic"></block>
+                <block type="text"></block>
+                <block type="text_print"></block>
+            </category>
         </xml>
 
         <script>var require = { paths: { 'vs': 'monaco-editor/min/vs' } };</script>
