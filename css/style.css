@@ -375,15 +375,9 @@ ul.switch-mode > li:last-child {
 }
  
 #terminal > section {
-    background-color: #424949;
+    background-color: #000;
     height: 100%;
     flex-grow: 1;
-    outline: none;
-    color: #FFF;
-    white-space: pre;
-    overflow: auto;
-    font-size: 14px;
-    padding: 10px;
 }
 
 .makeVariableStyle {

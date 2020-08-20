@@ -4,43 +4,9 @@ let writer = null, reader = null;
 
 let loopReadFlag = false;
 
-let handleSerialRead = async () => {
-    /* if (loopReadFlag) return;
-    loopReadFlag = true; */
+let serialLastData = "";
 
-    // while (1) {
-    /*
-    reader.read().then(({ value, done }) => {
-        // const { value, done } = await reader.read();
-        // if (done) break;
-        console.log(value);
-        if (done) return;
-        
-        // let string = "";
-        for (let key of value) {
-            if (key >= 32 && key <= 126 || key == 13 || key == 10) {
-                $("#terminal > section")[0].textContent += String.fromCharCode(key);
-            } else {
-                console.log(key);
-            }
-        }
-        /*
-        if (value >= 32 && value <= 126) {
-            string += String.fromCharCode(value);
-        } else if () {
-            
-        }
-        // var string = new TextDecoder("ascii").decode(value);
-        // console.log(string);
-        $("#terminal > section")[0].textContent += string;
-        $("#terminal > section").scrollTop($("#terminal > section")[0].scrollHeight);
-        */
-    //}
-        //handleSerialRead();
-    //});
-};
-
-let microPythonIsReadyNextCommand = () => $("#terminal > section").text().endsWith(">>> ");
+let microPythonIsReadyNextCommand = () => serialLastData.endsWith(">>> ");
 let waitMicroPythonIsReadyNextCommand = async (timeout) => {
     while (timeout > 0) {
         if (microPythonIsReadyNextCommand()) {
@@ -75,11 +41,61 @@ let serialUploadFile = async (fileName, content) => {
     }
 }
 
+let serialConnect = async () => {
+    navigator.serial.ondisconnect = () => {
+        NotifyW("Serial port disconnect");
+        serialPort = null;
+        term.dispose();
+    }
+
+    try {
+        serialPort = await navigator.serial.requestPort();
+    } catch(e) {
+        NotifyE("You not select port");
+        console.log(e);
+        return false;
+    }
+
+    try {
+        await serialPort.open({ baudrate: 115200 });
+    } catch(e) {
+        NotifyE("Can't open serial port, some program use this port ?");
+        console.log(e);
+        serialPort = null;
+        
+        return false;
+    }
+
+    NotifyS("Serial port connected");
+
+    writer = serialPort.writable.getWriter();
+    // reader = serialPort.readable.getReader();
+
+    term.open($("#terminal > section")[0]);
+    fitAddon.fit();
+
+    serialPort.readable.pipeTo(new WritableStream({
+        write(chunk) {
+            for (let key of chunk) {
+                // term.write(String.fromCharCode(key));
+                term.write(String.fromCharCode(key));
+                serialLastData += String.fromCharCode(key);
+            }
+            if (serialLastData.length > 10) {
+                serialLastData = serialLastData.substring(serialLastData.length - 10, serialLastData.length);
+            }
+        }
+    }));
+
+    term.onData((data) => {
+        writeSerial(data);
+    });
+
+    return true;
+}
+
 $("#upload-program").click(async function() {
     setTimeout(() => $("#upload-program").addClass("loading"), 1);
-
-    uploadModuleList = null;
-    uploadModuleList = [];
 
     let code;
     if (useMode === "block") {
@@ -88,74 +104,35 @@ $("#upload-program").click(async function() {
         code = editor.getValue();
     }
     if (!serialPort) {
-        navigator.serial.ondisconnect = () => {
-            NotifyW("Serial port disconnect");
-            serialPort = null;
-            $("#clear-terminal").click();
-        }
-        try {
-            serialPort = await navigator.serial.requestPort();
-        } catch(e) {
-            NotifyE("Upload fail, you not select port");
-            console.log(e);
+        if (!await serialConnect()) {
             $("#upload-program").removeClass("loading");
             return;
         }
+    }
 
-        try {
-            await serialPort.open({ baudrate: 115200 });
-        } catch(e) {
-            NotifyE("Upload fail, can't open serial port, some program use this port ?");
-            console.log(e);
-            serialPort = null;
-            $("#upload-program").removeClass("loading");
-            return;
-        }
+    let uploadModuleList = findIncludeModuleNameInCode(code);
 
-        NotifyS("Serial port connected");
+    console.log(uploadModuleList);
 
-        writer = serialPort.writable.getWriter();
-        // reader = serialPort.readable.getReader();
-
-        serialPort.readable.pipeTo(new WritableStream({
-            write(chunk) {
-                // console.log(chunk);
-                // console.log(new TextDecoder("ascii").decode(chunk));
-                
-                for (let key of chunk) {
-                    if (key >= 32 && key <= 126 || key == 13 || key == 10) {
-                        $("#terminal > section")[0].textContent += String.fromCharCode(key);
-                    } else {
-                        // console.log(key);
-                    }
+    if (uploadModuleList.length > 0) {
+        let listAllModule = [];
+        for (const extensionId of fs.ls("/extension")) {
+            for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
+                let fileFullPath = `/extension/${extensionId}/modules/${filePath.replace(/^\//gm, "")}`;
+                if (fileFullPath.endsWith(".py") || fileFullPath.endsWith(".mpy")) {
+                    listAllModule.push(fileFullPath);
                 }
-
-                $("#terminal > section").scrollTop($("#terminal > section")[0].scrollHeight);
-                // updateTerminalCurser();
             }
-        }));
-
-        // handleSerialRead();
-
-        // console.log(reader);
-    }
-
-    // console.log(uploadModuleList);
-
-    let listAllModule = [];
-    for (const extensionId of fs.ls("/extension")) {
-        for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
-            listAllModule.push(`/extension/${extensionId}/modules/${filePath.replace(/^\//gm, "")}`);
         }
-    }
-    // console.log(listAllModule);
+        console.log(listAllModule);
 
-    for (const moduleWillUpload of uploadModuleList) {
-        let modulePath = listAllModule.find((moduleFile) => moduleFile.endsWith(moduleWillUpload));
-        if (modulePath) {
-            await serialUploadFile(moduleWillUpload, fs.read(modulePath));
-        } else {
-            console.warn("not found module", moduleWillUpload);
+        for (const moduleWillUpload of uploadModuleList) {
+            let modulePath = listAllModule.find((moduleFile) => moduleFile.replace(/\..+$/, "").endsWith(moduleWillUpload));
+            if (modulePath) {
+                await serialUploadFile(modulePath.replace(/^.*[\\\/]/, ''), fs.read(modulePath));
+            } else {
+                console.warn("not found module", moduleWillUpload);
+            }
         }
     }
 
@@ -166,10 +143,6 @@ $("#upload-program").click(async function() {
     $("#upload-program").removeClass("loading");
 
     NotifyS("Upload successful");
-    
-/*
-    console.log("Close port");
-    serialPort.close();*/
 });
 
 async function writeSerial(text) {
@@ -195,4 +168,43 @@ let sleep = (time) => {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, time);
     });
+}
+
+let moduleBuiltIn = [
+    "framebuf", "ucryptolib", "urandom",
+    "_boot", "gc", "uctypes", "ure",
+    "_onewire", "inisetup", "uerrno", "urequests",
+    "_thread", "machine", "uhashlib", "uselect",
+    "_webrepl", "math", "uhashlib", "usocket",
+    "apa106", "micropython", "uheapq", "ussl",
+    "btree", "neopixel", "uio", "ustruct",
+    "builtins", "network", "ujson", "utime",
+    "cmath", "ntptime", "umqtt/robust", "utimeq",
+    "dht", "onewire", "umqtt/simple", "uwebsocket",
+    "ds18x20", "sys", "uos", "uzlib",
+    "esp", "uarray", "upip", "webrepl",
+    "esp32", "ubinascii", "upip_utarfile", "webrepl_setup",
+    "flashbdev", "ucollections", "upysh", "websocket_helper",
+];
+
+let findIncludeModuleNameInCode = (code) => {
+    const regex = /^\s*?(?:import|from)\s+([^\s]+)/mg;
+
+    let moduleList = [];
+    let m;
+
+    while ((m = regex.exec(code)) !== null) {
+        if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+
+        let moduleName = m[1];
+        if (moduleList.indexOf(moduleName) < 0) {
+            moduleList.push(moduleName);
+        }
+    }
+
+    moduleList = moduleList.filter((moduleName) => moduleBuiltIn.indexOf(moduleName) < 0);
+
+    return moduleList;
 }
