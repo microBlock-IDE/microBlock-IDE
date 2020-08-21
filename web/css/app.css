@@ -1,3 +1,8 @@
+.big-top-image {
+    max-width: 100%;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
+    border-radius: 10px;
+}
 
 .logo-list {
     padding: 0;
@@ -14,6 +19,7 @@
 }
 
 .logo-list > li img {
+    max-width: inherit;
     height: 120px;
 }
 
