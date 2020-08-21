@@ -1,3 +1,6 @@
+let term = null, fitAddon = null;
+let terminalShowFlag = false;
+
 $("#close-terminal").click(() => {
     $("#terminal").css("display", "none");
     if (terminalFullSizeFlag) {
@@ -5,6 +8,7 @@ $("#close-terminal").click(() => {
     }
     Blockly.triggleResize();
     if (editor) editor.layout();
+    terminalShowFlag = false;
 });
 
 let terminalFullSizeFlag = false;
@@ -22,6 +26,7 @@ $("#resize-terminal").click(() => {
 $("#clear-terminal").click(() => term.clear());
 
 $("#open-terminal").click(() => {
+    terminalShowFlag = true;
     $("#terminal").css("display", "flex");
     if (terminalFullSizeFlag) {
         $(".page > .main").css("display", "none");
@@ -29,11 +34,13 @@ $("#open-terminal").click(() => {
         Blockly.triggleResize();
     }
     if (editor) editor.layout();
-    fitAddon.fit();
+    if (fitAddon) {
+        setTimeout(() => {
+            fitAddon.fit();
+            fitAddon.fit();
+        }, 10);
+    }
 });
 
 $(() => $("#open-terminal").click());
 
-const term = new Terminal.Terminal();
-const fitAddon = new FitAddon.FitAddon();
-term.loadAddon(fitAddon);

@@ -20,6 +20,10 @@ let waitMicroPythonIsReadyNextCommand = async (timeout) => {
 }
 
 let serialUploadFile = async (fileName, content) => {
+    if (content.length == 0) {
+        content = "#No Code";
+    }
+
     for (let i=0;i<100;i++) {
         await writeSerialByte(3); // Ctrl + C
         await sleep(50);
@@ -46,6 +50,7 @@ let serialConnect = async () => {
         NotifyW("Serial port disconnect");
         serialPort = null;
         term.dispose();
+        term = null;
     }
 
     try {
@@ -71,8 +76,15 @@ let serialConnect = async () => {
     writer = serialPort.writable.getWriter();
     // reader = serialPort.readable.getReader();
 
+    term = new Terminal();
+    if (!fitAddon) fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
     term.open($("#terminal > section")[0]);
-    fitAddon.fit();
+    try {
+        fitAddon.fit();
+    } catch(e) {
+        
+    }
 
     serialPort.readable.pipeTo(new WritableStream({
         write(chunk) {
@@ -110,9 +122,11 @@ $("#upload-program").click(async function() {
         }
     }
 
+    console.log(code);
+
     let uploadModuleList = findIncludeModuleNameInCode(code);
 
-    console.log(uploadModuleList);
+    // console.log(uploadModuleList);
 
     if (uploadModuleList.length > 0) {
         let listAllModule = [];
@@ -124,7 +138,7 @@ $("#upload-program").click(async function() {
                 }
             }
         }
-        console.log(listAllModule);
+        // console.log(listAllModule);
 
         for (const moduleWillUpload of uploadModuleList) {
             let modulePath = listAllModule.find((moduleFile) => moduleFile.replace(/\..+$/, "").endsWith(moduleWillUpload));
