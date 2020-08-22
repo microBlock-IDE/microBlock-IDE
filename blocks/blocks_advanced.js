@@ -190,6 +190,23 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "light_sleep",
+  "message0": "light sleep %1 seconds",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "A lightsleep has full RAM and state retention. Upon wake execution is resumed from the point where the sleep was requested, with all subsystems operational.",
+  "helpUrl": ""
+},
+{
   "type": "deep_sleep",
   "message0": "deep sleep %1 seconds",
   "args0": [
@@ -203,7 +220,7 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#8E44AD",
-  "tooltip": "",
+  "tooltip": "A deepsleep may not retain RAM or any other state of the system (for example peripherals or network interfaces). Upon wake execution is resumed from the main script, similar to a hard or power-on reset.",
   "helpUrl": ""
 },
 {

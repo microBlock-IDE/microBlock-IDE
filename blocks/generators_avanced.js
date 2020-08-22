@@ -119,6 +119,14 @@ Blockly.Python['rtc_get_microsecond'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['light_sleep'] = function(block) {
+    Blockly.Python.definitions_['import_machine'] = 'import machine';
+
+    var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+    var code = `machine.lightsleep(${value_time} * 1000)\n`;
+    return code;
+};
+
 Blockly.Python['deep_sleep'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 
