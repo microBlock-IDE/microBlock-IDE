@@ -71,36 +71,65 @@ Blockly.Python['rtc_set_time'] = function(block) {
 };
 
 Blockly.Python['rtc_get_hour'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
   var code = 'RTC().datetime()[3]';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_min'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[4]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_sec'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[5]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_day'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[2]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_month'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[1]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_year'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[0]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_microsecond'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+
     var code = 'RTC().datetime()[6]';
+    return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['deep_sleep'] = function(block) {
+    Blockly.Python.definitions_['import_machine'] = 'import machine';
+
+    var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+    var code = `machine.deepsleep(${value_time} * 1000)\n`;
+    return code;
+};
+
+Blockly.Python['is_woke_from_deep_sleep'] = function(block) {
+    Blockly.Python.definitions_['import_machine'] = 'import machine';
+
+    var code = '(machine.reset_cause() == machine.DEEPSLEEP_RESET)';
     return [code, Blockly.Python.ORDER_NONE];
 };

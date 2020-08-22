@@ -188,5 +188,34 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#8E44AD",
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "deep_sleep",
+  "message0": "deep sleep %1 seconds",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "is_woke_from_deep_sleep",
+  "message0": "is woke from deep sleep ?",
+  "inputsInline": true,
+  "output": [
+    "Number",
+    "Boolean"
+  ],
+  "colour": "#8E44AD",
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]);

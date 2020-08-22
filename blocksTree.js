@@ -356,6 +356,21 @@ let blocksTree = [
             "rtc_get_day",
             "rtc_get_month",
             "rtc_get_year",
+            {
+                xml: '<label text="Deep Sleep"></label>',
+            },
+            {
+                xml: `
+                    <block type="deep_sleep">
+                        <value name="time">
+                            <shadow type="math_number">
+                                <field name="NUM">10</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            "is_woke_from_deep_sleep"
         ]
     }
 ];
