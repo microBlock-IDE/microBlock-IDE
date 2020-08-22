@@ -266,3 +266,7 @@ $("#open-project").click(async () => {
     }, false); 
     input.click();
 });
+
+$("#open-help").click(() => {
+    window.open("/web", "_blank");
+});

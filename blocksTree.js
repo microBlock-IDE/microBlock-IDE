@@ -245,9 +245,9 @@ let blocksTree = [
                 xml: `
                     <block type="math_trig">
                         <value name="NUM">
-                        <shadow type="math_number">
-                            <field name="NUM">45</field>
-                        </shadow>
+                            <shadow type="math_number">
+                                <field name="NUM">45</field>
+                            </shadow>
                         </value>
                     </block>
                 `
@@ -265,5 +265,97 @@ let blocksTree = [
         icon: "images/icon/jigsaw.png",
         color: "#17A589",
         blocks: "PROCEDURE"
+    },
+    {
+        name: "Advanced",
+        icon: "images/icon/expert.png",
+        color: "#8E44AD",
+        blocks: [
+            {
+                xml: '<label text="Debug"></label>',
+            },
+            {
+                xml: `
+                    <block type="print">
+                        <value name="value">
+                            <shadow type="text">
+                                <field name="TEXT">Hello, world!</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: '<label text="Sensor"></label>',
+            },
+            {
+                xml: `
+                    <block type="dht_read">
+                        <value name="pin">
+                            <shadow type="math_number">
+                                <field name="NUM">2</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: `
+                    <block type="ds18x20_read">
+                        <value name="pin">
+                            <shadow type="math_number">
+                                <field name="NUM">2</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            {
+                xml: '<label text="RTC"></label>',
+            },
+            {
+                xml: `
+                    <block type="rtc_set_time">
+                        <value name="hour">
+                            <shadow type="math_number">
+                                <field name="NUM">16</field>
+                            </shadow>
+                        </value>
+                        <value name="min">
+                            <shadow type="math_number">
+                                <field name="NUM">50</field>
+                            </shadow>
+                        </value>
+                        <value name="sec">
+                            <shadow type="math_number">
+                                <field name="NUM">0</field>
+                            </shadow>
+                        </value>
+                        <value name="day">
+                            <shadow type="math_number">
+                                <field name="NUM">22</field>
+                            </shadow>
+                        </value>
+                        <value name="month">
+                            <shadow type="math_number">
+                                <field name="NUM">8</field>
+                            </shadow>
+                        </value>
+                        <value name="year">
+                            <shadow type="math_number">
+                                <field name="NUM">2020</field>
+                            </shadow>
+                        </value>
+                    </block>
+                `
+            },
+            "rtc_get_hour",
+            "rtc_get_min",
+            "rtc_get_sec",
+            "rtc_get_microsecond",
+            "rtc_get_day",
+            "rtc_get_month",
+            "rtc_get_year",
+        ]
     }
 ];

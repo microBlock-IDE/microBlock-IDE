@@ -686,6 +686,10 @@ ul.switch-mode > li:last-child {
     color: #1C2833 !important;
 }
 
+.blocklyFlyoutLabelText {
+    font-size: 22px !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -707,3 +711,5 @@ ul.switch-mode > li:last-child {
 ::-webkit-scrollbar-thumb:hover {
     background: #B3B6B7; 
 }
+
+

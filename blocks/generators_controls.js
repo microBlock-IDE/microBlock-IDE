@@ -1,5 +1,5 @@
 Blockly.Python['controls_wait'] = function(block) {
-  Blockly.Python.definitions_['import_sleep'] = 'from time import sleep';
+  Blockly.Python.definitions_['from_time_import_sleep'] = 'from time import sleep';
 
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   var code = `sleep(${value_time})\n`;
