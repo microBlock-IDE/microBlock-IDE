@@ -10,6 +10,15 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(() => {
+            $(document).mousemove((event) => {
+                let x = (($(document).width() / 2 ) - event.pageX) / 100;
+                let y = (($(document).height() / 2 ) - event.pageY) / 100;
+                $(".big-top-image").css("transform", `translate(${x}px, ${y}px)`)
+            });
+        })
+    </script>
 </head>
 
 <body>
