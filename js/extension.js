@@ -80,14 +80,24 @@ $("#open-extension-dialog").click(async () => {
         $("#extension-dialog .extension-list").append(`
         <li>
             <div class="extension-box${extensionInstalledList.indexOf(id) >= 0 ? " installed" : ""}" data-extension-id="${id}">
-                <div class="cover">
-                    <img src="${info.github}/raw/master/${info.image}" alt="">
-                    <button class="extension-install"><i class="fas fa-download"></i></button>
-                    <button class="extension-uninstall"><i class="fas fa-trash"></i></button>
+                <div class="header">
+                    <div class="cover">
+                        <img src="${info.github}/raw/master/${info.image}" alt="${info.name}">
+                    </div>
+                    <div class="detail">
+                        <div class="name">${info.name}<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
+                        <div class="author">${info.author}</div>
+                        <div class="other">
+                            <span class="version">${info.version}</span>
+                            <a href="${info.github}" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
                 </div>
-                <div class="name">${info.name}</div>
-                <div class="author">${info.author}</div>
                 <div class="description">${info.description}</div>
+                <div class="button">
+                    <button class="extension-install"><i class="fas fa-download"></i> Install</button>
+                    <button class="extension-uninstall"><i class="fas fa-trash-alt"></i> Uninstall</button>
+                </div>
             </div>
         </li>
         `);
@@ -122,5 +132,30 @@ let uploadModuleList = [];
 Blockly.Python.addUploadModule = (module) => {
     uploadModuleList.push(module);
 }
+
+$("#open-extension-creator").click(() => {
+    $(".add-extension-box").fadeIn();
+});
+
+$("#form-add-extension").submit(function(e) {
+    e.preventDefault();
+
+    let gitHubURL = $("#extension-github-url").val().match(/https:\/\/github\.com\/[^\/]+\/[^\/]+/);
+    if (gitHubURL == null) {
+        NotifyE("GitHub url not match");
+        return;
+    }
+    gitHubURL = gitHubURL[0];
+
+    Notiflix.Block.Standard(".add-extension-box", 'Loading...');
+
+    // Call to API
+
+    Notiflix.Block.Remove(".add-extension-box");
+});
+
+$("#form-add-extension button[type='reset']").click(() => {
+    $(".add-extension-box").fadeOut();
+});
 
 // $("#open-extension-dialog").click();

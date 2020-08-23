@@ -150,22 +150,54 @@
                     <input type="text" id="extension-keyword" placeholder="Search">
                 </div>
                 <div class="icon">
-                    <button id="open-extension-creator" data-tippy-content="Extension Creator"><i class="fas fa-plus"></i></button>
+                    <button id="open-extension-creator" data-tippy-content="Extension Creator">
+                        <i class="fas fa-plus"></i>
+                    </button>
                     <button data-tippy-content="Close" class="close-dialog"><i class="fas fa-times"></i></button>
+                    <div class="add-extension-box">
+                        <form action="#" method="POST" id="form-add-extension">
+                            <label for="extension-github-url">GitHug Repository URL</label>
+                            <input type="url" id="extension-github-url" name="extension-github-url" autocomplete="off" placeholder="https://github.com/username/repository" required>
+                            <button type="submit">Add Extension</button>
+                            <button type="reset">Cancel</button>
+                        </form>
+                    </div>
                 </div>
             </header>
-            <section>
+            <section class="extension-work-box">
+                <ul class="extension-category-list">
+                    <li data-category-id="all" class="active">All</li>
+                    <li data-category-id="display">Display</li>
+                    <li data-category-id="communication">Communication</li>
+                    <li data-category-id="signal input/output">Signal Input/Output</li>
+                    <li data-category-id="sensors">Sensors</li>
+                    <li data-category-id="device control">Device Control</li>
+                    <li data-category-id="timing">Timing</li>
+                    <li data-category-id="data storage">Data Storage</li>
+                    <li data-category-id="data processing">Data Processing</li>
+                    <li data-category-id="other">Other</li>
+                </ul>
                 <ul class="extension-list">
                     <li>
                         <div class="extension-box" data-extension-id="1">
-                            <div class="cover">
-                                <img src="images/og_fb.png" alt="">
-                                <button class="extension-install"><i class="fas fa-download"></i></button>
-                                <button class="extension-uninstall"><i class="fas fa-trash"></i></button>
+                            <div class="header">
+                                <div class="cover">
+                                    <img src="images/icon/led.png" alt="">
+                                </div>
+                                <div class="detail">
+                                    <div class="name">MQTT<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
+                                    <div class="author">Sonthaya Nongnuch</div>
+                                    <div class="other">
+                                        <span class="version">1.0.0</span>
+                                        <a href="https://www." target="_blank"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="name">MQTT</div>
-                            <div class="author">Sonthaya Nongnuch</div>
                             <div class="description">Connect everything with MQTT</div>
+                            <div class="button">
+                                <button class="extension-install"><i class="fas fa-download"></i> Install</button>
+                                <button class="extension-uninstall"><i class="fas fa-trash-alt"></i> Uninstall</button>
+                            </div>
                         </div>
                     </li>
                 </ul>
