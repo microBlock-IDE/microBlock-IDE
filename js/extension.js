@@ -1,8 +1,13 @@
-let extensionIndexURL = "https://raw.githubusercontent.com/microBlock-IDE/microBlock-extension-index/master/main.json";
+let extensionIndexURL = "https://api.github.com/repos/microBlock-IDE/microBlock-extension-index/contents/main.json";
 let extensionIndex = null;
 
 let updateExtensionIndex = async () => {
-    let extensionIndexFromAPI = await fetch(extensionIndexURL, { redirect: 'follow' });
+    let extensionIndexFromAPI = await fetch(extensionIndexURL, { 
+        redirect: "follow",
+        headers: { 
+            "Accept": "application/vnd.github.v3.raw" 
+        },
+    });
     if (!extensionIndexFromAPI.ok) {
         NotifyE("Load extension index fail");
         return false;
@@ -82,7 +87,7 @@ $("#open-extension-dialog").click(async () => {
             <div class="extension-box${extensionInstalledList.indexOf(id) >= 0 ? " installed" : ""}" data-extension-id="${id}">
                 <div class="header">
                     <div class="cover">
-                        <img src="${info.github}/raw/master/${info.image}" alt="${info.name}">
+                        <img src="${info.github}/raw/master/${info.icon}" alt="${info.name}">
                     </div>
                     <div class="detail">
                         <div class="name">${info.name}<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
@@ -137,7 +142,7 @@ $("#open-extension-creator").click(() => {
     $(".add-extension-box").fadeIn();
 });
 
-$("#form-add-extension").submit(function(e) {
+$("#form-add-extension").submit(async function(e) {
     e.preventDefault();
 
     let gitHubURL = $("#extension-github-url").val().match(/https:\/\/github\.com\/[^\/]+\/[^\/]+/);
@@ -149,7 +154,20 @@ $("#form-add-extension").submit(function(e) {
 
     Notiflix.Block.Standard(".add-extension-box", 'Loading...');
 
-    // Call to API
+    // Call to API, See microBlock Back-end: https://github.com/microBlock-IDE/microBlock-backend
+    let addExtensionToIndex = await fetch("https://us-central1-ublock-c0a08.cloudfunctions.net/extension", { 
+        method: "post",
+        body: gitHubURL,
+        redirect: "follow"
+    });
+    let rosAddExtension = await addExtensionToIndex.json();
+    if (addExtensionToIndex.status !== 200) {
+        console.log("Add extension error", rosAddExtension);
+        NotifyE("Add extension error, See console to more detail");
+    } else {
+        NotifyS(`Add/Update ${rosAddExtension.extension.name} extension successful`);
+        $("#extension-github-url").val("");
+    }
 
     Notiflix.Block.Remove(".add-extension-box");
 });
