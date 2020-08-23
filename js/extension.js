@@ -79,26 +79,44 @@ $("#open-extension-dialog").click(async () => {
             return;
         }
     }
+
+    $(".extension-category-list > li:first-child").click();
     
+    Notiflix.Block.Remove("#extension-dialog > section");
+});
+
+let uploadModuleList = [];
+
+Blockly.Python.addUploadModule = (module) => {
+    uploadModuleList.push(module);
+}
+
+$("#open-extension-creator").click(() => {
+    $(".add-extension-box").fadeIn();
+});
+
+let showExtensionList = (extensionList) => {
+    $("#extension-dialog .extension-list").html('');
+
     let extensionInstalledList = fs.ls("/extension");
-    for (const [id, info] of Object.entries(extensionIndex)) {
+    for (const [id, info] of Object.entries(extensionList)) {
         $("#extension-dialog .extension-list").append(`
         <li>
             <div class="extension-box${extensionInstalledList.indexOf(id) >= 0 ? " installed" : ""}" data-extension-id="${id}">
                 <div class="header">
                     <div class="cover">
-                        <img src="${info.github}/raw/master/${info.icon}" alt="${info.name}">
+                        <img src="${info.icon}" alt="${info.name}">
                     </div>
                     <div class="detail">
                         <div class="name">${info.name}<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
-                        <div class="author">${info.author}</div>
+                        <div class="author">${info.author ? info.author : 'None'}</div>
                         <div class="other">
-                            <span class="version">${info.version}</span>
-                            <a href="${info.github}" target="_blank"><i class="fab fa-github"></i></a>
+                            <span class="version" style="background-color: ${info.color}">${info.version ? info.version : 'None'}</span>
+                            <a href="${info.github ? info.github : '#'}" target="_blank"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="description">${info.description}</div>
+                <div class="description">${info.description ? info.description : '<i>No description</i>'}</div>
                 <div class="button">
                     <button class="extension-install"><i class="fas fa-download"></i> Install</button>
                     <button class="extension-uninstall"><i class="fas fa-trash-alt"></i> Uninstall</button>
@@ -107,8 +125,6 @@ $("#open-extension-dialog").click(async () => {
         </li>
         `);
     }
-
-    Notiflix.Block.Remove("#extension-dialog > section");
 
     $(".extension-install").click(async function() {
         let extensionId = $(this).parents(".extension-box").attr("data-extension-id");
@@ -130,16 +146,50 @@ $("#open-extension-dialog").click(async () => {
             $(queryBox).removeClass("installed");
         }
     });
-});
-
-let uploadModuleList = [];
-
-Blockly.Python.addUploadModule = (module) => {
-    uploadModuleList.push(module);
 }
 
-$("#open-extension-creator").click(() => {
-    $(".add-extension-box").fadeIn();
+$(".extension-category-list > li").click(function() {
+    let categoryName = $(this).text();
+
+    let extensionList = { };
+    if (categoryName != "Installed") {
+        for (const [id, info] of Object.entries(extensionIndex)) {
+            if (categoryName !== "All" && categoryName !== info.category) {
+                continue;
+            }
+            extensionList[id] = JSON.parse(JSON.stringify(info));
+            extensionList[id].icon = `${info.github}/raw/master/${info.icon}`;
+        }
+    } else {
+        for (const extensionId of fs.ls("/extension")) {
+            let extension = fs.read(`/extension/${extensionId}/extension.js`);
+            extension = eval(extension);
+            extensionList[extensionId] = extension;
+            extensionList[extensionId].icon = fs.read(`/extension/${extensionId}/${extension.icon}`);
+        }
+    }
+
+    showExtensionList(extensionList);
+
+    $(".extension-category-list > li").removeClass("active");
+    $(this).addClass("active");
+});
+
+$("#extension-keyword").keyup(function() { 
+    let keyword = $(this).val().toLowerCase();
+
+    $(".extension-category-list > li").removeClass("active");
+
+    let extensionList = { };
+    for (const [id, info] of Object.entries(extensionIndex)) {
+        if (info.name.toLowerCase().indexOf(keyword) < 0) {
+            continue;
+        }
+        extensionList[id] = JSON.parse(JSON.stringify(info));
+        extensionList[id].icon = `${info.github}/raw/master/${info.icon}`;
+    }
+
+    showExtensionList(extensionList);
 });
 
 $("#form-add-extension").submit(async function(e) {
@@ -176,4 +226,4 @@ $("#form-add-extension button[type='reset']").click(() => {
     $(".add-extension-box").fadeOut();
 });
 
-// $("#open-extension-dialog").click();
+$("#open-extension-dialog").click();

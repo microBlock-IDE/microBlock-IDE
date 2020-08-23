@@ -625,6 +625,10 @@ ul.switch-mode > li:last-child {
     border-bottom: 1px #ECF0F1 solid;
 }
 
+.extension-category-list > li:last-child {
+    border-bottom: none;
+}
+
 .extension-category-list > li:hover {
     background-color: #ECF0F1;
 }
@@ -632,6 +636,11 @@ ul.switch-mode > li:last-child {
 .extension-category-list > li.active {
     background-color: #F1C40F;
     color: #FFF;
+}
+
+.extension-category-list > li.hr {
+    padding: 0;
+    border-bottom: 2px #ECF0F1 solid;
 }
 
 .extension-list {
