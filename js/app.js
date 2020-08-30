@@ -173,6 +173,9 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 }
 // $(loadBlockFromAutoSave);
 vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
+if (!vFSTree) {
+    vFSTree = { };
+}
 let configFileContent = fs.read("/config.json");
 // console.log(configFileContent)
 if (configFileContent) {
