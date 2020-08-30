@@ -190,6 +190,16 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "rtc_sync_ntp",
+  "message0": "RTC sync from NTP",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "light_sleep",
   "message0": "light sleep %1 seconds",
   "args0": [

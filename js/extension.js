@@ -226,4 +226,4 @@ $("#form-add-extension button[type='reset']").click(() => {
     $(".add-extension-box").fadeOut();
 });
 
-$("#open-extension-dialog").click();
+// $("#open-extension-dialog").click();

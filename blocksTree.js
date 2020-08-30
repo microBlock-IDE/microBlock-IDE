@@ -356,6 +356,7 @@ let blocksTree = [
             "rtc_get_day",
             "rtc_get_month",
             "rtc_get_year",
+            "rtc_sync_ntp",
             {
                 xml: '<label text="Low Power Mode"></label>',
             },

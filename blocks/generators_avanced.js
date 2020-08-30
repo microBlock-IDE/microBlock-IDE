@@ -119,6 +119,14 @@ Blockly.Python['rtc_get_microsecond'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['rtc_sync_ntp'] = function(block) {
+    Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
+    Blockly.Python.definitions_['import_ntptime'] = 'import ntptime';
+
+    var code = 'ntptime.settime()\n';
+    return code;
+  };
+
 Blockly.Python['light_sleep'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 

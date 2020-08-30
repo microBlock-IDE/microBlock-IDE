@@ -42,5 +42,5 @@ $("#open-terminal").click(() => {
     }
 });
 
-$(() => $("#open-terminal").click());
+// $(() => $("#open-terminal").click());
 
