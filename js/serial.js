@@ -6,7 +6,9 @@ let loopReadFlag = false;
 
 let serialLastData = "";
 
-let microPythonIsReadyNextCommand = () => serialLastData.endsWith(">>> ");
+let RawREPLMode = false;
+
+let microPythonIsReadyNextCommand = () => serialLastData.endsWith((!RawREPLMode) ? ">>> " : ">");
 let waitMicroPythonIsReadyNextCommand = async (timeout) => {
     while (timeout > 0) {
         if (microPythonIsReadyNextCommand()) {
@@ -24,19 +26,13 @@ let serialUploadFile = async (fileName, content) => {
         content = "#No Code";
     }
 
-    for (let i=0;i<100;i++) {
-        await writeSerialByte(3); // Ctrl + C
-        await sleep(50);
-        if (microPythonIsReadyNextCommand()) {
-            break;
-        }
-    }
-
     let firstWriteFlag = true;
     for (const chunkContent1 of content.match(/.{1,500}/gs)) {
-        await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}")`);
+        // await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}")`);
+        await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}");w=f.write`);
         for (const chunkContent2 of chunkContent1.match(/.{1,100}/gs)) {
-            await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
+            // await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
+            await writeSerialNewLine(`w(${JSON.stringify(chunkContent2)})`);
             await sleep(100);
         }
         await writeSerialNewLine(`f.close()`);
@@ -109,6 +105,8 @@ let serialConnect = async () => {
 $("#upload-program").click(async function() {
     setTimeout(() => $("#upload-program").addClass("loading"), 1);
 
+    RawREPLMode = false;
+
     let code;
     if (useMode === "block") {
         code = Blockly.Python.workspaceToCode(blocklyWorkspace);
@@ -123,6 +121,32 @@ $("#upload-program").click(async function() {
     }
 
     console.log(code);
+
+    let okFlag;
+    okFlag = false;
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(3); // Ctrl + C
+        await sleep(50);
+        if (microPythonIsReadyNextCommand()) {
+            okFlag = true;
+            break;
+        }
+    }
+
+    if (!okFlag) {
+        NotifyE("Upload fail: Access to MicroPython error");
+        $("#upload-program").removeClass("loading");
+        return;
+    }
+
+    await writeSerialByte(1); // Ctrl + A, Enter to Raw REPL
+    await sleep(50);
+    RawREPLMode = true;
+    if (!microPythonIsReadyNextCommand()) {
+        NotifyE("Upload fail: Enter to Raw REPL fail");
+        $("#upload-program").removeClass("loading");
+        return;
+    }
 
     let uploadModuleList = findIncludeModuleNameInCode(code);
 
@@ -152,7 +176,10 @@ $("#upload-program").click(async function() {
 
     await serialUploadFile("main.py", code);
 
-    await writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
+    await writeSerialByte(2); // Ctrl + B, Exit from Raw REPL
+
+    // await writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
+    await writeSerialByte(4); // Ctrl + D, Soft Reset than main.py will run
     
     $("#upload-program").removeClass("loading");
 
@@ -168,7 +195,7 @@ async function writeSerial(text) {
     // console.log(buff);
 }
 
-let writeSerialNewLine = (text) => writeSerial(text + "\r\n");
+let writeSerialNewLine = (text) => writeSerial(text + ((!RawREPLMode) ? "\r\n" : "\4"));
 
 async function writeSerialByte(data) {
     buff = new ArrayBuffer(1);
