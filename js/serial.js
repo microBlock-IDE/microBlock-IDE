@@ -249,3 +249,27 @@ let findIncludeModuleNameInCode = (code) => {
 
     return moduleList;
 }
+
+$("#connect-device").click(async () => {
+    if (!serialPort) {
+        if (await serialConnect()) {
+            let okFlag;
+            okFlag = false;
+            for (let i=0;i<100;i++) {
+                await writeSerialByte(3); // Ctrl + C
+                await sleep(50);
+                if (microPythonIsReadyNextCommand()) {
+                    okFlag = true;
+                    break;
+                }
+            }
+
+            if (!okFlag) {
+                NotifyE("Access to MicroPython error");
+                return;
+            }
+        }
+    } else {
+
+    }
+});
