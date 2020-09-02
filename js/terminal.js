@@ -9,12 +9,14 @@ $("#close-terminal").click(() => {
     Blockly.triggleResize();
     if (editor) editor.layout();
     terminalShowFlag = false;
+    $("#terminal-h-resize").css("display", "none");
 });
 
 let terminalFullSizeFlag = false;
 $("#resize-terminal").click(() => {
     terminalFullSizeFlag = !terminalFullSizeFlag;
-    $("#terminal").width(terminalFullSizeFlag ? "100%" : "300px");
+    if (terminalFullSizeFlag) beforeWidthTerminalSize = $("#terminal").width();
+    $("#terminal").width(terminalFullSizeFlag ? "100%" : beforeWidthTerminalSize);
     if (terminalFullSizeFlag) {
         $(".page > .main").css("display", "none");
     } else {
@@ -40,6 +42,30 @@ $("#open-terminal").click(() => {
             fitAddon.fit();
         }, 10);
     }
+    $("#terminal-h-resize").css("display", "block");
+    $("#terminal-h-resize").css("right", $("#terminal").width());
+});
+
+$("#terminal-h-resize").bind('mousedown', function(event){
+    offsetX = event.pageX - ($(document).width() - +$("#terminal-h-resize").css("right").replace("px", ""));
+    offsetX = $(document).width() + offsetX;
+
+    $(document).bind('mousemove', function(event){
+        $("#terminal-h-resize").css("right", offsetX - event.pageX);
+    }).bind('mouseup', function(event){
+        $(this).unbind('mousemove');
+        $(this).unbind('mouseup');
+
+        $("#terminal").width(+$("#terminal-h-resize").css("right").replace("px", ""));
+        Blockly.triggleResize();
+        if (editor) editor.layout();
+        if (fitAddon) {
+            setTimeout(() => {
+                fitAddon.fit();
+                fitAddon.fit();
+            }, 10);
+        }
+    });
 });
 
 // $(() => $("#open-terminal").click());
