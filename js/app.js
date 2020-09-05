@@ -273,3 +273,26 @@ $("#open-project").click(async () => {
 $("#open-help").click(() => {
     window.open("/web", "_blank");
 });
+
+$(document).keydown(function(event) {
+    if (event.ctrlKey) {
+        let key = String.fromCharCode(event.which).toLowerCase();
+        if (key === 's') { // Ctrl + S -> Save
+            $("#save-project").click();
+        } else if (key === 'n') { // Ctrl + N -> New
+            $("#new-project").click();
+        } else if (key === 'o') { // Ctrl + O -> Open
+            $("#open-project").click();
+        } else if (key === 'h') { // Ctrl + H -> Help
+            $("#open-help").click();
+        } else if (key === 't') { // Ctrl + T -> Terminal
+            $("#open-terminal").click();
+        } else if (key === 'u') { // Ctrl + U -> Upload
+            $("#upload-program").click();
+        } 
+ 
+        event.preventDefault();
+    }
+    
+    return true;
+});
