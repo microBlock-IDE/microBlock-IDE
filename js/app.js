@@ -275,24 +275,29 @@ $("#open-help").click(() => {
 });
 
 $(document).keydown(function(event) {
+    console.log(event)
     if (event.ctrlKey) {
-        let key = String.fromCharCode(event.which).toLowerCase();
+        let key = event.key;
         if (key === 's') { // Ctrl + S -> Save
+            event.preventDefault();
             $("#save-project").click();
         } else if (key === 'n') { // Ctrl + N -> New
+            event.preventDefault();
             $("#new-project").click();
         } else if (key === 'o') { // Ctrl + O -> Open
+            event.preventDefault();
             $("#open-project").click();
         } else if (key === 'h') { // Ctrl + H -> Help
+            event.preventDefault();
             $("#open-help").click();
         } else if (key === 't') { // Ctrl + T -> Terminal
+            event.preventDefault();
             $("#open-terminal").click();
         } else if (key === 'u') { // Ctrl + U -> Upload
+            event.preventDefault();
             $("#upload-program").click();
         } 
- 
-        event.preventDefault();
     }
-    
+
     return true;
 });
