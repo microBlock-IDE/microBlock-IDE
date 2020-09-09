@@ -805,6 +805,43 @@ ul.switch-mode > li:last-child {
     border-radius: 100px;
 }
 
+#github-dialog {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+#github-dialog > section {
+    background-color: #FFF;
+    width: 380px;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#github-dialog > section > header > ul {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#github-dialog > section > header > ul > li {
+    text-align: center;
+    padding: 6px;
+    flex-grow: 1;
+    width: 50%;
+    list-style: none;
+}
 
 .blocklyToolboxDiv {
     background-color: #FDFEFE !important;
