@@ -9,34 +9,8 @@
         <link rel="icon" href="favicon.ico" sizes="64x64">
         <link rel="manifest" href="manifest.json">
 
-        <!-- Firebase -->
-        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-analytics.js"></script>
-
         <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyABEJA4KrSMFtObWQTABwPQIUAPAOPbMSQ",
-            authDomain: "ublock-c0a08.firebaseapp.com",
-            databaseURL: "https://ublock-c0a08.firebaseio.com",
-            projectId: "ublock-c0a08",
-            storageBucket: "ublock-c0a08.appspot.com",
-            messagingSenderId: "366312741890",
-            appId: "1:366312741890:web:127ed254d28d61e1c7db1b",
-            measurementId: "G-CZ30D0N22C"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then((reg) => {
-                    console.log('Service worker registered.', reg);
-                });
-            });
-        }
+        const serial = require('serialport');
         </script>
 
         <!-- Blockly -->
@@ -48,8 +22,14 @@
         <!-- Overwrite some Blockly file -->
         <script src="blockly/blocks/procedures.js"></script>
 
+        <!-- Insert this line above script imports  -->
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
         <!-- jQuery -->
         <script src="js/jquery-3.5.1.min.js"></script>
+
+        <!-- Insert this line after script imports -->
+        <script>if (window.module) module = window.module;</script>
 
         <!-- Notiflix -->
         <link rel="stylesheet" href="notiflix/notiflix-2.3.3.min.css">
