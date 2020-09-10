@@ -10,7 +10,7 @@
         <link rel="manifest" href="manifest.json">
 
         <script>
-        const serial = require('serialport');
+        const isElectron = navigator.userAgent.toLowerCase().indexOf("electron/") >= 0;
         </script>
 
         <!-- Blockly -->
@@ -23,7 +23,12 @@
         <script src="blockly/blocks/procedures.js"></script>
 
         <!-- Insert this line above script imports  -->
-        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script>
+        if (typeof module === 'object') {
+            window.module = module; 
+            module = undefined;
+        }
+        </script>
 
         <!-- jQuery -->
         <script src="js/jquery-3.5.1.min.js"></script>
@@ -208,16 +213,31 @@
         <div class="dialog-tab" id="github-dialog">
             <section>
                 <header>
+                    <div class="title">Project hosted on GitHub<div class="close-btn"><i class="fas fa-times"></i></div></div>
                     <ul>
-                        <li>Open Project</li>
-                        <li>New Project</li>
+                        <li data-active="#github-dialog-open">Open Project</li>
+                        <li data-active="#github-dialog-new">New Project</li>
                     </ul>
                 </header>
                 <section id="github-dialog-open">
-                    
+                    <ul id="github-repository-list">
+
+                    </ul>
+                    <div class="control-button">
+                        <button>Open Project</button>
+                    </div>
                 </section>
                 <section id="github-dialog-new">
-                    
+                    <form action="" method="POST" id="form-github-create-project" autocomplete="off">
+                        <label for="github-create-project-name">Project Name</label>
+                        <input type="text" name="name" pattern="[A-Za-z0-9\-_" placeholder="GitHub repository name" required>
+                        <label for="github-create-project-description">Project Description</label>
+                        <input type="text" name="description" placeholder="GitHub repository description" required>
+                        <label><input type="checkbox"> Save current code to new project</label>
+                        <div class="control-button">
+                            <button type="submit">Create Project</button>
+                        </div>
+                    </form>
                 </section>
             </section>
         </div>

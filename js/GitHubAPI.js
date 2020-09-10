@@ -63,6 +63,8 @@ $("#github-signin").click(() => {
     window.location.href = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${github_client_id}&redirect_uri=${window.location.href.replace(/\?.*/, "")}`;
 });
 
+let github_token = null;
+
 (async () => {
     // Chack 'code' parameter
     await (async () => {
@@ -89,7 +91,7 @@ $("#github-signin").click(() => {
 
     // Get user profile
     await (async () => {
-        let github_token = localStorage.getItem("access_token");
+        github_token = localStorage.getItem("access_token");
         if (github_token) {
             let user_info = await fetch("https://api.github.com/user", { 
                 redirect: "follow",
@@ -114,3 +116,59 @@ $("#github-signin").click(() => {
         }
     })();
 })();
+
+$("#open-github-dialog").click(() => {
+    $("#github-dialog header > ul > li:first-child").click();
+
+    $("#github-repository-list").html("");
+    Notiflix.Block.Standard("#github-repository-list", 'Loading...');
+    (async() => {
+        let list_repo = await fetch("https://api.github.com/user/repos?visibility=public&sort=updated&direction=desc", { 
+            redirect: "follow",
+            headers: { 
+                "Authorization": `token ${github_token}`,
+                "Accept": "application/json"
+            }
+        });
+
+        Notiflix.Block.Remove("#github-repository-list");
+
+        if (list_repo.status !== 200) {
+            console.error("GitHub Get Repo error", await list_repo.text());
+            return;
+        }
+
+        list_repo = await list_repo.json();
+        console.log("Repo list", list_repo);
+
+        for (let repo of list_repo) {
+            $("#github-repository-list").append(`<li data-url="${repo.full_name}"><i class="fab fa-github-alt"></i> ${repo.full_name.split("/")[0]}/<strong>${repo.full_name.split("/")[1]}</strong></li>`);
+        }
+
+        $("#github-repository-list > li").click(function() {
+            $("#github-repository-list > li").removeClass("active");
+            $(this).addClass("active");
+        });
+    })();
+    
+    $("#github-dialog").show();
+});
+
+$("#github-dialog .close-btn").click(() => $("#github-dialog").hide());
+
+$("#github-dialog header > ul > li").click(function() {
+    let e = $(this).attr("data-active");
+    $("#github-dialog > section > section").hide();
+    $(e).show();
+
+    $("#github-dialog header > ul > li").removeClass("active");
+    $(this).addClass("active");
+});
+
+$("#form-github-create-project").submit(function(e) {
+    e.preventDefault();
+
+    Notiflix.Block.Standard("#form-github-create-project", 'Loading...');
+
+    return false;
+});

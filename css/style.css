@@ -814,7 +814,10 @@ ul.switch-mode > li:last-child {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 3989;
+    padding: 40px 20px;
+
+    display: none;
 }
 
 #github-dialog > section {
@@ -822,9 +825,29 @@ ul.switch-mode > li:last-child {
     width: 380px;
     border-radius: 4px;
     position: absolute;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+}
+
+#github-dialog > section > header > div.title {
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+}
+
+#github-dialog > section > header > div.title > .close-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #B2BABB;
+    padding: 10px;
+}
+
+#github-dialog > section > header > div.title > .close-btn:hover {
+    color: #7F8C8D;
 }
 
 #github-dialog > section > header > ul {
@@ -841,6 +864,99 @@ ul.switch-mode > li:last-child {
     flex-grow: 1;
     width: 50%;
     list-style: none;
+    border: 1px solid #ECF0F1;
+    border-left: none;
+    font-size: 14px;
+}
+
+#github-dialog > section > header > ul > li:last-child {
+    border-right: none;
+}
+
+#github-dialog > section > header > ul > li:hover {
+    background-color: #F8F9F9;
+}
+
+#github-dialog > section > header > ul > li.active {
+    border-bottom: 3px solid #F1C40F;
+}
+
+#github-dialog > section > section > ul {
+    padding: 0;
+    margin: 0;
+    height: 300px;
+    padding: 10px 0;
+    overflow: auto;
+}
+
+#github-dialog > section > section > ul > li {
+    padding: 10px 20px;
+    list-style: none;
+}
+
+#github-dialog > section > section > ul > li:hover {
+    background-color: #F8F9F9;
+}
+
+#github-dialog > section > section > ul > li.active {
+    background-color: #F1C40F;
+    color: #FFF;
+}
+
+#github-dialog > section > section > form {
+    padding: 20px;
+}
+
+#github-dialog > section > section > form > label {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+
+#github-dialog > section > section > form > input {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ECF0F1;
+    padding: 6px;
+    outline: none;
+    border-radius: 4px;
+}
+
+#github-dialog > section > section > form > input:focus {
+    border-color: #D0D3D4;
+}
+
+#github-dialog > section > section .control-button {
+    text-align: right;
+    padding: 20px;
+}
+
+#github-dialog > section > section > form > .control-button {
+    padding: 0;
+}
+
+#github-dialog > section > section .control-button > button {
+    background-color: #F1C40F;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    outline: none;;
+}
+
+#github-dialog > section > section .control-button > button:hover {
+    background-color: #D4AC0D;
+}
+
+#github-dialog-open {
+    display: block;
+}
+
+#github-dialog-new {
+    display: none;
 }
 
 .blocklyToolboxDiv {

@@ -1,3 +1,7 @@
+if (isElectron) {
+    const serialAPI = require('serialport');
+}
+
 let serialPort = null;
 
 let writer = null, reader = null;
