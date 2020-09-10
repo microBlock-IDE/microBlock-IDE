@@ -224,16 +224,16 @@
 
                     </ul>
                     <div class="control-button">
-                        <button>Open Project</button>
+                        <button id="github-open-project-button">Open Project</button>
                     </div>
                 </section>
                 <section id="github-dialog-new">
                     <form action="" method="POST" id="form-github-create-project" autocomplete="off">
                         <label for="github-create-project-name">Project Name</label>
-                        <input type="text" name="name" pattern="[A-Za-z0-9\-_" placeholder="GitHub repository name" required>
+                        <input type="text" name="name" pattern="[A-Za-z0-9\-_]+" placeholder="GitHub repository name" required>
                         <label for="github-create-project-description">Project Description</label>
-                        <input type="text" name="description" placeholder="GitHub repository description" required>
-                        <label><input type="checkbox"> Save current code to new project</label>
+                        <input type="text" name="description" placeholder="GitHub repository description">
+                        <label><input type="checkbox" name="save-code" value="1" checked> Save current code to new project</label>
                         <div class="control-button">
                             <button type="submit">Create Project</button>
                         </div>

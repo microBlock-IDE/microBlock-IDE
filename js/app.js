@@ -215,7 +215,8 @@ let saveCodeToLocal = () => {
         fs.write("/main.py", editor.getValue());
     }
     fs.write("/config.json", JSON.stringify({
-        mode: useMode
+        mode: useMode,
+        github: github_project_repo
     }));
     localStorage.setItem("autoSaveFS", JSON.stringify(vFSTree));
 };
@@ -234,16 +235,20 @@ $("#new-project").click(async () => {
 });
 
 $("#save-project").click(() => {
-    let data = JSON.stringify(vFSTree);
-    let blob = new Blob([data], { type: "application/json" });
-	let url = window.URL.createObjectURL(blob);
-    
-    let link = document.createElement("a");
-    link.download = $("#project-name").val() + ".mby";
-    link.href = url;
-    link.click();
+    if (!github_project_repo) { // Save to local
+        let data = JSON.stringify(vFSTree);
+        let blob = new Blob([data], { type: "application/json" });
+        let url = window.URL.createObjectURL(blob);
+        
+        let link = document.createElement("a");
+        link.download = $("#project-name").val() + ".mby";
+        link.href = url;
+        link.click();
 
-	window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(url);
+    } else { // Save to GitHub
+        saveCodeToGitHub();
+    }
 });
 
 $("#open-project").click(async () => {

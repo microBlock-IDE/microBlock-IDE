@@ -797,12 +797,15 @@ ul.switch-mode > li:last-child {
     display: block;
 }
 
-
 #github_avatar {
     display: none;
     width: 40px;
     height: 40px;
     border-radius: 100px;
+}
+
+#open-github-dialog {
+    display: none;
 }
 
 #github-dialog {
@@ -927,6 +930,10 @@ ul.switch-mode > li:last-child {
 
 #github-dialog > section > section > form > input:focus {
     border-color: #D0D3D4;
+}
+
+#github-dialog > section > section > form > label > input {
+    margin-bottom: 14px;
 }
 
 #github-dialog > section > section .control-button {
