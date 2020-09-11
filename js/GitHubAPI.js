@@ -109,7 +109,7 @@ $("#github-signin").click(() => {
             user_info = await user_info.json();
             console.log("User Info", user_info);
 
-            $("#github_avatar").attr("src", user_info.avatar_url).show();
+            $("#github_avatar").show().attr("src", user_info.avatar_url).show();
             $("#github-signin").hide();
 
             NotifyS(`Sign in with GitHub (Username: ${user_info.login})`)
@@ -117,6 +117,16 @@ $("#github-signin").click(() => {
         }
     })();
 })();
+
+$("#github_avatar").click(() => {
+    localStorage.removeItem("access_token");
+    github_token = null;
+    $("#github_avatar").hide();
+    $("#github-signin").show();
+    $("#open-github-dialog").hide();
+
+    NotifyS("Sign out GitHub")
+});
 
 $("#open-github-dialog").click(() => {
     $("#github-dialog header > ul > li:first-child").click();
