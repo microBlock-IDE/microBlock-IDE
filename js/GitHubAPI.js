@@ -159,7 +159,10 @@ $("#open-github-dialog").click(() => {
                 return;
             }
 
-            
+            if (!await NotifyConfirm("All blocks will lost. Are you sure of open project ?")) {
+                return;
+            }
+
             Notiflix.Block.Standard("#github-dialog-open", 'Loading...');
             if (await openCodeFromGithub()) {
                 $("#github-dialog .close-btn").click();
