@@ -1,7 +1,3 @@
-if (isElectron) {
-    const serialAPI = require('serialport');
-}
-
 let serialPort = null;
 
 let writer = null, reader = null;
@@ -110,7 +106,7 @@ let serialUploadFile = async (fileName, content) => {
     }
 }
 
-let serialConnect = async () => {
+let serialConnectWeb = async () => {
     navigator.serial.ondisconnect = () => {
         NotifyW("Serial port disconnect");
         serialPort = null;
@@ -170,6 +166,89 @@ let serialConnect = async () => {
 
     return true;
 }
+
+let serialConnectElectron = async () => {
+    let portName = "";
+    try {
+        portName = await (new Promise(async (resolve, reject) => {
+            $("#port-list").html("");
+            for (let port of (await serialAPI.list())) {
+                $("#port-list").append(`<li data-port="${port.path}"><i class="fab fa-usb"></i> ${port.path} - ${port.manufacturer}</li>`);
+            }
+
+            $("#port-list > li").click(function() {
+                $("#github-repository-list > li").removeClass("active");
+                $(this).addClass("active");
+            });
+    
+            $("#port-select-button").click(function() {
+                let select_port = $("#port-list > li.active").attr("data-port");
+                if (select_port) {
+                    resolve(select_port);
+                } else {
+                    reject("not_select");
+                }
+                $("#port-select-dialog").hide();
+            });  
+            
+            $("#port-select-dialog .close-btn").click(() => {
+                reject("cancle");
+                $("#port-select-dialog").hide();
+            });
+            
+            $("#port-select-dialog").show();
+        }));
+    } catch(e) {
+        NotifyE("You not select port");
+        console.log(e);
+        return false;
+    }
+
+    try {
+        serialPort = new serialAPI(portName, { baudRate: 115200 });
+    } catch(e) {
+        NotifyE("Can't open serial port, some program use this port ?");
+        console.log(e);
+        serialPort = null;
+        
+        return false;
+    }
+
+    NotifyS("Serial port connected");
+
+    serialPort.on("close", () => {
+        NotifyW("Serial port disconnect");
+        serialPort = null;
+        term.dispose();
+        term = null;
+    });
+
+    term = new Terminal();
+    if (!fitAddon) fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.open($("#terminal > section")[0]);
+    try {
+        fitAddon.fit();
+    } catch(e) {
+        
+    }
+
+    serialPort.on("data", (chunk) => {
+        term.write(chunk);
+        serialLastData += chunk;
+        if (serialLastData.length > 50) {
+            serialLastData = serialLastData.substring(serialLastData.length - 10, serialLastData.length);
+        }
+    });
+
+    term.onData((data) => {
+        writeSerial(data);
+    });
+
+    return true;
+}
+
+let serialConnect = (!isElectron) ? serialConnectWeb : serialConnectElectron;
 
 $("#upload-program").click(async function() {
     setTimeout(() => $("#upload-program").addClass("loading"), 1);
@@ -284,21 +363,29 @@ $("#upload-program").click(async function() {
 });
 
 async function writeSerial(text) {
-    data = new TextEncoder("utf-8").encode(text);
-    buff = new ArrayBuffer(data.length);
-    view = new Uint8Array(buff);
-    view.set(data);
-    await writer.write(buff);
+    if (!isElectron) {
+        data = new TextEncoder("utf-8").encode(text);
+        buff = new ArrayBuffer(data.length);
+        view = new Uint8Array(buff);
+        view.set(data);
+        await writer.write(buff);
+    } else {
+        await serialPort.write(text);
+    }
     // console.log(buff);
 }
 
 let writeSerialNewLine = (text) => writeSerial(text + ((!RawREPLMode) ? "\r\n" : "\4"));
 
 async function writeSerialByte(data) {
-    buff = new ArrayBuffer(1);
-    view = new Uint8Array(buff);
-    view[0] = data;
-    await writer.write(buff);
+    if (!isElectron) {
+        buff = new ArrayBuffer(1);
+        view = new Uint8Array(buff);
+        view[0] = data;
+        await writer.write(buff);
+    } else {
+        await serialPort.write(String.fromCharCode(data));
+    }
     // console.log(buff);
 }
 
