@@ -173,33 +173,37 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 }
 // $(loadBlockFromAutoSave);
 vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
-if (!vFSTree) {
-    vFSTree = { };
-}
-let configFileContent = fs.read("/config.json");
-// console.log(configFileContent)
-if (configFileContent) {
-    let projectConfig = JSON.parse(configFileContent);
-    if (projectConfig) {
-        useMode = projectConfig.mode;
-        if (useMode === "block") {
-            updataWorkspaceAndCategoryFromvFS();
-        } else if (useMode === "code") {
-            $("#mode-select-switch > li[data-value='2']").click();
-            $(() => {
-                while(!editor) {
-                    sleep(100);
-                }
-                let code = fs.read("main.py");
-                if (code) {
-                    editor.setValue(code);
-                }
-            });
-        }
+let hotUpdate = () => {
+    if (!vFSTree) {
+        vFSTree = { };
     }
-} else {
-    updataWorkspaceAndCategoryFromvFS();
+    let configFileContent = fs.read("/config.json");
+    // console.log(configFileContent)
+    if (configFileContent) {
+        let projectConfig = JSON.parse(configFileContent);
+        if (projectConfig) {
+            useMode = projectConfig.mode;
+            if (useMode === "block") {
+                updataWorkspaceAndCategoryFromvFS();
+            } else if (useMode === "code") {
+                $("#mode-select-switch > li[data-value='2']").click();
+                $(async () => {
+                    while(!editor) {
+                        await sleep(100);
+                    }
+                    let code = fs.read("main.py");
+                    if (code) {
+                        editor.setValue(code);
+                    }
+                });
+            }
+        }
+    } else {
+        updataWorkspaceAndCategoryFromvFS();
+    }
 }
+
+hotUpdate();
 
 let saveCodeToLocal = () => {
     if (useMode === "block") {
@@ -227,6 +231,7 @@ blocklyWorkspace.addChangeListener(saveCodeToLocal);
 $("#new-project").click(async () => {
     if (await NotifyConfirm("All blocks will lost. Are you sure of new project ?")) {
         blocklyWorkspace.clear();
+        if (editor) editor.setValue("");
         vFSTree = "";
         vFSTree = { };
 
@@ -266,7 +271,7 @@ $("#open-project").click(async () => {
         fr.onload = () => {
             // console.log(fr.result);
             vFSTree = JSON.parse(fr.result);
-            updataWorkspaceAndCategoryFromvFS();
+            hotUpdate();
             NotifyS("Open project " + fileName)
             $("#project-name").val(fileName);
         };
@@ -280,7 +285,7 @@ $("#open-help").click(() => {
 });
 
 $(document).keydown(function(event) {
-    console.log(event)
+    // console.log(event)
     if (event.ctrlKey) {
         let key = event.key;
         if (key === 's') { // Ctrl + S -> Save
