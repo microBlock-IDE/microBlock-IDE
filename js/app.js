@@ -239,18 +239,43 @@ $("#new-project").click(async () => {
     }
 });
 
-$("#save-project").click(() => {
+$("#save-project").click(async () => {
     if (!github_project_repo) { // Save to local
-        let data = JSON.stringify(vFSTree);
-        let blob = new Blob([data], { type: "application/json" });
-        let url = window.URL.createObjectURL(blob);
-        
-        let link = document.createElement("a");
-        link.download = $("#project-name").val() + ".mby";
-        link.href = url;
-        link.click();
+        if (!isElectron) {
+            let data = JSON.stringify(vFSTree);
+            let blob = new Blob([data], { type: "application/json" });
+            let url = window.URL.createObjectURL(blob);
+            
+            let link = document.createElement("a");
+            link.download = $("#project-name").val() + ".mby";
+            link.href = url;
+            link.click();
 
-        window.URL.revokeObjectURL(url);
+            window.URL.revokeObjectURL(url);
+        } else {
+            let result = await dialog.showSaveDialog({
+                filters: [{ 
+                    name: 'microBlock IDE', 
+                    extensions: ['mby'] 
+                }],
+                defaultPath: $("#project-name").val() + ".mby"
+            });
+    
+            if (result.canceled) {
+                return;
+            }
+
+            OpenFilePath = result.filePath;
+
+            nodeFS.writeFile(OpenFilePath, JSON.stringify(vFSTree), err => {
+                if (err) {
+                    NotifyE("Save project fail: " + err.toString());
+                    return;
+                }
+
+                NotifyS("Save project at " + OpenFilePath);
+            });
+        }
     } else { // Save to GitHub
         saveCodeToGitHub();
     }
@@ -261,23 +286,53 @@ $("#open-project").click(async () => {
         return;
     }
 
-    let input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".mby";
-    input.addEventListener("change", function() {
-        // console.log(this.files);
-        let fileName = this.files[0].name.replace(".mby", "");
-        let fr = new FileReader();
-        fr.onload = () => {
-            // console.log(fr.result);
-            vFSTree = JSON.parse(fr.result);
+    if (!isElectron) {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".mby";
+        input.addEventListener("change", function() {
+            // console.log(this.files);
+            let fileName = this.files[0].name.replace(".mby", "");
+            let fr = new FileReader();
+            fr.onload = () => {
+                // console.log(fr.result);
+                vFSTree = JSON.parse(fr.result);
+                hotUpdate();
+                NotifyS("Open project " + fileName)
+                $("#project-name").val(fileName);
+            };
+            fr.readAsText(this.files[0]);
+        }, false); 
+        input.click();
+    } else {
+        let result = await dialog.showOpenDialogSync({
+            properties: [
+              'openFile'
+            ],
+            filters: [{ 
+                name: 'microBlock IDE', 
+                extensions: ['mby'] 
+            }]
+        });
+
+        if (result == undefined) {
+            return;
+        }
+
+        OpenFilePath = result[0];
+
+        nodeFS.readFile(OpenFilePath, (err, data) => {
+            if (err) {
+                NotifyE("Open project fail: " + err.toString());
+                return;
+            }
+
+            vFSTree = JSON.parse(data);
             hotUpdate();
-            NotifyS("Open project " + fileName)
-            $("#project-name").val(fileName);
-        };
-        fr.readAsText(this.files[0]);
-    }, false); 
-    input.click();
+            NotifyS("Open project " + OpenFilePath)
+            $("#project-name").val(OpenFilePath.split(/[\\\/]/).pop().replace(".mby", ""));
+        });
+    }
 });
 
 $("#open-help").click(() => {

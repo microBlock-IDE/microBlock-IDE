@@ -16,8 +16,15 @@
         if (isElectron) {
             console.log("This is electron !");
 
-            // Load
+            // Load dependencies
             serialAPI = require('serialport');
+            remote = require('electron').remote;
+            dialog = remote.dialog;
+            nodeFS = require("fs");
+            promisify = require('util').promisify;
+
+            readFileAsync = promisify(nodeFS.readFile);
+            writeFileAsync = promisify(nodeFS.writeFile);
         } else {
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
