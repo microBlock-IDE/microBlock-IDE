@@ -205,7 +205,12 @@ let serialConnectElectron = async () => {
     }
 
     try {
-        serialPort = new serialAPI(portName, { baudRate: 115200 });
+        await (new Promise((resolve, reject) => {
+            serialPort = new serialAPI(portName, { baudRate: 115200 }, err => {
+                if (err) reject(err);
+                else resolve();
+            });
+        }));
     } catch(e) {
         NotifyE("Can't open serial port, some program use this port ?");
         console.log(e);
