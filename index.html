@@ -10,14 +10,23 @@
         <link rel="manifest" href="manifest.json">
 
         <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then((reg) => {
-                    console.log('Service worker registered.', reg);
-                });
-            });
-        }
+        
         const isElectron = navigator.userAgent.toLowerCase().indexOf("electron/") >= 0;
+        
+        if (isElectron) {
+            console.log("This is electron !");
+
+            // Load
+            serialAPI = require('serialport');
+        } else {
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js').then((reg) => {
+                        console.log('Service worker registered.', reg);
+                    });
+                });
+            }
+        }
         </script>
 
         <!-- Blockly -->
@@ -245,6 +254,23 @@
                             <button type="submit">Create Project</button>
                         </div>
                     </form>
+                </section>
+            </section>
+        </div>
+
+        <div id="port-select-dialog">
+            <section>
+                <header>
+                    <div class="title">Select Device Port</div>
+                    <div class="close-btn"><i class="fas fa-times"></i></div>
+                </header>
+                <section>
+                    <ul id="port-list">
+
+                    </ul>
+                    <div class="control-button">
+                        <button id="port-select-button">OK</button>
+                    </div>
                 </section>
             </section>
         </div>
