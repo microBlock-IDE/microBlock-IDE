@@ -44,7 +44,7 @@ $("#mode-select-switch > li").click(async function() {
                     if (onKeyUpTimer) clearTimeout(onKeyUpTimer);
                     onKeyUpTimer = setTimeout(() => {
                         saveCodeToLocal();
-                    }, 3000);
+                    }, 1000);
                 }
             });
         }
