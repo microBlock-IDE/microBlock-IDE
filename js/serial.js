@@ -220,6 +220,12 @@ let serialConnectElectron = async () => {
     }
 
     NotifyS("Serial port connected");
+    
+    // Fixed ESP32 go to Bootloader Mode after press Reset Button
+    serialPort.set({
+        dtr: true,
+        rts: true
+    });
 
     serialPort.on("close", () => {
         NotifyW("Serial port disconnect");
