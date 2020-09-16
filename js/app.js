@@ -336,7 +336,11 @@ $("#open-project").click(async () => {
 });
 
 $("#open-help").click(() => {
-    window.open("/web", "_blank");
+    if (!isElectron) {
+        window.open("/web/", "_blank");
+    } else {
+        shell.openExternal("https://microblock.app/web/");
+    }
 });
 
 $(document).keydown(function(event) {

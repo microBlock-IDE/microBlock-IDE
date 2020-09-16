@@ -22,6 +22,7 @@
             dialog = remote.dialog;
             nodeFS = require("fs");
             promisify = require('util').promisify;
+            shell = require('electron').shell;
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
