@@ -107,7 +107,7 @@ $("#github-signin").click(() => {
             }
 
             user_info = await user_info.json();
-            console.log("User Info", user_info);
+            // console.log("User Info", user_info);
 
             $("#github_avatar").show().attr("src", user_info.avatar_url).show();
             $("#github-signin").hide();

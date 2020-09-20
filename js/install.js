@@ -1,7 +1,7 @@
 let deferredInstallPrompt = null;
 
 window.addEventListener('beforeinstallprompt', (evt) => {
-    console.log("beforeinstallprompt evant", evt);
+    // console.log("beforeinstallprompt evant", evt);
     deferredInstallPrompt = evt;
 
     $("#install-pwa").show();
