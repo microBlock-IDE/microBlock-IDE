@@ -26,16 +26,16 @@
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
 
-            rootPath = "/";
+            rootPath = "/.";
         } else {
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('/service-worker.js').then((reg) => {
-                        console.log('Service worker registered.', reg);
+                        // console.log('Service worker registered.', reg);
                     });
                 });
             }
-            rootPath = "/";
+            rootPath = "/.";
         }
         </script>
 
@@ -149,6 +149,16 @@
                         <ul class="button-list right">
                             <li><button id="open-terminal" data-tippy-content="Open Terminal"><i class="fas fa-terminal"></i></button></li>
                         </ul>
+                    </div>
+                    <div class="status-bar">
+                        <div class="left">Not do anything</div>
+                        <div class="right">
+                            <ul>
+                                <li>Board: <span id="board-name">None</span></li>
+                                <li>Port: <span id="port-name">None</span></li>
+                                <li>Level: <span id=level-name">None</span></li>
+                            </ul>
+                        </div>
                     </div>
                 </footer>
             </article>
@@ -361,7 +371,7 @@
                 <block type="logic_compare"></block>
                 <block type="controls_repeat_ext"></block>
                 <block type="math_number">
-                <field name="NUM">123</field>
+                    <field name="NUM">123</field>
                 </block>
                 <block type="math_arithmetic"></block>
                 <block type="text"></block>
@@ -388,7 +398,7 @@
         <script src="blocks/generators_avanced.js"></script>
         <script src="blocks/generators_text_code.js"></script>
 
-        <!-- Python to Code converter -->
+        <!-- Python to Block converter -->
         <script src="js/code2block.js"></script>
 
         <script src="js/Notify.js"></script>
@@ -403,10 +413,10 @@
         <script src="js/terminal.js"></script>
         <script src="js/dialog.js"></script>
         <script src="js/extension.js"></script>
+        <script src="js/board.js"></script>
+        <script src="boards/index.js"></script>
 
         <script src="js/install.js"></script>
-
-        <script src="boards/index.js"></script>
 
         <script src="js/app.js"></script>
     </body>
