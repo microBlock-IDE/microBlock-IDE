@@ -315,6 +315,41 @@ ul.switch-mode > li:last-child {
     box-shadow: 0 0 6px rgb(0 0 0 / 60%);
 }
 
+.page > .main > footer > .status-bar {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    justify-content: space-between;
+    color: #FFF;
+    background-color: #1C2833;
+    align-items: center;
+}
+
+.page > .main > footer > .status-bar > div {
+    
+}
+
+.page > .main > footer > .status-bar > div.left {
+    padding-left: 20px;
+}
+
+.page > .main > footer > .status-bar > div.right {
+    padding-right: 12px;
+}
+
+.page > .main > footer > .status-bar > div > ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.page > .main > footer > .status-bar > div > ul > li {
+    list-style: none;
+    padding: 8px 8px;
+    border-left: 1px solid #2C3E50;
+}
+
 #blocklyArea {
     width: 100%;
     height: 100%;
@@ -1066,6 +1101,8 @@ ul.switch-mode > li:last-child {
     z-index: 3989;
     padding: 40px 20px;
     overflow: auto;
+
+    display: none;
 }
 
 #project-create-dialog > section {
@@ -1129,6 +1166,24 @@ ul.switch-mode > li:last-child {
     border-color: #D0D3D4;
 }
 
+#project-create-dialog > section > section > form label {
+    font-size: 14px;
+}
+
+#project-create-dialog > section button {
+    background-color: #F1C40F;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    outline: none;;
+}
+
+#project-create-dialog > section button:hover {
+    background-color: #D4AC0D;
+}
+
+
 .image-select {
     width: 100%;
 }
@@ -1173,7 +1228,7 @@ ul.switch-mode > li:last-child {
     width: 20%;
 }
 
-#hardware-select > ul > li img {
+#level-select > ul > li img {
     width: 100px;
 }
 
