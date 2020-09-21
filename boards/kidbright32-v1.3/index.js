@@ -43,12 +43,13 @@ addBoard({
                     icon: `images/matrix.png`,
                     color: "#e64c3c",
                     blocks: [
+                        "display_custom",
                         {
                             xml: `
                                 <block type="display_show">
                                     <value name="value">
                                         <shadow type="text">
-                                            <field name="TEXT">21</field>
+                                            <field name="TEXT">12</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -120,7 +121,17 @@ addBoard({
                         {
                             xml: '<label text="Servo"></label>',
                         },
-                        "external_servo"
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {
