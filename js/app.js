@@ -149,8 +149,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
     if (!vFSTree) {
         vFSTree = { };
     }
-    console.log(vFSTree)
-    
+
     for (const extensionId of fs.ls("/extension")) {
         let extensionLocalPath = `/extension/${extensionId}`;
         let blocksFile = fs.walk(`${extensionLocalPath}/blocks`);
@@ -188,7 +187,6 @@ let hotUpdate = async () => {
         vFSTree = { };
     }
     let configFileContent = fs.read("/config.json");
-    console.log(configFileContent)
     if (configFileContent) {
         let projectConfig = JSON.parse(configFileContent);
         if (projectConfig) {
