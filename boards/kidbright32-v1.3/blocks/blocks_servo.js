@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "external_servo",
-  "message0": "Servo %1 set angle %2 °",
+  "message0": "servo %1 set angle %2 °",
   "args0": [
     {
       "type": "field_dropdown",

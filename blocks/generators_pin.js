@@ -3,7 +3,7 @@ Blockly.Python['pin_digital_write'] = function(block) {
 
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  // TODO: Assemble Python into code variable.
+
   var code = `Pin(${value_pin}, Pin.OUT).value(${value_value})\n`;
   return code;
 };

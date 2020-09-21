@@ -11,6 +11,7 @@ addBoard({
         "blocks/blocks_servo.js",
         "blocks/blocks_switch.js",
         "blocks/blocks_usb.js",
+        "blocks/blocks_pin.js",
         "blocks/generators_display.js",
         "blocks/generators_imu.js",
         "blocks/generators_rtc.js",
@@ -18,6 +19,7 @@ addBoard({
         "blocks/generators_servo.js",
         "blocks/generators_switch.js",
         "blocks/generators_usb.js",
+        "blocks/generators_pin.js",
     ],
     modules: [ ],
     firmware: [
@@ -104,7 +106,12 @@ addBoard({
                         "imu_rotation",
                         "imu_compass_heading",
                         "imu_magnetic_force",
-                        "imu_calibrate_compass"
+                        "imu_calibrate_compass",
+                        {
+                            xml: '<label text="External Input"></label>',
+                        },
+                        "pin_digital_read",
+                        "pin_analog_read"
                     ]
                 },
                 {
@@ -127,6 +134,31 @@ addBoard({
                                     <value name="angle">
                                         <shadow type="math_number">
                                             <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="External Output"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="pin_digital_write">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="pin_analog_write">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1023</field>
                                         </shadow>
                                     </value>
                                 </block>

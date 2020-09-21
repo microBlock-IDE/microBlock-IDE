@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "switch_is_press",
-  "message0": "Switch %1 is press ?",
+  "message0": "switch %1 is press ?",
   "args0": [
     {
       "type": "field_dropdown",
@@ -25,7 +25,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "switch_is_release",
-  "message0": "Switch %1 is release ?",
+  "message0": "switch %1 is release ?",
   "args0": [
     {
       "type": "field_dropdown",
@@ -49,7 +49,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "switch_get_value",
-  "message0": "Switch %1 get value",
+  "message0": "switch %1 get value",
   "args0": [
     {
       "type": "field_dropdown",

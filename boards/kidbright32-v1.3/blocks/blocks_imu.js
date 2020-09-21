@@ -18,19 +18,19 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "x",
-          "AXIS_X"
+          "0"
         ],
         [
           "y",
-          "AXIS_Y"
+          "1"
         ],
         [
           "z",
-          "AXIS_Z"
+          "2"
         ],
         [
           "strength",
-          "STRENGTH"
+          "3"
         ]
       ]
     }
@@ -58,11 +58,11 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "pitch",
-          "AXIS_PITCH"
+          "1"
         ],
         [
           "roll",
-          "AXIS_ROLL"
+          "0"
         ]
       ]
     }
@@ -82,19 +82,19 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "x",
-          "AXIS_X"
+          "0"
         ],
         [
           "y",
-          "AXIS_Y"
+          "1"
         ],
         [
           "z",
-          "AXIS_Z"
+          "2"
         ],
         [
           "strength",
-          "STRENGTH"
+          "3"
         ]
       ]
     }
