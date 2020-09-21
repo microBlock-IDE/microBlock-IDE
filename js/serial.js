@@ -109,6 +109,7 @@ let serialUploadFile = async (fileName, content) => {
 let serialConnectWeb = async () => {
     navigator.serial.ondisconnect = () => {
         NotifyW("Serial port disconnect");
+        $("#port-name").text(`DISCONNECT`);
         serialPort = null;
         term.dispose();
         term = null;
@@ -133,6 +134,7 @@ let serialConnectWeb = async () => {
     }
 
     NotifyS("Serial port connected");
+    $("#port-name").text(`CONNECTED`);
 
     writer = serialPort.writable.getWriter();
     // reader = serialPort.readable.getReader();
@@ -220,6 +222,7 @@ let serialConnectElectron = async () => {
     }
 
     NotifyS("Serial port connected");
+    $("#port-name").text(`CONNECTED (${portName})`);
     
     // Fixed ESP32 go to Bootloader Mode after press Reset Button
     serialPort.set({
@@ -229,6 +232,7 @@ let serialConnectElectron = async () => {
 
     serialPort.on("close", () => {
         NotifyW("Serial port disconnect");
+        $("#port-name").text(`DISCONNECT`);
         serialPort = null;
         term.dispose();
         term = null;

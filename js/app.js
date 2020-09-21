@@ -4,8 +4,17 @@ let updateBlockCategory = () => {
     var categoryIconList = [];
     let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
 
+    let toolboxTree = null;
+    if (boardId && levelName) {
+        let board = boards.find(board => board.id === boardId);
+        let level = board.level.find(level => level.name === levelName);
+        toolboxTree = level.blocks;
+    }
+    if (!toolboxTree) {
+        toolboxTree = blocksTree;
+    }
     // blockTree
-    for (let category of blocksTree) {
+    for (let category of toolboxTree) {
         toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
         if (typeof category.blocks === "object") {
             for (let block of category.blocks) {
@@ -173,7 +182,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 }
 // $(loadBlockFromAutoSave);
 vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
-let hotUpdate = () => {
+let hotUpdate = async () => {
     if (!vFSTree) {
         vFSTree = { };
     }
@@ -183,6 +192,9 @@ let hotUpdate = () => {
         let projectConfig = JSON.parse(configFileContent);
         if (projectConfig) {
             useMode = projectConfig.mode;
+            boardId = projectConfig.board ? projectConfig.board : null;
+            levelName = projectConfig.level ? projectConfig.level : null;
+            await loadBoard();
             if (useMode === "block") {
                 updataWorkspaceAndCategoryFromvFS();
             } else if (useMode === "code") {
@@ -220,7 +232,9 @@ let saveCodeToLocal = () => {
     }
     fs.write("/config.json", JSON.stringify({
         mode: useMode,
-        github: github_project_repo
+        github: github_project_repo,
+        board: boardId,
+        level: levelName
     }));
     localStorage.setItem("autoSaveFS", JSON.stringify(vFSTree));
 };
@@ -228,6 +242,7 @@ let saveCodeToLocal = () => {
 blocklyWorkspace.addChangeListener(saveCodeToLocal);
 /* -------------- */
 
+/*
 $("#new-project").click(async () => {
     if (await NotifyConfirm("All blocks will lost. Are you sure of new project ?")) {
         blocklyWorkspace.clear();
@@ -238,6 +253,7 @@ $("#new-project").click(async () => {
         updateBlockCategory();
     }
 });
+*/
 
 $("#save-project").click(async () => {
     if (!github_project_repo) { // Save to local
@@ -252,6 +268,8 @@ $("#save-project").click(async () => {
             link.click();
 
             window.URL.revokeObjectURL(url);
+
+            statusLog("Save project");
         } else {
             let result = await dialog.showSaveDialog({
                 filters: [{ 
@@ -274,6 +292,7 @@ $("#save-project").click(async () => {
                 }
 
                 NotifyS("Save project at " + OpenFilePath);
+                statusLog("Save project at " + OpenFilePath);
             });
         }
     } else { // Save to GitHub
@@ -294,11 +313,12 @@ $("#open-project").click(async () => {
             // console.log(this.files);
             let fileName = this.files[0].name.replace(".mby", "");
             let fr = new FileReader();
-            fr.onload = () => {
+            fr.onload = async () => {
                 // console.log(fr.result);
                 vFSTree = JSON.parse(fr.result);
-                hotUpdate();
+                await hotUpdate();
                 NotifyS("Open project " + fileName)
+                statusLog("Open project " + fileName);
                 $("#project-name").val(fileName);
             };
             fr.readAsText(this.files[0]);
@@ -321,15 +341,16 @@ $("#open-project").click(async () => {
 
         OpenFilePath = result[0];
 
-        nodeFS.readFile(OpenFilePath, (err, data) => {
+        nodeFS.readFile(OpenFilePath, async (err, data) => {
             if (err) {
                 NotifyE("Open project fail: " + err.toString());
                 return;
             }
 
             vFSTree = JSON.parse(data);
-            hotUpdate();
+            await hotUpdate();
             NotifyS("Open project " + OpenFilePath)
+            statusLog("Open project " + OpenFilePath);
             $("#project-name").val(OpenFilePath.split(/[\\\/]/).pop().replace(".mby", ""));
         });
     }
@@ -342,6 +363,24 @@ $("#open-help").click(() => {
         shell.openExternal("https://microblock.app/web/");
     }
 });
+
+let imageSelectUpdate = (sel) => {
+    $(sel).find("li > div").click(function() {
+        $(sel).find("li > div").removeClass("active");
+        $(this).addClass("active");
+    });
+};
+
+$(() => {
+    for (sel of $(".image-select")) {
+        imageSelectUpdate(sel);
+    }
+});
+
+let statusLog = text => {
+    let now = new Date();
+    $("#text-status").text(`${text} at ${now.getHours()}:${(now.getMinutes() < 10 ? "0" : "")}${now.getMinutes()}:${(now.getSeconds() < 10 ? "0" : "")}${now.getSeconds()}`);
+};
 
 $(document).keydown(function(event) {
     // console.log(event)

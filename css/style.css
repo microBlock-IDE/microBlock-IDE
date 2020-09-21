@@ -379,7 +379,7 @@ ul.switch-mode > li:last-child {
     cursor: col-resize;
     top: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 3988;
     opacity: 0;
     display: none;
 }

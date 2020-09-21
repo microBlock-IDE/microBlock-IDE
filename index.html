@@ -151,12 +151,12 @@
                         </ul>
                     </div>
                     <div class="status-bar">
-                        <div class="left">Not do anything</div>
+                        <div class="left" id="text-status">Not do anything</div>
                         <div class="right">
                             <ul>
                                 <li>Board: <span id="board-name">None</span></li>
-                                <li>Port: <span id="port-name">None</span></li>
-                                <li>Level: <span id=level-name">None</span></li>
+                                <li>Port: <span id="port-name">DISCONNECT</span></li>
+                                <li>Level: <span id="level-name">None</span></li>
                             </ul>
                         </div>
                     </div>
@@ -293,55 +293,17 @@
                         <div class="control">
                             <label>Hardware</label>
                             <div id="hardware-select" class="image-select">
-                                <ul>
-                                    <li>
-                                        <div>
-                                            <div class="image"><img src="" alt=""></div>
-                                            <div class="name">KidBright32 V1.3 & V1.4</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="image"><img src="boards/kidbright32-v1.5/image/cover.jpg" alt=""></div>
-                                            <div class="name">KidBright32 V1.5</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="image"><img src="boards/kidbright32-v1.5i/image/cover.jpg" alt=""></div>
-                                            <div class="name">KidBright32 V1.5i by INEX</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="active">
-                                            <div class="image"><img src="boards/kidbright32-v1.6/image/cover.jpg" alt=""></div>
-                                            <div class="name">KidBright32 V1.6 by Gravitech</div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <ul></ul>
                             </div>
                         </div>
                         <div class="control">
                             <label>User Level</label>
                             <div id="level-select" class="image-select">
-                                <ul>
-                                    <li>
-                                        <div>
-                                            <div class="image"><img src="boards/kidbright32-v1.3/image/puzzle.png" alt=""></div>
-                                            <div class="name">Beginner</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>
-                                            <div class="image"><img src="boards/kidbright32-v1.3/image/strategy.png" alt=""></div>
-                                            <div class="name">Advanced</div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <ul></ul>
                             </div>
                         </div>
                         <div class="button-group">
-                            <button type="submit">Create</button>
+                            <button type="button" id="create-project-btn">Create</button>
                         </div>
                     </form>
                 </section>
