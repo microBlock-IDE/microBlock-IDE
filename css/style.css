@@ -1307,4 +1307,7 @@ ul.switch-mode > li:last-child {
     background: #B3B6B7; 
 }
 
-
+.blocklyCheckedBox {
+    fill: #FF0000 !important;
+    fill-opacity: 1 !important;
+}
