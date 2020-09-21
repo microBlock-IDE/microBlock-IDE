@@ -26,6 +26,8 @@ let serialUploadFile = async (fileName, content) => {
         content = "#No Code";
     }
 
+    statusLog("Uploading " + fileName);
+
     let firstWriteFlag = true;
     let errorCount = 0;
     serialLastData = "";
@@ -33,7 +35,7 @@ let serialUploadFile = async (fileName, content) => {
         // await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}")`);
         while(errorCount < 20) {
             await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}");w=f.write;p=print`);
-            await sleep(100);
+            await sleep(isElectron ? 50 : 100);
             // console.log(serialLastData);
             if (serialLastData.match(/OK[^>]*>$/gm)) {
                 // console.log("Open file OK!");
@@ -52,7 +54,7 @@ let serialUploadFile = async (fileName, content) => {
             while(errorCount < 20) {
                 // await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
                 await writeSerialNewLine(`p(w(${JSON.stringify(chunkContent2)}))`);
-                await sleep(100);
+                await sleep(isElectron ? 10 : 100);
 
                 let writeOKFlag = false;
                 for (let x=0;x<5;x++) {
@@ -89,7 +91,7 @@ let serialUploadFile = async (fileName, content) => {
         errorCount = 0;
         while(errorCount < 20) {
             await writeSerialNewLine(`f.close()`);
-            await sleep(500);
+            await sleep(isElectron ? 300 : 500);
             // console.log(serialLastData);
             if (serialLastData.match(/OK[^>]*>$/gm)) {
                 // console.log("Close file OK!");
@@ -110,6 +112,7 @@ let serialConnectWeb = async () => {
     navigator.serial.ondisconnect = () => {
         NotifyW("Serial port disconnect");
         $("#port-name").text(`DISCONNECT`);
+        statusLog("Serial port disconnect");
         serialPort = null;
         term.dispose();
         term = null;
@@ -134,6 +137,7 @@ let serialConnectWeb = async () => {
     }
 
     NotifyS("Serial port connected");
+    statusLog("Serial port connected");
     $("#port-name").text(`CONNECTED`);
 
     writer = serialPort.writable.getWriter();
@@ -222,6 +226,7 @@ let serialConnectElectron = async () => {
     }
 
     NotifyS("Serial port connected");
+    statusLog("Serial port connected");
     $("#port-name").text(`CONNECTED (${portName})`);
     
     // Fixed ESP32 go to Bootloader Mode after press Reset Button
@@ -266,6 +271,8 @@ let serialConnectElectron = async () => {
 let serialConnect = (!isElectron) ? serialConnectWeb : serialConnectElectron;
 
 $("#upload-program").click(async function() {
+    statusLog("Start Upload");
+
     setTimeout(() => $("#upload-program").addClass("loading"), 1);
 
     RawREPLMode = false;
@@ -308,6 +315,7 @@ $("#upload-program").click(async function() {
 
     if (!okFlag) {
         NotifyE("Upload fail: Access to MicroPython error");
+        statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
         return;
     }
@@ -333,6 +341,7 @@ $("#upload-program").click(async function() {
     RawREPLMode = true;
     if (!microPythonIsReadyNextCommand()) {
         NotifyE("Upload fail: Enter to Raw REPL fail");
+        statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
         return;
     }
@@ -375,6 +384,7 @@ $("#upload-program").click(async function() {
     $("#upload-program").removeClass("loading");
 
     NotifyS("Upload successful");
+    statusLog("Upload Successful");
 });
 
 async function writeSerial(text) {

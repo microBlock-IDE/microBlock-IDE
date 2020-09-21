@@ -58,7 +58,13 @@ let loadBoard = async () => {
     }
     let board = boards.find(board => board.id === boardId);
     for (let fPath of board.script) {
-        let script = await fetch(`${rootPath}/boards/${board.id}/${fPath}`);
+        let script;
+        try {
+            script = await fetch(`${rootPath}/boards/${board.id}/${fPath}`);
+        } catch (e) {
+            console.warn(e);
+            continue;
+        }
         if (script.status === 200) {
             try {
                 eval(await script.text());
@@ -69,11 +75,6 @@ let loadBoard = async () => {
             console.warn(script);
         }
     }
-
-    blocklyWorkspace.clear();
-    if (editor) editor.setValue("");
-    vFSTree = "";
-    vFSTree = { };
 
     updateBlockCategory();
 
@@ -87,7 +88,12 @@ $("#create-project-btn").click(async () => {
     levelName = $("#project-create-dialog #level-select ul > li > div.active").attr("data-level-name");
 
     await loadBoard();
-    
+
+    blocklyWorkspace.clear();
+    if (editor) editor.setValue("");
+    vFSTree = "";
+    vFSTree = { };
+
     $("#project-name").val(projectName);
 
     $("#project-create-dialog").hide();

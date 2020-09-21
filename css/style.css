@@ -346,7 +346,7 @@ ul.switch-mode > li:last-child {
 
 .page > .main > footer > .status-bar > div > ul > li {
     list-style: none;
-    padding: 8px 8px;
+    padding: 4px 8px;
     border-left: 1px solid #2C3E50;
 }
 
