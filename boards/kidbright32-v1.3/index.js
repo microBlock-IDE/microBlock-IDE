@@ -2,7 +2,7 @@ addBoard({
     id: "kidbright32-v1.3",
     name: "KidBright32 V1.3 & V1.4",
     description: "",
-    image: "image/cover.jpg",
+    image: "images/cover.jpg",
     script: [ 
         "blocks/blocks_display.js",
         "blocks/blocks_imu.js",
@@ -30,72 +30,146 @@ addBoard({
         {
             name: "Beginner",
             description: "",
-            icon: "image/puzzle.png",
+            icon: "images/puzzle.png",
             blocks: [
                 {
-                    name: "Pin256",
-                    icon: `${rootPath}/images/icon/led.png`,
+                    name: "Display",
+                    icon: `images/matrix.png`,
                     color: "#e64c3c",
                     blocks: [
                         {
                             xml: `
-                                <block type="pin_digital_write">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
+                                <block type="display_show">
+                                    <value name="value">
+                                        <shadow type="text">
+                                            <field name="TEXT">21</field>
                                         </shadow>
                                     </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_scroll">
+                                    <value name="value">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello!</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_show4x8">
                                     <value name="value">
                                         <shadow type="math_number">
-                                            <field name="NUM">1</field>
+                                            <field name="NUM">1234</field>
                                         </shadow>
                                     </value>
                                 </block>
                             `
                         },
+                        "display_clear",
+                    ]
+                },
+                {
+                    name: "Input",
+                    icon: `images/filter.png`,
+                    color: "#fbbd5e",
+                    blocks: [
+                        {
+                            xml: '<label text="Switch"></label>',
+                        },
+                        "switch_is_press",
+                        "switch_is_release",
+                        "switch_get_value",
+                        {
+                            xml: '<label text="Senser"></label>',
+                        },
+                        "sensor_light",
+                        "sensor_temp",
+                        {
+                            xml: '<label text="IMU"></label>',
+                        },
+                        "imu_update",
+                        "imu_acceleration",
+                        "imu_rotation",
+                        "imu_compass_heading",
+                        "imu_magnetic_force",
+                        "imu_calibrate_compass"
+                    ]
+                },
+                {
+                    name: "Output",
+                    icon: `images/usb.png`,
+                    color: "#fbbd5e",
+                    blocks: [
+                        {
+                            xml: '<label text="USB"></label>',
+                        },
+                        "usb_on",
+                        "usb_off",
+                        "usb_toggle",
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        "external_servo"
+                    ]
+                },
+                {
+                    name: "RTC",
+                    icon: `images/clock.png`,
+                    color: "#fbbd5e",
+                    blocks: [
                         {
                             xml: `
-                                <block type="pin_digital_read">
-                                    <value name="pin">
+                                <block type="external_rtc_set_time">
+                                    <value name="hour">
                                         <shadow type="math_number">
-                                            <field name="NUM">32</field>
+                                            <field name="NUM">16</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="sec">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="day">
+                                        <shadow type="math_number">
+                                            <field name="NUM">22</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="month">
+                                        <shadow type="math_number">
+                                            <field name="NUM">8</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="year">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2020</field>
                                         </shadow>
                                     </value>
                                 </block>
                             `
                         },
-                        {
-                            xml: `
-                                <block type="pin_analog_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">32</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="pin_pwm_write">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="value">
-                                        <shadow type="math_number">
-                                            <field name="NUM">512</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
+                        "external_rtc_get_hour",
+                        "external_rtc_get_min",
+                        "external_rtc_get_sec",
+                        "external_rtc_get_microsecond",
+                        "external_rtc_get_day",
+                        "external_rtc_get_month",
+                        "external_rtc_get_year"
                     ]
                 },
                 {
                     name: "Control",
-                    icon: `${rootPath}/images/icon/process.png`,
+                    icon: `/images/icon/process.png`,
                     color: "#fbbd5e",
                     blocks: [
                         {
@@ -135,7 +209,7 @@ addBoard({
                 },
                 {
                     name: "Operators",
-                    icon: `${rootPath}/images/icon/maths.png`,
+                    icon: `/images/icon/maths.png`,
                     color: "#293939",
                     blocks: [
                         {
@@ -289,19 +363,19 @@ addBoard({
                 },
                 {
                     name: "Variables",
-                    icon: `${rootPath}/images/icon/relativity.png`,
+                    icon: `/images/icon/relativity.png`,
                     color: "#ac5e2e",
                     blocks: "VARIABLE"
                 },
                 {
                     name: "Function",
-                    icon: `${rootPath}/images/icon/jigsaw.png`,
+                    icon: `/images/icon/jigsaw.png`,
                     color: "#17A589",
                     blocks: "PROCEDURE"
                 },
                 {
                     name: "Advanced",
-                    icon: `${rootPath}/images/icon/expert.png`,
+                    icon: `/images/icon/expert.png`,
                     color: "#8E44AD",
                     blocks: [
                         {
@@ -344,7 +418,7 @@ addBoard({
                             `
                         },
                         {
-                            xml: '<label text="RTC"></label>',
+                            xml: '<label text="Internal RTC"></label>',
                         },
                         {
                             xml: `
