@@ -3,7 +3,7 @@ Blockly.defineBlocksWithJsonArray([
   "type": "sensor_light",
   "message0": "Light level (%%)",
   "output": "Number",
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray([
   "type": "sensor_temp",
   "message0": "Temperature (°C)",
   "output": "Number",
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 }

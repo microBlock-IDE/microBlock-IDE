@@ -4,7 +4,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "IMU update",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },    
@@ -36,7 +36,7 @@ Blockly.defineBlocksWithJsonArray([
     }
   ],
   "output": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -44,7 +44,7 @@ Blockly.defineBlocksWithJsonArray([
   "type": "imu_compass_heading",
   "message0": "compass heading (°)",
   "output": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -68,7 +68,7 @@ Blockly.defineBlocksWithJsonArray([
     }
   ],
   "output": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -100,7 +100,7 @@ Blockly.defineBlocksWithJsonArray([
     }
   ],
   "output": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -109,7 +109,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "calibrate compass",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": 230,
+  "colour": "#F39C12",
   "tooltip": "",
   "helpUrl": ""
 }

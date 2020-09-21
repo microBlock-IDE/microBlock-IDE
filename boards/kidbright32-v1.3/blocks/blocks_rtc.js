@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -55,7 +55,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Hour",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -64,7 +64,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Min",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -73,7 +73,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Second",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -82,7 +82,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Day",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -91,7 +91,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Month",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -100,7 +100,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Year",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -109,7 +109,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "RTC get Microsecond",
   "inputsInline": false,
   "output": "Number",
-  "colour": "#8E44AD",
+  "colour": "#27AE60",
   "tooltip": "",
   "helpUrl": ""
 }
