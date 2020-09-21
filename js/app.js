@@ -410,3 +410,29 @@ $(document).keydown(function(event) {
 
     return true;
 });
+
+// Auto Port connect (only on Electron)
+let autoConnectFlag = true;
+let timerAutoConnect = null;
+
+let autoConnectCheck = async () => {
+    if (autoConnectFlag && boardId && isElectron && !serialPort) {
+        let board = boards.find(board => board.id === boardId);
+        let usbInfo = board.usb[0];
+        let portList = await serialAPI.list();
+        if (portList) {
+            let port = portList.find(info => info.productId === usbInfo.productId && info.vendorId === usbInfo.vendorId);
+            if (port) {
+                // console.log(port);
+                serialConnectElectron(port.path);
+            }
+        }
+    }
+    if (timerAutoConnect) clearTimeout(timerAutoConnect);
+    setTimeout(autoConnectCheck, 500);
+};
+if (isElectron) {
+    autoConnectCheck();
+}
+
+

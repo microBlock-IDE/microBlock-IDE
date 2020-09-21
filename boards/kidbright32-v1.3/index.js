@@ -26,6 +26,12 @@ addBoard({
             path: "firmware/MicroPython.for.KidBright32.V1.1.0.bin"
         }
     ],
+    usb: [
+        {
+            vendorId: "0403",
+            productId: "6015"
+        }
+    ],
     level: [
         {
             name: "Beginner",

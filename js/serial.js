@@ -173,41 +173,42 @@ let serialConnectWeb = async () => {
     return true;
 }
 
-let serialConnectElectron = async () => {
-    let portName = "";
-    try {
-        portName = await (new Promise(async (resolve, reject) => {
-            $("#port-list").html("");
-            for (let port of (await serialAPI.list())) {
-                $("#port-list").append(`<li data-port="${port.path}"><i class="fab fa-usb"></i> ${port.path} - ${port.manufacturer}</li>`);
-            }
-
-            $("#port-list > li").click(function() {
-                $("#github-repository-list > li").removeClass("active");
-                $(this).addClass("active");
-            });
-    
-            $("#port-select-button").click(function() {
-                let select_port = $("#port-list > li.active").attr("data-port");
-                if (select_port) {
-                    resolve(select_port);
-                } else {
-                    reject("not_select");
+let serialConnectElectron = async (portName = "") => {
+    if (!portName) {
+        try {
+            portName = await (new Promise(async (resolve, reject) => {
+                $("#port-list").html("");
+                for (let port of (await serialAPI.list())) {
+                    $("#port-list").append(`<li data-port="${port.path}"><i class="fab fa-usb"></i> ${port.path} - ${port.manufacturer}</li>`);
                 }
-                $("#port-select-dialog").hide();
-            });  
-            
-            $("#port-select-dialog .close-btn").click(() => {
-                reject("cancle");
-                $("#port-select-dialog").hide();
-            });
-            
-            $("#port-select-dialog").show();
-        }));
-    } catch(e) {
-        NotifyE("You not select port");
-        console.log(e);
-        return false;
+
+                $("#port-list > li").click(function() {
+                    $("#github-repository-list > li").removeClass("active");
+                    $(this).addClass("active");
+                });
+        
+                $("#port-select-button").click(function() {
+                    let select_port = $("#port-list > li.active").attr("data-port");
+                    if (select_port) {
+                        resolve(select_port);
+                    } else {
+                        reject("not_select");
+                    }
+                    $("#port-select-dialog").hide();
+                });  
+                
+                $("#port-select-dialog .close-btn").click(() => {
+                    reject("cancle");
+                    $("#port-select-dialog").hide();
+                });
+                
+                $("#port-select-dialog").show();
+            }));
+        } catch(e) {
+            NotifyE("You not select port");
+            console.log(e);
+            return false;
+        }
     }
 
     try {
