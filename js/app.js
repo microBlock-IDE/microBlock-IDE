@@ -427,7 +427,7 @@ let autoConnectCheck = async () => {
         }
     }
     if (timerAutoConnect) clearTimeout(timerAutoConnect);
-    setTimeout(autoConnectCheck, 500);
+    timerAutoConnect = setTimeout(autoConnectCheck, autoConnectFlag ? 500 : 5000);
 };
 if (isElectron) {
     autoConnectCheck();

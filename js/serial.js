@@ -113,6 +113,8 @@ let serialConnectWeb = async () => {
         NotifyW("Serial port disconnect");
         $("#port-name").text(`DISCONNECT`);
         statusLog("Serial port disconnect");
+        $("#disconnect-device").hide();
+        $("#connect-device").show();
         serialPort = null;
         term.dispose();
         term = null;
@@ -169,6 +171,9 @@ let serialConnectWeb = async () => {
     term.onData((data) => {
         writeSerial(data);
     });
+
+    $("#disconnect-device").show();
+    $("#connect-device").hide();
 
     return true;
 }
@@ -239,6 +244,8 @@ let serialConnectElectron = async (portName = "") => {
     serialPort.on("close", () => {
         NotifyW("Serial port disconnect");
         $("#port-name").text(`DISCONNECT`);
+        $("#disconnect-device").hide();
+        $("#connect-device").show();
         serialPort = null;
         term.dispose();
         term = null;
@@ -266,6 +273,9 @@ let serialConnectElectron = async (portName = "") => {
         writeSerial(data);
     });
 
+    $("#disconnect-device").show();
+    $("#connect-device").hide();
+
     return true;
 }
 
@@ -289,25 +299,30 @@ $("#upload-program").click(async function() {
             $("#upload-program").removeClass("loading");
             return;
         }
+        await sleep(300);
     }
 
     console.log(code);
 
     let okFlag;
-    okFlag = false;
-    for (let i=0;i<5;i++) {
-        await writeSerialByte(2); // Ctrl + B, Exit Raw REPL
-        await sleep(50);
-        if (microPythonIsReadyNextCommand()) {
-            okFlag = true;
-            break;
+
+    if (!serialLastData.endsWith(">>>") && serialLastData.endsWith(">")) { // Raw REPL mode ?
+        okFlag = false;
+        for (let i=0;i<5;i++) {
+            await writeSerialByte(2); // Ctrl + B, Exit Raw REPL
+            await sleep(100);
+            RawREPLMode = false;
+            if (microPythonIsReadyNextCommand()) {
+                okFlag = true;
+                break;
+            }
         }
     }
-
+    
     okFlag = false;
     for (let i=0;i<100;i++) {
         await writeSerialByte(3); // Ctrl + C
-        await sleep(50);
+        await sleep(100);
         if (microPythonIsReadyNextCommand()) {
             okFlag = true;
             break;
@@ -337,10 +352,17 @@ $("#upload-program").click(async function() {
         return;
     }*/
 
-    await writeSerialByte(1); // Ctrl + A, Enter to Raw REPL
-    await sleep(50);
-    RawREPLMode = true;
-    if (!microPythonIsReadyNextCommand()) {
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(1); // Ctrl + A, Enter to Raw REPL
+        await sleep(50);
+        RawREPLMode = true;
+        if (microPythonIsReadyNextCommand()) {
+            okFlag = true;
+            break;
+        }
+    }
+    
+    if (!okFlag) {
         NotifyE("Upload fail: Enter to Raw REPL fail");
         statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
@@ -482,5 +504,16 @@ $("#connect-device").click(async () => {
         }
     } else {
 
+    }
+});
+
+$("#disconnect-device").click(async () => {
+    if (serialPort) {
+        autoConnectFlag = false;
+        if (!isElectron) {
+
+        } else {
+            serialPort.close();
+        }
     }
 });
