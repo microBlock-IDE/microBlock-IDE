@@ -1348,8 +1348,31 @@ ul.switch-mode > li:last-child {
     color: #F1C40F;
 }
 
-#firmware-upgrade-dialog  > section > section > article.done > .icon {
+#firmware-upgrade-dialog  > section > section > article.doing > .icon.loading {
+    animation: objectMoveLoading 3s infinite;
+}
+
+@keyframes objectMoveLoading {
+    0% {
+        transform: translateY(0px);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+#firmware-upgrade-dialog  > section > section > article.done > .icon.success {
     color: #2ECC71;
+}
+
+#firmware-upgrade-dialog  > section > section > article.done > .icon.fail {
+    color: #E74C3C;
 }
 
 #firmware-upgrade-dialog  > section > section > article > .warning {

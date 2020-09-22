@@ -22,6 +22,7 @@
             nodeFS = require("fs");
             promisify = require('util').promisify;
             shell = require('electron').shell;
+            spawn = require('child_process').spawn;
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
@@ -338,22 +339,21 @@
                     <article class="todo">
                         <div class="icon"><i class="far fa-meh"></i></div>
                         <p>You haven't installed MicroPython or it's out of date.</p>
-                        <select id="firmware-version-select">
-                            <option>AAAA</option>
-                        </select>
+                        <select id="firmware-version-select"></select>
                         <button id="install-firmware-button">Upgrade Firmware</button>
                     </article>
                     <article class="doing">
-                        <div class="icon"><i class="fas fa-truck-loading"></i></div>
+                        <div class="icon loading"><i class="fas fa-truck-loading"></i></div>
                         <p>Installing Firmware...</p>
                         <div class="progress-box">
                             <div class="back-drop"></div>
-                            <div class="caption">1212312121</div>
+                            <div class="caption"></div>
                         </div>
-                        <p class="warning">Don't close program or unplug device</p>
+                        <p class="warning"><i class="fas fa-exclamation-triangle"></i> Don't close program or unplug device</p>
                     </article>
                     <article class="done">
-                        <div class="icon"><i class="far fa-check-circle"></i></div>
+                        <div class="icon success"><i class="far fa-laugh-beam"></i></div>
+                        <div class="icon fail"><i class="far fa-sad-tear"></i></div>
                         <p id="firmware-upgrade-status">Upgrade Successful</p>
                         <div class="botton-group">
                             <button class="upload-btn">Upload Program</button>
@@ -414,6 +414,12 @@
         <script src="js/extension.js"></script>
         <script src="js/board.js"></script>
         <script src="boards/index.js"></script>
+
+        <script>
+        if (isElectron) {
+            loadScript("js/fireware.js");
+        }
+        </script>
 
         <script src="js/install.js"></script>
 

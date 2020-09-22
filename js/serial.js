@@ -333,6 +333,7 @@ $("#upload-program").click(async function() {
         NotifyE("Upload fail: Access to MicroPython error");
         statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
+        firewareUpgradeFlow();
         return;
     }
 /*
