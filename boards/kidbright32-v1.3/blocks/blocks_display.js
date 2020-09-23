@@ -1,6 +1,6 @@
 Blockly.defineBlocksWithJsonArray([{
   "type": "display_show",
-  "message0": "Display show 2-chars %1",
+  "message0": "display show 2-chars %1",
   "args0": [
     {
       "type": "input_value",
@@ -16,7 +16,7 @@ Blockly.defineBlocksWithJsonArray([{
 },
 {
   "type": "display_scroll",
-  "message0": "Display show scroll %1",
+  "message0": "display show scroll %1",
   "args0": [
     {
       "type": "input_value",
@@ -32,7 +32,7 @@ Blockly.defineBlocksWithJsonArray([{
 },
 {
   "type": "display_show4x8",
-  "message0": "Display show number %1",
+  "message0": "display show number %1",
   "args0": [
     {
       "type": "input_value",
@@ -47,8 +47,25 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
+  "type": "display_plot",
+  "message0": "display plot %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#3498DB",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "display_clear",
-  "message0": "Display clear",
+  "message0": "display clear",
   "inputsInline": true,
   "previousStatement": null,
   "nextStatement": null,
@@ -60,7 +77,7 @@ Blockly.defineBlocksWithJsonArray([{
 Blockly.Blocks["display_custom"] = {
   init: function() {
       this.appendDummyInput()
-        .appendField("Display show")
+        .appendField("display show")
 /*        .appendField("                                ")
         .appendField(new Blockly.FieldImage("/icons/shift_left_24px.svg", 24, 24, "*", function(e) {
           for (var y = 0; y < 8; y++) {
