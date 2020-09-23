@@ -47,6 +47,40 @@ Blockly.defineBlocksWithJsonArray([{
   "helpUrl": ""
 },
 {
+  "type": "display_left_show",
+  "message0": "display left show number %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#3498DB",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "display_right_show",
+  "message0": "display right show number %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#3498DB",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "display_plot",
   "message0": "display plot %1",
   "args0": [

@@ -22,6 +22,22 @@ Blockly.Python['display_show4x8'] = function(block) {
     return code;
 };
 
+Blockly.Python['display_left_show'] = function(block) {
+    Blockly.Python.definitions_['import_display'] = 'import display';
+
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+    var code = `display.left(${value_value})\n`;
+    return code;
+};
+
+Blockly.Python['display_right_show'] = function(block) {
+    Blockly.Python.definitions_['import_display'] = 'import display';
+
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+    var code = `display.right(${value_value})\n`;
+    return code;
+};
+
 Blockly.Python['display_plot'] = function(block) {
     Blockly.Python.definitions_['import_display'] = 'import display';
 
