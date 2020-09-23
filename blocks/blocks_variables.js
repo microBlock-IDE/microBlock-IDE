@@ -36,6 +36,27 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
     "extensions": ["contextMenu_variableSetterGetter"]
+  },
+  {
+    "type": "math_change",
+    "message0": "%{BKY_MATH_CHANGE_TITLE}",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "%{BKY_MATH_CHANGE_TITLE_ITEM}"
+      },
+      {
+        "type": "input_value",
+        "name": "DELTA",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ac5e2e",
+    "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
+    "extensions": ["math_change_tooltip"]
   }
 ]);
 /*
