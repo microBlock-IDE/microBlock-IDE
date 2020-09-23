@@ -79,6 +79,17 @@ addBoard({
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="display_plot">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         "display_clear",
                     ]
                 },
@@ -90,6 +101,8 @@ addBoard({
                         {
                             xml: '<label text="Switch"></label>',
                         },
+                        "switch_on_press",
+                        "switch_on_release",
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
