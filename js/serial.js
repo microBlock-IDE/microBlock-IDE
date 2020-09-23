@@ -336,11 +336,11 @@ $("#upload-program").click(async function() {
         firewareUpgradeFlow();
         return;
     }
-/*
+
     okFlag = false;
     for (let i=0;i<100;i++) {
         await writeSerialByte(4); // Ctrl + D, Soft Reset than main.py will run
-        await sleep(50);
+        await sleep(200);
         if (microPythonIsReadyNextCommand()) {
             okFlag = true;
             break;
@@ -351,7 +351,7 @@ $("#upload-program").click(async function() {
         NotifyE("Upload fail: Soft Reset MicroPython fail !");
         $("#upload-program").removeClass("loading");
         return;
-    }*/
+    }
 
     for (let i=0;i<100;i++) {
         await writeSerialByte(1); // Ctrl + A, Enter to Raw REPL
