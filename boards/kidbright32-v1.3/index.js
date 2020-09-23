@@ -81,6 +81,28 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="display_left_show">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_right_show">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
                                 <block type="display_plot">
                                     <value name="value">
                                         <shadow type="math_number">
