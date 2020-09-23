@@ -142,7 +142,34 @@ Blockly.triggleResize = function(e) {
 window.addEventListener('resize', Blockly.triggleResize, false);
 Blockly.triggleResize();
 
-Blockly.updateToolbox = () => { };
+/** Override Blockly.alert() with custom implementation. */
+Blockly.alert = function(message, callback) {
+    Notiflix.Report.Info("Alert", message, "OK", callback);
+};
+
+/** Override Blockly.confirm() with custom implementation. */
+Blockly.confirm = function(message, callback) {
+    Notiflix.Confirm.Show('Are you Confirm ?', message, 'Yes', 'No', function() {
+        callback(true);
+    },
+    function() {
+        callback(false);
+    });
+};
+
+Notiflix.Confirm.Init({
+    plainText: false
+});
+
+/** Override Blockly.prompt() with custom implementation. */
+Blockly.prompt = function(message, defaultValue, callback) {
+    Notiflix.Confirm.Show("Prompt", `${message}<br><br><input type="text" id="prompt-input" value="${defaultValue}">`, 'OK', 'Cancle', function() {
+        callback($("#prompt-input").val());
+    },
+    function() {
+        callback(null);
+    });
+};
 
 /* Auto Save to localStorage */
 let updataWorkspaceAndCategoryFromvFS = async () => {

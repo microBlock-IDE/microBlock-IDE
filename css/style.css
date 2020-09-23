@@ -1494,3 +1494,17 @@ ul.switch-mode > li:last-child {
     fill: #FF0000 !important;
     fill-opacity: 1 !important;
 }
+
+.notiflix-confirm input {
+    width: 100%;
+    border-radius: 100px;
+    padding: 8px 12px;
+    border: #D0D3D4 solid 1px;
+    background-color: #F0F3F4;
+    outline: none;
+}
+
+.notiflix-confirm input:focus {
+    border-color: #D0D3D4;
+}
+
