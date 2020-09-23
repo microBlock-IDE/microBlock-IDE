@@ -5,6 +5,15 @@ Blockly.Python['imu_update'] = function(block) {
     return code;
 };
 
+Blockly.Python['imu_is_gesture'] = function(block) {
+    Blockly.Python.definitions_['import_imu'] = 'import imu';
+
+    var dropdown_gesture = block.getFieldValue('gesture');
+
+    var code = `imu.is_gesture(imu.${dropdown_gesture})`;
+    return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Python['imu_acceleration'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
@@ -40,6 +49,7 @@ Blockly.Python['imu_magnetic_force'] = function (block) {
 };
 
 Blockly.Python['imu_calibrate_compass'] = function (block) {
+    Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var code = 'imu.calibrate_compass()\n';
     return code;

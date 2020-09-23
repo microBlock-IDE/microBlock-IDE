@@ -137,6 +137,7 @@ addBoard({
                             xml: '<label text="IMU"></label>',
                         },
                         "imu_update",
+                        "imu_is_gesture",
                         "imu_acceleration",
                         "imu_rotation",
                         "imu_compass_heading",
