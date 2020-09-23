@@ -6,11 +6,13 @@ $("#mode-select-switch > li").click(async function() {
     let value = $(this).attr("data-value");
     if (value == 1) { // Block mode
         if (useMode === "code") {
-            if (!await NotifyConfirm("Code will convert to block (BETA). Are you confirm swith to block mode ?")) {
-                return;
+            if (editor.getValue().length > 0) {
+                if (!await NotifyConfirm("Code will convert to block (BETA). Are you confirm swith to block mode ?")) {
+                    return;
+                }
+                updataWorkspaceAndCategoryFromvFS();
+                codeFromMonacoToBlock();
             }
-            updataWorkspaceAndCategoryFromvFS();
-            codeFromMonacoToBlock();
         }
         $("#blocks-editor").css("display", "flex");
         $("#code-editor").hide();
