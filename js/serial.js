@@ -337,6 +337,7 @@ $("#upload-program").click(async function() {
         return;
     }
 
+    /*
     okFlag = false;
     for (let i=0;i<100;i++) {
         await writeSerialByte(4); // Ctrl + D, Soft Reset than main.py will run
@@ -349,6 +350,27 @@ $("#upload-program").click(async function() {
 
     if (!okFlag) {
         NotifyE("Upload fail: Soft Reset MicroPython fail !");
+        $("#upload-program").removeClass("loading");
+        return;
+    }
+    */
+     
+    await writeSerialByte(4);
+    await sleep(100);
+
+    okFlag = false;
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(3); // Ctrl + C
+        await sleep(100);
+        if (microPythonIsReadyNextCommand()) {
+            okFlag = true;
+            break;
+        }
+    }
+
+    if (!okFlag) {
+        NotifyE("Upload fail: Access to MicroPython error");
+        statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
         return;
     }
