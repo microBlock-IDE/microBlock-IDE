@@ -70,5 +70,69 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "switch_on_press",
+  "message0": "switch %1 on press %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+        [
+          "S1",
+          "S1"
+        ],
+        [
+          "S2",
+          "S2"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#E67E22",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "switch_on_release",
+  "message0": "switch %1 on release %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+        [
+          "S1",
+          "S1"
+        ],
+        [
+          "S2",
+          "S2"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#E67E22",
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]);
