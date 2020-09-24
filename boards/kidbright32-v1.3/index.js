@@ -4,6 +4,7 @@ addBoard({
     description: "",
     image: "images/cover.jpg",
     script: [ 
+        "blocks/field_dotmatrix.js",
         "blocks/blocks_display.js",
         "blocks/blocks_imu.js",
         "blocks/blocks_rtc.js",
