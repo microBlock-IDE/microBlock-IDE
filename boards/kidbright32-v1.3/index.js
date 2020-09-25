@@ -13,6 +13,7 @@ addBoard({
         "blocks/blocks_switch.js",
         "blocks/blocks_usb.js",
         "blocks/blocks_pin.js",
+        "blocks/blocks_buzzer.js",
         "blocks/generators_display.js",
         "blocks/generators_imu.js",
         "blocks/generators_rtc.js",
@@ -21,6 +22,7 @@ addBoard({
         "blocks/generators_switch.js",
         "blocks/generators_usb.js",
         "blocks/generators_pin.js",
+        "blocks/generators_buzzer.js",
     ],
     modules: [ ],
     firmware: [
@@ -156,6 +158,47 @@ addBoard({
                     icon: `images/usb.png`,
                     color: "#fbbd5e",
                     blocks: [
+                        {
+                            xml: '<label text="Buzzer"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_tone">
+                                    <value name="freq">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2000</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="duration">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_notes">
+                                    <value name="notes">
+                                        <shadow type="text">
+                                            <field name="TEXT">C4</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_volume">
+                                    <value name="level">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="USB"></label>',
                         },
