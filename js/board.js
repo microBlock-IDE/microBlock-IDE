@@ -57,7 +57,10 @@ let loadBoard = async () => {
         return;
     }
     let board = boards.find(board => board.id === boardId);
-    for (let fPath of board.script) {
+    let scripts = [ ];
+    scripts = scripts.concat(board.script);
+    scripts = scripts.concat(board.blocks);
+    for (let fPath of scripts) {
         let script;
         try {
             script = await fetch(`${rootPath}/boards/${board.id}/${fPath}`);
@@ -74,6 +77,13 @@ let loadBoard = async () => {
         } else {
             console.warn(script);
         }
+    }
+
+    for (let fPath of board.css) {
+        let link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = `${rootPath}/boards/${board.id}/${fPath}`;
+        document.head.appendChild(link);
     }
 
     updateBlockCategory();

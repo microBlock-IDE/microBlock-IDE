@@ -473,8 +473,3 @@ CustomFields.FieldDotMatrix.prototype.createImageDotMatrix_ = function(value) {
   }
   return canvas.toDataURL();
 }
-
-let link = document.createElement('link');
-link.rel = "stylesheet";
-link.href = `${rootPath}/boards/${boardId}/blocks/field_dotmatrix.css`;
-document.head.appendChild(link);
