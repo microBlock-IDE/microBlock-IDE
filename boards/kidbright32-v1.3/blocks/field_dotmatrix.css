@@ -117,8 +117,11 @@
     border-radius: 5px;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul > li > img:hover,
-.FieldDotMatrixDropdown .collection-container > ul > li > img.active {
+.FieldDotMatrixDropdown .collection-container > ul > li > img:hover {
     box-shadow: 0 0 0 2px #FFF;
+}
+
+.FieldDotMatrixDropdown .collection-container > ul > li > img.active {
+    box-shadow: 0 0 0 2px #FFCC33;
 }
 
