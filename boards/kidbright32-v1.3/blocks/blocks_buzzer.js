@@ -103,5 +103,34 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "make_note",
+  "message0": "%1 %2 %3",
+  "args0": [
+    {
+      "type": "field_image",
+      "src": `${rootPath}/boards/${boardId}/images/itunes-note-brands.svg`,
+      "width": 15,
+      "height": 15,
+      "alt": "notes",
+      "flipRtl": false
+    },
+    {
+      "type": "field_label_serializable",
+      "name": "label",
+      "text": ""
+    },
+    {
+      "type": "field_note",
+      "name": "notes",
+      "value": ""
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": "#2C3E50",
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]);

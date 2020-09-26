@@ -5,9 +5,12 @@ addBoard({
     image: "images/cover.jpg",
     script: [ 
         "js/field_dotmatrix.js",
+        "js/field_note.js",
+        "js/sound.js",
     ],
     css: [
         "css/field_dotmatrix.css",
+        "css/field_note.css",
     ],
     blocks: [
         "blocks/blocks_display.js",
@@ -190,6 +193,14 @@ addBoard({
                                             <field name="TEXT">C4</field>
                                         </shadow>
                                     </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="make_note">
+                                    <field name="label">Custom</field>
+                                    <field name="notes"></field>
                                 </block>
                             `
                         },
