@@ -11,6 +11,8 @@
     flex-grow: 1;
     height: 100%;
     overflow-y: auto;
+
+    flex-direction: column;
 }
 
 .FieldNoteDropdown .custom-container {
@@ -45,7 +47,7 @@
     flex-direction: row;
     width: 100%;
     color: #FFF;
-    align-items: center;
+    align-items: stretch;
     margin-top: 10px;
 }
 
@@ -73,6 +75,8 @@
     margin: 0;
     padding: 0;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -154,6 +158,8 @@
 }
 
 .FieldNoteDropdown .button-group {
+    flex-grow: 1;
+
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -177,36 +183,46 @@
     /* background-color:  rgba(0, 0, 0, 0.3); */
 }
 
-.FieldNoteDropdown .collection-container img {
-    max-width: 100%;
-    height: auto;
+.FieldNoteDropdown .collection-container {
+    padding: 10px;
 }
 
 .FieldNoteDropdown .collection-container > ul {
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .FieldNoteDropdown .collection-container > ul > li {
-    width: 50%;
+    width: 100%;
     list-style: none;
-    padding: 5px;
+    margin-bottom: 10px;
 }
 
-.FieldNoteDropdown .collection-container > ul > li > img {
-    padding: 6px;
-    background-color:  rgba(255, 255, 255, 0.6);
-    border-radius: 5px;
+.FieldNoteDropdown .collection-container > ul > li > .item {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #FFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
-.FieldNoteDropdown .collection-container > ul > li > img:hover {
+.FieldNoteDropdown .collection-container > ul > li > .item:hover {
     box-shadow: 0 0 0 2px #FFF;
 }
 
-.FieldNoteDropdown .collection-container > ul > li > img.active {
+.FieldNoteDropdown .collection-container > ul > li > .item.active {
     box-shadow: 0 0 0 2px #FFCC33;
 }
 
+.FieldNoteDropdown .collection-container > ul > li > .item > div.name {
+    padding: 10px;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item > div.play-btn,
+.FieldNoteDropdown .collection-container > ul > li > .item > div.stop-btn {
+    padding: 10px;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+}

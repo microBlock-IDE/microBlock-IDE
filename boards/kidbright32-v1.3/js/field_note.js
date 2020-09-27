@@ -54,6 +54,45 @@ CustomFields.FieldNote.fromJson = function(options) {
   return new CustomFields.FieldNote(options['value']);
 };
 
+let note_collection = [
+  {
+    name: "Scale",
+    notes: "C6 B5 A5 G5 F5 E5 D5 C5"
+  },
+  {
+    name: "Reverse",
+    notes: "C5 D5 E5 F5 G5 A5 B5 C6"
+  },
+  {
+    name: "Jingle Bells",
+    notes: "E5 E5 E5 SIL E5 E5 E5 SIL E5 G5 C5 D5 E5 SIL F5 F5 SIL F5 F5 SIL F5 E5 E5 E5 E5 SIL E5 D5 D5 E5 D5 G5"
+  },
+  {
+    name: "Marry had a little lamb",
+    notes: "E5 D5 C5 D5 E5 E5 E5 SIL D5 D5 D5 SIL E5 G5 G5 SIL E5 D5 C5 D5 E5 E5 E5 SIL C5 D5 D5 E5 D5 C5"
+  },
+  {
+    name: "Twinkle, Twinkle Little Star",
+    notes: "C5 C5 G5 G5 A5 A5 G5 SIL F5 F5 E5 E5 D5 D5 C5 SIL G5 G5 F5 F5 E5 E5 D5 SIL G5 G5 F5 F5 E5 E5 D5 SIL C5 C5 G5 G5 A5 A5 G5 SIL F5 F5 E5 E5 D5 D5 C5"
+  },
+  {
+    name: "Happy Birthday",
+    notes: "C5 C5 D5 C5 F5 E5 SIL C5 C5 D5 C5 G5 F5 SIL C5 C6 C5 C5 A5 SIL F5 E5 D5 SIL A5 A5 A5 F5 G5 F5"
+  },
+  {
+    name: "Itsy-Bitsy Spider",
+    notes: "G5 C5 C5 D5 E5 E5 SIL E5 D5 C5 D5 E5 D5 SIL E5 E5 F5 G5 SIL G5 F5 E5 F5 G5 E5 SIL C5 C5 D5 E5 SIL E5 D5 C5 D5 E5 C5 SIL G5 G5 C5 C5 C5 D5 E5 E5 SIL E5 D5 C5 D5 E5 C5"
+  },
+  {
+    name: "I Love You (Barney Song)",
+    notes: "G5 E5 G5 G5 E5 G5 SIL A5 G5 F5 E5 D5 E5 F5 SIL E5 F5 G5 C5 C5 C5 C5 C5 D5 E5 F5 G5 SIL G5 E5 G5 G5 E5 G5 SIL A5 G5 F5 E5 D5 E5 F5 SIL E5 F5 G5 C5 C5 C5 C5 C5 D5 E5 F5 G5 SIL G5 D5 D5 F5 E5 D5 C5"
+  },
+  {
+    name: "C - D - E Song",
+    notes: "C5 D5 E5 SIL C5 D5 E5 SIL C5 D5 E5 D5 SIL C5 E5 C5"
+  }
+];
+
 // Called when the field is clicked. It is usually used to show an editor,
 // but it can also be used for other things e.g. the checkbox field uses
 // this function to check/uncheck itself.
@@ -71,19 +110,20 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
           notes += inp ? inp.value : "SIL";
           notes += " ";
         }
-        notes.trim();
-        // console.log(notes)
+        notes = notes.trim();
         this.setValue(notes);
         this.sourceBlock_.setFieldValue("", "label");
       }.bind(this), 200);
     }.bind(this);
 
     let notesArr = null;
+    let updateBlockValueFlag = true;
     if (n === -1) { // Add from old data
       let notes = this.getValue();
       notesArr = notes.split(" ");
       notesArr = notesArr.filter(note => Object.keys(note_map).indexOf(note) >= 0);
       n = notesArr.length;
+      updateBlockValueFlag = false;
     }
 
     for (let i=0;i<n;i++) {
@@ -128,8 +168,12 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
       };
     }
 
-    updateBlockValue();
+    if (updateBlockValueFlag) {
+      updateBlockValue();
+    }
   }.bind(this);
+
+  let goToCollection = false;
 
   var html = "";
   html += `<div class="FieldNoteDropdown">`;
@@ -169,9 +213,20 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
   html += `</div>`;
   html += `<div class="collection-container">`;
   html += `<ul>`
-  /*for (let value of collection) {
-    html += `<li><img src="${this.createImageDotMatrix_(this.text2byte(value))}" alt="${value}"></li>`;
-  }*/
+  for (let item of note_collection) {
+    html += `<li>`;
+    html += `<div class="item${item.notes === this.getValue() ? " active" : ""}" data-notes="${item.notes}">`;
+    html += `<div class="name">${item.name}</div>`;
+    html += `<div class="play-btn"><i class="fas fa-play"></i></div>`;
+    html += `<div class="stop-btn" style="display: none"><i class="fas fa-stop"></i></div>`;
+    html += `</div>`;
+    html += `</li>`;
+    if (item.notes === this.getValue()) {
+      this.sourceBlock_.setFieldValue(item.name, "label");
+      goToCollection = true;
+      // this.editor_.querySelector(".collection-container").scrollTop = elemt.offsetTop - 50;
+    }
+  }
   html += `</ul>`
   html += `</div>`;
   html += `</div>`;
@@ -182,7 +237,6 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
 
   // Add handle
   let thisObj = this;
-  // thisObj.sourceBlock_.setFieldValue(Math.random(), "label");
 
   addNoteColumn(-1);
 
@@ -194,7 +248,6 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
     thisObj.editor_.querySelector("button.play").style.display = "none";
     thisObj.editor_.querySelector("button.stop").style.display = "block";
     if (playNotes) playNotes(thisObj.getValue(), 1 / 2, (index) => {
-      console.log("Playing", index);
       for (let [i, elemt] of thisObj.editor_.querySelectorAll(".editor .note-select").entries()) {
         if (i === index) {
           elemt.classList.add("active");
@@ -226,7 +279,7 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
   this.editor_.querySelector(".menu > .custom").addEventListener("click", function() {
     thisObj.editor_.querySelector(".menu > .collection").classList.remove("active");
     thisObj.editor_.querySelector(".menu > .custom").classList.add("active");
-    thisObj.editor_.querySelector(".custom-container").style.display = 'block';
+    thisObj.editor_.querySelector(".custom-container").style.display = 'flex';
     thisObj.editor_.querySelector(".collection-container").style.display = 'none';
   });
 
@@ -234,10 +287,40 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
     thisObj.editor_.querySelector(".menu > .custom").classList.remove("active");
     thisObj.editor_.querySelector(".menu > .collection").classList.add("active");
     thisObj.editor_.querySelector(".custom-container").style.display = 'none';
-    thisObj.editor_.querySelector(".collection-container").style.display = 'block';
+    thisObj.editor_.querySelector(".collection-container").style.display = 'flex';
   });
 
-  this.editor_.querySelector(".menu > .custom").click();
+  if (!goToCollection) {
+    this.editor_.querySelector(".menu > .custom").click();
+  } else {
+    let activeItem = this.editor_.querySelector(".collection-container .item.active");
+    if (activeItem) {
+      let div = activeItem.parentNode;
+      setTimeout(function() {
+        this.editor_.querySelector(".collection-container").scrollTop = div.offsetTop - 50
+      }.bind(this), 10);
+    }
+    this.editor_.querySelector(".menu > .collection").click();
+  }
+
+  for (let elet of this.editor_.querySelectorAll(".collection-container .item")) {
+    elet.addEventListener("click", function() {
+      for (let elemt of thisObj.editor_.querySelectorAll(".collection-container .item.active")) {
+        elemt.classList.remove("active");
+      }
+      this.classList.add("active");
+
+      let name = this.querySelector(".name").innerText;
+      let notes = this.getAttribute("data-notes");
+      playNotes(notes, 1 / 2);
+
+      thisObj.setValue(notes);
+      thisObj.sourceBlock_.setFieldValue(name, "label");
+
+      thisObj.editor_.querySelector("div.notes").innerHTML = "";
+      addNoteColumn(-1);
+    });
+  }
 
   // These allow us to have the editor match the block's colour.
   var fillColour = this.sourceBlock_.getColour();

@@ -44,8 +44,13 @@ let notesArr = [];
 let playNoteContext = new AudioContext();
 let playNoteOscillator = null;
 let playNoteTimer = null;
+let playingFlag = false;
 
 playNotes = (notes, duration, play_callback, stop_callback) => {
+    if (playingFlag) {
+        stopNote();
+        playingFlag = false;
+    }
     if (!duration) duration = 4;
 
     noteNextIndex = 0;
@@ -65,6 +70,7 @@ playNotes = (notes, duration, play_callback, stop_callback) => {
             if (stop_callback) {
                 stop_callback();
             }
+            playingFlag = false;
             return;
         }
 
@@ -89,6 +95,7 @@ playNotes = (notes, duration, play_callback, stop_callback) => {
     };
 
     playNote(play_callback, stop_callback);
+    playingFlag = true;
 };
 
 stopNote = () => {

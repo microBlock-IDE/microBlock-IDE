@@ -25,3 +25,8 @@ Blockly.Python['buzzer_volume'] = function(block) {
     return code;
 };
 
+Blockly.Python['make_note'] = function(block) {
+    var text_notes = block.getFieldValue('notes');
+    var code = `'${text_notes}'`;
+    return [code, Blockly.Python.ORDER_NONE];
+};

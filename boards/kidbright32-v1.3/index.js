@@ -189,18 +189,11 @@ addBoard({
                             xml: `
                                 <block type="buzzer_notes">
                                     <value name="notes">
-                                        <shadow type="text">
-                                            <field name="TEXT">C4</field>
-                                        </shadow>
+                                        <block type="make_note">
+                                            <field name="notes">C4</field>
+                                        </block>
                                     </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="make_note">
-                                    <field name="label">Custom</field>
-                                    <field name="notes"></field>
+                                    <field name="duration">1 / 2</field>
                                 </block>
                             `
                         },
