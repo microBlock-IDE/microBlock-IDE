@@ -35,7 +35,7 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for KidBright32 V1.3.0-beta",
+            name: "MicroPython for KidBright32 V1.3.0-beta-dirty",
             path: "firmware/MicroPython.for.KidBright32.V1.3.0-beta-dirty.bin",
             version: "V1.3.0-beta-dirty"
         },
