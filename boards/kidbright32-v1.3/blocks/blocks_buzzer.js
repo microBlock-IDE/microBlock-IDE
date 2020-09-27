@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "buzzer_tone",
-  "message0": "Buzzer tone frequency %1 Hz duration %2 seconds",
+  "message0": "buzzer tone frequency %1 Hz duration %2 seconds",
   "args0": [
     {
       "type": "input_value",
@@ -22,7 +22,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "buzzer_notes",
-  "message0": "Buzzer notes %1 duration %2",
+  "message0": "buzzer notes %1 duration %2",
   "args0": [
     {
       "type": "input_value",
@@ -89,7 +89,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "buzzer_volume",
-  "message0": "Buzzer set volume %1 %%",
+  "message0": "buzzer set volume %1 %%",
   "args0": [
     {
       "type": "input_value",
