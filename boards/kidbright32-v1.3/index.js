@@ -35,6 +35,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.3.0-beta",
+            path: "firmware/MicroPython.for.KidBright32.V1.3.0-beta-dirty.bin",
+            version: "V1.3.0-beta-dirty"
+        },
+        {
             name: "MicroPython for KidBright32 V1.1.0",
             path: "firmware/MicroPython.for.KidBright32.V1.1.0.bin"
         }
@@ -190,7 +195,7 @@ addBoard({
                                 <block type="buzzer_notes">
                                     <value name="notes">
                                         <block type="make_note">
-                                            <field name="notes">C4</field>
+                                            <field name="notes">C5</field>
                                         </block>
                                     </value>
                                     <field name="duration">1 / 2</field>
