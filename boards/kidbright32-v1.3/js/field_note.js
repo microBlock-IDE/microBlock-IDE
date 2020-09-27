@@ -113,6 +113,7 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
         notes = notes.trim();
         this.setValue(notes);
         this.sourceBlock_.setFieldValue("", "label");
+        this.editor_.querySelector(".collection-container .item.active").classList.remove("active");
       }.bind(this), 200);
     }.bind(this);
 
@@ -334,6 +335,7 @@ CustomFields.FieldNote.prototype.showEditor_ = function() {
 // Cleans up any event listeners that were attached to the now hidden editor.
 CustomFields.FieldNote.prototype.dropdownDispose_ = function() {
   delete this.editor_;
+  stopNote();
 };
 
 // Blockly needs to know the JSON name of this field. Usually this is
