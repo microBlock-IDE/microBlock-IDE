@@ -31,7 +31,7 @@ $("#mode-select-switch > li").click(async function() {
             }); 
 
             editor.onKeyUp(async (evant) => {
-                console.log(evant);
+                // console.log(evant);
                 
                 let allowKey = [
                     8, // CapsLock
