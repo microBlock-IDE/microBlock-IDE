@@ -31,7 +31,29 @@ $("#mode-select-switch > li").click(async function() {
             }); 
 
             editor.onKeyUp(async (evant) => {
-                if (evant.keyCode !== 0 && useMode !== "code") {
+                console.log(evant);
+                
+                let allowKey = [
+                    8, // CapsLock
+                    9, // ESC
+                    6, // AltLeft
+                    60, // F2
+                    61, // F3
+                    62, // F4
+                    63, // F5
+                    64, // F6
+                    65, // F7
+                    66, // F8
+                    67, // F9
+                    68, // F10
+                    69, // F11
+                    70, // F12
+                    15, // ArrowLeft
+                    16, // ArrowUp
+                    17, // ArrowRight
+                    18, // ArrowDown
+                ]
+                if (!evant.ctrlKey && !evant.metaKey && !evant.shiftKey && allowKey.indexOf(evant.keyCode) === -1 && useMode !== "code") {
                     evant.preventDefault();
                     if (await NotifyConfirm("If edit code, program in block will lost. Are you want to edit ?")) {
                         editor.updateOptions({ readOnly: false });
