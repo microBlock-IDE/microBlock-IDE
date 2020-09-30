@@ -1,6 +1,6 @@
 addBoard({
-    id: "kidbright32-v1.3",
-    name: "KidBright32 V1.3 & V1.4",
+    id: "kidbright32-v1.5",
+    name: "KidBright32 V1.5",
     description: "",
     image: "images/cover.jpg",
     script: [ 

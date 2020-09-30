@@ -1,7 +1,7 @@
 let blocksTree = [
     {
         name: "Pin",
-        icon: "images/icon/led.png",
+        icon: "/images/icon/led.png",
         color: "#e64c3c",
         blocks: [
             {
@@ -62,7 +62,7 @@ let blocksTree = [
     },
     {
         name: "Control",
-        icon: "images/icon/process.png",
+        icon: "/images/icon/process.png",
         color: "#fbbd5e",
         blocks: [
             {
@@ -102,7 +102,7 @@ let blocksTree = [
     },
     {
         name: "Operators",
-        icon: "images/icon/maths.png",
+        icon: "/images/icon/maths.png",
         color: "#293939",
         blocks: [
             {
@@ -256,19 +256,19 @@ let blocksTree = [
     },
     {
         name: "Variables",
-        icon: "images/icon/relativity.png",
+        icon: "/images/icon/relativity.png",
         color: "#ac5e2e",
         blocks: "VARIABLE"
     },
     {
         name: "Function",
-        icon: "images/icon/jigsaw.png",
+        icon: "/images/icon/jigsaw.png",
         color: "#17A589",
         blocks: "PROCEDURE"
     },
     {
         name: "Advanced",
-        icon: "images/icon/expert.png",
+        icon: "/images/icon/expert.png",
         color: "#8E44AD",
         blocks: [
             {

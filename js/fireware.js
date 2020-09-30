@@ -13,16 +13,27 @@ let firewareUpgradeFlow = async () => {
 };
 
 $("#install-firmware-button").click(async () => {
+    let comPort;
+    if (serialPort) {
+        comPort = serialPort.path;
+        beforeAutoConnectFlag = autoConnectFlag;
+        autoConnectFlag = false;
+        serialPort.close();
+    } else {
+        try {
+            console.log("Show");
+            comPort = await showPortSelect();
+            console.log(comPort);
+        } catch(e) {
+            return;
+        }
+    }
+
     $("#firmware-upgrade-dialog article.todo").hide();
     $("#firmware-upgrade-dialog  .progress-box > .back-drop").width(0);
     $("#firmware-upgrade-dialog article.doing").show();
 
     $("#firmware-upgrade-dialog .close-btn").hide();
-
-    let comPort = serialPort.path;
-    beforeAutoConnectFlag = autoConnectFlag;
-    autoConnectFlag = false;
-    serialPort.close();
 
     let board = boards.find(board => board.id === boardId);
     let fwIndex = +$("#firmware-version-select").val();

@@ -1,6 +1,6 @@
 addBoard({
-    id: "kidbright32-v1.3",
-    name: "KidBright32 V1.3 & V1.4",
+    id: "kidbright32-v1.6",
+    name: "KidBright32 V1.6 by Gravitech",
     description: "",
     image: "images/cover.jpg",
     script: [ 
@@ -14,6 +14,7 @@ addBoard({
     ],
     blocks: [
         "blocks/blocks_display.js",
+        "blocks/blocks_imu.js",
         "blocks/blocks_rtc.js",
         "blocks/blocks_sensor.js",
         "blocks/blocks_servo.js",
@@ -22,6 +23,7 @@ addBoard({
         "blocks/blocks_pin.js",
         "blocks/blocks_buzzer.js",
         "blocks/generators_display.js",
+        "blocks/generators_imu.js",
         "blocks/generators_rtc.js",
         "blocks/generators_sensor.js",
         "blocks/generators_servo.js",
@@ -88,6 +90,22 @@ addBoard({
             SV1: __Number,
             SV2: __Number,
             angle: __Function
+        },
+        imu: {
+            update: __Function,
+            acc: __Array,
+            gyro: __Array,
+            mag: __Array,
+            rotation: __Function,
+            heading: __Function,
+            EVENT_SHAKE: __Number,
+            EVENT_BOARD_DOWN: __Number,
+            EVENT_SCREEN_UP: __Number,
+            EVENT_SCREEN_DOWN: __Number,
+            EVENT_TILT_LEFT: __Number,
+            EVENT_TILT_RIGHT: __Number,
+            EVENT_FREE_FALL: __Number,
+            is_gesture: __Function
         }
     },
     level: [
@@ -189,6 +207,16 @@ addBoard({
                         },
                         "sensor_light",
                         "sensor_temp",
+                        {
+                            xml: '<label text="IMU"></label>',
+                        },
+                        "imu_update",
+                        "imu_is_gesture",
+                        "imu_acceleration",
+                        "imu_rotation",
+                        "imu_compass_heading",
+                        "imu_magnetic_force",
+                        "imu_calibrate_compass",
                         {
                             xml: '<label text="External Input"></label>',
                         },

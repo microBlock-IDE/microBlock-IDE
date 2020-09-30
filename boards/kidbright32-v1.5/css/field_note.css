@@ -1,0 +1,228 @@
+.FieldNoteDropdown {
+    width: 340px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.FieldNoteDropdown .custom-container,
+.FieldNoteDropdown .collection-container {
+    display: none;
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
+
+    flex-direction: column;
+}
+
+.FieldNoteDropdown .custom-container {
+    text-align: center;
+}
+
+.FieldNoteDropdown .menu {
+    display: flex;
+    flex-direction: row;
+}
+
+.FieldNoteDropdown .menu > div {
+    width: 50%;
+    color: #FFF;
+    padding: 6px;
+    border-bottom: 2px solid;
+    border-bottom-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    cursor: pointer;
+}
+
+.FieldNoteDropdown .menu > div:hover {
+    background-color:  rgba(0, 0, 0, 0.05);
+}
+
+.FieldNoteDropdown .menu > div.active {
+    border-bottom-color: #FFF;
+}
+
+.FieldNoteDropdown .custom-container .editor {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color: #FFF;
+    align-items: stretch;
+    margin-top: 10px;
+}
+
+.FieldNoteDropdown .custom-container .editor > div,
+.FieldNoteDropdown .custom-container .editor > div.notes > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.FieldNoteDropdown .custom-container .editor > div {
+    padding-bottom: 10px;
+}
+
+.FieldNoteDropdown .custom-container .editor > div.notes {
+    height: 100%;
+    flex-direction: row;
+    overflow-x: scroll;
+    flex-grow: 1;
+    padding-bottom: 0;
+    outline: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul {
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'] {
+    visibility: hidden;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    display: block;
+    margin: 0;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio']::after {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    content: " ";
+    background-color: #FFF;
+    visibility: visible;
+    position: absolute;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='C6']:checked::after {
+    background-color: #C0392B;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='B5']:checked::after {
+    background-color: #9B59B6;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='A5']:checked::after {
+    background-color: #3498DB;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='G5']:checked::after {
+    background-color: #16A085;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='F5']:checked::after {
+    background-color: #27AE60;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='E5']:checked::after {
+    background-color: #F1C40F;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='D5']:checked::after {
+    background-color: #E67E22;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li input[type='radio'][value='C5']:checked::after {
+    background-color: #95A5A6;
+}
+
+.FieldNoteDropdown .custom-container .editor > div ul > li button {
+    color: #FFF;
+    background-color: transparent;
+    font-size: 22px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.FieldNoteDropdown .custom-container .editor .note-select.active input[type='radio']::after {
+    background-color: #F6DDCC;
+}
+
+.FieldNoteDropdown .button-group {
+    flex-grow: 1;
+
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.FieldNoteDropdown .button-group > button {
+    background-color: transparent;
+    color: #FFF;
+    border-radius: 4px;
+    padding: 0;
+    border: none;
+    font-size: 24px;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.FieldNoteDropdown .button-group > button:hover {
+    /* background-color:  rgba(0, 0, 0, 0.3); */
+}
+
+.FieldNoteDropdown .collection-container {
+    padding: 10px;
+}
+
+.FieldNoteDropdown .collection-container > ul {
+    padding: 0;
+    margin: 0;
+}
+
+.FieldNoteDropdown .collection-container > ul > li {
+    width: 100%;
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #FFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item:hover {
+    box-shadow: 0 0 0 2px #FFF;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item.active {
+    box-shadow: 0 0 0 2px #FFCC33;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item > div.name {
+    padding: 10px;
+}
+
+.FieldNoteDropdown .collection-container > ul > li > .item > div.play-btn,
+.FieldNoteDropdown .collection-container > ul > li > .item > div.stop-btn {
+    padding: 10px;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
