@@ -26,8 +26,12 @@
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
+            
+            pjson = require('../package.json');
 
             rootPath = __dirname;
+
+            
         } else {
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -63,6 +67,8 @@
 
         <!-- Insert this line after script imports -->
         <script>if (window.module) module = window.module;</script>
+
+        <script src="js/menu.js"></script>
 
         <!-- Notiflix -->
         <link rel="stylesheet" href="notiflix/notiflix-2.3.3.min.css">

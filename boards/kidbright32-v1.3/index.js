@@ -50,6 +50,64 @@ addBoard({
             productId: "6015"
         }
     ],
+    autoCompletion: { 
+        display: { 
+          show: __Function,
+          show4x8: __Function,
+          left: __Function,
+          right: __Function,
+          plot: __Function,
+          scroll: __Function,
+          clear: __Function
+        },
+        sensor: {
+            light: __Function,
+            temperature: __Function
+        },
+        buzzer: {
+            tone: __Function,
+            on: __Function,
+            off: __Function,
+            note: __Function
+        },
+        rtc: {
+            datetime: __Function
+        },
+        usb: {
+            value: __Function,
+            on: __Function,
+            off: __Function,
+            toggle: __Function
+        },
+        switch: {
+            S1: __Number,
+            S2: __Number,
+            value: __Function,
+            press: __Function,
+            release: __Function
+        },
+        servo: {
+            SV1: __Number,
+            SV2: __Number,
+            angle: __Function
+        },
+        imu: {
+            update: __Function,
+            acc: __Array,
+            gyro: __Array,
+            mag: __Array,
+            rotation: __Function,
+            heading: __Function,
+            EVENT_SHAKE: __Number,
+            EVENT_BOARD_DOWN: __Number,
+            EVENT_SCREEN_UP: __Number,
+            EVENT_SCREEN_DOWN: __Number,
+            EVENT_TILT_LEFT: __Number,
+            EVENT_TILT_RIGHT: __Number,
+            EVENT_FREE_FALL: __Number,
+            is_gesture: __Function
+        }
+    },
     level: [
         {
             name: "Beginner",

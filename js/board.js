@@ -88,6 +88,8 @@ let loadBoard = async () => {
 
     updateBlockCategory();
 
+    autoCompletionDictionary = board.autoCompletion;
+
     $("#board-name").text(board.name);
     $("#level-name").text(levelName);
 }
