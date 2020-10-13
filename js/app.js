@@ -1,4 +1,5 @@
 let extensionList = [ ];
+let projectFilePath = null;
 
 let updateBlockCategory = () => {
     var categoryIconList = [];
@@ -297,19 +298,24 @@ $("#save-project").click(async () => {
 
             statusLog("Save project");
         } else {
-            let result = await dialog.showSaveDialog({
-                filters: [{ 
-                    name: 'microBlock IDE', 
-                    extensions: ['mby'] 
-                }],
-                defaultPath: $("#project-name").val() + ".mby"
-            });
-    
-            if (result.canceled) {
-                return;
-            }
+            let OpenFilePath = "";
+            if (!projectFilePath) {
+                let result = await dialog.showSaveDialog({
+                    filters: [{ 
+                        name: 'microBlock IDE', 
+                        extensions: ['mby'] 
+                    }],
+                    defaultPath: $("#project-name").val() + ".mby"
+                });
+        
+                if (result.canceled) {
+                    return;
+                }
 
-            OpenFilePath = result.filePath;
+                OpenFilePath = result.filePath;
+            } else {
+                OpenFilePath = projectFilePath;
+            }
 
             nodeFS.writeFile(OpenFilePath, JSON.stringify(vFSTree), err => {
                 if (err) {
@@ -365,14 +371,15 @@ $("#open-project").click(async () => {
             return;
         }
 
-        OpenFilePath = result[0];
-
+        let OpenFilePath = result[0];
+        
         nodeFS.readFile(OpenFilePath, async (err, data) => {
             if (err) {
                 NotifyE("Open project fail: " + err.toString());
                 return;
             }
 
+            projectFilePath = OpenFilePath;
             vFSTree = JSON.parse(data);
             await hotUpdate();
             NotifyS("Open project " + OpenFilePath)
