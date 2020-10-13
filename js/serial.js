@@ -445,7 +445,7 @@ async function writeSerial(text) {
         view.set(data);
         await writer.write(buff);
     } else {
-        await serialPort.write(text);
+        await serialPort.write(Buffer.from(text, 'binary'));
     }
     // console.log(buff);
 }
