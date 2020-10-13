@@ -1,5 +1,5 @@
 Blockly.Python['external_servo'] = function (block) {
-    Blockly.Python.definitions_['import_usb'] = 'import servo';
+    Blockly.Python.definitions_['import_servo'] = 'import servo';
 
     var dropdown_ch = block.getFieldValue('ch');
     var value_angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
