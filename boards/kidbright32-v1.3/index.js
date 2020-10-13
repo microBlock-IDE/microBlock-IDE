@@ -21,6 +21,7 @@ addBoard({
         "blocks/blocks_usb.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_buzzer.js",
+        "blocks/blocks_advanced.js",
         "blocks/generators_display.js",
         "blocks/generators_rtc.js",
         "blocks/generators_sensor.js",
@@ -29,6 +30,7 @@ addBoard({
         "blocks/generators_usb.js",
         "blocks/generators_pin.js",
         "blocks/generators_buzzer.js",
+        "blocks/generators_avanced.js",
     ],
     modules: [ ],
     firmware: [
@@ -568,28 +570,8 @@ addBoard({
                         {
                             xml: '<label text="Sensor"></label>',
                         },
-                        {
-                            xml: `
-                                <block type="dht_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="ds18x20_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
+                        "dht_read",
+                        "ds18x20_read",
                         {
                             xml: '<label text="Internal RTC"></label>',
                         },
