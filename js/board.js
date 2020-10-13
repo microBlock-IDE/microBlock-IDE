@@ -103,8 +103,17 @@ $("#create-project-btn").click(async () => {
 
     blocklyWorkspace.clear();
     if (editor) editor.setValue("");
-    vFSTree = "";
-    vFSTree = { };
+    // vFSTree = "";
+    // vFSTree = { };
+    if (useMode === "block") {
+        fs.write("/main.xml", "");
+        updataWorkspaceAndCategoryFromvFS();
+        blocklyWorkspace.setScale(1);
+        blocklyWorkspace.scrollCenter();
+
+    } else if (useMode === "code") {
+        fs.write("/main.py", "");
+    }
 
     $("#project-name").val(projectName);
 

@@ -418,7 +418,7 @@ CustomFields.FieldDotMatrix.prototype.toXml = function(fieldElement) {
   // The textContent usually contains whatever is closest to the field's
   // 'value'. The textContent doesn't need to contain anything, but saving
   // something to it does aid in readability.
-  fieldElement.textContent = this.value_;
+  fieldElement.textContent = JSON.stringify(this.value_);
 
   // Always return the element!
   return fieldElement;
@@ -430,7 +430,7 @@ CustomFields.FieldDotMatrix.prototype.fromXml = function(fieldElement) {
   // Because we had to do custom serialization for this field, we also need
   // to do custom de-serialization.
 
-  var value = fieldElement.textContent;
+  var value = JSON.parse(fieldElement.textContent);
   // The end goal is to call this.setValue()
   this.setValue(value);
 };
