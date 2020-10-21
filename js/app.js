@@ -209,8 +209,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
         }
     }
 }
-// $(loadBlockFromAutoSave);
-vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
+
 let hotUpdate = async () => {
     if (!vFSTree) {
         vFSTree = { };
@@ -248,6 +247,29 @@ let hotUpdate = async () => {
             }
         });
     }
+}
+
+
+let loadCodeAlready = false;
+
+if (isElectron) {
+    let sharedObj = remote.getGlobal('sharedObj');
+    for (let arg of sharedObj.argv) {
+        if (arg.endsWith(".mby")) {
+            let filePath = arg;
+            console.log(filePath);
+            if (nodeFS.existsSync(filePath)) {
+                vFSTree = JSON.parse(nodeFS.readFileSync(filePath));
+                loadCodeAlready = true;
+                sharedObj.argv = [ ];
+            }
+            break;
+        }
+    }
+}
+
+if (!loadCodeAlready) {
+    vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
 }
 
 hotUpdate();
