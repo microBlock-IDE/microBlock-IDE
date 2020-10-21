@@ -20,6 +20,14 @@ if (isElectron) {
                     accelerator: 'Ctrl+S',
                     click: () => $("#save-project").click()
                 },
+                {
+                    label: "Save As",
+                    accelerator: 'Ctrl+Shift+S',
+                    click: () => {
+                        saveAsFlag = true;
+                        $("#save-project").click();
+                    }
+                },
                 { type: 'separator' },
                 { role: 'quit' }
             ]

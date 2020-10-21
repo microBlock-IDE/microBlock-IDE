@@ -1,5 +1,6 @@
 let extensionList = [ ];
 let projectFilePath = null;
+let saveAsFlag = false;
 
 let updateBlockCategory = () => {
     var categoryIconList = [];
@@ -306,7 +307,7 @@ $("#save-project").click(async () => {
             statusLog("Save project");
         } else {
             let OpenFilePath = "";
-            if (!projectFilePath) {
+            if ((!projectFilePath) || saveAsFlag) {
                 let result = await dialog.showSaveDialog({
                     filters: [{ 
                         name: 'microBlock IDE', 
@@ -319,19 +320,18 @@ $("#save-project").click(async () => {
                     return;
                 }
 
-                OpenFilePath = result.filePath;
-            } else {
-                OpenFilePath = projectFilePath;
+                projectFilePath = result.filePath;
+                saveAsFlag = false;
             }
 
-            nodeFS.writeFile(OpenFilePath, JSON.stringify(vFSTree), err => {
+            nodeFS.writeFile(projectFilePath, JSON.stringify(vFSTree), err => {
                 if (err) {
                     NotifyE("Save project fail: " + err.toString());
                     return;
                 }
 
-                NotifyS("Save project at " + OpenFilePath);
-                statusLog("Save project at " + OpenFilePath);
+                NotifyS("Save project at " + projectFilePath);
+                statusLog("Save project at " + projectFilePath);
             });
         }
     } else { // Save to GitHub
