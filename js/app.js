@@ -221,24 +221,31 @@ let hotUpdate = async () => {
             useMode = projectConfig.mode;
             boardId = projectConfig.board ? projectConfig.board : null;
             levelName = projectConfig.level ? projectConfig.level : null;
-            await loadBoard();
-            if (useMode === "block") {
-                updataWorkspaceAndCategoryFromvFS();
-            } else if (useMode === "code") {
-                $("#mode-select-switch > li[data-value='2']").click();
-                $(async () => {
-                    while(!editor) {
-                        await sleep(100);
-                    }
-                    let code = fs.read("main.py");
-                    if (code) {
-                        editor.setValue(code);
-                    }
-                });
-            }
         }
-    } else {
+    }
+
+    if (!useMode) {
+        useMode = "block";
+    }
+    if ((!boardId) || (!levelName)) {
+        boardId = boards[0].id;
+        levelName = boards[0].level[0].name;
+    }
+
+    await loadBoard();
+    if (useMode === "block") {
         updataWorkspaceAndCategoryFromvFS();
+    } else if (useMode === "code") {
+        $("#mode-select-switch > li[data-value='2']").click();
+        $(async () => {
+            while(!editor) {
+                await sleep(100);
+            }
+            let code = fs.read("main.py");
+            if (code) {
+                editor.setValue(code);
+            }
+        });
     }
 }
 
