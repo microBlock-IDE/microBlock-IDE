@@ -339,7 +339,15 @@ $("#save-project").click(async () => {
     }
 });
 
-$("#open-project").click(async () => {
+let openProjectFromData = async (data, path) => {
+    vFSTree = JSON.parse(data);
+    await hotUpdate();
+    NotifyS("Open project " + path)
+    statusLog("Open project " + path);
+    $("#project-name").val(path.split(/[\\\/]/).pop().replace(".mby", ""));
+}
+
+let openProject = async (filePath) => {
     if (!await NotifyConfirm("All blocks will lost. Are you sure of open project ?")) {
         return;
     }
@@ -353,32 +361,32 @@ $("#open-project").click(async () => {
             let fileName = this.files[0].name.replace(".mby", "");
             let fr = new FileReader();
             fr.onload = async () => {
-                // console.log(fr.result);
-                vFSTree = JSON.parse(fr.result);
-                await hotUpdate();
-                NotifyS("Open project " + fileName)
-                statusLog("Open project " + fileName);
-                $("#project-name").val(fileName);
+                openProjectFromData(fr.result, fileName);
             };
             fr.readAsText(this.files[0]);
         }, false); 
         input.click();
     } else {
-        let result = await dialog.showOpenDialogSync({
-            properties: [
-              'openFile'
-            ],
-            filters: [{ 
-                name: 'microBlock IDE', 
-                extensions: ['mby'] 
-            }]
-        });
+        let OpenFilePath = null;
+        if (!filePath) {
+            let result = await dialog.showOpenDialogSync({
+                properties: [
+                'openFile'
+                ],
+                filters: [{ 
+                    name: 'microBlock IDE', 
+                    extensions: ['mby'] 
+                }]
+            });
 
-        if (result == undefined) {
-            return;
+            if (result == undefined) {
+                return;
+            }
+
+            OpenFilePath = result[0];
+        } else {
+            OpenFilePath = filePath;
         }
-
-        let OpenFilePath = result[0];
         
         nodeFS.readFile(OpenFilePath, async (err, data) => {
             if (err) {
@@ -387,13 +395,13 @@ $("#open-project").click(async () => {
             }
 
             projectFilePath = OpenFilePath;
-            vFSTree = JSON.parse(data);
-            await hotUpdate();
-            NotifyS("Open project " + OpenFilePath)
-            statusLog("Open project " + OpenFilePath);
-            $("#project-name").val(OpenFilePath.split(/[\\\/]/).pop().replace(".mby", ""));
+            openProjectFromData(data, OpenFilePath);
         });
     }
+};
+
+$("#open-project").click(async () => {
+    openProject();
 });
 
 $("#open-help").click(() => {
@@ -448,6 +456,23 @@ $(document).keydown(function(event) {
     }
 
     return true;
+});
+
+$("body")[0].addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    if (e.dataTransfer.items.length > 0) {
+        let fPath = e.dataTransfer.items[0].getAsFile().path;
+    
+        // console.log(fPath);
+        if (fPath.endsWith(".mby")) {
+            openProject(fPath);
+        }
+    }
+});
+
+$("body")[0].addEventListener("dragover", (e) => {
+    e.preventDefault();
 });
 
 // Auto Port connect (only on Electron)
