@@ -114,6 +114,10 @@ if (isElectron) {
                 { type: 'separator' },
                 {
                     label: 'Check of Updates...',
+                    click: () => checkUpdate()
+                },
+                {
+                    label: 'Download Last version',
                     click: () => shell.openExternal('https://github.com/microBlock-IDE/microBlock-IDE-offline/releases')
                 },
                 { type: 'separator' },

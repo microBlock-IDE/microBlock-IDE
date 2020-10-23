@@ -521,4 +521,28 @@ if (isElectron) {
     autoConnectCheck();
 }
 
+// Update Check
+let checkUpdate = async () => {
+    let lastPackageFile = await fetch("https://api.github.com/repos/microBlock-IDE/microBlock-IDE-offline/contents/package.json");
+    if (lastPackageFile.status !== 200) {
+        console.error("Get package.json fail");
+        return;
+    }
+
+    lastPackageFile = await lastPackageFile.json();
+    lastPackageFile = Base64.decode(lastPackageFile.content);
+    lastPackageFile = JSON.parse(lastPackageFile);
+    if (typeof lastPackageFile.version !== "undefined") {
+        if (lastPackageFile.version !== pjson.version) {
+            console.log("microBlock IDE offline have new version", lastPackageFile.version, pjson.version);
+            NotifyI("microBlock IDE offline have new version");
+        } else {
+            console.log("microBlock IDE offline now is last version", lastPackageFile.version, pjson.version);
+        }
+    } else {
+        console.error("package.json error", lastPackageFile);
+    }
+}
+
+checkUpdate();
 
