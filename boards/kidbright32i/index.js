@@ -1,6 +1,6 @@
 addBoard({
-    id: "kidbright32-v1.5i",
-    name: "KidBright32 V1.5i by INEX",
+    id: "kidbright32i",
+    name: "KidBright32i",
     description: "",
     image: "images/cover.jpg",
     script: [ 
@@ -37,13 +37,28 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.3.0-beta-2",
+            path: "firmware/MicroPython.for.KidBright32.V1.3.0-beta-2.bin",
+            version: "V1.3.0-beta-2",
+            date: "2020-10-23",
+            board: "KidBright32",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for KidBright32 V1.3.0-beta-dirty",
             path: "firmware/MicroPython.for.KidBright32.V1.3.0-beta-dirty.bin",
-            version: "V1.3.0-beta-dirty"
+            version: "V1.3.0-beta-dirty",
+            date: "2020-09-28",
+            board: "KidBright32",
+            cpu: "ESP32"
         },
         {
             name: "MicroPython for KidBright32 V1.1.0",
-            path: "firmware/MicroPython.for.KidBright32.V1.1.0.bin"
+            path: "firmware/MicroPython.for.KidBright32.V1.1.0.bin",
+            version: "v1.13-62-g14d85aa6c-dirty",
+            date: "2020-09-19",
+            board: "KidBright32",
+            cpu: "ESP32"
         }
     ],
     usb: [

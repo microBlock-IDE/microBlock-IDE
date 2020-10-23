@@ -7,5 +7,5 @@ let loadScript = (f) => {
 
 loadScript(`${rootPath}/boards/kidbright32-v1.3/index.js`);  // Add KidBright32 V1.3 & V1.4
 loadScript(`${rootPath}/boards/kidbright32-v1.5/index.js`);  // Add KidBright32 V1.5
-loadScript(`${rootPath}/boards/kidbright32-v1.5i/index.js`); // Add KidBright32 V1.5i by INEX
+loadScript(`${rootPath}/boards/kidbright32i/index.js`); // Add KidBright32i by INEX
 loadScript(`${rootPath}/boards/kidbright32-v1.6/index.js`);  // Add KidBright32 V1.6 by Gravitech
