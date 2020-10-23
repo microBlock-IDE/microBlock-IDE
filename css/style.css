@@ -1339,6 +1339,15 @@ ul.switch-mode > li:last-child {
     background-color: #D4AC0D;
 }
 
+#firmware-upgrade-dialog  > section > section > article button#continue-upload {
+    background-color: #FFFFFF;
+    color: #000;
+}
+
+#firmware-upgrade-dialog  > section > section > article button#continue-upload:hover {
+    background-color: #ECF0F1;
+}
+
 #firmware-upgrade-dialog  > section > section > article > .icon {
     font-size: 120px;
     margin: 40px auto;

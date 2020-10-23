@@ -347,7 +347,10 @@
                         <div class="icon"><i class="far fa-meh"></i></div>
                         <p>You haven't installed MicroPython or it's out of date.</p>
                         <select id="firmware-version-select"></select>
-                        <button id="install-firmware-button">Upgrade Firmware</button>
+                        <div class="botton-group">
+                            <button id="install-firmware-button">Upgrade Firmware</button>
+                            <button id="continue-upload">Continue</button>
+                        </div>
                     </article>
                     <article class="doing">
                         <div class="icon loading"><i class="fas fa-truck-loading"></i></div>
@@ -372,7 +375,7 @@
         </div>
 
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-            <category name="  ">
+            <category name="  " colour="#FFFFFF">
                 <block type="controls_if"></block>
                 <block type="logic_compare"></block>
                 <block type="controls_repeat_ext"></block>

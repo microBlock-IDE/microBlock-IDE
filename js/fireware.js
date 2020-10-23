@@ -107,3 +107,10 @@ $("#firmware-upgrade-dialog .upload-btn").click(() => {
 });
 
 $("#firmware-upgrade-dialog .close-btn").click(() => $("#firmware-upgrade-dialog").hide());
+
+let skipFirmwareUpgrade = false;
+$("#continue-upload").click(() => {
+    skipFirmwareUpgrade = true;
+    $("#firmware-upgrade-dialog .close-btn").click();
+    $("#upload-program").click();
+});

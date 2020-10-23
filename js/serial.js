@@ -280,6 +280,8 @@ let serialConnectElectron = async (portName = "") => {
     $("#disconnect-device").show();
     $("#connect-device").hide();
 
+    skipFirmwareUpgrade = false;
+
     return true;
 }
 
@@ -381,7 +383,7 @@ $("#upload-program").click(async function() {
         return;
     }
 
-    if (boardId) {
+    if (boardId && !skipFirmwareUpgrade) {
         let board = boards.find(board => board.id === boardId);
         let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
         if (checkVersion) {
