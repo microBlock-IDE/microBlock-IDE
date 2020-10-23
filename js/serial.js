@@ -268,8 +268,8 @@ let serialConnectElectron = async (portName = "") => {
     serialPort.on("data", (chunk) => {
         term.write(chunk);
         serialLastData += chunk;
-        if (serialLastData.length > 50) {
-            serialLastData = serialLastData.substring(serialLastData.length - 10, serialLastData.length);
+        if (serialLastData.length > 300) {
+            serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
         }
     });
 
@@ -379,6 +379,35 @@ $("#upload-program").click(async function() {
         statusLog("Upload Fail");
         $("#upload-program").removeClass("loading");
         return;
+    }
+
+    if (boardId) {
+        let board = boards.find(board => board.id === boardId);
+        let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
+        if (checkVersion) {
+            let info = { 
+                version: checkVersion[1],
+                date: checkVersion[2],
+                board: checkVersion[3],
+                cpu: checkVersion[4]
+            };
+            console.log("firmware info", info);
+            if (typeof board.firmware[0].version !== "undefined") {
+                if (board.firmware[0].version !== info.version) {
+                    if (typeof board.firmware[0].date !== "undefined") {
+                        let dbFwDate = new Date(board.firmware[0].date).getTime();
+                        let currentFwDate = new Date(info.date).getTime();
+                        if (currentFwDate < dbFwDate) {
+                            NotifyE("Upload fail: MicroPython fireware is out of date");
+                            statusLog("Upload Fail");
+                            $("#upload-program").removeClass("loading");
+                            firewareUpgradeFlow();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     for (let i=0;i<100;i++) {
