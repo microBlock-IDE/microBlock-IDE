@@ -23,6 +23,7 @@
             promisify = require('util').promisify;
             shell = require('electron').shell;
             spawn = require('child_process').spawn;
+            os = require('os');
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);

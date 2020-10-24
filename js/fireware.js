@@ -40,7 +40,12 @@ $("#install-firmware-button").click(async () => {
     let fwPath = board.firmware[fwIndex].path;
     fwPath = fwPath.startsWith("/") ? rootPath + fwPath : `${rootPath}/boards/${boardId}/${fwPath}`
 
-    let esptoolPath = __dirname + "/../bin/esptool/esptool.exe";
+    let esptoolName = {
+        darwin: "esptool",
+        linux: "esptool-ubuntu-x64",
+        win32: "esptool.exe"
+    };
+    let esptoolPath = __dirname + "/../bin/esptool/" + esptoolName[os.platform()];
     let arg = [
         "--chip",        "esp32",
         "--port",        comPort,
