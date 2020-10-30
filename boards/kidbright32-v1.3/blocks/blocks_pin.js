@@ -34,6 +34,22 @@ Blockly.defineBlocksWithJsonArray([
         [
           "18",
           "18"
+        ],
+        [
+          "BT LED",
+          "17"
+        ],
+        [
+          "WIFI LED",
+          "2"
+        ],
+        [
+          "NTP LED",
+          "15"
+        ],
+        [
+          "IOT LED",
+          "12"
         ]
       ]
     }
@@ -163,6 +179,22 @@ Blockly.defineBlocksWithJsonArray([
         [
           "18",
           "18"
+        ],
+        [
+          "BT LED",
+          "17"
+        ],
+        [
+          "WIFI LED",
+          "2"
+        ],
+        [
+          "NTP LED",
+          "15"
+        ],
+        [
+          "IOT LED",
+          "12"
         ]
       ]
     }
