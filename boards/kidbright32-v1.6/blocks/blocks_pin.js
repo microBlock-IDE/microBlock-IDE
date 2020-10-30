@@ -179,6 +179,10 @@ Blockly.defineBlocksWithJsonArray([
         [
           "IOT LED",
           "12"
+        ],
+        [
+          "USB",
+          "25"
         ]
       ]
     }
