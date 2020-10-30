@@ -113,6 +113,21 @@ Blockly.defineBlocksWithJsonArray([
     "extensions": ["logic_op_tooltip"]
   },
   {
+    "type": "logic_negate",
+    "message0": "%{BKY_LOGIC_NEGATE_TITLE}",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BOOL",
+        "check": "Boolean"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#34495E",
+    "tooltip": "%{BKY_LOGIC_NEGATE_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_NEGATE_HELPURL}"
+  },
+  {
     "type": "math_trig",
     "message0": "%1 %2",
     "args0": [
@@ -138,5 +153,31 @@ Blockly.defineBlocksWithJsonArray([
     "colour": "#34495E",
     "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
     "extensions": ["math_op_tooltip"]
+  },
+  {
+    "type": "text",
+    "message0": "%1",
+    "args0": [{
+      "type": "field_input",
+      "name": "TEXT",
+      "text": ""
+    }],
+    "output": "String",
+    "colour": "#34495E",
+    "helpUrl": "%{BKY_TEXT_TEXT_HELPURL}",
+    "tooltip": "%{BKY_TEXT_TEXT_TOOLTIP}",
+    "extensions": [
+      "text_quotes",
+      "parent_tooltip_when_inline"
+    ]
+  },
+  {
+    "type": "text_join",
+    "message0": "",
+    "output": "String",
+    "colour": "#34495E",
+    "helpUrl": "%{BKY_TEXT_JOIN_HELPURL}",
+    "tooltip": "%{BKY_TEXT_JOIN_TOOLTIP}",
+    "mutator": "text_join_mutator"
   },
 ]);

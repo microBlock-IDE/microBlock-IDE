@@ -431,6 +431,9 @@ addBoard({
                     color: "#293939",
                     blocks: [
                         {
+                            xml: '<label text="Math"></label>',
+                        },
+                        {
                             xml: `
                                 <block type="math_arithmetic">
                                     <value name="A">
@@ -516,6 +519,20 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="math_trig">
+                                    <value name="NUM">
+                                        <shadow type="math_number">
+                                            <field name="NUM">45</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="Logic"></label>',
+                        },
+                        {
+                            xml: `
                                 <block type="logic_compare">
                                     <value name="A">
                                         <shadow type="math_number">
@@ -566,17 +583,12 @@ addBoard({
                             `
                         },
                         "logic_operation",
+                        "logic_negate",
                         {
-                            xml: `
-                                <block type="math_trig">
-                                    <value name="NUM">
-                                        <shadow type="math_number">
-                                            <field name="NUM">45</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        }
+                            xml: '<label text="Text"></label>',
+                        },
+                        "text",
+                        "text_join"
                     ]
                 },
                 {
@@ -615,7 +627,7 @@ addBoard({
                         },
                         "dht_read",
                         "ds18x20_read",
-                        {
+                        /*{
                             xml: '<label text="Internal RTC"></label>',
                         },
                         {
@@ -661,7 +673,7 @@ addBoard({
                         "rtc_get_day",
                         "rtc_get_month",
                         "rtc_get_year",
-                        "rtc_sync_ntp",
+                        "rtc_sync_ntp",*/
                         {
                             xml: '<label text="Low Power Mode"></label>',
                         },
