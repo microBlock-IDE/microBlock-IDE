@@ -1,4 +1,4 @@
-const CACHE_NAME = 'static-cache-v1';
+const CACHE_NAME = 'static-cache-v2-0-0';
 
 const FILES_TO_CACHE = [
     "/index.html",
