@@ -428,9 +428,9 @@ $("#open-project").click(async () => {
 
 $("#open-help").click(() => {
     if (!isElectron) {
-        window.open("/web/", "_blank");
+        window.open("https://microblock.app/", "_blank");
     } else {
-        shell.openExternal("https://microblock.app/web/");
+        shell.openExternal("https://microblock.app/");
     }
 });
 
