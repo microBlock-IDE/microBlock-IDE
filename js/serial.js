@@ -131,11 +131,23 @@ let serialConnectWeb = async () => {
     try {
         await serialPort.open({ baudrate: 115200 });
     } catch(e) {
-        NotifyE("Can't open serial port, some program use this port ?");
-        console.log(e);
-        serialPort = null;
-        
-        return false;
+        if (e.toString().indexOf("required member baudRate is undefined") >= 0) { // New version of Google Chrome ?
+            try {
+                await serialPort.open({ baudRate: 115200 });
+            } catch(e) {
+                NotifyE("Can't open serial port, some program use this port ?");
+                console.log(e);
+                serialPort = null;
+                
+                return false;
+            }
+        } else {
+            NotifyE("Can't open serial port, some program use this port ?");
+            console.log(e);
+            serialPort = null;
+            
+            return false;
+        }
     }
 
     NotifyS("Serial port connected");
@@ -382,6 +394,8 @@ $("#upload-program").click(async function() {
         $("#upload-program").removeClass("loading");
         return;
     }
+
+    if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
 
     if (boardId && !skipFirmwareUpgrade) {
         let board = boards.find(board => board.id === boardId);
