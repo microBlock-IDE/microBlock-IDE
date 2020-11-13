@@ -19,7 +19,8 @@ imuBlock = [
     "imu_update",
     "imu_is_gesture",
     "imu_acceleration",
-    "imu_rotation"
+    "imu_rotation",
+    "imu_raw_gyro"
 ];
 
 categoryIndex = boardConfig.level[0].blocks.findIndex(category => category.name === "Input");

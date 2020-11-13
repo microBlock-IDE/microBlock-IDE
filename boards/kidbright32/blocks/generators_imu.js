@@ -54,3 +54,12 @@ Blockly.Python['imu_calibrate_compass'] = function (block) {
     var code = 'imu.calibrate_compass()\n';
     return code;
 };
+
+Blockly.Python['imu_raw_gyro'] = function (block) {
+    Blockly.Python.definitions_['import_imu'] = 'import imu';
+
+    var dropdown_axis = block.getFieldValue('axis');
+
+    var code = `int(imu.gyro[${dropdown_axis}])`;
+    return [code, Blockly.Python.ORDER_NONE];
+};
