@@ -16,7 +16,7 @@ addBoard({
         "../kidbright32/blocks/blocks_display.js",
         "../kidbright32/blocks/blocks_rtc.js",
         "../kidbright32/blocks/blocks_sensor.js",
-        "../kidbright32/blocks/blocks_servo.js",
+        "blocks/blocks_servo.js",
         "../kidbright32/blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
         "../kidbright32/blocks/blocks_buzzer.js",
@@ -269,6 +269,20 @@ addBoard({
                                     <value name="level">
                                         <shadow type="math_number">
                                             <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
                                         </shadow>
                                     </value>
                                 </block>
