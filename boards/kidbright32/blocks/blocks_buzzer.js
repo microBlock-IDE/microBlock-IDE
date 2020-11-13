@@ -35,7 +35,7 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           {
-            "src": `${rootPath}/boards/${boardId}/images/notes/whole.svg`,
+            "src": `${rootPath}/boards/kidbright32/images/notes/whole.svg`,
             "width": 20,
             "height": 20,
             "alt": "whole note"
@@ -44,7 +44,7 @@ Blockly.defineBlocksWithJsonArray([
         ],
         [
           {
-            "src": `${rootPath}/boards/${boardId}/images/notes/half.svg`,
+            "src": `${rootPath}/boards/kidbright32/images/notes/half.svg`,
             "width": 20,
             "height": 20,
             "alt": "half note"
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([
         ],
         [
           {
-            "src": `${rootPath}/boards/${boardId}/images/notes/quarter.svg`,
+            "src": `${rootPath}/boards/kidbright32/images/notes/quarter.svg`,
             "width": 20,
             "height": 20,
             "alt": "quarter note"
@@ -62,7 +62,7 @@ Blockly.defineBlocksWithJsonArray([
         ],
         [
           {
-            "src": `${rootPath}/boards/${boardId}/images/notes/eighth.svg`,
+            "src": `${rootPath}/boards/kidbright32/images/notes/eighth.svg`,
             "width": 20,
             "height": 20,
             "alt": "eighth note"
@@ -71,7 +71,7 @@ Blockly.defineBlocksWithJsonArray([
         ],
         [
           {
-            "src": `${rootPath}/boards/${boardId}/images/notes/sixteenth.svg`,
+            "src": `${rootPath}/boards/kidbright32/images/notes/sixteenth.svg`,
             "width": 20,
             "height": 20,
             "alt": "sixteenth note"
@@ -110,7 +110,7 @@ Blockly.defineBlocksWithJsonArray([
   "args0": [
     {
       "type": "field_image",
-      "src": `${rootPath}/boards/${boardId}/images/itunes-note-brands.svg`,
+      "src": `${rootPath}/boards/kidbright32/images/itunes-note-brands.svg`,
       "width": 15,
       "height": 15,
       "alt": "notes",
