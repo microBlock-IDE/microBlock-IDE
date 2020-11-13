@@ -219,7 +219,7 @@ KidBright32_config = {
                         "switch_is_release",
                         "switch_get_value",
                         {
-                            xml: '<label text="Senser"></label>',
+                            xml: '<label text="Sensor"></label>',
                         },
                         "sensor_light",
                         "sensor_temp",
