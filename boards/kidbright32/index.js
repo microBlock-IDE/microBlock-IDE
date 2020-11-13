@@ -518,6 +518,18 @@ KidBright32_config = {
                             `
                         },
                         {
+                            xml: `
+                                <block type="math_round">
+                                    <field name="OP">ROUND</field>
+                                    <value name="NUM">
+                                    <shadow type="math_number">
+                                        <field name="NUM">3.1</field>
+                                    </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
                             xml: '<label text="Logic"></label>',
                         },
                         {

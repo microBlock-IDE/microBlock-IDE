@@ -155,6 +155,30 @@ Blockly.defineBlocksWithJsonArray([
     "extensions": ["math_op_tooltip"]
   },
   {
+    "type": "math_round",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["%{BKY_MATH_ROUND_OPERATOR_ROUND}", "ROUND"],
+          ["%{BKY_MATH_ROUND_OPERATOR_ROUNDUP}", "ROUNDUP"],
+          ["%{BKY_MATH_ROUND_OPERATOR_ROUNDDOWN}", "ROUNDDOWN"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#34495E",
+    "helpUrl": "%{BKY_MATH_ROUND_HELPURL}",
+    "tooltip": "%{BKY_MATH_ROUND_TOOLTIP}"
+  },
+  {
     "type": "text",
     "message0": "%1",
     "args0": [{
