@@ -8,7 +8,7 @@ Blockly.Python['controls_wait'] = function(block) {
 
 Blockly.Python['controls_wait_until'] = function(block) {
   var value_condition = Blockly.Python.valueToCode(block, 'condition', Blockly.Python.ORDER_ATOMIC);
-  var code = `while ${value_condition}: pass\n`;
+  var code = `while not ${value_condition}: pass\n`;
   return code;
 };
 

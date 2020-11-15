@@ -13,6 +13,7 @@ $("#mode-select-switch > li").click(async function () {
                 updataWorkspaceAndCategoryFromvFS();
                 codeFromMonacoToBlock();
             }
+            editor.updateOptions({ readOnly: true });
         }
         $("#blocks-editor").css("display", "flex");
         $("#code-editor").hide();
