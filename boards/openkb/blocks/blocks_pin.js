@@ -124,6 +124,30 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "pin_touch_read",
+  "message0": "touch read pin %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+        [
+          "IN1",
+          "32"
+        ],
+        [
+          "IN2",
+          "33"
+        ]
+      ]
+    }
+  ],
+  "output": "Number",
+  "colour": "#E67E22",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "pin_analog_read",
   "message0": "analog read pin %1",
   "args0": [

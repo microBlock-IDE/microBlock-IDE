@@ -17,6 +17,16 @@ Blockly.Python['pin_digital_read'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['pin_touch_read'] = function (block) {
+    Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
+    Blockly.Python.definitions_['from_machine_import_touchpad'] = 'from machine import TouchPad';
+
+    var dropdown_pin = block.getFieldValue('pin');
+
+    var code = `TouchPad(Pin(${dropdown_pin}, Pin.IN)).read()`;
+    return [code, Blockly.Python.ORDER_NONE];
+};
+
 Blockly.Python['pin_analog_read'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';

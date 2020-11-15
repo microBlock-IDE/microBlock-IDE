@@ -227,7 +227,8 @@ KidBright32_config = {
                             xml: '<label text="External Input"></label>',
                         },
                         "pin_digital_read",
-                        "pin_analog_read"
+                        "pin_analog_read",
+                        "pin_touch_read"
                     ]
                 },
                 {
