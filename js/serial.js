@@ -21,9 +21,18 @@ let waitMicroPythonIsReadyNextCommand = async (timeout) => {
     return false;
 }
 
+let uploadFileLog = { };
 let serialUploadFile = async (fileName, content) => {
     if (content.length == 0) {
         content = "#No Code";
+    }
+
+    let fileMD5 = md5(content);
+    if (typeof uploadFileLog[fileName] === "string") {
+        if (uploadFileLog[fileName] === fileMD5) {
+            // console.log(`${fileName} not change, Skip it`);
+            return;
+        }
     }
 
     statusLog("Uploading " + fileName);
@@ -106,6 +115,8 @@ let serialUploadFile = async (fileName, content) => {
         }
         firstWriteFlag = false;
     }
+
+    uploadFileLog[fileName] = fileMD5;
 }
 
 let serialConnectWeb = async () => {
@@ -221,7 +232,7 @@ let showPortSelect = () => {
     }));
 }
 
-let serialConnectElectron = async (portName = "") => {
+let serialConnectElectron = async (portName = "", autoConnect = false) => {
     if (!portName) {
         try {
             portName = await showPortSelect();
@@ -240,7 +251,7 @@ let serialConnectElectron = async (portName = "") => {
             });
         }));
     } catch(e) {
-        NotifyE("Can't open serial port, some program use this port ?");
+        if (!autoConnect) NotifyE("Can't open serial port, some program use this port ?");
         console.log(e);
         serialPort = null;
         
@@ -297,7 +308,10 @@ let serialConnectElectron = async (portName = "") => {
     return true;
 }
 
-let serialConnect = (!isElectron) ? serialConnectWeb : serialConnectElectron;
+let serialConnect = () => {
+    uploadFileLog = { };
+    return (!isElectron) ? serialConnectWeb() : serialConnectElectron()
+};
 
 $("#upload-program").click(async function() {
     statusLog("Start Upload");

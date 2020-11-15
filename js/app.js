@@ -4,7 +4,7 @@ let saveAsFlag = false;
 
 let updateBlockCategory = () => {
     var categoryIconList = [];
-    let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">`;
+    let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml">`;
 
     let toolboxTree = null;
     if (boardId && levelName) {
@@ -510,7 +510,7 @@ let autoConnectCheck = async () => {
             let port = portList.find(info => info.productId === usbInfo.productId && info.vendorId === usbInfo.vendorId);
             if (port) {
                 // console.log(port);
-                serialConnectElectron(port.path);
+                serialConnectElectron(port.path, true);
             }
         }
     }
