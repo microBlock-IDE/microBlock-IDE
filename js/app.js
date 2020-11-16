@@ -207,6 +207,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
         } catch (e) {
             console.log(e);
         }
+        blocklyWorkspace.scrollCenter();
     }
 }
 
@@ -251,6 +252,7 @@ let hotUpdate = async () => {
 
 
 let loadCodeAlready = false;
+let callHotUpdate = true;
 
 if (isElectron) {
     let sharedObj = remote.getGlobal('sharedObj');
@@ -268,11 +270,36 @@ if (isElectron) {
     }
 }
 
+{
+    let pageParams = new URLSearchParams(location.search);
+    let openArg = pageParams.get("open");
+    if (openArg) {
+        (async (fileName) => {
+            Notiflix.Block.Standard("body", 'Loading...');
+
+            let fileContent = await fetch(`https://us-central1-ublock-c0a08.cloudfunctions.net/share/files/${fileName}`, { 
+                method: "get",
+                redirect: "follow"
+            });
+
+            fileContent = await fileContent.text();
+            console.log(fileContent);
+
+            openProjectFromData(fileContent, fileName);
+
+            Notiflix.Block.Remove("body");
+        })(openArg);
+        callHotUpdate = false;
+    }
+}
+
 if (!loadCodeAlready) {
     vFSTree = JSON.parse(localStorage.getItem("autoSaveFS"));
 }
 
-hotUpdate();
+if (callHotUpdate) {
+    hotUpdate();
+}
 
 let saveCodeToLocal = () => {
     if (useMode === "block") {

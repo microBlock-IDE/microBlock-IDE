@@ -127,6 +127,7 @@
                             <li><button id="open-help" data-tippy-content="Help"><i class="fas fa-question"></i></button></li>
                             <li><button id="github-signin" data-tippy-content="Sign in with GihHub"><i class="fab fa-github"></i></button></li>
                             <li><img id="github_avatar" src="" alt="GitHub Avatar" data-tippy-content="Sign out GihHub"></li>
+                            <li><button id="code-share" data-tippy-content="Share Project"><i class="fas fa-share"></i></button></li>
                         </ul>
                     </div>
                 </header>
@@ -381,6 +382,25 @@
             </section>
         </div>
 
+        <div id="code-share-dialog">
+            <section>
+                <header>
+                    <div class="title">Share</div>
+                    <div class="close-btn"><i class="fas fa-times"></i></div>
+                </header>
+                <section>
+                    <div class="preview-block"></div>
+                    <ul class="bottom-menu">
+                        <li data-type="link" data-tippy-content="Copy share link to clipboard"><i class="fas fa-link" style="color: #2C3E50;"></i></li>
+                        <li data-type="facebook" data-tippy-content="Share to Facebook"><i class="fab fa-facebook-f" style="color: #4267b2;"></i></li>
+                        <li data-type="line" data-tippy-content="Share to LINE"><i class="fab fa-line" style="color: #00b900;"></i></li>
+                        <li data-type="twitter" data-tippy-content="Share to Twitter"><i class="fab fa-twitter" style="color: #1da1f2;"></i></li>
+                        <li data-type="code" data-tippy-content="Copy Embed code"><i class="fas fa-code" style="color: #D4AC0D;"></i></li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
             <category name="  " colour="#FFFFFF">
                 <block type="controls_if"></block>
@@ -429,6 +449,7 @@
         <script src="js/serial.js"></script>
         <script src="js/terminal.js"></script>
         <script src="js/dialog.js"></script>
+        <script src="js/code-share.js"></script>
         <script src="js/extension.js"></script>
         <script src="js/board.js"></script>
         <script src="boards/index.js"></script>
