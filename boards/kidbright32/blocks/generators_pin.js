@@ -51,6 +51,6 @@ Blockly.Python['pin_analog_write'] = function (block) {
 
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
     var dropdown_pin = block.getFieldValue('pin');
-    var code = `PWM(Pin(${dropdown_pin}), freq=1000, duty=${value_value})\n`;
+    var code = `PWM(Pin(${dropdown_pin}), freq=1000, duty=int(${value_value}))\n`;
     return code;
 };
