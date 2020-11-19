@@ -74,10 +74,10 @@ $("#terminal-h-resize").bind('mousedown', function(event){
     });
 });
 
-
-terminal_size = localStorage.getItem("terminal_size");
-if (terminal_size) {
-    beforeWidthTerminalSize = terminal_size;
-    $(() => $("#open-terminal").click());
+if (!isEmbed) {
+    terminal_size = localStorage.getItem("terminal_size");
+    if (terminal_size) {
+        beforeWidthTerminalSize = terminal_size;
+        $(() => $("#open-terminal").click());
+    }
 }
-

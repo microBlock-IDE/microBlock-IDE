@@ -2,7 +2,11 @@ let extensionList = [ ];
 let projectFilePath = null;
 let saveAsFlag = false;
 
+var blocklyWorkspace;
+
 let updateBlockCategory = () => {
+    if (isEmbed) return;
+
     var categoryIconList = [];
     let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml">`;
 
@@ -93,36 +97,6 @@ let updateBlockCategory = () => {
     }
 };
 
-var blocklyArea = document.getElementById('blocklyArea');
-var blocklyDiv = document.getElementById('blocklyDiv');
-
-var blocklyWorkspace = Blockly.inject(blocklyDiv, {
-    media: 'blockly/media/',
-    toolbox: document.getElementById('toolbox'),
-    grid : {
-		spacing : 25, 
-		length : 1, 
-		colour : '#888', 
-		snap : true
-    },
-    trashcan : true,
-    zoom: {
-        controls: true,
-        wheel: true,
-        startScale: 1,
-        maxScale: 2,
-        minScale: 0.3,
-        scaleSpeed: 1.2
-    },
-    scrollbars : true,
-    comments : true, 
-	disable : true, 
-    maxBlocks : Infinity, 
-    rtl : false, 
-    oneBasedIndex : false, 
-    sounds : true, 
-});
-
 Blockly.triggleResize = function(e) {
     // Compute the absolute coordinates and dimensions of blocklyArea.
     var element = blocklyArea;
@@ -140,6 +114,75 @@ Blockly.triggleResize = function(e) {
     blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
     Blockly.svgResize(blocklyWorkspace);
 };
+
+let embedOption = {
+    id: "",
+    width: 0,
+    height: 0,
+    blockOnly: 0,
+    fit: 0
+};
+
+if (isEmbed) {
+    $(".page").addClass("embed");
+    $(".page > .main > footer").hide();
+    $(".top-bar-button").hide();
+    $(".blocklyToolboxDiv").hide();
+    $(".embed-only").show();
+
+    $("#embed-edit").click(() => {
+        window.open(`https://ide.microblock.app/?open=${pageParams.get("open") || ""}`, "_blank");
+    });
+
+    let allParams = { };
+    for (let p of pageParams) {
+        allParams[p[0]] = ((v) => {
+            if (v.indexOf("%") > 0) return v;
+            return parseInt(v) || 0;
+        })(p[1]);
+    }
+    embedOption = Object.assign(embedOption, allParams);
+
+    if (embedOption.blockOnly == 1) {
+        $(".page > .main > header").hide();
+        // blocklyWorkspace.scrollbar.dispose();
+        // blocklyWorkspace.zoomControls_.dispose();
+        // blocklyWorkspace.zoomControls_.svgGroup_.remove();
+    }
+
+    // Blockly.triggleResize();
+}
+
+var blocklyArea = document.getElementById('blocklyArea');
+var blocklyDiv = document.getElementById('blocklyDiv');
+
+blocklyWorkspace = Blockly.inject(blocklyDiv, {
+    media: 'blockly/media/',
+    toolbox: document.getElementById('toolbox'),
+    grid : {
+		spacing : 25, 
+		length : 1, 
+		colour : '#888', 
+		snap : true
+    },
+    trashcan : true,
+    zoom: {
+        controls: true,
+        wheel: (isEmbed && embedOption.blockOnly) ? false : true,
+        startScale: 1,
+        maxScale: Infinity,
+        minScale: 0.3,
+        scaleSpeed: 1.2
+    },
+    scrollbars : (isEmbed && embedOption.blockOnly) ? false : true,
+    comments : true, 
+	disable : true, 
+    maxBlocks : Infinity, 
+    rtl : false, 
+    oneBasedIndex : false, 
+    sounds : true, 
+    readOnly: isEmbed
+});
 
 window.addEventListener('resize', Blockly.triggleResize, false);
 Blockly.triggleResize();
@@ -271,7 +314,6 @@ if (isElectron) {
 }
 
 {
-    let pageParams = new URLSearchParams(location.search);
     let openArg = pageParams.get("open");
     if (openArg) {
         (async (fileName) => {
@@ -283,11 +325,31 @@ if (isElectron) {
             });
 
             fileContent = await fileContent.text();
-            console.log(fileContent);
 
-            openProjectFromData(fileContent, fileName);
+            await openProjectFromData(fileContent, fileName);
 
             Notiflix.Block.Remove("body");
+
+            if (isEmbed) {
+                if (embedOption.blockOnly == 1) {
+                    blocklyWorkspace.zoomControls_.svgGroup_.remove();
+                }
+                let { width, height } = blocklyWorkspace.getCanvas().getBBox();
+                let updateFrameSize = window.parent.microBlock.updateFrameSize;
+                if (updateFrameSize) {
+                    let fSizeW = embedOption.width;
+                    let fSizeH = embedOption.height;
+                    if (fSizeW === 0) fSizeW = `${width + 20 + (embedOption.blockOnly != 1 ? 20 : 0)}px`;
+                    if (fSizeH === 0) fSizeH = `${height + 20 + (embedOption.blockOnly != 1 ? 60 : 0)}px`;
+                    updateFrameSize(embedOption.id, fSizeW, fSizeH);
+                    setTimeout(() => {
+                        blocklyWorkspace.scrollCenter();
+                        if (embedOption.fit == 1) {
+                            blocklyWorkspace.zoomToFit();
+                        }
+                    }, 10);
+                }
+            }
         })(openArg);
         callHotUpdate = false;
     }
@@ -391,7 +453,7 @@ $("#save-project").click(async () => {
 let openProjectFromData = async (data, path) => {
     vFSTree = JSON.parse(data);
     await hotUpdate();
-    NotifyS("Open project " + path)
+    if (!isEmbed) NotifyS("Open project " + path)
     statusLog("Open project " + path);
     $("#project-name").val(path.split(/[\\\/]/).pop().replace(".mby", ""));
 }
@@ -573,5 +635,5 @@ if (isElectron) {
     checkUpdate();
 }
 
-
+$(() => $("#full-loading").fadeOut());
 

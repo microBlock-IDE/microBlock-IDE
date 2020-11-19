@@ -78,7 +78,7 @@ $("#code-share-dialog .bottom-menu > li").click(async function(e) {
     } else if (type === "twitter") {
         openURL = `https://twitter.com/intent/tweet?url=${encodeURI(shareURL)}&text=`;
     } else if (type === "code") {
-        let code = `<div class="microBlock-embed-box" width="auto" height="auto" data-open="${fileName}">loading...</div>\n<script src="https://ide.microblock.app/embed.js"></script>`;
+        let code = `<div class="microBlock-embed" open="${fileName}" width="0" height="0"></div><script src="https://ide.microblock.app/embed.js"></script>`;
         navigator.clipboard.writeText(code);
         NotifyS(`Copied: <HTML Code>`);
     }

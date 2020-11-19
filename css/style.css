@@ -20,6 +20,32 @@ body {
     user-select: none;
 }
 
+#full-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 99999;
+    background-color: #FFF;
+}
+
+#full-loading > .box > img {
+    width: 160px;
+    margin-bottom: 10px;
+    animation: objectMoveLoading 3s infinite;
+}
+
+#full-loading > .box > .label {
+    font-size: 36px;
+    color: #F1C40F;
+    font-weight: bold;
+}
+
 .page {
     display: flex;
     flex-direction: row;
@@ -60,6 +86,11 @@ body {
     padding: 20px 30px;
 }
 
+.embed .header-logo {
+    font-size: 18px;
+    padding: 10px 10px;
+}
+
 ul.switch-mode {
     padding: 0;
     margin: 0;
@@ -82,6 +113,15 @@ ul.switch-mode > li {
 ul.switch-mode > li.active {
     background-color: #FFF;
     color: #B7950B;
+}
+
+.embed ul.switch-mode {
+    padding: 4px;
+}
+
+.embed ul.switch-mode > li {
+    padding: 4px 8px;
+    font-size: 12px;
 }
 
 ul.top-bar-button {
@@ -110,6 +150,17 @@ ul.top-bar-button > li > button {
 
 ul.top-bar-button > li > button:hover {
     background-color: #9A7D0A;
+}
+
+.embed ul.top-bar-button {
+    padding-right: 6px;
+}
+
+.embed ul.top-bar-button > li > button {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    margin-right: 0px;
 }
 
 /*
@@ -1504,6 +1555,10 @@ ul.switch-mode > li:last-child {
     padding: 8px;
 }
 
+.embed-only {
+    display: none;
+}
+
 .blocklyToolboxDiv {
     background-color: #FDFEFE !important;
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
@@ -1555,6 +1610,10 @@ ul.switch-mode > li:last-child {
 
 .blocklyFlyoutLabelText {
     font-size: 22px !important;
+}
+
+.blocklyMainBackground {
+    stroke-width: 0
 }
 
 /* width */

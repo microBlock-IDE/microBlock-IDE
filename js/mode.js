@@ -56,6 +56,9 @@ $("#mode-select-switch > li").click(async function () {
                 ]
                 if (!evant.ctrlKey && !evant.metaKey && !evant.shiftKey && allowKey.indexOf(evant.keyCode) === -1 && useMode !== "code") {
                     evant.preventDefault();
+                    if (isEmbed) { 
+                        return;
+                    }
                     if (await NotifyConfirm("If edit code, program in block will lost. Are you want to edit ?")) {
                         editor.updateOptions({ readOnly: false });
                         useMode = "code";
