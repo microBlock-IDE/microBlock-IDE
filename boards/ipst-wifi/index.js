@@ -128,7 +128,8 @@ addBoard({
                             `
                         },
                         "display_fill",
-                        "display_clear"
+                        "display_clear",
+                        "display_show"
                     ]
                 },
                 {

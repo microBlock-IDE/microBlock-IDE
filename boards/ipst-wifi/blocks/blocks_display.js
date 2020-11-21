@@ -22,7 +22,7 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw text on display",
+  "tooltip": "Draw text in buffer",
   "helpUrl": ""
 },
 {
@@ -54,7 +54,7 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw line on display",
+  "tooltip": "Draw line in buffer",
   "helpUrl": ""
 },
 {
@@ -100,7 +100,7 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw rectangle on display",
+  "tooltip": "Draw rectangle in buffer",
   "helpUrl": ""
 },
 {
@@ -110,7 +110,7 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Fill screen",
+  "tooltip": "Fill screen in buffer",
   "helpUrl": ""
 },
 {
@@ -120,7 +120,17 @@ Blockly.defineBlocksWithJsonArray([
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "clear screen",
+  "tooltip": "clear anythings in buffer",
+  "helpUrl": ""
+},
+{
+  "type": "display_show",
+  "message0": "Display show",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#2980B9",
+  "tooltip": "Send buffer to screen",
   "helpUrl": ""
 }
 ]);
