@@ -62,7 +62,7 @@ let serialUploadFile = async (fileName, content) => {
             errorCount = 0;
             while(errorCount < 20) {
                 // await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
-                await writeSerialNewLine(`p(w(${JSON.stringify(chunkContent2)}))`);
+                await writeSerialNewLine(`p(w(${JSON.stringify(chunkContent2).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`);
                 await sleep(isElectron ? 10 : 100);
 
                 let writeOKFlag = false;
@@ -71,12 +71,13 @@ let serialUploadFile = async (fileName, content) => {
                     if (serialLastData.match(/OK[0-9]{1,3}[^>]*>/gm)) {
                         let n = /OK([0-9]{1,3})[^>]*>/gm.exec(serialLastData);
                         if (n) {
-                            if (+n[1] === chunkContent2.length) {
+                            let sendN = chunkContent2.length + (chunkContent2.match(/[\u007F-\uFFFF]/g).length * 2);
+                            if (+n[1] === sendN) {
                                 // console.log("Write file OK!");
                                 serialLastData = "";
                                 writeOKFlag = true;
                             } else {
-                                console.warn("Data lost ? Send:", chunkContent2.length, "Ros:", +n[1]);
+                                console.warn("Data lost ? Send:", sendN, "Ros:", +n[1]);
                             }
                         } else {
                             console.warn("Why not match ?");
