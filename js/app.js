@@ -4,7 +4,7 @@ let saveAsFlag = false;
 
 var blocklyWorkspace;
 
-let updateBlockCategory = () => {
+let updateBlockCategory = async () => {
     if (isEmbed) return;
 
     var categoryIconList = [];
@@ -55,6 +55,16 @@ let updateBlockCategory = () => {
         extension = eval(extension);
         extenstionTree.push(extension);
         categoryIconList.push(fs.read(`/extension/${extensionId}/${extension.icon}`));
+    }
+    if (isElectron) {
+        let extensionDir = `${rootPath}/../extension`;
+        for (const extensionId of nodeFS.ls(extensionDir)) {
+            let extension = await readFileAsync(`${extensionDir}/${extensionId}/extension.js`);
+            extension = extension.toString();
+            extension = eval(extension);
+            extenstionTree.push(extension);
+            categoryIconList.push(`${extensionDir}/${extensionId}/${extension.icon}`);
+        }
     }
     for (let category of extenstionTree) {
         toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
@@ -216,6 +226,21 @@ Blockly.prompt = function(message, defaultValue, callback) {
     });
 };
 
+if (isElectron) {
+    nodeFS.walk = (dir) => {
+        return new Promise((resolve, reject) => {
+            let files = [ ];
+            dive(dir, (err, file) => {
+                files.push(file);
+            }, () => {
+                resolve(files);
+            });
+        });
+    };
+
+    nodeFS.ls = (dir) => nodeFS.readdirSync(dir).filter(f => nodeFS.statSync(path.join(dir, f)).isDirectory());
+}
+
 /* Auto Save to localStorage */
 let updataWorkspaceAndCategoryFromvFS = async () => {
     if (!vFSTree) {
@@ -236,6 +261,30 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
                 }
             } else {
                 console.warn("Why file " + file + " in blocks ? support .js only so skip it");
+            }
+        }
+    }
+
+    if (isElectron) {
+        // Load local extension
+        let extensionDir = `${rootPath}/../extension`;
+        for (const extensionId of nodeFS.ls(extensionDir)) {
+            console.log("Local extension:", extensionId);
+            let extensionLocalPath = `${extensionDir}/${extensionId}`;
+            let blocksFile = await nodeFS.walk(`${extensionLocalPath}/blocks`);
+            for (const file of blocksFile) {
+                if (file.endsWith(".js")) {
+                    let jsContent = await readFileAsync(file);
+                    jsContent = jsContent.toString();
+                    try {
+                        eval(jsContent);
+                    } catch (e) {
+                        NotifyE("Script run error: " + e.toString());
+                        console.error(e);
+                    }
+                } else {
+                    console.warn("Why file " + file + " in blocks ? support .js only so skip it");
+                }
             }
         }
     }

@@ -71,7 +71,8 @@ let serialUploadFile = async (fileName, content) => {
                     if (serialLastData.match(/OK[0-9]{1,3}[^>]*>/gm)) {
                         let n = /OK([0-9]{1,3})[^>]*>/gm.exec(serialLastData);
                         if (n) {
-                            let sendN = chunkContent2.length + (chunkContent2.match(/[\u007F-\uFFFF]/g).length * 2);
+                            let cUTF8 = chunkContent2.match(/[\u007F-\uFFFF]/g);
+                            let sendN = chunkContent2.length + (cUTF8 ? cUTF8.length * 2 : 0);
                             if (+n[1] === sendN) {
                                 // console.log("Write file OK!");
                                 serialLastData = "";
@@ -463,23 +464,28 @@ $("#upload-program").click(async function() {
     // console.log(uploadModuleList);
 
     if (uploadModuleList.length > 0) {
-        let listAllModule = [];
         for (const extensionId of fs.ls("/extension")) {
             for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
-                let fileFullPath = `/extension/${extensionId}/modules/${filePath.replace(/^\//gm, "")}`;
-                if (fileFullPath.endsWith(".py") || fileFullPath.endsWith(".mpy")) {
-                    listAllModule.push(fileFullPath);
+                let fileName = filePath.replace(/^\//gm, "");
+                if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
+                    if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
+                        await serialUploadFile(filePath.replace(/^.*[\\\/]/, ''), fs.read(`/extension/${extensionId}/modules/${fileName}`));
+                    }
                 }
             }
         }
-        // console.log(listAllModule);
 
-        for (const moduleWillUpload of uploadModuleList) {
-            let modulePath = listAllModule.find((moduleFile) => moduleFile.replace(/\..+$/, "").endsWith(moduleWillUpload));
-            if (modulePath) {
-                await serialUploadFile(modulePath.replace(/^.*[\\\/]/, ''), fs.read(modulePath));
-            } else {
-                console.warn("not found module", moduleWillUpload);
+        if (isElectron) {
+            let extensionDir = `${rootPath}/../extension`;
+            for (const extensionId of nodeFS.ls(extensionDir)) {
+                for (const filePath of (await nodeFS.walk(`${extensionDir}/${extensionId}/modules`))) {
+                    let fileName = path.basename(filePath);
+                    if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
+                        if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
+                            await serialUploadFile(filePath.replace(/^.*[\\\/]/, ''), (await readFileAsync(filePath)).toString());
+                        }
+                    }
+                }
             }
         }
     }

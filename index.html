@@ -24,9 +24,12 @@
             shell = require('electron').shell;
             spawn = require('child_process').spawn;
             os = require('os');
+            path = require("path");
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
+
+            dive = require('dive');
             
             pjson = require('../package.json');
 
