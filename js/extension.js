@@ -57,6 +57,12 @@ let installExtension = async (extensionId) => {
 
 let removeExtension = async (extensionId) => {
     fs.remove(`/extension/${extensionId}`);
+    if (isElectron) {
+        let path = `${rootPath}/../extension/${extensionId}`;
+        if (nodeFS.existsSync(path)) {
+            nodeFS.rmdirSync(path, { recursive: true });
+        }
+    }
 
     updateBlockCategory();
 
@@ -99,6 +105,9 @@ let showExtensionList = (extensionList) => {
     $("#extension-dialog .extension-list").html('');
 
     let extensionInstalledList = fs.ls("/extension");
+    if (isElectron) {
+        extensionInstalledList = extensionInstalledList.concat(nodeFS.ls(`${rootPath}/../extension`));
+    }
     for (const [id, info] of Object.entries(extensionList)) {
         $("#extension-dialog .extension-list").append(`
         <li>
