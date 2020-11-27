@@ -269,7 +269,6 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
         // Load local extension
         let extensionDir = `${rootPath}/../extension`;
         for (const extensionId of nodeFS.ls(extensionDir)) {
-            console.log("Local extension:", extensionId);
             let extensionLocalPath = `${extensionDir}/${extensionId}`;
             let blocksFile = await nodeFS.walk(`${extensionLocalPath}/blocks`);
             for (const file of blocksFile) {
