@@ -1,0 +1,249 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    background-color: #121212;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+body > header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: none;
+    align-items: center;
+    z-index: 20;
+}
+
+body > header > .left {
+    color: #E0E0E0;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+body > header > .left > .logo {
+    margin-right: 5px;
+}
+
+body > header > .left > .logo > img {
+    height: 25px;
+    display: block;
+    transform: rotate(4deg);
+}
+
+body > header > .right > button {
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: #E0E0E0;
+    margin-left: 10px;
+}
+
+body > article {
+    flex-grow: 1;
+}
+
+body > article > section.toolbox {
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.05);
+    height: 100%;
+    position: fixed;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 0 0 6px rgb(0 0 0 / 36%);
+}
+
+body > article > section.toolbox::after {
+    content: ' ';
+}
+
+body > article > section.board {
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+}
+
+.widget-box {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    box-shadow: 0 0 6px rgb(0 0 0 / 36%);
+    color: #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.widget-box > header {
+    text-align: center;
+    padding: 8px;
+    cursor: move;
+}
+
+.widget-box > header:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.widget-box > article {
+    width: 100%;
+    flex-grow: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 30px;
+}
+
+.widget-box > .resize-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 6px;
+    width: 30px;
+    height: 30px;
+    cursor: nw-resize;
+}
+
+.widget-box > .resize-btn > .icon {
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-top: none;
+    border-left: none;
+    width: 8px;
+    height: 8px;
+    display: block;
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+}
+
+.widget-box.text-widget > article > .label {
+    font-size: 18px;
+}
+
+.widget-box.text-widget > article > .data {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.widget-box.text-widget > article > .data > div {
+    
+}
+
+.widget-box.text-widget > article > .data .value {
+    font-size: 40px;
+}
+
+.widget-box.text-widget > article > .data .unit {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.widget-box.lamp-widget > article {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.widget-box.lamp-widget > article > div.image {
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 20px;
+    margin-bottom: 15px;
+}
+
+.widget-box.lamp-widget > article > div.image > img {
+    height: 100%;
+    width: auto;
+}
+
+.widget-box.gauge-widget > article > .gauge-container {
+    height: 100%;
+    text-align: center;
+}
+
+.widget-box.gauge-widget > article > .gauge-container > svg.gauge {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+.widget-box.gauge-widget > article > .gauge-container > svg.gauge > .value {
+    stroke:#c9de3c;
+    stroke-width:5;
+}
+
+.widget-box.log-widget > article {
+    padding: 10px;
+}
+
+.widget-box.log-widget > article > ul.log-list {
+    overflow-y: auto;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.widget-box.log-widget > article > ul.log-list li {
+    list-style: none;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.widget-box.log-widget > article > ul.log-list li:last-child {
+    margin-bottom: 0;
+}
+
+.widget-box.log-widget > article > ul.log-list li > .data {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.widget-box.log-widget > article > ul.log-list li > .data > .value {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.widget-box.log-widget > article > ul.log-list li > .data > .time {
+    font-size: 12px;
+    color: #616161;
+}
+
+
+
+
+.os-theme-dark>.os-scrollbar>.os-scrollbar-track>.os-scrollbar-handle {
+    background: rgb(255 255 255 / 0.24);
+}
+
+.os-theme-dark>.os-scrollbar:hover>.os-scrollbar-track>.os-scrollbar-handle {
+    background: rgb(255 255 255 / 0.24);
+}
