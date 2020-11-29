@@ -63,18 +63,51 @@ body > article {
     flex-grow: 1;
 }
 
-body > article > section.toolbox {
-    width: 300px;
+section.toolbox {
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.05);
-    height: 100%;
+    height: 200px;
     position: fixed;
     left: 0;
-    transform: translateX(-100%);
-    box-shadow: 0 0 6px rgb(0 0 0 / 36%);
+    bottom: 0;
+    transform: translateY(100%);
+    /* box-shadow: 0 0 6px rgb(0 0 0 / 36%); */
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    /* overflow-x: auto;
+    overflow-y: visible;*/
+    padding: 20px;
+    transition: transform 300mS;
 }
 
-body > article > section.toolbox::after {
-    content: ' ';
+
+#toolbox-open-close {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -100%);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    outline: none;
+    color: #E0E0E0;
+    padding: 8px 20px;
+    font-size: 18px;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+}
+
+section.toolbox.active {
+    transform: translateY(0%);
+}
+
+section.toolbox #toolbox-open-close > i {
+    margin-left: 10px;
+    transition: transform 300mS;
+}
+
+section.toolbox.active #toolbox-open-close > i {
+    transform: rotate(180deg);
 }
 
 body > article > section.board {
@@ -94,14 +127,35 @@ body > article > section.board {
     user-select: none;
 }
 
+section.toolbox .widget-box {
+    position: relative;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+section.toolbox .widget-box > .resize-btn,
+section.toolbox .widget-box > header {
+    cursor: pointer;
+}
+
+section.toolbox .widget-box > header:hover {
+    background: none;
+}
+
 .widget-box > header {
     text-align: center;
     padding: 8px;
     cursor: move;
+    position: relative;
 }
 
-.widget-box > header:hover {
+.widget-box > header:hover,
+.widget-box.moving > header {
     background-color: rgba(255, 255, 255, 0.12);
+}
+
+.widget-box > header > .label {
+    cursor: default;
 }
 
 .widget-box > article {
@@ -237,8 +291,82 @@ body > article > section.board {
     color: #616161;
 }
 
+.widget-box > header > .setting-btn {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+}
 
+.widget-popup {
+    position: absolute;
+    top: 20px;
+    right: -5px;
+    width: 200px;
+    min-height: 20px;
+    background-color: #2d2d2d;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 1);
+    cursor: default;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 100;
+}
 
+.widget-popup::after {
+    content: ' ';
+    border: 8px solid transparent;
+    border-bottom-color: #2d2d2d;
+    position: absolute;
+    right: 5px;
+    top: -16px;
+}
+
+.widget-popup > .property {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.widget-popup > .property > .label {
+    flex-grow: 1;
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.widget-popup > .property input,
+.widget-popup > .property select {
+    width: 80px;
+    text-align: right;
+    background-color: #1d1d1d;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    color: #E0E0E0;
+    padding: 4px;
+    outline: none;
+    font-size: 14px;
+}
+
+.widget-popup > .property input:focus,
+.widget-popup > .property select:focus {
+    border-color: #03A9F4;
+}
+
+.widget-popup > .btn-group {
+    text-align: center;
+    margin: 10px;
+    margin-top: 20px;
+}
+
+.widget-popup > .btn-group .delete {
+    background-color: #F44336;
+    color: #ffffff;
+    border: 1px solid #C62828;
+    border-radius: 3px;
+    padding: 4px 6px;
+    font-size: 14px;
+}
 
 .os-theme-dark>.os-scrollbar>.os-scrollbar-track>.os-scrollbar-handle {
     background: rgb(255 255 255 / 0.24);

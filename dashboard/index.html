@@ -4,7 +4,16 @@
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <script>
+    const isElectron = navigator.userAgent.toLowerCase().indexOf("electron/") >= 0;
+
+    if (isElectron) {
+        ipcRenderer = require('electron').ipcRenderer;
+    }
+    </script>
 </head>
 
 <body>
@@ -20,10 +29,6 @@
     </header>
 
     <article>
-        <section class="toolbox">
-
-        </section>
-
         <section class="board">
             <!-- <div class="widget-box text-widget" style="width: 25%; height: 200px; left: 0; top: 0;">
                 <header>Text</header>
@@ -119,9 +124,20 @@
         </section>
     </article>
 
+    <section class="toolbox">
+        <button id="toolbox-open-close">Toolbox<i class="fas fa-angle-up"></i></button>
+    </section>
+
+    <script>
+    if (typeof module === 'object') {
+        window.module = module; 
+        module = undefined;
+    }
+    </script>
+
     <script src="../js/lodash.min.js"></script>
     <script src="js/gauge.min.js"></script>
-    <script src="js/moment.min.js"></script>
+    <script src="js/moment-with-locales.min.js"></script>
     <script src="js/Chart.bundle.min.js"></script>
     <script src="js/OverlayScrollbars.min.js"></script>
     <script src="js/widget.js"></script>
