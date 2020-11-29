@@ -36,6 +36,7 @@
             rootPath = __dirname;
 
             sharedObj = remote.getGlobal('sharedObj');
+            ipcRenderer = require('electron').ipcRenderer;
         } else {
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
