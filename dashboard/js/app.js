@@ -290,7 +290,11 @@ let getContentBoardForSave = () => {
     let newAllWidget = _.cloneDeep(allWidget);
     newAllWidget = newAllWidget.map(widget => { 
         widget.style = widget.element.getAttribute("style");
-        delete widget.element; 
+        for (let n of [ "element", "chart", "gauge" ]) {
+            if (typeof widget[n] !== "undefined") {
+                delete widget[n];
+            }
+        }
         return widget; 
     });
 
