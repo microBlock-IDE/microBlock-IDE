@@ -15,6 +15,10 @@ widgets = [
         render: function() {
             this.element.querySelector(".value").innerText = this.value !== null ? this.value : "-";
             this.element.querySelector(".unit").innerText = this.property.unit;
+        },
+        toolbox: function() {
+            this.value = "12.87";
+            this.property.unit = "%";
         }
     },
     {
@@ -32,8 +36,11 @@ widgets = [
             `;
         },
         render: function() {
-            this.element.querySelector(".image > img").setAttribute("src", this.value ? "images/light-bulb.on.svg" : "images/light-bulb.off.svg");
-            this.element.querySelector(".label").innerText = this.value ? "ON" : "OFF";
+            this.element.querySelector(".image > img").setAttribute("src", +this.value ? "images/light-bulb.on.svg" : "images/light-bulb.off.svg");
+            this.element.querySelector("article > .label").innerText = +this.value ? "ON" : "OFF";
+        },
+        toolbox: function() {
+            this.value = 1;
         }
     },
     {
@@ -61,11 +68,14 @@ widgets = [
                 });
             }
             this.gauge.setValueAnimated(+this.value, 1);
+        },
+        toolbox: function() {
+            this.value = 60;
         }
     },
     {
-        id: "chars",
-        name: "Chars",
+        id: "chart",
+        name: "Chart",
         property: {
             min: {
                 type: "number",
@@ -148,7 +158,7 @@ widgets = [
                                     var firstTick = ticks[0];
                                     var i, ilen, val, tick, currMajor, lastMajor;
         
-                                    val = moment(ticks[0].value);
+                                    val = moment(ticks[0].value).locale("th");
                                     if ((majorUnit === 'minute' && val.second() === 0)
                                             || (majorUnit === 'hour' && val.minute() === 0)
                                             || (majorUnit === 'day' && val.hour() === 9)
@@ -162,7 +172,7 @@ widgets = [
         
                                     for (i = 1, ilen = ticks.length; i < ilen; i++) {
                                         tick = ticks[i];
-                                        val = moment(tick.value);
+                                        val = moment(tick.value).locale("th");
                                         currMajor = val.get(majorUnit);
                                         tick.major = currMajor !== lastMajor;
                                         lastMajor = currMajor;
@@ -210,6 +220,48 @@ widgets = [
             this.chart.options.scales.yAxes[0].ticks.suggestedMin = this.property.min;
             this.chart.options.scales.yAxes[0].ticks.suggestedMax = this.property.max;
             this.chart.update();
+        },
+        toolbox: function() {
+            for (let i=0;i<50;i++) {
+                this.chart.data.datasets[0].data.push({
+                    t: (new Date()).getTime() - (i * 60 * 100),
+                    y: Math.floor(Math.random() * 101)
+                });
+            }
         }
-    }
+    },
+    {
+        id: "log",
+        name: "Log",
+        property: {
+            
+        },
+        create: function() {
+            return `<ul class="log-list"></ul>`;
+        },
+        render: function() {
+            if (this.value === null) {
+                return;
+            }
+
+            let li = document.createElement("li");
+            li.innerHTML = `
+                <div class="data">
+                    <div class="value">${this.value}</div>
+                    <div class="time">${moment().locale("th").format('LTS')}</div>
+                </div>
+                <div class="icon"></div>
+            `;
+
+            let list = this.element.querySelector(".log-list");
+            if (list.childElementCount > 0) {
+                list.insertBefore(li, list.firstChild);
+            } else {
+                list.appendChild(li);
+            }
+        },
+        toolbox: function() {
+            this.value = "Hello, this dummy data !";
+        }
+    },
 ];
