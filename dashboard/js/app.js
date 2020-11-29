@@ -1,4 +1,5 @@
 let offsetX = 0, offsetY = 0, movingDiv = null;
+let loadingForContent = false;
 
 function divMove(e) {
     movingDiv.style.top = `${Math.max(e.clientY - offsetY, 0)}px`;
@@ -9,6 +10,7 @@ document.addEventListener("mouseup", function(e) {
     if (movingDiv) {
         movingDiv.classList.remove("moving");
         movingDiv = null;
+        onBoardUpdate();
     }
     document.removeEventListener("mousemove", divMove, true);
 }, false);
@@ -19,6 +21,10 @@ function divResize(e) {
 } 
 
 document.addEventListener("mouseup", function(e) {
+    if (movingDiv) {
+        movingDiv = null;
+        onBoardUpdate();
+    }
     document.removeEventListener("mousemove", divResize, true);
 }, false);
 
@@ -33,6 +39,18 @@ document.querySelector("body > article > section.board").addEventListener("click
     }
 });
 
+let onBoardUpdate = () => {
+    // console.log("Update");
+
+    if (!loadingForContent) {
+        // Auto save
+        let boardContent = getContentBoardForSave();
+        localStorage.setItem("saveBoard", boardContent);
+
+        console.log("Auto Save");
+    }
+};
+
 let allWidget = [ ];
 
 let createWidget = (id, addToToolbox) => {
@@ -42,6 +60,10 @@ let createWidget = (id, addToToolbox) => {
 
     let _widget = widgets.find(w => w.id === id);
     let widget = _.cloneDeep(_widget);
+
+    delete widget.create;
+    delete widget.render;
+    delete widget.toolbox;
 
     for (let propertyName of Object.keys(_widget.property)) {
         let _property = _widget.property[propertyName];
@@ -67,7 +89,7 @@ let createWidget = (id, addToToolbox) => {
             <span class="label">${widget.name}</span>
         </header>
         <article>
-            ${widget.create.bind(widget)()}
+            ${_widget.create.bind(widget)()}
         </article>
         <span class="resize-btn">
             <span class="icon"></span>
@@ -87,13 +109,15 @@ let createWidget = (id, addToToolbox) => {
     document.querySelector(!addToToolbox ? "body > article > section.board" : "section.toolbox").appendChild(div);
     widget.element = div;
 
-    widget.render.bind(widget)();
+    _widget.render.bind(widget)();
 
     if (addToToolbox) {
-        return widget; // Skip can move
+        return widget; // Skip can move and edit property
     }
 
     allWidget.push(widget);
+
+    onBoardUpdate();
 
     div.querySelector("header").addEventListener('mousedown', function(e) {
         offsetX = e.clientX - div.offsetLeft;
@@ -112,14 +136,13 @@ let createWidget = (id, addToToolbox) => {
         document.addEventListener("mousemove", divResize, true);
     }, false);
 
-    widget.popup = null;
     div.querySelector(".setting-btn").addEventListener("click", function(e) {
         if (this.querySelector(".widget-popup")) return;
         
         let _widget = widgets.find(w => w.id === widget.id);
 
-        widget.popup = document.createElement("div");
-        widget.popup.classList.add("widget-popup");
+        let popup = document.createElement("div");
+        popup.classList.add("widget-popup");
         let html = "";
         html += `
             <div class="property">
@@ -152,11 +175,11 @@ let createWidget = (id, addToToolbox) => {
                 <button class="delete">Delete</button>
             </div>
         `;
-        widget.popup.innerHTML = html;
+        popup.innerHTML = html;
         
-        this.appendChild(widget.popup);
+        this.appendChild(popup);
 
-        for (let inp of widget.popup.querySelectorAll("input, select")) {
+        for (let inp of popup.querySelectorAll("input, select")) {
             let fn = function(e) {
                 let name = this.getAttribute("name");
                 let value = this.value;
@@ -168,20 +191,22 @@ let createWidget = (id, addToToolbox) => {
                 } else {
                     if (Object.keys(widget.property).indexOf(name) >= 0) {
                         widget.property[name] = value;
-                        widget.render.bind(widget)();
+                        _widget.render.bind(widget)();
                     } else {
                         console.warn("not found property", name);
                     }
                 }
+                onBoardUpdate();
             };
             inp.addEventListener("change", fn);
             inp.addEventListener("keyup", fn);
         }
 
-        widget.popup.querySelector("button.delete").addEventListener("click", function(e) {
+        popup.querySelector("button.delete").addEventListener("click", function(e) {
             let index = allWidget.findIndex(w => w === widget);
             widget.element.remove();
             allWidget.splice(index, 1);
+            onBoardUpdate();
         });
     });
 
@@ -197,7 +222,8 @@ let onDataIn = (source, value) => {
 
     for (let widget of allWidget.filter(w => w.source === source)) {
         widget.value = value;
-        widget.render.bind(widget)();
+        let _widget = widgets.find(w => w.id === widget.id);
+        _widget.render.bind(widget)();
     }
 }
 
@@ -210,8 +236,8 @@ for (let _widget of widgets) {
     widget.element.addEventListener("click", () => {
         createWidget(_widget.id);
     });
-    widget.toolbox.bind(widget)();
-    widget.render.bind(widget)();
+    _widget.toolbox.bind(widget)();
+    _widget.render.bind(widget)();
 }
 
 document.querySelector("#toolbox-open-close").addEventListener("click", function(e) {
@@ -225,7 +251,7 @@ if (isElectron) {
         for (let c of msg) {
             dataInputBuffer += String.fromCharCode(c);
             if (dataInputBuffer.endsWith("\r\n")) {
-                let line = dataInputBuffer.substring(0, dataInputBuffer.length - 1);
+                let line = dataInputBuffer.substring(0, dataInputBuffer.length - 2);
 
                 const regex = /[?&]?([^=]+)\=([^&]+)/gm;
                 let m;
@@ -242,6 +268,39 @@ if (isElectron) {
         
     });
 }
+
+let getContentBoardForSave = () => {
+    let newAllWidget = _.cloneDeep(allWidget);
+    newAllWidget = newAllWidget.map(widget => { 
+        widget.style = widget.element.getAttribute("style");
+        delete widget.element; 
+        return widget; 
+    });
+
+    return JSON.stringify(newAllWidget);
+};
+
+let loadBoardContentForOpen = (content) => {
+    loadingForContent = true;
+    let newAllWidget = JSON.parse(content) || [ ];
+    for (let objWidget of newAllWidget) {
+        let widget = createWidget(objWidget.id);
+        widget.element.setAttribute("style", objWidget.style);
+        delete objWidget.style;
+        Object.assign(widget.property, objWidget.property);
+        widget.source = objWidget.source;
+        
+        let _widget = widgets.find(w => w.id === widget.id);
+        _widget.render.bind(widget)();
+    }
+    loadingForContent = false;
+};
+
+// Load board from local storage (load from autosave)
+(() => {
+    let boardContent = localStorage.getItem("saveBoard");
+    loadBoardContentForOpen(boardContent);
+})();
 
 if (allWidget.length === 0) {
     document.querySelector(".toolbox-box").classList.add("active");
