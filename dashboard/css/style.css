@@ -49,14 +49,28 @@ body > header > .left > .logo > img {
     transform: rotate(4deg);
 }
 
-body > header > .right > button {
-    padding: 0;
+body > header > .right > .serial-status {
+    padding: 4px 8px;
     margin: 0;
-    background: none;
-    border: none;
-    outline: none;
+    border: 1px solid #E0E0E0;
     color: #E0E0E0;
+    border-radius: 3px;
     margin-left: 10px;
+    font-size: 14px;
+    text-transform: capitalize;
+    display: none;
+}
+
+body > header > .right > .serial-status[data-value='connected'] {
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    display: inline-block;
+}
+
+body > header > .right > .serial-status[data-value='disconnect'] {
+    border: 1px solid #FF5722;
+    color: #FF5722;
+    display: inline-block;
 }
 
 body > article {
