@@ -129,6 +129,9 @@ let serialConnectWeb = async () => {
         $("#disconnect-device").hide();
         $("#connect-device").show();
         serialPort = null;
+        if (dashboardIsReady) {
+            dashboardWin.serialStatusUpdate("disconnect");
+        }
         term.dispose();
         term = null;
     }
@@ -166,7 +169,10 @@ let serialConnectWeb = async () => {
     NotifyS("Serial port connected");
     statusLog("Serial port connected");
     $("#port-name").text(`CONNECTED`);
-
+    if (dashboardIsReady) {
+        dashboardWin.serialStatusUpdate("connected");
+    }
+    
     writer = serialPort.writable.getWriter();
     // reader = serialPort.readable.getReader();
 
@@ -190,6 +196,9 @@ let serialConnectWeb = async () => {
             if (serialLastData.length > 50) {
                 serialLastData = serialLastData.substring(serialLastData.length - 10, serialLastData.length);
             }
+            if (dashboardIsReady) {
+                dashboardWin.streamDataIn(chunk);
+            }        
         }
     }));
 
@@ -263,6 +272,7 @@ let serialConnectElectron = async (portName = "", autoConnect = false) => {
     NotifyS("Serial port connected");
     statusLog("Serial port connected");
     $("#port-name").text(`CONNECTED (${portName})`);
+    sharedObj.dashboardWin.webContents.send("serial-status", "connected");
     
     // Fixed ESP32 go to Bootloader Mode after press Reset Button
     serialPort.set({
@@ -275,6 +285,9 @@ let serialConnectElectron = async (portName = "", autoConnect = false) => {
         $("#port-name").text(`DISCONNECT`);
         $("#disconnect-device").hide();
         $("#connect-device").show();
+        if (sharedObj.dashboardWin) {
+            sharedObj.dashboardWin.webContents.send("serial-status", "disconnect");
+        }
         serialPort = null;
         term.dispose();
         term = null;

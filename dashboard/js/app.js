@@ -245,28 +245,45 @@ document.querySelector("#toolbox-open-close").addEventListener("click", function
 });
 
 let dataInputBuffer = "";
+function streamDataIn(msg) {
+    for (let c of msg) {
+        dataInputBuffer += String.fromCharCode(c);
+        if (dataInputBuffer.endsWith("\r\n")) {
+            let line = dataInputBuffer.substring(0, dataInputBuffer.length - 2);
+
+            const regex = /[?&]?([^=]+)\=([^&]+)/gm;
+            let m;
+            while ((m = regex.exec(line)) !== null) {
+                if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
+                onDataIn(m[1], m[2]);
+            }
+
+            dataInputBuffer = "";
+        }
+    }
+}
+
+function serialStatusUpdate(msg) {
+    document.querySelector(".serial-status").innerText = msg;
+    document.querySelector(".serial-status").setAttribute("data-value", msg);
+}
 
 if (isElectron) {
-    ipcRenderer.on("serial-data-in", (evt, msg) => {
-        for (let c of msg) {
-            dataInputBuffer += String.fromCharCode(c);
-            if (dataInputBuffer.endsWith("\r\n")) {
-                let line = dataInputBuffer.substring(0, dataInputBuffer.length - 2);
-
-                const regex = /[?&]?([^=]+)\=([^&]+)/gm;
-                let m;
-                while ((m = regex.exec(line)) !== null) {
-                    if (m.index === regex.lastIndex) {
-                        regex.lastIndex++;
-                    }
-                    onDataIn(m[1], m[2]);
-                }
-
-                dataInputBuffer = "";
-            }
-        }
-        
+    ipcRenderer.on("serial-status", (evt, msg) => {
+        serialStatusUpdate(msg);
     });
+
+    sharedObj.mainWin.webContents.send("get-serial-status", "");
+
+    ipcRenderer.on("serial-data-in", (evt, msg) => {
+        streamDataIn(msg);
+    });
+} else {
+    if (typeof window.opener !== "undefined") {
+        serialStatusUpdate(window.opener.getSerialStatus());
+    }
 }
 
 let getContentBoardForSave = () => {
@@ -304,4 +321,10 @@ let loadBoardContentForOpen = (content) => {
 
 if (allWidget.length === 0) {
     document.querySelector(".toolbox-box").classList.add("active");
+}
+
+if (!isElectron) {
+    if (typeof window.opener !== "undefined") {
+        window.opener.trigDashboardIsReady();
+    }
 }
