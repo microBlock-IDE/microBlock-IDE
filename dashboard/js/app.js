@@ -65,7 +65,6 @@ let createWidget = (id, addToToolbox) => {
     div.innerHTML = `
         <header>
             <span class="label">${widget.name}</span>
-            <span class="setting-btn"><i class="fas fa-cog"></i></span>
         </header>
         <article>
             ${widget.create.bind(widget)()}
@@ -73,6 +72,7 @@ let createWidget = (id, addToToolbox) => {
         <span class="resize-btn">
             <span class="icon"></span>
         </span>
+        <span class="setting-btn"><i class="fas fa-cog"></i></span>
     `;
     if (!addToToolbox) {
         div.style.width = "300px";
@@ -96,8 +96,6 @@ let createWidget = (id, addToToolbox) => {
     allWidget.push(widget);
 
     div.querySelector("header").addEventListener('mousedown', function(e) {
-        if (this !== e.target) return;
-
         offsetX = e.clientX - div.offsetLeft;
         offsetY = e.clientY - div.offsetTop;
         movingDiv = div;
@@ -217,7 +215,7 @@ for (let _widget of widgets) {
 }
 
 document.querySelector("#toolbox-open-close").addEventListener("click", function(e) {
-    let isShow = document.querySelector("section.toolbox").classList.toggle("active");
+    let isShow = document.querySelector(".toolbox-box").classList.toggle("active");
 });
 
 let dataInputBuffer = "";
@@ -246,5 +244,5 @@ if (isElectron) {
 }
 
 if (allWidget.length === 0) {
-    document.querySelector("section.toolbox").classList.add("active");
+    document.querySelector(".toolbox-box").classList.add("active");
 }

@@ -63,22 +63,25 @@ body > article {
     flex-grow: 1;
 }
 
-section.toolbox {
+.toolbox-box {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.05);
     height: 200px;
     position: fixed;
     left: 0;
     bottom: 0;
     transform: translateY(100%);
-    /* box-shadow: 0 0 6px rgb(0 0 0 / 36%); */
+    transition: transform 300mS;
+}
+
+.toolbox-box > section.toolbox {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    /* overflow-x: auto;
-    overflow-y: visible;*/
+    overflow-y: auto;
     padding: 20px;
-    transition: transform 300mS;
 }
 
 
@@ -97,21 +100,21 @@ section.toolbox {
     cursor: pointer;
 }
 
-section.toolbox.active {
+.toolbox-box.active {
     transform: translateY(0%);
 }
 
-section.toolbox #toolbox-open-close > i {
+.toolbox-box #toolbox-open-close > i {
     margin-left: 10px;
     transition: transform 300mS;
 }
 
-section.toolbox.active #toolbox-open-close > i {
+.toolbox-box.active #toolbox-open-close > i {
     transform: rotate(180deg);
 }
 
 body > article > section.board {
-    overflow-y: scroll;
+    overflow-y: auto;
     position: relative;
     height: 100%;
 }
@@ -131,6 +134,7 @@ section.toolbox .widget-box {
     position: relative;
     margin-right: 20px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 section.toolbox .widget-box > .resize-btn,
@@ -152,10 +156,6 @@ section.toolbox .widget-box > header:hover {
 .widget-box > header:hover,
 .widget-box.moving > header {
     background-color: rgba(255, 255, 255, 0.12);
-}
-
-.widget-box > header > .label {
-    cursor: default;
 }
 
 .widget-box > article {
@@ -291,9 +291,10 @@ section.toolbox .widget-box > header:hover {
     color: #616161;
 }
 
-.widget-box > header > .setting-btn {
+.widget-box .setting-btn {
     cursor: pointer;
     position: absolute;
+    top: 10px;
     right: 10px;
     font-size: 16px;
 }
