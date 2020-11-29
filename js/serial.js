@@ -296,8 +296,8 @@ let serialConnectElectron = async (portName = "", autoConnect = false) => {
         if (serialLastData.length > 300) {
             serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
         }
-        if (dashboardWin) {
-            dashboardWin.webContents.send("serial-data-in", chunk);
+        if (sharedObj.dashboardWin) {
+            sharedObj.dashboardWin.webContents.send("serial-data-in", chunk);
         }
     });
 

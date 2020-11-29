@@ -1,7 +1,10 @@
-let dashboardWin = null;
-
 $("#open-dashboard").click(() => {
-    dashboardWin = new remote.BrowserWindow({
+    if (sharedObj.dashboardWin && !sharedObj.dashboardWin.isDestroyed()) {
+        sharedObj.dashboardWin.focus();
+        return;
+    }
+
+    sharedObj.dashboardWin = new remote.BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -10,7 +13,7 @@ $("#open-dashboard").click(() => {
         icon: path.join(`${rootPath}/favicon.png`)
     });
 
-    dashboardWin.loadFile(`${rootPath}/dashboard/index.html`);
+    sharedObj.dashboardWin.loadFile(`${rootPath}/dashboard/index.html`);
     
-    dashboardWin.maximize();
+    sharedObj.dashboardWin.maximize();
 });

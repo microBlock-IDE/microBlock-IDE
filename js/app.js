@@ -346,7 +346,6 @@ let loadCodeAlready = false;
 let callHotUpdate = true;
 
 if (isElectron) {
-    let sharedObj = remote.getGlobal('sharedObj');
     for (let arg of sharedObj.argv) {
         if (arg.endsWith(".mby")) {
             let filePath = arg;
