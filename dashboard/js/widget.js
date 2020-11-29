@@ -84,7 +84,11 @@ widgets = [
             max: {
                 type: "number",
                 default: 100
-            }
+            },
+            limit: {
+                type: "number",
+                default: 20
+            },
         },
         create: function() {
             this.dataLog = [ ];
@@ -207,6 +211,13 @@ widgets = [
                         },
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: {
+                            duration: 0
+                        },
+                        hover: {
+                            animationDuration: 0
+                        },
+                        responsiveAnimationDuration: 0
                     }
                 });
                 
@@ -216,6 +227,9 @@ widgets = [
                     t: (new Date()).getTime(),
                     y: +this.value
                 });
+                if (this.chart.data.datasets[0].data.length > this.property.limit) {
+                    this.chart.data.datasets[0].data = this.chart.data.datasets[0].data.slice(-this.property.limit);
+                }
             }
             this.chart.options.scales.yAxes[0].ticks.suggestedMin = this.property.min;
             this.chart.options.scales.yAxes[0].ticks.suggestedMax = this.property.max;
