@@ -129,23 +129,17 @@ let createWidget = (id, addToToolbox) => {
                 <div class="input"><input type="text" name="name" value="${widget.name}" autocomplete="off"></div>
             </div>
         `;
-        /* html += `
-            <div class="property">
-                <div class="label">Source</div>
-                <div class="input">
-                    <select name="source">${
-                        getAllDataSourceName().map(n => `
-                            <option value="${n}">${n}</option>
-                        `).join("")
-                    }</select>
-                </div>
-            </div>
-        `; */
         html += `
             <div class="property">
                 <div class="label">Source</div>
                 <div class="input">
-                    <input name="source" type="text" value="${widget.source}">
+                    <select name="source">
+                        <option value=""${widget.source === null ? " selected" : ""}></option>
+                        ${
+                        getAllDataSourceName().map(n => `
+                            <option value="${n}"${widget.source === n ? " selected" : ""}>${n}</option>
+                        `).join("")}
+                    </select>
                 </div>
             </div>
         `;
@@ -174,7 +168,6 @@ let createWidget = (id, addToToolbox) => {
                 } else if (name === "source") {
                     widget.source = value;
                 } else {
-                    
                     if (Object.keys(widget.property).indexOf(name) >= 0) {
                         widget.property[name] = value;
                         widget.render.bind(widget)();
@@ -197,8 +190,13 @@ let createWidget = (id, addToToolbox) => {
     return widget;
 }
 
+let logSourceName = [];
+
 let onDataIn = (source, value) => {
-    console.log(source, value);
+    if (logSourceName.indexOf(source) < 0) {
+        logSourceName.push(source);
+    }
+
     for (let widget of allWidget.filter(w => w.source === source)) {
         widget.value = value;
         widget.render.bind(widget)();
@@ -206,7 +204,7 @@ let onDataIn = (source, value) => {
 }
 
 let getAllDataSourceName = () => {
-    return [];
+    return logSourceName;
 };
 
 for (let _widget of widgets) {
@@ -221,8 +219,6 @@ for (let _widget of widgets) {
 document.querySelector("#toolbox-open-close").addEventListener("click", function(e) {
     let isShow = document.querySelector("section.toolbox").classList.toggle("active");
 });
-
-createWidget("text");
 
 let dataInputBuffer = "";
 
@@ -249,50 +245,6 @@ if (isElectron) {
     });
 }
 
-/*
-var myGauge = Gauge(document.querySelector("#gauge-demo"), {
-    max: 100,
-    value: 50
-});
-
-var myChart = new Chart(document.querySelector("#myChart").getContext('2d'), {
-    type: 'line',
-    data: {
-        labels: [ "1", "2", "3", "4" ],
-        datasets: [{
-            backgroundColor: "#ff57221f",
-            borderColor: "#FF5722",
-            borderWidth: 1,
-            data: [ 10, 20, 5, 2 ],
-            fill: "start"
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                },
-                gridLines: {
-                    color: "#424242"
-                },
-            }],
-            xAxes: [{
-                gridLines: {
-                    color: "#424242"
-                },
-            }]
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-            display: false
-        },
-        elements: {
-            line: {
-                tension: 0.000001
-            }
-        },
-    }
-});
-*/
+if (allWidget.length === 0) {
+    document.querySelector("section.toolbox").classList.add("active");
+}

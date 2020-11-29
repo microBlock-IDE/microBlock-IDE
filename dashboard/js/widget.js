@@ -91,7 +91,6 @@ widgets = [
             },
         },
         create: function() {
-            this.dataLog = [ ];
             return `<canvas class="widget-chart" width="100%" height="100%"></canvas>`;
         },
         render: function() {
@@ -110,34 +109,6 @@ widgets = [
 					        lineTension: 0,
                         }]
                     },
-                    /*options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                },
-                                gridLines: {
-                                    color: "#424242"
-                                },
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    color: "#424242"
-                                },
-                            }]
-                        },
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            display: false
-                        },
-                        elements: {
-                            line: {
-                                tension: 0.000001
-                            }
-                        },
-                    }*/
-
                     options: {
                         scales: {
                             xAxes: [{
@@ -197,15 +168,6 @@ widgets = [
                                 }
                             }]
                         },
-                        /* tooltips: {
-                            intersect: false,
-                            mode: 'index',
-                            callbacks: {
-                                label: function(tooltipItem, myData) {
-                                    return parseFloat(tooltipItem.value).toFixed(2);
-                                }
-                            }
-                        }, */
                         legend: {
                             display: false
                         },
@@ -248,7 +210,10 @@ widgets = [
         id: "log",
         name: "Log",
         property: {
-            
+            limit: {
+                type: "number",
+                default: 20
+            },
         },
         create: function() {
             return `<ul class="log-list"></ul>`;
@@ -272,6 +237,12 @@ widgets = [
                 list.insertBefore(li, list.firstChild);
             } else {
                 list.appendChild(li);
+            }
+            if (list.childElementCount > this.property.limit) {
+                let lis = list.querySelectorAll("li");
+                for (let i=(this.property.limit - 1);i<list.childElementCount;i++) {
+                    lis[i].remove();
+                }
             }
         },
         toolbox: function() {

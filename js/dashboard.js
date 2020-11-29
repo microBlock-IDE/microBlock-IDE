@@ -15,5 +15,5 @@ $("#open-dashboard").click(() => {
 
     sharedObj.dashboardWin.loadFile(`${rootPath}/dashboard/index.html`);
     
-    sharedObj.dashboardWin.maximize();
+    // sharedObj.dashboardWin.maximize();
 });

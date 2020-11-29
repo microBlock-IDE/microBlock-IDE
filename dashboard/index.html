@@ -12,6 +12,10 @@
 
     if (isElectron) {
         ipcRenderer = require('electron').ipcRenderer;
+
+        remote = require('electron').remote;
+
+        sharedObj = remote.getGlobal('sharedObj');
     }
     </script>
 </head>
