@@ -272,7 +272,9 @@ let serialConnectElectron = async (portName = "", autoConnect = false) => {
     NotifyS("Serial port connected");
     statusLog("Serial port connected");
     $("#port-name").text(`CONNECTED (${portName})`);
-    sharedObj.dashboardWin.webContents.send("serial-status", "connected");
+    if (sharedObj.dashboardWin) {
+        sharedObj.dashboardWin.webContents.send("serial-status", "connected");
+    }
     
     // Fixed ESP32 go to Bootloader Mode after press Reset Button
     serialPort.set({
