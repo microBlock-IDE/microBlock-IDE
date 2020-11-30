@@ -62,12 +62,14 @@ widgets = [
         render: function() {
             if (typeof this.gauge === "undefined") {
                 this.gauge = Gauge(this.element.querySelector(".gauge-container"), {
-                    min: this.property.min,
-                    max: this.property.max,
+                    min: +this.property.min,
+                    max: +this.property.max,
                     value: this.value
                 });
             }
-            this.gauge.setValueAnimated(+this.value, 1);
+            this.gauge.setMinValue(+this.property.min);
+            this.gauge.setMaxValue(+this.property.max);
+            this.gauge.setValueAnimated(+this.value, 0.3);
         },
         toolbox: function() {
             this.value = 60;
@@ -193,8 +195,8 @@ widgets = [
                     this.chart.data.datasets[0].data = this.chart.data.datasets[0].data.slice(-this.property.limit);
                 }
             }
-            this.chart.options.scales.yAxes[0].ticks.suggestedMin = this.property.min;
-            this.chart.options.scales.yAxes[0].ticks.suggestedMax = this.property.max;
+            this.chart.options.scales.yAxes[0].ticks.suggestedMin = +this.property.min;
+            this.chart.options.scales.yAxes[0].ticks.suggestedMax = +this.property.max;
             this.chart.update();
         },
         toolbox: function() {
