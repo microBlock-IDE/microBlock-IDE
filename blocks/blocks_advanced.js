@@ -247,7 +247,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "send_into_source",
-  "message0": "send %1 into source %2",
+  "message0": "send %1 to dashboard via %2",
   "args0": [
     {
       "type": "input_value",

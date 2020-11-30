@@ -549,6 +549,25 @@ addBoard({
                     color: "#8E44AD",
                     blocks: [
                         {
+                            xml: '<label text="Dashboard"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="send_into_source">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">33</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="source">
+                                        <shadow type="text">
+                                            <field name="TEXT">source1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
                             xml: '<label text="Debug"></label>',
                         },
                         {
