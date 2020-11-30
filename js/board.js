@@ -41,11 +41,11 @@ $("#new-project").click(async () => {
         }
 
         imageSelectUpdate("#level-select");
-        $("#level-select ul > li:first-child > div").click();
+        $(`#level-select ul > li:first-child > div`).click();
     });
 
     imageSelectUpdate("#hardware-select");
-    $("#hardware-select ul > li:first-child > div").click();
+    $(`#hardware-select ul > li > div[data-board-id='${boardId}']`).click();
 
     $("#project-create-dialog").show();
 });

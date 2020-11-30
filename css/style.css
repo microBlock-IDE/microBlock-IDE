@@ -1256,6 +1256,7 @@ ul.switch-mode > li:last-child {
     border: 1px solid #ECF0F1;
     border-radius: 4px;
     padding: 10px;
+    margin-bottom: 20px;;
 }
 
 .image-select > ul > li > div:hover {
