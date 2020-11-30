@@ -36,6 +36,14 @@ KidBright32_config = {
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.4.0",
+            path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.4.0.bin",
+            version: "V1.4.0",
+            date: "2020-11-30",
+            board: "KidBright32",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for KidBright32 V1.3.0-beta-2",
             path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.3.0-beta-2.bin",
             version: "V1.3.0-beta-2",
@@ -610,6 +618,25 @@ KidBright32_config = {
                     icon: `/images/icon/expert.png`,
                     color: "#8E44AD",
                     blocks: [
+                        {
+                            xml: '<label text="Dashboard"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="send_into_source">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">33</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="source">
+                                        <shadow type="text">
+                                            <field name="TEXT">source1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="Debug"></label>',
                         },

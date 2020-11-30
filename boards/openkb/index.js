@@ -33,6 +33,14 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.4.0",
+            path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.4.0.bin",
+            version: "V1.4.0",
+            date: "2020-11-30",
+            board: "KidBright32",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for KidBright32 V1.3.0-beta-2",
             path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.3.0-beta-2.bin",
             version: "V1.3.0-beta-2",
