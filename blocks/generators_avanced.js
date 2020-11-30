@@ -149,3 +149,11 @@ Blockly.Python['is_woke_from_deep_sleep'] = function(block) {
     var code = '(machine.reset_cause() == machine.DEEPSLEEP_RESET)';
     return [code, Blockly.Python.ORDER_NONE];
 };
+
+Blockly.Python['send_into_source'] = function(block) {
+    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+    var value_source = Blockly.Python.valueToCode(block, 'source', Blockly.Python.ORDER_ATOMIC);
+
+    var code = `print(str(${value_source}) + "=" + str(${value_value}))\n`;
+    return code;
+};

@@ -244,5 +244,25 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#8E44AD",
   "tooltip": "",
   "helpUrl": ""
+},
+{
+  "type": "send_into_source",
+  "message0": "send %1 into source %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "value"
+    },
+    {
+      "type": "input_value",
+      "name": "source"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "",
+  "helpUrl": ""
 }
 ]);
