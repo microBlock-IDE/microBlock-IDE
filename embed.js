@@ -35,7 +35,7 @@ window.microBlock.reload = () => {
         }
 
         let iframe = document.createElement("iframe");
-        iframe.setAttribute("src", `http://localhost/?embed${optionURL}`);
+        iframe.setAttribute("src", `https://ide.microblock.app/?embed${optionURL}`);
         box.appendChild(iframe);
 
         window.microBlock.nextId++;
