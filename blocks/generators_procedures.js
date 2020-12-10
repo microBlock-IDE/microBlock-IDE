@@ -6,3 +6,11 @@ Blockly.Python['math_change'] = function (block) {
     Blockly.VARIABLE_CATEGORY_NAME);
   return `${varName} = (${varName} if type(${varName}) in [ int, float ] else 0) + ${argument0}\n`;
 };
+
+Blockly.Python['random_seed'] = function(block) {
+  Blockly.Python.definitions_['import_random'] = 'import random';
+  Blockly.Python.definitions_['from machine_import_ADC'] = 'from machine import ADC';
+
+  var code = 'random.seed(ADC(Pin(35)).read())\n';
+  return code;
+};

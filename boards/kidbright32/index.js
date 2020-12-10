@@ -411,6 +411,28 @@ KidBright32_config = {
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="controls_for">
+                                    <field name="VAR">i</field>
+                                    <value name="FROM">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="TO">
+                                        <shadow type="math_number">
+                                            <field name="NUM">10</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="BY">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                          `
+                        },
                         "controls_if",
                         {
                             xml: `
@@ -499,6 +521,7 @@ KidBright32_config = {
                                 </block>
                             `
                         },
+                        "random_seed",
                         {
                             xml: `
                                 <block type="math_random_int">

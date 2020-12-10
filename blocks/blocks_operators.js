@@ -204,4 +204,13 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "%{BKY_TEXT_JOIN_TOOLTIP}",
     "mutator": "text_join_mutator"
   },
+  {
+    "type": "random_seed",
+    "message0": "random seed",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#34495E",
+    "tooltip": "initialize the pseudo-random number generator",
+    "helpUrl": ""
+  }
 ]);
