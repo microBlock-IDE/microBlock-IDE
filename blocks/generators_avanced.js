@@ -157,3 +157,10 @@ Blockly.Python['send_into_source'] = function(block) {
     var code = `print(str(${value_source}) + "=" + str(${value_value}))\n`;
     return code;
 };
+
+Blockly.Python['board_reset'] = function(block) {
+    Blockly.Python.definitions_['import_machine'] = 'import machine';
+
+    var code = `machine.reset()\n`;
+    return code;
+};

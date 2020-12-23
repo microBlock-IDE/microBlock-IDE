@@ -55,9 +55,26 @@ let serialUploadFile = async (fileName, content) => {
 
     statusLog("Uploading " + fileName);
 
-    sendCmd(0x10, fileName);
+    await sendCmd(0x10, fileName);
 
     let errorCount = 0;
+    while(errorCount < 20) {
+        await sleep(50);
+        // console.log(JSON.stringify(serialLastData));
+        if (serialLastData.endsWith(`set path to ${fileName}\r\n`)) {
+            // console.log("Open file OK!");
+            serialLastData = "";
+            break;
+        }
+        errorCount++;
+    }
+
+    if (errorCount >= 20) {
+        console.error("Error, set path fail !", fileName);
+        return;
+    }
+
+    errorCount = 0;
     for (const chunkContent1 of content.match(/.{1,10000}/gs)) {
         serialLastData = "";
         await sendCmd(0x11, chunkContent1);
@@ -361,7 +378,7 @@ $("#upload-program").click(async function() {
     for (let i=0;i<30;i++) {
         serialLastData = "";
         await writeSerialBytes([ 0x1F, 0xF1, 0xFF ]); // Sync bytes
-        await sleep(50);
+        await sleep(100);
         if (serialLastData.endsWith("upload mode\r\n")) {
             okFlag = true;
             break;

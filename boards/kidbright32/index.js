@@ -752,7 +752,8 @@ KidBright32_config = {
                                 </block>
                             `
                         },
-                        "is_woke_from_deep_sleep"
+                        "is_woke_from_deep_sleep",
+                        "board_reset"
                     ]
                 }
             ]

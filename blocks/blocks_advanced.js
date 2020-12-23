@@ -264,5 +264,15 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#8E44AD",
   "tooltip": "",
   "helpUrl": ""
-}
+},
+{
+  "type": "board_reset",
+  "message0": "hard reset",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "Reset board and start program again (NOT recommend)",
+  "helpUrl": ""
+},
 ]);
