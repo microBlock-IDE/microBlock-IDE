@@ -21,24 +21,6 @@ let waitMicroPythonIsReadyNextCommand = async (timeout) => {
     return false;
 }
 
-let sendCmd = async (cmd, data) => {
-    let encodeData = new TextEncoder("utf-8").encode(data);
-    let content = [];
-    content.push(cmd);
-    if (typeof data !== "undefined") {
-        content.push((encodeData.length >> 8) & 0xFF);
-        content.push(encodeData.length & 0xFF);
-        content = content.concat(Array.from(encodeData));
-        let dataSum = 0;
-        for (let index=0;index<encodeData.length;index++) {
-            dataSum += encodeData[index];
-            dataSum = dataSum & 0xFF;
-        }
-        content.push(dataSum);
-    }
-    await writeSerialBytes(content);
-}
-
 let uploadFileLog = { };
 let serialUploadFile = async (fileName, content) => {
     if (content.length == 0) {
@@ -49,33 +31,91 @@ let serialUploadFile = async (fileName, content) => {
     if (typeof uploadFileLog[fileName] === "string") {
         if (uploadFileLog[fileName] === fileMD5) {
             // console.log(`${fileName} not change, Skip it`);
-            // return;
+            return;
         }
     }
 
     statusLog("Uploading " + fileName);
 
-    sendCmd(0x10, fileName);
-
+    let firstWriteFlag = true;
     let errorCount = 0;
-    for (const chunkContent1 of content.match(/.{1,10000}/gs)) {
-        serialLastData = "";
-        await sendCmd(0x11, chunkContent1);
-
-        while(errorCount < 100) {
-            await sleep(50);
-            //console.log(JSON.stringify(serialLastData));
-            if (serialLastData.endsWith("write end\r\n")) {
+    serialLastData = "";
+    for (const chunkContent1 of content.match(/.{1,500}/gs)) {
+        // await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}")`);
+        while(errorCount < 20) {
+            await writeSerialNewLine(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}");w=f.write;p=print`);
+            await sleep(isElectron ? 50 : 100);
+            // console.log(serialLastData);
+            if (serialLastData.match(/OK[^>]*>$/gm)) {
                 // console.log("Open file OK!");
                 serialLastData = "";
                 break;
             }
             errorCount++;
         }
-        if (errorCount >= 100) {
-            console.error("Error, write file fail !", fileName);
+        if (errorCount >= 20) {
+            console.error("Error, open file fail !", fileName);
             return;
         }
+        
+        for (const chunkContent2 of chunkContent1.match(/.{1,100}/gs)) {
+            errorCount = 0;
+            while(errorCount < 20) {
+                // await writeSerialNewLine(`f.write(${JSON.stringify(chunkContent2)})`);
+                await writeSerialNewLine(`p(w(${JSON.stringify(chunkContent2).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`);
+                await sleep(isElectron ? 10 : 100);
+
+                let writeOKFlag = false;
+                for (let x=0;x<5;x++) {
+                    // console.log("Last data:", serialLastData);
+                    if (serialLastData.match(/OK[0-9]{1,3}[^>]*>/gm)) {
+                        let n = /OK([0-9]{1,3})[^>]*>/gm.exec(serialLastData);
+                        if (n) {
+                            let cUTF8 = chunkContent2.match(/[\u007F-\uFFFF]/g);
+                            let sendN = chunkContent2.length + (cUTF8 ? cUTF8.length * 2 : 0);
+                            if (+n[1] === sendN) {
+                                // console.log("Write file OK!");
+                                serialLastData = "";
+                                writeOKFlag = true;
+                            } else {
+                                console.warn("Data lost ? Send:", sendN, "Ros:", +n[1]);
+                            }
+                        } else {
+                            console.warn("Why not match ?");
+                        }
+                        break;
+                    }
+                    await writeSerialNewLine(" ");
+                    await sleep(100);
+                }
+                if (writeOKFlag) {
+                    break;
+                }
+                console.warn("Write fail !, Try");
+                errorCount++;
+            }
+            if (errorCount >= 20) {
+                console.error("Write fail", chunkContent2);
+                return;
+            }
+        }
+        errorCount = 0;
+        while(errorCount < 20) {
+            await writeSerialNewLine(`f.close()`);
+            await sleep(isElectron ? 300 : 500);
+            // console.log(serialLastData);
+            if (serialLastData.match(/OK[^>]*>$/gm)) {
+                // console.log("Close file OK!");
+                serialLastData = "";
+                break;
+            }
+            errorCount++;
+        }
+        if (errorCount >= 20) {
+            console.error("Error, Close file fail !", fileName);
+            return;
+        }
+        firstWriteFlag = false;
     }
 
     uploadFileLog[fileName] = fileMD5;
@@ -203,7 +243,7 @@ let showPortSelect = () => {
     }));
 }
 
-let serialConnectElectron = async (portName = "", autoConnect = false, uploadMode = false) => {
+let serialConnectElectron = async (portName = "", autoConnect = false) => {
     if (!portName) {
         try {
             portName = await showPortSelect();
@@ -293,25 +333,6 @@ let serialConnect = () => {
     return (!isElectron) ? serialConnectWeb() : serialConnectElectron()
 };
 
-let boardReset = () => { // Hard-reset
-    return new Promise(resolve => 
-        serialPort.set({ // EN = 1, BOOT = 1
-            dtr: true,
-            rts: true
-        }, () => 
-            serialPort.set({ // EN = 0, BOOT = 1
-                dtr: false,
-                rts: true
-            }, () => 
-                serialPort.set({ // EN = 1, BOOT = 1
-                    dtr: true,
-                    rts: true
-                }, resolve)
-            )
-        )
-    );
-}
-
 $("#upload-program").click(async function() {
     statusLog("Start Upload");
 
@@ -337,57 +358,80 @@ $("#upload-program").click(async function() {
 
     let okFlag;
 
-    t0 = (new Date()).getTime();
-
-    serialLastData = "";
-    await boardReset();
+    if (!serialLastData.endsWith(">>>") && serialLastData.endsWith(">")) { // Raw REPL mode ?
+        okFlag = false;
+        for (let i=0;i<5;i++) {
+            await writeSerialByte(2); // Ctrl + B, Exit Raw REPL
+            await sleep(100);
+            RawREPLMode = false;
+            if (microPythonIsReadyNextCommand()) {
+                okFlag = true;
+                break;
+            }
+        }
+    }
     
     okFlag = false;
-    for (let i=0;i<50;i++) {
-        await sleep(50);
-        if (serialLastData.endsWith("wait upload\r\n")) {
-            serialLastData = "";
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(3); // Ctrl + C
+        await sleep(100);
+        if (microPythonIsReadyNextCommand()) {
             okFlag = true;
             break;
         }
     }
 
     if (!okFlag) {
-        console.warn("wait upload keyword timeout, only can use old method ?");
+        NotifyE("Upload fail: Access to MicroPython error");
+        statusLog("Upload Fail");
+        $("#upload-program").removeClass("loading");
+        if (isElectron) {
+            firewareUpgradeFlow();
+        }
         return;
     }
 
+    /*
     okFlag = false;
-    for (let i=0;i<30;i++) {
-        serialLastData = "";
-        await writeSerialBytes([ 0x1F, 0xF1, 0xFF ]); // Sync bytes
-        await sleep(50);
-        if (serialLastData.endsWith("upload mode\r\n")) {
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(4); // Ctrl + D, Soft Reset than main.py will run
+        await sleep(200);
+        if (microPythonIsReadyNextCommand()) {
             okFlag = true;
             break;
         }
     }
 
     if (!okFlag) {
-        console.warn("Send sync bytes fail");
+        NotifyE("Upload fail: Soft Reset MicroPython fail !");
+        $("#upload-program").removeClass("loading");
+        return;
+    }
+    */
+     
+    await writeSerialByte(4);
+    await sleep(100);
+
+    okFlag = false;
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(3); // Ctrl + C
+        await sleep(100);
+        if (microPythonIsReadyNextCommand()) {
+            okFlag = true;
+            break;
+        }
+    }
+
+    if (!okFlag) {
+        NotifyE("Upload fail: Access to MicroPython error");
+        statusLog("Upload Fail");
+        $("#upload-program").removeClass("loading");
         return;
     }
 
     if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
 
-    // Check MicroPython version
     if (boardId && !skipFirmwareUpgrade) {
-        serialLastData = "";
-
-        for (let i=0;i<30;i++) {
-            serialLastData = "";
-            await sendCmd(0x01);
-            await sleep(50);
-            if (serialLastData.endsWith("\r\n")) {
-                break;
-            }
-        }
-
         let board = boards.find(board => board.id === boardId);
         let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
         if (checkVersion) {
@@ -413,13 +457,25 @@ $("#upload-program").click(async function() {
                     }
                 }
             }
-        } else {
-            console.warn("Check version fail");
         }
     }
 
+    for (let i=0;i<100;i++) {
+        await writeSerialByte(1); // Ctrl + A, Enter to Raw REPL
+        await sleep(50);
+        RawREPLMode = true;
+        if (microPythonIsReadyNextCommand()) {
+            okFlag = true;
+            break;
+        }
+    }
     
-    
+    if (!okFlag) {
+        NotifyE("Upload fail: Enter to Raw REPL fail");
+        statusLog("Upload Fail");
+        $("#upload-program").removeClass("loading");
+        return;
+    }
 
     let uploadModuleList = findIncludeModuleNameInCode(code);
 
@@ -454,29 +510,17 @@ $("#upload-program").click(async function() {
 
     await serialUploadFile("main.py", code);
 
-    serialLastData = "";
-    await sendCmd(0xFF);
+    await writeSerialByte(2); // Ctrl + B, Exit from Raw REPL
 
-    okFlag = false;
-    for (let i=0;i<50;i++) {
-        await sleep(50);
-        if (serialLastData.indexOf("exit upload mode\r\n") >= 0) {
-            okFlag = true;
-            break;
-        }
-    }
+    RawREPLMode = false;
 
-    if (!okFlag) {
-        console.warn("exit upload mode fail");
-    }
-
-    timeDiff = (new Date()).getTime() - t0;
-    console.log("Time:", timeDiff, "ms");
-
+    await writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
+    // await writeSerialByte(4); // Ctrl + D, Soft Reset than main.py will run
+    
     $("#upload-program").removeClass("loading");
 
-    NotifyS("Upload Successful");
-    statusLog(`Upload successful with ${timeDiff} mS`);
+    NotifyS("Upload successful");
+    statusLog("Upload Successful");
 });
 
 async function writeSerial(text) {
@@ -487,15 +531,7 @@ async function writeSerial(text) {
         view.set(data);
         await writer.write(buff);
     } else {
-        let buff = Buffer.from(text, 'binary');
-        console.log(buff);
-        t1 = (new Date()).getTime();
-        await new Promise(resolve => {
-            console.log("Write", serialPort.write(buff, () => {
-                console.log("Write OK", (new Date()).getTime() - t1);
-                resolve();
-            }));
-        });
+        await serialPort.write(Buffer.from(text, 'binary'));
     }
     // console.log(buff);
 }
@@ -509,25 +545,7 @@ async function writeSerialByte(data) {
         view[0] = data;
         await writer.write(buff);
     } else {
-        let b = Buffer.from([ data ]);
-        console.log(b);
-        await (new Promise(resolve => serialPort.write(Buffer.from(b), resolve)));
-    }
-    // console.log(buff);
-}
-
-async function writeSerialBytes(data) {
-    if (!isElectron) {
-        buff = new ArrayBuffer(data.length);
-        view = new Uint8Array(buff);
-        for (let i;i<data.length;i++) {
-            view[i] = data[i];
-        }
-        await writer.write(buff);
-    } else {
-        let b = Buffer.from(data);
-        console.log(b);
-        await new Promise(resolve => serialPort.write(b, resolve));
+        await serialPort.write(String.fromCharCode(data));
     }
     // console.log(buff);
 }
@@ -541,7 +559,7 @@ let sleep = (time) => {
 let moduleBuiltIn = [
     "framebuf", "ucryptolib", "urandom",
     "_boot", "gc", "uctypes", "ure",
-    "_onewire", "inisetup", "uerrno",
+    "_onewire", "inisetup", "uerrno", "urequests",
     "_thread", "machine", "uhashlib", "uselect",
     "_webrepl", "math", "uhashlib", "usocket",
     "apa106", "micropython", "uheapq", "ussl",

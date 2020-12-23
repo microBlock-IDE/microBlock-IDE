@@ -251,4 +251,129 @@ widgets = [
             this.value = "Hello, this dummy data !";
         }
     },
+    {
+        id: "aircraft",
+        name: "Aircraft",
+        property: {
+            pitch: {
+                type: "source",
+            },
+            roll: {
+                type: "source"
+            },
+            heading: {
+                type: "source"
+            },
+        },
+        create: function() {
+            return ``;
+        },
+        render: function() {
+            /* if (this.value === null) {
+                return;
+            } */
+
+            if (!this.threeObj) {
+                this.threeObj = {};
+
+                this.threeObj.mainBox = this.element.querySelector("article");
+                let boxWidth = this.threeObj.mainBox.clientWidth - 20;
+                let boxHeight = this.threeObj.mainBox.clientHeight - 20;
+
+                this.threeObj.scene = new THREE.Scene();
+                this.threeObj.scene.background = new THREE.Color(0xdddddd);
+
+                this.threeObj.camera = new THREE.PerspectiveCamera(26, boxWidth / boxHeight, 1, 5000);
+                this.threeObj.camera.position.x = 0;
+                this.threeObj.camera.position.y = 0;
+                this.threeObj.camera.position.z = 0;
+                
+                this.threeObj.hemiLight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 4);
+                this.threeObj.scene.add(this.threeObj.hemiLight);
+
+                this.threeObj.camera_pivot = new THREE.Object3D()
+                this.threeObj.Y_AXIS = new THREE.Vector3(0, 1, 0);
+
+                this.threeObj.scene.add(this.threeObj.camera_pivot);
+                this.threeObj.camera_pivot.add(this.threeObj.camera);
+                this.threeObj.camera.position.set(200, 200, 0);
+                this.threeObj.camera.lookAt(this.threeObj.camera_pivot.position);
+
+                this.threeObj.camera_pivot.rotateOnAxis(this.threeObj.Y_AXIS, 0);
+
+                this.threeObj.scene.add(new THREE.AxesHelper(500));
+                
+                this.threeObj.renderer = new THREE.WebGLRenderer();
+                // this.threeObj.renderer.setSize(boxWidth, boxHeight);
+                this.threeObj.mainBox.appendChild(this.threeObj.renderer.domElement);
+
+                this.threeObj.controls = new THREE.OrbitControls(this.threeObj.camera, this.threeObj.renderer.domElement);
+
+                this.threeObj.animate = () => {
+                    let boxWidth = this.threeObj.mainBox.clientWidth - 20;
+                    let boxHeight = this.threeObj.mainBox.clientHeight - 20;
+
+                    this.threeObj.camera.aspect = boxWidth / boxHeight;
+                    this.threeObj.camera.updateProjectionMatrix();
+                    this.threeObj.renderer.setSize(boxWidth, boxHeight);
+
+                    this.threeObj.renderer.render(this.threeObj.scene, this.threeObj.camera);
+                    requestAnimationFrame(this.threeObj.animate);
+                };
+
+                new THREE.GLTFLoader().load('3D-model/sample-airplane.glb', result => { 
+                    this.threeObj.model = result.scene.children[0]; 
+                    this.threeObj.scene.add(this.threeObj.model);
+                    this.threeObj.animate();
+                });
+            }
+
+            if (!this.threeObj.model) {
+                return;
+            }
+
+            let pitch = 0;
+            let roll = 0;
+            let heading = 0;
+
+            if (this.value) {
+                pitch = +this.value.pitch || 0;
+                roll = +this.value.roll || 0;
+                heading = +this.value.heading || 0;
+                console.log(pitch, roll, heading)
+            }
+
+            let xAngle = -90 - roll;
+            this.threeObj.model.rotation.x = xAngle * Math.PI / 180;
+    
+            let yAngle = pitch;
+            this.threeObj.model.rotation.y = yAngle * Math.PI / 180;
+    
+            let zAngle = -heading;
+            this.threeObj.model.rotation.z = zAngle * Math.PI / 180;
+        },
+        toolbox: function() {
+            
+        }
+    },
+    {
+        id: "game",
+        name: "Game",
+        property: {
+
+        },
+        create: function() {
+            return `<div class="game-box"></div>`;
+        },
+        render: function() {
+            if (!this.gameObj) {
+                this.gameObj = new Game(this.element.querySelector("article .game-box"));
+            }
+
+            this.gameObj.extennalControl = +this.value;
+        },
+        toolbox: function() {
+            
+        }
+    },
 ];

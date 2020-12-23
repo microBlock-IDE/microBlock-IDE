@@ -150,21 +150,39 @@ let createWidget = (id, addToToolbox) => {
                 <div class="input"><input type="text" name="name" value="${widget.name}" autocomplete="off"></div>
             </div>
         `;
-        html += `
-            <div class="property">
-                <div class="label">Source</div>
-                <div class="input">
-                    <select name="source">
-                        <option value=""${widget.source === null ? " selected" : ""}></option>
-                        ${
-                        getAllDataSourceName().map(n => `
-                            <option value="${n}"${widget.source === n ? " selected" : ""}>${n}</option>
-                        `).join("")}
-                    </select>
+        let sourceProperty = Object.keys(_widget.property).filter(propertyName => _widget.property[propertyName].type === "source");
+        if (sourceProperty.length <= 0) {
+            html += `
+                <div class="property">
+                    <div class="label">Source</div>
+                    <div class="input">
+                        <select name="source">
+                            <option value=""${widget.source === null ? " selected" : ""}></option>
+                            ${
+                            getAllDataSourceName().map(n => `
+                                <option value="${n}"${widget.source === n ? " selected" : ""}>${n}</option>
+                            `).join("")}
+                        </select>
+                    </div>
                 </div>
-            </div>
-        `;
-        html += Object.keys(_widget.property).map(propertyName => `
+            `;
+        } else {
+            html += sourceProperty.map(propertyName => `
+                <div class="property">
+                    <div class="label">${propertyName}</div>
+                    <div class="input">
+                        <select name="${propertyName}">
+                            <option value=""${widget.property[propertyName] === null ? " selected" : ""}></option>
+                            ${
+                            getAllDataSourceName().map(n => `
+                                <option value="${n}"${widget.property[propertyName] === n ? " selected" : ""}>${n}</option>
+                            `).join("")}
+                        </select>
+                    </div>
+                </div>
+            `).join("");
+        }
+        html += Object.keys(_widget.property).filter(propertyName => _widget.property[propertyName].type.indexOf([ "number" ]) >= 0).map(propertyName => `
             <div class="property">
                 <div class="label">${propertyName}</div>
                 <div class="input"><input name="${propertyName}" type="${_widget.property[propertyName].type}" value="${widget.property[propertyName]}" autocomplete="off"></div>
@@ -220,10 +238,29 @@ let onDataIn = (source, value) => {
         logSourceName.push(source);
     }
 
-    for (let widget of allWidget.filter(w => w.source === source)) {
-        widget.value = value;
+    for (let widget of allWidget) {
         let _widget = widgets.find(w => w.id === widget.id);
-        _widget.render.bind(widget)();
+        let sourceProperty = Object.keys(_widget.property).filter(propertyName => _widget.property[propertyName].type === "source");
+        let updateWidgetFlag = false;
+        if (sourceProperty.length <= 0) {
+            if (widget.source === source) {
+                widget.value = value;
+                updateWidgetFlag = true;
+            }
+        } else {
+            for (let propertyName of sourceProperty) {
+                if (widget.property[propertyName] === source) {
+                    if (!widget.value) {
+                        widget.value = { };
+                    }
+                    widget.value[propertyName] = value;
+                    updateWidgetFlag = true;
+                }
+            }
+        }
+        if (updateWidgetFlag) {
+            _widget.render.bind(widget)();
+        }
     }
 }
 
