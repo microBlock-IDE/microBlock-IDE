@@ -14,107 +14,107 @@
 }
 
 .compass-box > .bezel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border: 3px solid #eee;
-  border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 3px solid #eee;
+    border-radius: 50%;
 }
 
 .compass-box > .axis {
-  position: absolute;
-  left: 43px;
-  top: 43px;
-  width: 5px;
-  height: 5px;
-  background: #fff;
-  border: 3px solid #666;
-  border-radius: 50%;
+    position: absolute;
+    left: 43px;
+    top: 43px;
+    width: 5px;
+    height: 5px;
+    background: #fff;
+    border: 3px solid #666;
+    border-radius: 50%;
 }
 
 .compass-box > .needle {
-  position: absolute;
-  left: 48px;
-  width: 2px;
-  height: 80px;
-  top: 8px;
+    position: absolute;
+    left: 48px;
+    width: 2px;
+    height: 80px;
+    top: 8px;
 }
 
 .compass-box > .needle:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -1px;
-  width: 0;
-  height: 0;
-  border: 2px solid transparent;
-  border-bottom: 40px solid #FF3600;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 0;
+    height: 0;
+    border: 2px solid transparent;
+    border-bottom: 40px solid #FF3600;
 }
 
 .compass-box > .needle:before {
-  content: '';
-  position: absolute;
-  top: 40px;
-  left: -1px;
-  width: 0;
-  height: 0;
-  border: 2px solid transparent;
-  border-top: 40px solid #666;
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: -1px;
+    width: 0;
+    height: 0;
+    border: 2px solid transparent;
+    border-top: 40px solid #666;
 }
 
 .compass-box > .N {
-  position: absolute;
-  top: 5px;
-  left: 39px;
-  color: #FF3600;
+    position: absolute;
+    top: 5px;
+    left: 39px;
+    color: #FF3600;
 }
 
 .compass-box > .E {
-  position: absolute;
-  right: 5px;
-  top: 39px;
+    position: absolute;
+    right: 5px;
+    top: 39px;
 }
 
 .compass-box > .S {
-  position: absolute;
-  bottom: 5px;
-  left: 39px;
+    position: absolute;
+    bottom: 5px;
+    left: 39px;
 }
 
 .compass-box > .W {
-  position: absolute;
-  left: 5px;
-  top: 39px;
+    position: absolute;
+    left: 5px;
+    top: 39px;
 }
 
 .compass-box > .dir {
-  font-family: arial, sans-serif;
-  color: #999;
-  font-size: 10px;
-  background: #1E1E1E;
-  padding: 5px;
+    font-family: arial, sans-serif;
+    color: #999;
+    font-size: 10px;
+    background: #1E1E1E;
+    padding: 5px;
 }
 
 .compass-box > .quad {
-  display: block;
-  width: 1px;
-  background: #ddd;
-  height: 80px;
-  position: absolute;
-  top: 8px;
-  left: 48px;
+    display: block;
+    width: 1px;
+    background: #ddd;
+    height: 80px;
+    position: absolute;
+    top: 8px;
+    left: 48px;
 }
 
 .compass-box > .NWSE {
-  transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .compass-box > .NESW {
-  transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .compass-box > .WE {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
