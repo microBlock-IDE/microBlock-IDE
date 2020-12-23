@@ -164,3 +164,48 @@ Blockly.Python['board_reset'] = function(block) {
     var code = `machine.reset()\n`;
     return code;
 };
+
+Blockly.Python['run_in_background'] = function(block) {
+    Blockly.Python.definitions_['import__thread'] = 'import _thread';
+
+    var statements_callback = Blockly.Python.statementToCode(block, 'callback');
+
+    // -----------------------------
+    var globals = [];
+    var varName;
+    var workspace = block.workspace;
+    var variables = Blockly.Variables.allUsedVarModels(workspace) || [];
+    for (var i = 0, variable; variable = variables[i]; i++) {
+      varName = variable.name;
+      if (block.getVars().indexOf(varName) == -1) {
+        globals.push(Blockly.Python.variableDB_.getName(varName,
+            Blockly.VARIABLE_CATEGORY_NAME));
+      }
+    }
+    // Add developer variables.
+    var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
+    for (var i = 0; i < devVarList.length; i++) {
+      globals.push(Blockly.Python.variableDB_.getName(devVarList[i],
+          Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+    }
+  
+    globals = globals.length ?
+        Blockly.Python.INDENT + 'global ' + globals.join(', ') + '\n' : '';
+    // -----------------------------
+
+    if (typeof nextRunInBackground !== "number") {
+        nextRunInBackground = 1;
+    }
+
+    var functionName = Blockly.Python.provideFunction_(
+        'runInBackground_' + nextRunInBackground,
+        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+        globals,
+        statements_callback]);
+
+    var code = `_thread.start_new_thread(${functionName}, ())\n`;
+
+    nextRunInBackground++;
+    return code;
+};
+

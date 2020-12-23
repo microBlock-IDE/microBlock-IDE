@@ -275,4 +275,22 @@ Blockly.defineBlocksWithJsonArray([
   "tooltip": "Reset board and start program again (NOT recommend)",
   "helpUrl": ""
 },
+{
+  "type": "run_in_background",
+  "message0": "run in background %1 %2",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#8E44AD",
+  "tooltip": "",
+  "helpUrl": ""
+}
 ]);

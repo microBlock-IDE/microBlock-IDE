@@ -672,6 +672,10 @@ addBoard({
                         "dht_read",
                         "ds18x20_read",
                         {
+                            xml: '<label text="Task"></label>',
+                        },
+                        "run_in_background",
+                        {
                             xml: '<label text="Low Power Mode"></label>',
                         },
                         {

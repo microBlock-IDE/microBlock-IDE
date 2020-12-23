@@ -728,6 +728,10 @@ KidBright32_config = {
                         "rtc_get_year",
                         "rtc_sync_ntp",*/
                         {
+                            xml: '<label text="Task"></label>',
+                        },
+                        "run_in_background",
+                        {
                             xml: '<label text="Low Power Mode"></label>',
                         },
                         {
