@@ -207,5 +207,73 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
-}
+},
+{
+  "type": "imu_on_gesture",
+  "message0": "on %1 gesture %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "gesture",
+      "options": [
+        [
+          "shake",
+          "EVENT_SHAKE"
+        ],
+        [
+          "board up",
+          "EVENT_BOARD_UP"
+        ],
+        [
+          "board down",
+          "EVENT_BOARD_DOWN"
+        ],
+        [
+          "screen up",
+          "EVENT_SCREEN_UP"
+        ],
+        [
+          "screen down",
+          "EVENT_SCREEN_DOWN"
+        ],
+        [
+          "tilt left",
+          "EVENT_TILT_LEFT"
+        ],
+        [
+          "tilt right",
+          "EVENT_TILT_RIGHT"
+        ],
+        [
+          "free fall",
+          "EVENT_FREE_FALL"
+        ],
+        [
+          "3g",
+          "EVENT_3G"
+        ],
+        [
+          "6g",
+          "EVENT_6G"
+        ],
+        [
+          "8g",
+          "EVENT_8G"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "callback"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#E67E22",
+  "tooltip": "",
+  "helpUrl": ""
+},
 ]);
