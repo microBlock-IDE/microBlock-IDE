@@ -221,6 +221,7 @@ KidBright32_config = {
                         {
                             xml: '<label text="Switch"></label>',
                         },
+                        "switch_on_pressed",
                         "switch_on_press",
                         "switch_on_release",
                         "switch_is_press",
