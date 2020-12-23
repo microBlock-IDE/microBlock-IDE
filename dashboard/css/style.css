@@ -310,6 +310,12 @@ section.toolbox .widget-box > header:hover {
     height: 100%;
 }
 
+.widget-box.compass-widget > article > .box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
 .widget-box .setting-btn {
     cursor: pointer;
     position: absolute;

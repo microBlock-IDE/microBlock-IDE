@@ -376,4 +376,45 @@ widgets = [
             
         }
     },
+    {
+        id: "compass",
+        name: "Compass",
+        property: {
+
+        },
+        create: function() {
+            return `
+            <div class="box">
+                <div class="compass-box">
+                    <div class="bezel"></div>
+                    <div class="NWSE quad"></div>
+                    <div class="NESW quad"></div>
+                    <div class="NS quad"></div>
+                    <div class="WE quad"></div>
+                    <span class="N dir">N</span>
+                    <span class="E dir">E</span>
+                    <span class="S dir">S</span>
+                    <span class="W dir">W</span>
+                    <div class="needle"></div>
+                    <div class="axis"></div>
+                </div>
+            </div>
+            `;
+        },
+        render: function() {
+            let box = this.element.querySelector(".box");
+            if (!this.onResize) {
+                this.onResize = (function() {
+                    this.element.querySelector(".compass-box").style.zoom = Math.min(box.clientWidth, box.clientHeight) / 100;
+                }).bind(this);
+
+                this.ro = new ResizeObserver(this.onResize);
+                this.ro.observe(box);
+            }
+            this.element.querySelector(".compass-box > .needle").style.transform = `rotate(${+this.value}deg)`;
+        },
+        toolbox: function() {
+            
+        }
+    },
 ];
