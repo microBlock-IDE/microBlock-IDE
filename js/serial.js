@@ -441,6 +441,7 @@ class UploadOnBoot {
 
 $("#upload-program").click(async function() {
     statusLog("Start Upload");
+    t0 = (new Date()).getTime();
 
     setTimeout(() => $("#upload-program").addClass("loading"), 1);
 
@@ -461,141 +462,6 @@ $("#upload-program").click(async function() {
     }
 
     console.log(code);
-
-    let okFlag;
-
-    t0 = (new Date()).getTime();
-/*
-    serialLastData = "";
-    await boardReset();
-    
-    okFlag = false;
-    for (let i=0;i<50;i++) {
-        await sleep(50);
-        if (serialLastData.endsWith("wait upload\r\n")) {
-            serialLastData = "";
-            okFlag = true;
-            break;
-        }
-    }
-
-    if (!okFlag) {
-        console.warn("wait upload keyword timeout, only can use old method ?");
-        return;
-    }
-
-    okFlag = false;
-    for (let i=0;i<30;i++) {
-        serialLastData = "";
-        await writeSerialBytes([ 0x1F, 0xF1, 0xFF ]); // Sync bytes
-        await sleep(100);
-        if (serialLastData.endsWith("upload mode\r\n")) {
-            okFlag = true;
-            break;
-        }
-    }
-
-    if (!okFlag) {
-        console.warn("Send sync bytes fail");
-        return;
-    }
-
-    if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
-
-    // Check MicroPython version
-    if (boardId && !skipFirmwareUpgrade) {
-        serialLastData = "";
-
-        for (let i=0;i<30;i++) {
-            serialLastData = "";
-            await sendCmd(0x01);
-            await sleep(50);
-            if (serialLastData.endsWith("\r\n")) {
-                break;
-            }
-        }
-
-        let board = boards.find(board => board.id === boardId);
-        let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
-        if (checkVersion) {
-            let info = { 
-                version: checkVersion[1],
-                date: checkVersion[2],
-                board: checkVersion[3],
-                cpu: checkVersion[4]
-            };
-            console.log("firmware info", info);
-            if (typeof board.firmware[0].version !== "undefined") {
-                if (board.firmware[0].version !== info.version) {
-                    if (typeof board.firmware[0].date !== "undefined") {
-                        let dbFwDate = new Date(board.firmware[0].date).getTime();
-                        let currentFwDate = new Date(info.date).getTime();
-                        if (currentFwDate < dbFwDate) {
-                            NotifyE("Upload fail: MicroPython fireware is out of date");
-                            statusLog("Upload Fail");
-                            $("#upload-program").removeClass("loading");
-                            firewareUpgradeFlow();
-                            return;
-                        }
-                    }
-                }
-            }
-        } else {
-            console.warn("Check version fail");
-        }
-    }
-
-    
-    
-
-    let uploadModuleList = findIncludeModuleNameInCode(code);
-
-    // console.log(uploadModuleList);
-
-    if (uploadModuleList.length > 0) {
-        for (const extensionId of fs.ls("/extension")) {
-            for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
-                let fileName = filePath.replace(/^\//gm, "");
-                if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
-                    if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
-                        await serialUploadFile(filePath.replace(/^.*[\\\/]/, ''), fs.read(`/extension/${extensionId}/modules/${fileName}`));
-                    }
-                }
-            }
-        }
-
-        if (isElectron) {
-            let extensionDir = `${rootPath}/../extension`;
-            for (const extensionId of nodeFS.ls(extensionDir)) {
-                for (const filePath of (await nodeFS.walk(`${extensionDir}/${extensionId}/modules`))) {
-                    let fileName = path.basename(filePath);
-                    if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
-                        if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
-                            await serialUploadFile(filePath.replace(/^.*[\\\/]/, ''), (await readFileAsync(filePath)).toString());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    await serialUploadFile("main.py", code);
-
-    serialLastData = "";
-    await sendCmd(0xFF);
-
-    okFlag = false;
-    for (let i=0;i<50;i++) {
-        await sleep(50);
-        if (serialLastData.indexOf("exit upload mode\r\n") >= 0) {
-            okFlag = true;
-            break;
-        }
-    }
-
-    if (!okFlag) {
-        console.warn("exit upload mode fail");
-    }*/
 
     let filesUpload = [];
 
@@ -641,71 +507,56 @@ $("#upload-program").click(async function() {
         content: code
     });
 
-    let { err, msg } = await (async () => {
+    try {
         let method = new UploadOnBoot();
 
         try {
             await method.start();
-        } catch(e) {
+        } catch (e) {
             console.warn(e);
+            throw e;
         }
 
-        try {
-            if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
+        if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
 
-            // Check MicroPython version
-            if (boardId && !skipFirmwareUpgrade) {
-                let info = await method.getFirmwareInfo();
-                console.log("firmware info", info);
+        // Check MicroPython version
+        if (boardId && !skipFirmwareUpgrade) {
+            let info = await method.getFirmwareInfo();
+            console.log("firmware info", info);
 
-                let board = boards.find(board => board.id === boardId);
-                if (typeof board.firmware[0].version !== "undefined") {
-                    if (board.firmware[0].version !== info.version) {
-                        if (typeof board.firmware[0].date !== "undefined") {
-                            let dbFwDate = new Date(board.firmware[0].date).getTime();
-                            let currentFwDate = new Date(info.date).getTime();
-                            if (currentFwDate < dbFwDate) {
-                                firewareUpgradeFlow();
-                                return {
-                                    err: true,
-                                    msg: "Upload fail: MicroPython fireware is out of date"
-                                };
-                            }
+            let board = boards.find(board => board.id === boardId);
+            if (typeof board.firmware[0].version !== "undefined") {
+                if (board.firmware[0].version !== info.version) {
+                    if (typeof board.firmware[0].date !== "undefined") {
+                        let dbFwDate = new Date(board.firmware[0].date).getTime();
+                        let currentFwDate = new Date(info.date).getTime();
+                        if (currentFwDate < dbFwDate) {
+                            firewareUpgradeFlow();
+                            throw "Upload fail: MicroPython fireware is out of date";
                         }
                     }
                 }
             }
-
-            for (let a of filesUpload) {
-                await method.upload(a.file, a.content);
-            }
-
-            await method.end();
-
-            return {
-                err: false
-            };
-        } catch(e) {
-            return {
-                err: true,
-                msg: e
-            };
         }
-    })();
 
-    timeDiff = (new Date()).getTime() - t0;
-    console.log("Time:", timeDiff, "ms");
+        for (let a of filesUpload) {
+            await method.upload(a.file, a.content);
+        }
 
-    $("#upload-program").removeClass("loading");
+        await method.end();  
 
-    if (!err) {
+        timeDiff = (new Date()).getTime() - t0;
+        console.log("Time:", timeDiff, "ms");
+
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
-    } else {
+    } catch(e) {
         NotifyE("Upload Fail !");
         statusLog(`Upload fail because ${msg}`);
         console.warn(msg);
     }
+
+    $("#upload-program").removeClass("loading");
 });
 
 async function writeSerial(text) {
