@@ -337,6 +337,7 @@ let hotUpdate = async () => {
             if (code) {
                 editor.setValue(code);
             }
+            editor.updateOptions({ readOnly: false });
         });
     }
 }
