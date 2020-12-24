@@ -2,6 +2,12 @@ let serialPort = null;
 let writer = null, reader = null;
 let serialLastData = "";
 
+let RawREPLMode = false;
+
+let microPythonIsReadyNextCommand = () => {
+    return serialLastData.endsWith((!RawREPLMode) ? ">>> " : ">");
+}
+
 let serialConnectWeb = async () => {
     navigator.serial.ondisconnect = () => {
         NotifyW("Serial port disconnect");
@@ -73,8 +79,8 @@ let serialConnectWeb = async () => {
                 term.write(String.fromCharCode(key));
                 serialLastData += String.fromCharCode(key);
             }
-            if (serialLastData.length > 50) {
-                serialLastData = serialLastData.substring(serialLastData.length - 10, serialLastData.length);
+            if (serialLastData.length > 300) {
+                serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
             }
             if (dashboardIsReady) {
                 dashboardWin.streamDataIn(chunk);
@@ -214,22 +220,38 @@ let serialConnect = () => {
 };
 
 let boardReset = () => { // Hard-reset
-    return new Promise(resolve => 
-        serialPort.set({ // EN = 1, BOOT = 1
-            dtr: true,
-            rts: true
-        }, () => 
-            serialPort.set({ // EN = 0, BOOT = 1
-                dtr: false,
+    return new Promise(async resolve => {
+        if (!isElectron) { // Web
+            await serialPort.setSignals({ // EN = 1, BOOT = 1
+                dataTerminalReady: true,
+                requestToSend: true
+            });
+            await serialPort.setSignals({ // EN = 0, BOOT = 1
+                dataTerminalReady: false,
+                requestToSend: true
+            });
+            await serialPort.setSignals({ // EN = 1, BOOT = 1
+                dataTerminalReady: true,
+                requestToSend: true
+            });
+            resolve();
+        } else { // Electron
+            serialPort.set({ // EN = 1, BOOT = 1
+                dtr: true,
                 rts: true
             }, () => 
-                serialPort.set({ // EN = 1, BOOT = 1
-                    dtr: true,
+                serialPort.set({ // EN = 0, BOOT = 1
+                    dtr: false,
                     rts: true
-                }, resolve)
-            )
-        )
-    );
+                }, () => 
+                    serialPort.set({ // EN = 1, BOOT = 1
+                        dtr: true,
+                        rts: true
+                    }, resolve)
+                )
+            );
+        }
+    });
 }
 
 class UploadOnBoot {
@@ -344,16 +366,16 @@ class UploadOnBoot {
 
 class UploadViaREPL {
     constructor() {
-        this.RawREPLMode = false;
+        RawREPLMode = false;
     }
 
     async start() {
         if (!serialLastData.endsWith(">>>") && serialLastData.endsWith(">")) { // Raw REPL mode ?
             serialLastData = "";
-            this.RawREPLMode = true;
+            RawREPLMode = true;
             await this.sendByteLoopWaitNextCommand(2, 100, 5); // Ctrl + B, Exit Raw REPL
         }
-        this.RawREPLMode = false;
+        RawREPLMode = false;
 
         serialLastData = "";
         if (!await this.sendByteLoopWaitNextCommand(3, 100, 100)) { // Ctrl + C
@@ -379,7 +401,7 @@ class UploadViaREPL {
             };
         }
 
-        this.RawREPLMode = true;
+        RawREPLMode = true;
         if (!await this.sendByteLoopWaitNextCommand(1, 50, 100)) { // Ctrl + A, Enter to Raw REPL
             throw "Enter to Raw REPL fail";
         }
@@ -432,7 +454,7 @@ class UploadViaREPL {
     async end() {
         await writeSerialByte(2); // Ctrl + B, Exit from Raw REPL
 
-        this.RawREPLMode = false;   
+        RawREPLMode = false;   
         
         await this.writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
     }
@@ -442,10 +464,11 @@ class UploadViaREPL {
         for (let i=0;i<max_try;i++) {
             await writeSerialByte(data);
             await sleep(delay);
-            if (this.microPythonIsReadyNextCommand()) {
+            if (microPythonIsReadyNextCommand()) {
                 okFlag = true;
                 break;
             }
+            
         }
         return okFlag;
     }
@@ -463,12 +486,8 @@ class UploadViaREPL {
         return okFlag;
     }
 
-    microPythonIsReadyNextCommand() {
-        return serialLastData.endsWith((!this.RawREPLMode) ? ">>> " : ">");
-    }
-
     writeSerialNewLine(text) {
-        writeSerial(text + ((!this.RawREPLMode) ? "\r\n" : "\x04"));
+        writeSerial(text + ((!RawREPLMode) ? "\r\n" : "\x04"));
     }
 };
 
@@ -550,7 +569,9 @@ $("#upload-program").click(async function() {
             try {
                 await method.start();
             } catch (e) {
-                firewareUpgradeFlow();
+                if (isElectron) {
+                    firewareUpgradeFlow();
+                }
                 throw e;
             }
         }
@@ -569,7 +590,9 @@ $("#upload-program").click(async function() {
                         let dbFwDate = new Date(board.firmware[0].date).getTime();
                         let currentFwDate = new Date(info.date).getTime();
                         if (currentFwDate < dbFwDate) {
-                            firewareUpgradeFlow();
+                            if (isElectron) {
+                                firewareUpgradeFlow();
+                            }
                             throw "Upload fail: MicroPython fireware is out of date";
                         }
                     }
@@ -617,9 +640,7 @@ async function writeSerial(text) {
 
 async function writeSerialByte(data) {
     if (!isElectron) {
-        buff = new ArrayBuffer(1);
-        view = new Uint8Array(buff);
-        view[0] = data;
+        let buff = new Uint8Array([ data ]);
         await writer.write(buff);
     } else {
         let b = Buffer.from([ data ]);
@@ -629,11 +650,7 @@ async function writeSerialByte(data) {
 
 async function writeSerialBytes(data) {
     if (!isElectron) {
-        buff = new ArrayBuffer(data.length);
-        view = new Uint8Array(buff);
-        for (let i;i<data.length;i++) {
-            view[i] = data[i];
-        }
+        let buff = new Uint8Array(data);
         await writer.write(buff);
     } else {
         let b = Buffer.from(data);
