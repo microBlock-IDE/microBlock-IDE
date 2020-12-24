@@ -329,6 +329,116 @@ let boardReset = () => { // Hard-reset
     );
 }
 
+class UploadOnBoot {
+    constructor() {
+        
+    }
+
+    async start() {
+        serialLastData = "";
+        await boardReset();
+        if (!await this.checkEndWith("wait upload\r\n", 50, 50)) {
+            throw "wait upload keyword timeout, only can use old method ?";
+        }
+
+        serialLastData = "";
+        await writeSerialBytes([ 0x1F, 0xF1, 0xFF ]); // Sync bytes
+        if (!await this.checkEndWith("upload mode\r\n", 100, 30)) {
+            throw "Send sync bytes fail";
+        }
+    }
+
+    async getFirmwareInfo() {
+        serialLastData = "";
+        await this.sendCmd(0x01);
+        if (!await this.checkEndWith("\r\n", 50, 30)) {
+            throw "Device not respond";
+        }
+
+        let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
+        if (!checkVersion) {
+            throw "Check version fail";
+        }
+
+        return { 
+            version: checkVersion[1],
+            date: checkVersion[2],
+            board: checkVersion[3],
+            cpu: checkVersion[4]
+        };
+    }
+
+    async upload(fileName, content) {
+        if (content.length == 0) {
+            content = "#No Code";
+        }
+
+        serialLastData = "";
+        await this.sendCmd(0x10, fileName);
+        if (!await this.checkEndWith(`set path to ${fileName}\r\n`, 50, 20)) {
+            throw "Set path fail !";
+        }
+
+        for (const chunkContent of content.match(/.{1,10000}/gs)) {
+            serialLastData = "";
+            await this.sendCmd(0x11, chunkContent);
+            if (!await this.checkEndWith("write end\r\n", 50, 100)) {
+                throw "Error, write file fail !";
+            }
+        }
+    }
+
+    async end() {
+        serialLastData = "";
+        await this.sendCmd(0xFF);
+        if (!await this.checkIndexOf("exit upload mode\r\n", 50, 50)) {
+            throw "exit upload mode fail";
+        }
+    }
+
+    async sendCmd(cmd, data) {
+        let encodeData = new TextEncoder("utf-8").encode(data);
+        let content = [];
+        content.push(cmd);
+        if (typeof data !== "undefined") {
+            content.push((encodeData.length >> 8) & 0xFF);
+            content.push(encodeData.length & 0xFF);
+            content = content.concat(Array.from(encodeData));
+            let dataSum = 0;
+            for (let index=0;index<encodeData.length;index++) {
+                dataSum += encodeData[index];
+                dataSum = dataSum & 0xFF;
+            }
+            content.push(dataSum);
+        }
+        await writeSerialBytes(content);
+    }
+
+    async checkEndWith(str, delay=100, max_try=10) {
+        let okFlag = false;
+        for (let i=0;i<max_try;i++) {
+            await sleep(delay);
+            if (serialLastData.endsWith(str)) {
+                okFlag = true;
+                break;
+            }
+        }
+        return okFlag;
+    }
+
+    async checkIndexOf(str, stop=100, max_try=10) {
+        let okFlag = false;
+        for (let i=0;i<max_try;i++) {
+            await sleep(stop);
+            if (serialLastData.indexOf(str) >= 0) {
+                okFlag = true;
+                break;
+            }
+        }
+        return okFlag;
+    }
+};
+
 $("#upload-program").click(async function() {
     statusLog("Start Upload");
 
@@ -355,7 +465,7 @@ $("#upload-program").click(async function() {
     let okFlag;
 
     t0 = (new Date()).getTime();
-
+/*
     serialLastData = "";
     await boardReset();
     
@@ -485,15 +595,117 @@ $("#upload-program").click(async function() {
 
     if (!okFlag) {
         console.warn("exit upload mode fail");
+    }*/
+
+    let filesUpload = [];
+
+    let uploadModuleList = findIncludeModuleNameInCode(code);
+
+    // console.log(uploadModuleList);
+
+    if (uploadModuleList.length > 0) {
+        for (const extensionId of fs.ls("/extension")) {
+            for (const filePath of fs.walk(`/extension/${extensionId}/modules`)) {
+                let fileName = filePath.replace(/^\//gm, "");
+                if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
+                    if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
+                        filesUpload.push({
+                            file: filePath.replace(/^.*[\\\/]/, ''),
+                            content: fs.read(`/extension/${extensionId}/modules/${fileName}`)
+                        });
+                    }
+                }
+            }
+        }
+
+        if (isElectron) {
+            let extensionDir = `${rootPath}/../extension`;
+            for (const extensionId of nodeFS.ls(extensionDir)) {
+                for (const filePath of (await nodeFS.walk(`${extensionDir}/${extensionId}/modules`))) {
+                    let fileName = path.basename(filePath);
+                    if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
+                        if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
+                            filesUpload.push({
+                                file: filePath.replace(/^.*[\\\/]/, ''),
+                                content: (await readFileAsync(filePath)).toString()
+                            });
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    filesUpload.push({
+        file: "main.py",
+        content: code
+    });
+
+    let { err, msg } = await (async () => {
+        let method = new UploadOnBoot();
+
+        try {
+            await method.start();
+        } catch(e) {
+            console.warn(e);
+        }
+
+        try {
+            if (typeof skipFirmwareUpgrade === "undefined") skipFirmwareUpgrade = false;
+
+            // Check MicroPython version
+            if (boardId && !skipFirmwareUpgrade) {
+                let info = await method.getFirmwareInfo();
+                console.log("firmware info", info);
+
+                let board = boards.find(board => board.id === boardId);
+                if (typeof board.firmware[0].version !== "undefined") {
+                    if (board.firmware[0].version !== info.version) {
+                        if (typeof board.firmware[0].date !== "undefined") {
+                            let dbFwDate = new Date(board.firmware[0].date).getTime();
+                            let currentFwDate = new Date(info.date).getTime();
+                            if (currentFwDate < dbFwDate) {
+                                firewareUpgradeFlow();
+                                return {
+                                    err: true,
+                                    msg: "Upload fail: MicroPython fireware is out of date"
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (let a of filesUpload) {
+                await method.upload(a.file, a.content);
+            }
+
+            await method.end();
+
+            return {
+                err: false
+            };
+        } catch(e) {
+            return {
+                err: true,
+                msg: e
+            };
+        }
+    })();
 
     timeDiff = (new Date()).getTime() - t0;
     console.log("Time:", timeDiff, "ms");
 
     $("#upload-program").removeClass("loading");
 
-    NotifyS("Upload Successful");
-    statusLog(`Upload successful with ${timeDiff} mS`);
+    if (!err) {
+        NotifyS("Upload Successful");
+        statusLog(`Upload successful with ${timeDiff} mS`);
+    } else {
+        NotifyE("Upload Fail !");
+        statusLog(`Upload fail because ${msg}`);
+        console.warn(msg);
+    }
 });
 
 async function writeSerial(text) {
