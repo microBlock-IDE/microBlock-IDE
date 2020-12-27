@@ -54,3 +54,15 @@ Blockly.Python['display_show'] = function(block) {
   var code = 'display.show()\n';
   return code;
 };
+
+Blockly.Python['display_draw_bitmap'] = function(block) {
+  Blockly.Python.definitions_['import_display'] = 'import display';
+  Blockly.Python.definitions_['import_framebuf'] = 'import framebuf';
+
+  var bitmap_image = block.getFieldValue('image');
+  var value_x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
+  var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
+  
+  var code = `display.image(b"${bitmap_image}", ${value_x}, ${value_y})\n`;
+  return code;
+};

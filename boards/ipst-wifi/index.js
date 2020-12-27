@@ -6,9 +6,11 @@ addBoard({
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",
+        "js/field_bitmap.js",
     ],
     css: [
         "../kidbright32/css/field_note.css",
+        "css/field_bitmap.css",
     ],
     blocks: [
         "blocks/blocks_display.js",
@@ -62,6 +64,22 @@ addBoard({
                                             <field name="TEXT">Hello!</field>
                                         </shadow>
                                     </value>
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_draw_bitmap">
                                     <value name="x">
                                         <shadow type="math_number">
                                             <field name="NUM">0</field>

@@ -132,5 +132,34 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#2980B9",
   "tooltip": "Send buffer to screen",
   "helpUrl": ""
+},
+{
+  "type": "display_draw_bitmap",
+  "message0": "Display show image %1 %2 at (x: %3 , y: %4)",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_bitmap",
+      "name": "image",
+      "colour": "#ff0000"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#2980B9",
+  "tooltip": "Show image on screen",
+  "helpUrl": ""
 }
 ]);
