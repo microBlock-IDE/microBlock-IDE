@@ -33,13 +33,21 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.5.1",
+            path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.5.1.bin",
+            version: "V1.5.1",
+            date: "2020-12-30",
+            board: "KidBright32",
+            cpu: "ESP32"
+        },
+        /* {
             name: "MicroPython for KidBright32 V1.5.0",
             path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.5.0.bin",
             version: "V1.5.0",
             date: "2020-12-28",
             board: "KidBright32",
             cpu: "ESP32"
-        },
+        }, */
         {
             name: "MicroPython for KidBright32 V1.4.0",
             path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.4.0.bin",
@@ -208,6 +216,38 @@ addBoard({
                             xml: `
                                 <block type="display_plot">
                                     <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_dot_show">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_dot_hide">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
                                         <shadow type="math_number">
                                             <field name="NUM">0</field>
                                         </shadow>
