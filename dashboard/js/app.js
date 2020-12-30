@@ -182,7 +182,7 @@ let createWidget = (id, addToToolbox) => {
                 </div>
             `).join("");
         }
-        html += Object.keys(_widget.property).filter(propertyName => _widget.property[propertyName].type.indexOf([ "number" ]) >= 0).map(propertyName => `
+        html += Object.keys(_widget.property).filter(propertyName => _widget.property[propertyName].type.indexOf("number") >= 0 || _widget.property[propertyName].type.indexOf("text") >= 0).map(propertyName => `
             <div class="property">
                 <div class="label">${propertyName}</div>
                 <div class="input"><input name="${propertyName}" type="${_widget.property[propertyName].type}" value="${widget.property[propertyName]}" autocomplete="off"></div>
