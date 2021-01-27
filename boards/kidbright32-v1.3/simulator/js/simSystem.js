@@ -91,13 +91,20 @@ let simSystem = {
         },
         touchRead: (pin) => 0,
         analogRead: (pin) => 0,
-        analogwrite: (pin, value) => 0,
+        analogWrite: (pin, value) => 0,
     },
     isCodeRunning: false,
     runCode: (code) => {
         processCode = code;
         runCodeAndProcess();
     },
-    onStatusChange: (_ => 0)
+    getCharsWaitProcass: _ => MicroPython.charWaitProcess,
+    getCharsLenWaitProcass: _ => MicroPython.charWaitProcess.length,
+    getAndPopFirstCharsWaitProcass: _ => {
+        let c = MicroPython.charWaitProcess.charCodeAt(0);
+        MicroPython.charWaitProcess = MicroPython.charWaitProcess.substring(1);
+        return c;
+    },
+    isCharsWaitProcassHasInterruptChar: (c) => MicroPython.charWaitProcess.includes(String.fromCharCode(c)) ? 1 : 0,
 };
 

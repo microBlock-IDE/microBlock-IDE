@@ -1630,25 +1630,28 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  40636: function() {return charWaitProcess.length;},  
- 40671: function() {let c = charWaitProcess.charCodeAt(0); charWaitProcess = charWaitProcess.substring(1); return c;},  
- 40772: function($0) {return charWaitProcess.includes(String.fromCharCode($0)) ? 1 : 0},  
- 41215: function() {return simSystem.switch[0].value;},  
- 41253: function() {return simSystem.switch[1].value;},  
- 41448: function() {if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0;},  
- 41578: function() {if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0;},  
- 43136: function($0, $1) {const pin = $0; const angle = $1; console.log(`Set servo ${pin} to ${angle}`); if (typeof simSystem !== "undefined") { try { simSystem.servo.setAngle(pin, angle); } catch(err) { console.log(err); } }},  
- 43808: function($0) {return simSystem.pin.digitalRead($0);},  
- 43850: function($0, $1) {simSystem.pin.digitalWrite($0, $1);},  
- 44068: function($0) {const value = $0 ? 1 : 0; console.log(`Set USB to ${value}`); if (typeof simSystem !== "undefined") { try { simSystem.usb.setValue(value); } catch(err) { console.log(err); } }},  
- 44328: function($0, $1) {const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-16;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); }},  
- 44708: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getFullYear()},  
- 44804: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getMonth() + 1},  
- 44901: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getDate()},  
- 44993: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getHours()},  
- 45086: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getMinutes()},  
- 45181: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getSeconds()},  
- 45276: function($0, $1, $2, $3, $4, $5, $6) {if (!simSystem) { simSystem = { rtc: { offset: 0 } }; } simSystem.rtc.offset = +(new Date($0, $1, $2, $3, $4, $5, $6)); simSystem.rtc.setOn = +(new Date());}
+  40908: function() {return simSystem.getCharsLenWaitProcass();},  
+ 40955: function() {return simSystem.getAndPopFirstCharsWaitProcass();},  
+ 41010: function($0) {return simSystem.isCharsWaitProcassHasInterruptChar($0)},  
+ 41439: function() {return simSystem.switch[0].value;},  
+ 41477: function() {return simSystem.switch[1].value;},  
+ 41748: function($0) {return simSystem.pin.analogRead($0);},  
+ 42048: function($0, $1) {simSystem.pin.analogWrite($0, $1);},  
+ 42328: function($0) {const value = $0 ? 1 : 0; console.log(`Set USB to ${value}`); if (typeof simSystem !== "undefined") { try { simSystem.usb.setValue(value); } catch(err) { console.log(err); } }},  
+ 43076: function($0) {return simSystem.pin.digitalRead($0);},  
+ 43118: function($0, $1) {simSystem.pin.digitalWrite($0, $1);},  
+ 43308: function($0, $1) {const buf = $0; const len = $1; let data = [ ]; for (let i=0;i<len;i++) { data.push(HEAPU8[buf + i]); } for (let i=0;i<len-16;i++) { data.push(0); } if (typeof simSystem !== "undefined") { try { simSystem.display.setData(data); } catch(err) { console.log(err); } } else { console.log("Display data", data); }},  
+ 44992: function() {if (typeof simSystem !== "undefined") { try { return simSystem.ldr.getValue(); } catch(err) { console.log(err); } } return 0;},  
+ 45122: function() {if (typeof simSystem !== "undefined") { try { return simSystem.lm75.getValue() * 100; } catch(err) { console.log(err); } } return 0;},  
+ 45320: function($0, $1) {const pin = $0; const angle = $1; console.log(`Set servo ${pin} to ${angle}`); if (typeof simSystem !== "undefined") { try { simSystem.servo.setAngle(pin, angle); } catch(err) { console.log(err); } }},  
+ 45660: function($0) {return simSystem.pin.touchRead($0);},  
+ 45924: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getFullYear()},  
+ 46020: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getMonth() + 1},  
+ 46117: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getDate()},  
+ 46209: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getHours()},  
+ 46302: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getMinutes()},  
+ 46397: function() {return (new Date(+(new Date()) - simSystem.rtc.setOn + simSystem.rtc.offset)).getSeconds()},  
+ 46492: function($0, $1, $2, $3, $4, $5, $6) {if (!simSystem) { simSystem = { rtc: { offset: 0 } }; } simSystem.rtc.offset = +(new Date($0, $1, $2, $3, $4, $5, $6)); simSystem.rtc.setOn = +(new Date());}
 };
 function js_audio(freq,duty){ if (typeof AudioContext === "undefined") { console.log("Debug Buzzer: Freq", freq, "Duty", duty); return; } if (typeof simPlayNoteContext === "undefined") { simPlayNoteContext = new AudioContext(); } if (typeof simPlayNoteOscillator === "undefined") { simPlayNoteOscillator = null; } if (simPlayNoteOscillator) { simPlayNoteOscillator.stop(); simPlayNoteOscillator = null; } if (typeof simSystem !== "undefined") { simSystem.buzzer.setStatus(duty !== 0); } if (duty === 0) { return; } simPlayNoteOscillator = simPlayNoteContext.createOscillator(); let playNoteGain = simPlayNoteContext.createGain(); playNoteGain.gain.value = duty / 512; simPlayNoteOscillator.type = "square"; simPlayNoteOscillator.frequency.value = freq; simPlayNoteOscillator.connect(playNoteGain); playNoteGain.connect(simPlayNoteContext.destination); simPlayNoteOscillator.start(); }
 
