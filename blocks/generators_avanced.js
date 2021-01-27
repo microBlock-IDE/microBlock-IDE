@@ -73,21 +73,21 @@ Blockly.Python['rtc_set_time'] = function(block) {
 Blockly.Python['rtc_get_hour'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
-  var code = 'RTC().datetime()[3]';
+  var code = 'RTC().datetime()[4]';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_min'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
-    var code = 'RTC().datetime()[4]';
+    var code = 'RTC().datetime()[5]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['rtc_get_sec'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
-    var code = 'RTC().datetime()[5]';
+    var code = 'RTC().datetime()[6]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
