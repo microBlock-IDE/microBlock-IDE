@@ -280,7 +280,7 @@ class UploadOnBoot {
             throw "Device not respond";
         }
 
-        let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
+        let checkVersion = /MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?(.+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
         if (!checkVersion) {
             throw "Check version fail";
         }
@@ -391,7 +391,7 @@ class UploadViaREPL {
             throw "Exit main program error";
         }
 
-        let checkVersion = /^MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?([^\s]+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
+        let checkVersion = /MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?(.+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
         if (checkVersion) {
             this.firmwareInfo = { 
                 version: checkVersion[1],
