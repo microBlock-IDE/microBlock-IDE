@@ -105,6 +105,10 @@ let createPopover = (domOrigin, content, newCb, closeCb) => {
 
     svgDocument = document.querySelector(".main-view svg");
 
+    let panZoomTiger = svgPanZoom(svgDocument, {
+        dblClickZoomEnabled: false
+    });
+
     setupSwitchHandle();
     setupLDRHandle();
     setupLM75Handle();

@@ -82,16 +82,25 @@ let simSystem = {
         digitalWrite: (pin, value) => {
             // console.log("PIN Write", pin, value);
             if (pin === 2) { // WiFi LED
-                svgDocument.querySelector("#path8759").style.fill = !value ? "#ED1C24" : "#d2d2d2";
+                svgDocument.querySelector("#path8759").style.opacity = !value ? 0.9 : 0;
             }
 
             if (pin === 12) { // IoT LED
-                svgDocument.querySelector("#path8911").style.fill = !value ? "#00A055" : "#d2d2d2";
+                svgDocument.querySelector("#path8911").style.opacity = !value ? 0.9 : 0;
             }
         },
         touchRead: (pin) => 0,
         analogRead: (pin) => 0,
-        analogWrite: (pin, value) => 0,
+        analogWrite: (pin, value) => {
+            // console.log("Analog Write", pin, value);
+            if (pin === 2) { // WiFi LED
+                svgDocument.querySelector("#path8759").style.opacity = (1023 - value) / 1023 * 0.9;
+            }
+
+            if (pin === 12) { // IoT LED
+                svgDocument.querySelector("#path8911").style.opacity = (1023 - value) / 1023 * 0.9;
+            }
+        },
     },
     isCodeRunning: false,
     runCode: (code) => {
