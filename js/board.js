@@ -60,6 +60,9 @@ let loadBoard = async () => {
     let scripts = [ ];
     scripts = scripts.concat(board.script);
     scripts = scripts.concat(board.blocks);
+    if (typeof board.simulator !== "undefined") {
+        scripts = scripts.concat(board.simulator.script);
+    }
     for (let fPath of scripts) {
         let script;
         try {
