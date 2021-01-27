@@ -148,8 +148,8 @@ simSystem.writeToREPL = (data) => {
 let runCodeAndProcess = _ => {
     let codeEncode = JSON.stringify(processCode);
     codeEncode = codeEncode.replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4));
-    // let codeSend = `exec(${codeEncode})\r\n`;
-    let codeSend = `\x03\x05${processCode.replace(/\r?\n/g, "\r")}\x04`;
+    let codeSend = `\x03exec(${codeEncode})\r\n`;
+    // let codeSend = `\x03\x05${processCode.replace(/\r?\n/g, "\r")}\x04`;
     simSystem.writeToREPL(codeSend);
 };
 
