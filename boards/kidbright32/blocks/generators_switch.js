@@ -56,7 +56,7 @@ Blockly.Python['switch_on_press'] = function(block) {
 
     var functionName = Blockly.Python.provideFunction_(
         dropdown_pin + 'PressCB',
-        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(_=None):',
         globals,
         statements_callback]);
 
@@ -95,7 +95,7 @@ Blockly.Python['switch_on_release'] = function(block) {
 
     var functionName = Blockly.Python.provideFunction_(
         dropdown_pin + 'ReleaseCB',
-        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(_=None):',
         globals,
         statements_callback]);
 
@@ -134,7 +134,7 @@ Blockly.Python['switch_on_pressed'] = function(block) {
 
     var functionName = Blockly.Python.provideFunction_(
         dropdown_pin + 'PressCB',
-        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(_=None):',
         globals,
         statements_callback]);
 

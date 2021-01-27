@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>KidBright32 V1.3 (Original) Simulator</title>
+
+    <link rel="stylesheet" href="../../../fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <section>
+        <div class="main-view">
+            <!-- <object type="image/svg+xml" data="image/KidbrightV1.3.svg"> -->
+                <!-- <img src="image.svg" /> -->
+            <!-- </object> -->      
+        </div> 
+        <div class="controls" style="display: none">
+            <ul>
+                <li><a href="#" id="play-stop"><i class="fas fa-play"></i></a></li>
+                <li><a href="#" id="reload"><i class="fas fa-sync-alt"></i></a></li>
+            </ul>
+        </div>
+        <div id="terminal">
+            <section contenteditable="true"></section>
+        </div>
+    </section>
+
+    <div id="terminal-resize-bar"></div>
+
+    <!-- Dummy for MicroPython Repl -->
+    <div id="mp_js_stdout"></div> 
+
+    <!-- xterm.js -->
+    <link rel="stylesheet" href="../../../xterm.js/xterm.css">
+    <script src="../../../xterm.js/xterm.js"></script>
+    <script src="../../../xterm.js/xterm-addon-fit.js"></script>
+
+    <script src="js/simSystem.js"></script>
+    <script src="js/app.js"></script>
+    <script src="firmware.js"></script>
+</body>
+</html>
