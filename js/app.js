@@ -57,7 +57,7 @@ let updateBlockCategory = async () => {
         categoryIconList.push(fs.read(`/extension/${extensionId}/${extension.icon}`));
     }
     if (isElectron) {
-        let extensionDir = `${rootPath}/../extension`;
+        let extensionDir = sharedObj.extensionDir;
         for (const extensionId of nodeFS.ls(extensionDir)) {
             let extension = await readFileAsync(`${extensionDir}/${extensionId}/extension.js`);
             extension = extension.toString();
@@ -267,7 +267,7 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 
     if (isElectron) {
         // Load local extension
-        let extensionDir = `${rootPath}/../extension`;
+        let extensionDir = sharedObj.extensionDir;
         for (const extensionId of nodeFS.ls(extensionDir)) {
             let extensionLocalPath = `${extensionDir}/${extensionId}`;
             let blocksFile = await nodeFS.walk(`${extensionLocalPath}/blocks`);

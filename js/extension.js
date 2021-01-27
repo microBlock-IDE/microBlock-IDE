@@ -106,7 +106,7 @@ let showExtensionList = (extensionList) => {
 
     let extensionInstalledList = fs.ls("/extension");
     if (isElectron) {
-        extensionInstalledList = extensionInstalledList.concat(nodeFS.ls(`${rootPath}/../extension`));
+        extensionInstalledList = extensionInstalledList.concat(nodeFS.ls(sharedObj.extensionDir));
     }
     for (const [id, info] of Object.entries(extensionList)) {
         $("#extension-dialog .extension-list").append(`

@@ -491,18 +491,7 @@ class UploadViaREPL {
     }
 };
 
-$("#upload-program").click(async function() {
-    statusLog("Start Upload");
-    t0 = (new Date()).getTime();
-
-    setTimeout(() => $("#upload-program").addClass("loading"), 1);
-
-    let code;
-    if (useMode === "block") {
-        code = Blockly.Python.workspaceToCode(blocklyWorkspace);
-    } else if (useMode === "code") {
-        code = editor.getValue();
-    }
+let realDeviceUploadFlow = async () => {
     if (!serialPort) {
         if (!await serialConnect()) {
             $("#upload-program").removeClass("loading");
@@ -510,8 +499,6 @@ $("#upload-program").click(async function() {
         }
         await sleep(300);
     }
-
-    console.log(code);
 
     let filesUpload = [];
 
@@ -606,10 +593,41 @@ $("#upload-program").click(async function() {
         }
 
         await method.end();  
+    } catch(e) {
+        throw e;
+    }
+}
+
+$("#upload-program").click(async function() {
+    statusLog("Start Upload");
+    t0 = (new Date()).getTime();
+
+    // setTimeout(() => $("#upload-program").addClass("loading"), 1);
+    $("#upload-program").addClass("loading");
+
+    let code;
+    if (useMode === "block") {
+        code = Blockly.Python.workspaceToCode(blocklyWorkspace);
+    } else if (useMode === "code") {
+        code = editor.getValue();
+    }
+
+    console.log(code);
+
+    try {
+        if (deviceMode === MODE_REAL_DEVICE) {
+            await realDeviceUploadFlow();
+        } else if (deviceMode === MODE_SIMULATOR) {
+            let simSystem = domSimulatorIframe.contentWindow.simSystem;
+            if (simSystem) {
+                simSystem.runCode(code);
+            } else {
+                console.warn("Connect to domSimulatorIframe error");
+            }
+        }
 
         timeDiff = (new Date()).getTime() - t0;
         console.log("Time:", timeDiff, "ms");
-
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
     } catch(e) {
@@ -617,6 +635,7 @@ $("#upload-program").click(async function() {
         statusLog(`Upload fail because ${e}`);
         console.warn(e);
     }
+    
 
     $("#upload-program").removeClass("loading");
 });

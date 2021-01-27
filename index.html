@@ -33,7 +33,8 @@
             
             pjson = require('../package.json');
 
-            rootPath = __dirname;
+            // rootPath = __dirname;
+            rootPath = "/.";
 
             sharedObj = remote.getGlobal('sharedObj');
             ipcRenderer = require('electron').ipcRenderer;
@@ -50,6 +51,11 @@
 
         let pageParams = new URLSearchParams(location.search);
         let isEmbed = pageParams.get("embed") !== null;
+
+        const MODE_REAL_DEVICE  = 0;
+        const MODE_SIMULATOR    = 1;
+
+        let deviceMode = MODE_REAL_DEVICE;
         </script>
 
         <!-- Blockly -->
@@ -112,6 +118,7 @@
         <!-- Animate.css -->
         <link rel="stylesheet" href="css/animate.min.css">
 
+        <link rel="stylesheet" href="css/simulator.css">
         <link rel="stylesheet" href="css/style.css">
 
         
@@ -138,6 +145,8 @@
                     </div>
                     <div class="right">
                         <ul class="top-bar-button">
+                            <li><button id="switch-to-sim-mode" style="display: none;" data-tippy-content="Switch to Simulator Mode"><i class="fas fa-hat-wizard"></i></button></li>
+                            <li><button id="switch-to-real-mode" style="display: none;" data-tippy-content="Switch to Real Mode"><i class="fas fa-microchip"></i></button></li>
                             <li><button id="install-pwa" style="display: none;" onclick="installPWA()" data-tippy-content="Install microBlock to your PC"><i class="fas fa-download"></i></button></li>
                             <li><button id="open-extension-dialog" data-tippy-content="Extension"><i class="fas fa-cubes"></i></button></li>
                             <li><button id="open-dashboard" data-tippy-content="Dashboard"><i class="fas fa-chart-line"></i></button></li>
@@ -193,6 +202,7 @@
                                 <li>Board: <span id="board-name">None</span></li>
                                 <li>Port: <span id="port-name">DISCONNECT</span></li>
                                 <li>Level: <span id="level-name">None</span></li>
+                                <li>Mode: <span id="device-mode-name">None</span></li>
                             </ul>
                         </div>
                     </div>
@@ -212,6 +222,20 @@
                     </div>
                 </header>
                 <section contenteditable="true"></section>
+            </article>
+
+            <!-- Right Simulator -->
+            <article id="simulator">
+                <header>
+                    <div class="title">Simulator</div>
+                    <div class="icon">
+                        <button id="sim-stop" data-tippy-content="Stop"><i class="fas fa-stop"></i></button>
+                        <button id="sim-force-reset" data-tippy-content="Force Reset"><i class="fas fa-redo-alt"></i></button>
+                    </div>
+                </header>
+                <section>
+                    <iframe src="boards/kidbright32-v1.3/simulator/index.html"></iframe>
+                </section>
             </article>
 
         </section>
@@ -467,6 +491,7 @@
         <script src="blocksTree.js"></script>
         <script src="js/mode.js"></script>
         <script src="js/serial.js"></script>
+        <script src="js/simulator.js"></script>
         <script src="js/terminal.js"></script>
         <script src="js/dialog.js"></script>
         <script src="js/code-share.js"></script>

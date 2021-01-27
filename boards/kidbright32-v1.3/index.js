@@ -7,9 +7,7 @@ Object.assign(boardConfig, {
     image: "images/cover.jpg",
     simulator: {
         index: "simulator/index.html",
-        script: [
-            
-        ]
+        script: [ ]
     }
 });
 

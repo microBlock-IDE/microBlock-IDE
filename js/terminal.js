@@ -2,6 +2,8 @@ let term = null, fitAddon = null;
 let terminalShowFlag = false;
 let beforeWidthTerminalSize = 300;
 
+const MINIMUM_TERMINAL_WIDTH = 300;
+
 $("#close-terminal").click(() => {
     $("#terminal").css("display", "none");
     if (terminalFullSizeFlag) {
@@ -54,15 +56,24 @@ $("#open-terminal").click(() => {
 $("#terminal-h-resize").bind('mousedown', function(event){
     offsetX = event.pageX - ($(document).width() - +$("#terminal-h-resize").css("right").replace("px", ""));
     offsetX = $(document).width() + offsetX;
+    $("#terminal-h-resize").addClass("active");
 
     $(document).bind('mousemove', function(event){
-        $("#terminal-h-resize").css("right", offsetX - event.pageX);
+        let rightPos = offsetX - event.pageX;
+        rightPos = rightPos < MINIMUM_TERMINAL_WIDTH ? MINIMUM_TERMINAL_WIDTH : rightPos;
+        $("#terminal-h-resize").css("right", rightPos - 14);
     }).bind('mouseup', function(event){
         $(this).unbind('mousemove');
         $(this).unbind('mouseup');
 
-        $("#terminal").width(+$("#terminal-h-resize").css("right").replace("px", ""));
-        localStorage.setItem("terminal_size", $("#terminal").width());
+        if (deviceMode === MODE_REAL_DEVICE) {
+            $("#terminal").width(+$("#terminal-h-resize").css("right").replace("px", ""));
+            localStorage.setItem("terminal_size", $("#terminal").width());
+        } else if (deviceMode === MODE_SIMULATOR) {
+            $("#simulator").width(+$("#terminal-h-resize").css("right").replace("px", ""));
+            localStorage.setItem("simulator_width_size", $("#simulator").width());
+        }
+
         Blockly.triggleResize();
         if (editor) editor.layout();
         if (fitAddon) {
@@ -71,13 +82,16 @@ $("#terminal-h-resize").bind('mousedown', function(event){
                 fitAddon.fit();
             }, 10);
         }
+
+        $("#terminal-h-resize").removeClass("active");
     });
 });
 
-if (!isEmbed) {
+if (!isEmbed && deviceMode === MODE_REAL_DEVICE) {
     terminal_size = localStorage.getItem("terminal_size");
     if (terminal_size) {
-        beforeWidthTerminalSize = terminal_size;
+        terminal_size = +terminal_size;
+        beforeWidthTerminalSize = terminal_size >= MINIMUM_TERMINAL_WIDTH ? terminal_size : MINIMUM_TERMINAL_WIDTH;
         $(() => $("#open-terminal").click());
     }
 }

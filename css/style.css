@@ -435,8 +435,13 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
-#terminal-h-resize:hover {
+#terminal-h-resize:hover,
+#terminal-h-resize.active {
     opacity: 1;
+}
+
+#terminal-h-resize.active {
+    width: 30px;
 }
 
 #terminal > header {
@@ -1560,6 +1565,9 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
+
+
+/* Blockly hardover */
 .blocklyToolboxDiv {
     background-color: #FDFEFE !important;
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
@@ -1617,33 +1625,32 @@ ul.switch-mode > li:last-child {
     stroke-width: 0
 }
 
-/* width */
+/* Scrollbar styles */
 ::-webkit-scrollbar {
     width: 10px;
 }
   
-/* Track */
 ::-webkit-scrollbar-track {
     background-color: #FFF;
 }
    
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #D0D3D4; 
     border-radius: 10px;
     margin: 0 2px;
 }
   
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #B3B6B7; 
 }
-
+/*
 .blocklyCheckedBox {
     fill: #FF0000 !important;
     fill-opacity: 1 !important;
 }
+*/
 
+/* Notify hardover */
 .notiflix-confirm input {
     width: 100%;
     border-radius: 100px;

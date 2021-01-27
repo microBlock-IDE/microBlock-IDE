@@ -33,7 +33,7 @@ let setupSwitchHandle = () => {
     // Reset
     let Reset = svgDocument.querySelector("#path8379");
     Reset.addEventListener("click", () => { // Reset on Click
-        
+        runCodeAndProcess();
     });
 };
 
@@ -113,25 +113,6 @@ let createPopover = (domOrigin, content, newCb, closeCb) => {
     setupLDRHandle();
     setupLM75Handle();
 })();
-
-document.querySelector("#play-stop").addEventListener("click", _ => {
-    if (simSystem.isCodeRunning) {
-        simSystem.codeStop();
-    } else {
-        runCodeAndProcess();
-    }
-});
-
-let updateControlButton = _ => {
-    let playStopBtn = document.querySelector("#play-stop");
-    if (simSystem.isCodeRunning) {
-        playStopBtn.querySelector(".fas").classList.remove("fa-play");
-        playStopBtn.querySelector(".fas").classList.add("fa-stop");
-    } else {
-        playStopBtn.querySelector(".fas").classList.remove("fa-stop");
-        playStopBtn.querySelector(".fas").classList.add("fa-play");
-    }
-};
 
 simSystem.codeStop = () => {
    simSystem.writeToREPL(3);

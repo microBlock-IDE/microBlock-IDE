@@ -1,0 +1,65 @@
+#simulator {
+    /* display: flex; */
+    flex-direction: column;
+    height: 100%;
+    z-index: 3988;
+    overflow: hidden;
+    width: 300px;
+
+    display: none;
+    flex-shrink: 0;
+}
+
+#simulator > header {
+    background-color: #7F8C8D;
+    position: relative;
+    width: 100%;
+}
+
+#simulator > header > .title {
+    color: #FFF;
+    padding: 20px;
+    font-size: 24px;
+    /* text-align: center; */
+    width: 100%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
+}
+
+#simulator > header > .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#simulator > header > .icon > button {
+    border-radius: 100px;
+    border: none;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    outline: none;
+    color: #FFF;
+    background-color: #616A6B;
+}
+
+#simulator > header > .icon > button:hover {
+    background-color: #515A5A;
+}
+
+#simulator > header > .icon > button > i {
+    text-align: center;
+}
+ 
+#simulator > section {
+    background-color: #FFF;
+    height: 100%;
+    flex-grow: 1;
+}
+
+#simulator > section > iframe {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+}

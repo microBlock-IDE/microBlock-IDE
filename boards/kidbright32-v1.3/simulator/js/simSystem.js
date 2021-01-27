@@ -1,4 +1,4 @@
-let simSystem = {
+simSystem = {
     display: {
         setData: (data) => {
             // console.log("in setData", data, data.length);
