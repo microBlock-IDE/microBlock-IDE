@@ -477,6 +477,22 @@ addBoard({
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="math_modulo">
+                                    <value name="DIVIDEND">
+                                        <shadow type="math_number">
+                                            <field name="NUM">10</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="DIVISOR">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         "random_seed",
                         {
                             xml: `
