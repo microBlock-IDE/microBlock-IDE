@@ -96,24 +96,9 @@ let loadBoard = async () => {
     $("#board-name").text(board.name);
     $("#level-name").text(levelName);
 
-    /* if (typeof board.simulator === "undefined") { // Board not support simulator ?
-        if (deviceMode === MODE_SIMULATOR) {
-            switchModeTo(MODE_REAL_DEVICE);
-        }
-    } else {
-        
-    } */
     if (typeof board.simulator !== "undefined") {
         let last_deivce_mode = +localStorage.getItem("last_deivce_mode");
-        /*if (last_deivce_mode !== deviceMode) {
-            if (last_deivce_mode === MODE_SIMULATOR) {
-                switchModeTo(MODE_SIMULATOR);
-            } else {
-                switchModeTo(MODE_REAL_DEVICE);
-            }
-        }*/
         switchModeTo(last_deivce_mode);
-        console.log("Call 2");
     } else {
         switchModeTo(MODE_REAL_DEVICE);
     }

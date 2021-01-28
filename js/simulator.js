@@ -2,9 +2,6 @@ const MINIMUM_SIMULATOR_WIDTH = 400;
 
 let switchModeTo = (mode, firstTime) => {
     firstTime = typeof firstTime === "undefined" ? false : firstTime;
-    /* if (deviceMode === mode && !firstTime) {
-        return;
-    } */
 
     let board = boards.find(board => board.id === boardId);
     if (mode === MODE_SIMULATOR) {
@@ -99,9 +96,4 @@ $("#sim-force-reset").click(_ => {
     let simulator_width = MINIMUM_SIMULATOR_WIDTH;
     simulator_width = +localStorage.getItem("simulator_width_size");
     $("#simulator").width(simulator_width >= MINIMUM_SIMULATOR_WIDTH ? simulator_width : MINIMUM_SIMULATOR_WIDTH);
-/*
-    let lastDeivceMode = +localStorage.getItem("device_mode");
-    if (lastDeivceMode != deviceMode) {
-        switchModeTo(lastDeivceMode, true);
-    }*/
 })();
