@@ -114,6 +114,7 @@ simSystem = {
         MicroPython.charWaitProcess = MicroPython.charWaitProcess.substring(1);
         return c;
     },
-    isCharsWaitProcassHasInterruptChar: (c) => MicroPython.charWaitProcess.includes(String.fromCharCode(c)) ? 1 : 0,
+    isCharsWaitProcassHasInterruptChar: c => MicroPython.charWaitProcess.includes(String.fromCharCode(c)) ? 1 : 0,
+    onREPLDataOut: _ => 0,
 };
 
