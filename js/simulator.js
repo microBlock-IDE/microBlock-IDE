@@ -24,6 +24,16 @@ let switchModeTo = (mode, firstTime) => {
         } else if (nowMode === MODE_SIMULATOR) {
             $("#simulator").css("display", "none");
             $("#simulator iframe").attr("src", "");
+
+            if (!isElectron) {
+                if (dashboardIsReady) {
+                    dashboardWin.serialStatusUpdate("disconnect");
+                }
+            } else {
+                if (sharedObj.dashboardWin) {
+                    sharedObj.dashboardWin.webContents.send("serial-status", "disconnect");
+                }
+            }
         }
     }
 
@@ -37,9 +47,7 @@ let switchModeTo = (mode, firstTime) => {
         $("#terminal-h-resize").css("display", "block");
         $("#terminal-h-resize").css("right", $("#simulator").width());
     }
-
-    console.log("Call");
-
+    
     if (typeof board.simulator !== "undefined") {
         if (mode === MODE_REAL_DEVICE) {
             $("#switch-to-real-mode").css("display", "none");
@@ -79,8 +87,37 @@ $("#switch-to-sim-mode").click(_ => switchModeTo(MODE_SIMULATOR));
 $("#switch-to-real-mode").click(_ => switchModeTo(MODE_REAL_DEVICE));
 
 let domSimulatorIframe = $("#simulator iframe")[0];
+let simSystem;
+simulatorReadyCallback = () => {
+    console.log("Call in 94");
+    simSystem = domSimulatorIframe.contentWindow.simSystem;
+
+    simSystem.onREPLDataOut = chunk => {
+        // console.log(chunk);
+        if (!isElectron) {
+            if (dashboardIsReady) {
+                dashboardWin.streamDataIn(chunk);
+            }
+        } else {
+            if (sharedObj.dashboardWin) {
+                sharedObj.dashboardWin.webContents.send("serial-data-in", chunk);
+                // console.log("SEND !!!");
+            }
+        }
+    }
+
+    if (!isElectron) {
+        if (dashboardIsReady) {
+            dashboardWin.serialStatusUpdate("connected");
+        }
+    } else {
+        if (sharedObj.dashboardWin) {
+            sharedObj.dashboardWin.webContents.send("serial-status", "connected");
+        }
+    }
+};
+
 $("#sim-stop").click(_ => {
-    let simSystem = domSimulatorIframe.contentWindow.simSystem;
     if (simSystem) {
         simSystem.codeStop();
     } else {
