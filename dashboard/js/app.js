@@ -284,7 +284,7 @@ document.querySelector("#toolbox-open-close").addEventListener("click", function
 let dataInputBuffer = "";
 function streamDataIn(msg) {
     for (let c of msg) {
-        dataInputBuffer += String.fromCharCode(c);
+        dataInputBuffer += typeof c === "number" ? String.fromCharCode(c) : c;
         if (dataInputBuffer.endsWith("\r\n")) {
             let line = dataInputBuffer.substring(0, dataInputBuffer.length - 2);
 
