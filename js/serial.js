@@ -491,7 +491,7 @@ class UploadViaREPL {
     }
 };
 
-let realDeviceUploadFlow = async () => {
+let realDeviceUploadFlow = async (code) => {
     if (!serialPort) {
         if (!await serialConnect()) {
             $("#upload-program").removeClass("loading");
@@ -522,7 +522,7 @@ let realDeviceUploadFlow = async () => {
         }
 
         if (isElectron) {
-            let extensionDir = `${rootPath}/../extension`;
+            let extensionDir = sharedObj.extensionDir;
             for (const extensionId of nodeFS.ls(extensionDir)) {
                 for (const filePath of (await nodeFS.walk(`${extensionDir}/${extensionId}/modules`))) {
                     let fileName = path.basename(filePath);
@@ -616,7 +616,7 @@ $("#upload-program").click(async function() {
 
     try {
         if (deviceMode === MODE_REAL_DEVICE) {
-            await realDeviceUploadFlow();
+            await realDeviceUploadFlow(code);
         } else if (deviceMode === MODE_SIMULATOR) {
             let simSystem = domSimulatorIframe.contentWindow.simSystem;
             if (simSystem) {
