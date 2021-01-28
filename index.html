@@ -33,11 +33,10 @@
             
             pjson = require('../package.json');
 
-            // rootPath = __dirname;
-            rootPath = "/.";
-
             sharedObj = remote.getGlobal('sharedObj');
             ipcRenderer = require('electron').ipcRenderer;
+
+            rootPath = "/.";
         } else {
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -234,7 +233,7 @@
                     </div>
                 </header>
                 <section>
-                    <iframe src="boards/kidbright32-v1.3/simulator/index.html"></iframe>
+                    <iframe src=""></iframe>
                 </section>
             </article>
 
