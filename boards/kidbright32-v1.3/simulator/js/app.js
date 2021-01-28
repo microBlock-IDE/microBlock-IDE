@@ -193,19 +193,29 @@ let term, fitAddon;
 
 var Module = typeof Module !== 'undefined' ? Module : {};
 
-Module["onRuntimeInitialized"] = async () => { // on MicroPython Ready
-    MicroPython = typeof MicroPython !== 'undefined' ? MicroPython : { };
-
+(() => {
     let mp_js_stdout = document.querySelector("#mp_js_stdout");
     mp_js_stdout.addEventListener("print", (e) => {
         // console.log(e.data);
         term.write(e.data);
+        simSystem.onREPLDataOut(e.data);
     }, false);
-
-    // Setup MicroPython
-    MP_JS_EPOCH = (new Date()).getTime();
 
     term.onData(data => {
         simSystem.writeToREPL(data);
     });
+
+    // Setup MicroPython
+    MP_JS_EPOCH = (new Date()).getTime();
+})();
+
+Module["onRuntimeInitialized"] = async () => { // on MicroPython Ready
+    MicroPython = typeof MicroPython !== 'undefined' ? MicroPython : { };
+
+    if (window.parent) {
+        let callback = window.parent.simulatorReadyCallback;
+        if (callback) {
+            callback();
+        }
+    }
 };
