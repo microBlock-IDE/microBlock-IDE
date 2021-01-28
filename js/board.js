@@ -12,7 +12,8 @@ $("#new-project").click(async () => {
     }
 
     $("#project-create-dialog #hardware-select ul").html("");
-    for (let board of boards) {
+    (() => {
+        let board = boards.find(board => board.id === boardId);
         $("#project-create-dialog #hardware-select ul").append(`
             <li>
                 <div data-board-id="${board.id}">
@@ -20,7 +21,22 @@ $("#new-project").click(async () => {
                     <div class="name">${board.name}</div>
                 </div>
             </li>
-        `)
+        `);
+    })();
+    let index = 1;
+    for (let board of boards) {
+        if (board.id === boardId) {
+            continue;
+        }
+        $("#project-create-dialog #hardware-select ul").append(`
+            <li class="${index > 4 ? "show-when-click-see-more" : ""}">
+                <div data-board-id="${board.id}">
+                    <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
+                    <div class="name">${board.name}</div>
+                </div>
+            </li>
+        `);
+        index++;
     }
 
     $("#project-create-dialog #hardware-select ul > li > div").click(function() {

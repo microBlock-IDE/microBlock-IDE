@@ -1285,6 +1285,16 @@ ul.switch-mode > li:last-child {
     width: 20%;
 }
 
+#hardware-select > ul > li.show-when-click-see-more {
+    display: none;
+}
+
+.box-level-select {
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 0 !important;
+}
+
 #level-select > ul > li img {
     width: 100px;
 }
