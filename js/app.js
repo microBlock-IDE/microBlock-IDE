@@ -639,7 +639,7 @@ let autoConnectFlag = true;
 let timerAutoConnect = null;
 
 let autoConnectCheck = async () => {
-    if (autoConnectFlag && boardId && isElectron && !serialPort) {
+    if (autoConnectFlag && boardId && isElectron && !serialPort && deviceMode === MODE_REAL_DEVICE) {
         let board = boards.find(board => board.id === boardId);
         let usbInfo = board.usb[0];
         let portList = await serialAPI.list();

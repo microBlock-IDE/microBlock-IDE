@@ -13,11 +13,23 @@ $("#open-dashboard").click(() => {
 
 if (isElectron) {
     ipcRenderer.on("get-serial-status", (evt, msg) => {
-        sharedObj.dashboardWin.webContents.send("serial-status", serialPort ? "connected" : "disconnect");
+        let isConnectedToREPL = false;
+        if (deviceMode === MODE_REAL_DEVICE) {
+            sharedObj.dashboardWin.webContents.send("serial-status", serialPort ? "connected" : "disconnect");
+        } else if (deviceMode === MODE_SIMULATOR) {
+            simulatorReadyCallback();
+        }
     });
 } else {
     function getSerialStatus() {
-        return serialPort ? "connected" : "disconnect";
+        if (deviceMode === MODE_REAL_DEVICE) {
+            return serialPort ? "connected" : "disconnect";
+        } else if (deviceMode === MODE_SIMULATOR) {
+            simulatorReadyCallback();
+            return true;
+        }
+
+        return false;
     }
 
     function trigDashboardIsReady() {

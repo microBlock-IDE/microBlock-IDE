@@ -46,6 +46,11 @@ let switchModeTo = (mode, firstTime) => {
         $("#simulator").css("display", "flex");
         $("#terminal-h-resize").css("display", "block");
         $("#terminal-h-resize").css("right", $("#simulator").width());
+        if (isElectron) {
+            if (serialPort) {
+                serialPort.close();
+            }
+        }
     }
     
     if (typeof board.simulator !== "undefined") {
@@ -89,7 +94,6 @@ $("#switch-to-real-mode").click(_ => switchModeTo(MODE_REAL_DEVICE));
 let domSimulatorIframe = $("#simulator iframe")[0];
 let simSystem;
 simulatorReadyCallback = () => {
-    console.log("Call in 94");
     simSystem = domSimulatorIframe.contentWindow.simSystem;
 
     simSystem.onREPLDataOut = chunk => {
