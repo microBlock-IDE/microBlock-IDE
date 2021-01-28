@@ -38,14 +38,15 @@ $("#install-firmware-button").click(async () => {
     let board = boards.find(board => board.id === boardId);
     let fwIndex = +$("#firmware-version-select").val();
     let fwPath = board.firmware[fwIndex].path;
-    fwPath = fwPath.startsWith("/") ? rootPath + fwPath : `${rootPath}/boards/${boardId}/${fwPath}`
+    fwPath = fwPath.startsWith("/") ? sharedObj.rootPath + fwPath : `${sharedObj.rootPath}/boards/${boardId}/${fwPath}`;
+    fwPath = path.normalize(fwPath);
 
     let esptoolName = {
         darwin: "esptool",
         linux: "esptool-ubuntu-x64",
         win32: "esptool.exe"
     };
-    let esptoolPath = __dirname + "/../bin/esptool/" + esptoolName[os.platform()];
+    let esptoolPath = path.normalize(sharedObj.rootPath + "/../bin/esptool/" + esptoolName[os.platform()]);
     let arg = [
         "--chip",        "esp32",
         "--port",        comPort,
@@ -58,7 +59,7 @@ $("#install-firmware-button").click(async () => {
         "--flash_size",  "detect",
         "0x1000", fwPath
     ];
-    console.log(arg);
+    // console.log(arg);
     
     let esptool = spawn(esptoolPath, arg);
 
