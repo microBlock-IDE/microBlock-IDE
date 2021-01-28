@@ -70,8 +70,12 @@ let switchModeTo = (mode, firstTime) => {
     if (editor) editor.layout();
     if (fitAddon) {
         setTimeout(() => {
-            fitAddon.fit();
-            fitAddon.fit();
+            try {
+                fitAddon.fit();
+                fitAddon.fit();
+            } catch (e) {
+                console.warn(e);
+            }
         }, 10);
     }
 
