@@ -12,10 +12,15 @@ addBoard({
     blocks: [
         "blocks/blocks_display.js",
         "blocks/blocks_switch.js",
+        "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
+        "blocks/blocks_colour.js",
 
         "blocks/generators_display.js",
-        "blocks/generators_switch.js"
+        "blocks/generators_switch.js",
+        "blocks/generators_pin.js",
+        "blocks/generators_avanced.js",
+        "blocks/generators_colour.js"
     ],
     modules: [ ],
     firmware: [
@@ -56,18 +61,23 @@ addBoard({
                                     </value>
                                     <value name="x">
                                         <shadow type="math_number">
-                                            <field name="NUM">0</field>
+                                            <field name="NUM">60</field>
                                         </shadow>
                                     </value>
                                     <value name="y">
                                         <shadow type="math_number">
-                                            <field name="NUM">0</field>
+                                            <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FFFFFF</field>
                                         </shadow>
                                     </value>
                                 </block>
                             `
                         },
-                        {
+                        /* {
                             xml: `
                                 <block type="display_draw_bitmap">
                                     <value name="x">
@@ -82,7 +92,7 @@ addBoard({
                                     </value>
                                 </block>
                             `
-                        },
+                        }, */
                         {
                             xml: `
                                 <block type="display_draw_line">
@@ -104,6 +114,11 @@ addBoard({
                                     <value name="y2">
                                         <shadow type="math_number">
                                             <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FFFFFF</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -132,12 +147,47 @@ addBoard({
                                             <field name="NUM">60</field>
                                         </shadow>
                                     </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FFFFFF</field>
+                                        </shadow>
+                                    </value>
                                 </block>
                             `
                         },
-                        "display_fill",
-                        "display_clear",
-                        "display_show"
+                        {
+                            xml: `
+                                <block type="display_fill">
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FFFFFF</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="colour_rgb">
+                                    <value name="RED">
+                                    <shadow type="math_number">
+                                        <field name="NUM">100</field>
+                                    </shadow>
+                                    </value>
+                                    <value name="GREEN">
+                                    <shadow type="math_number">
+                                        <field name="NUM">50</field>
+                                    </shadow>
+                                    </value>
+                                    <value name="BLUE">
+                                    <shadow type="math_number">
+                                        <field name="NUM">0</field>
+                                    </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "colour_random",
                     ]
                 },
                 {
@@ -148,25 +198,36 @@ addBoard({
                         {
                             xml: '<label text="Switch"></label>',
                         },
+                        "switch_on_pressed",
                         "switch_on_press",
                         "switch_on_release",
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
                         {
-                            xml: '<label text="External Input"></label>',
+                            xml: '<label text="External Input/Output"></label>',
                         },
-                        "pin_digital_read",
-                        "pin_analog_read"
-                    ]
-                },
-                {
-                    name: "Output",
-                    icon: `../kidbright32/images/usb.png`,
-                    color: "#fbbd5e",
-                    blocks: [
                         {
-                            xml: '<label text="External Output"></label>',
+                            xml: `
+                                <block type="pin_digital_read">
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="pin_analog_read">
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">34</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
                         },
                         {
                             xml: `
@@ -174,6 +235,11 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -185,6 +251,11 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">1023</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -502,8 +573,28 @@ addBoard({
                         {
                             xml: '<label text="Sensor"></label>',
                         },
-                        "dht_read",
-                        "ds18x20_read",
+                        {
+                            xml: `
+                                <block type="dht_read">
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="ds18x20_read">
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="Internal RTC"></label>',
                         },

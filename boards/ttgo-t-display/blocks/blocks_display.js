@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "display_draw_text",
-  "message0": "Display draw text %1 at (x: %2 , y: %3 )",
+  "message0": "Display draw text %1 x: %2 y: %3 colour: %4 font: %5",
   "args0": [
     {
       "type": "input_value",
@@ -16,19 +16,61 @@ Blockly.defineBlocksWithJsonArray([
       "type": "input_value",
       "name": "y",
       "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Colour"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "font",
+      "options": [
+        [
+          "Supermarket 20",
+          "FONT_SUPERMARKET_20"
+        ],
+        [
+          "Supermarket 40",
+          "FONT_SUPERMARKET_40"
+        ],
+        [
+          "Supermarket 60",
+          "FONT_SUPERMARKET_60"
+        ],
+        [
+          "Supermarket 120",
+          "FONT_SUPERMARKET_120"
+        ],
+        [
+          "TH Sarabun New 20",
+          "FONT_TH_SARABUN_NEW_20"
+        ],
+        [
+          "TH Sarabun New 40",
+          "FONT_TH_SARABUN_NEW_40"
+        ],
+        [
+          "TH Sarabun New 60",
+          "FONT_TH_SARABUN_NEW_60"
+        ]
+      ]
     }
   ],
-  "inputsInline": true,
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw text in buffer",
+  "tooltip": "Draw text on screen",
   "helpUrl": ""
 },
 {
   "type": "display_draw_line",
-  "message0": "Display draw line start at (x: %1 , y: %2 ) end at (x: %3 , y: %4 )",
+  "message0": "Display draw line %1 start x: %2 start y: %3 x end: %4 y end: %5 colour: %6",
   "args0": [
+    {
+      "type": "input_dummy"
+    },
     {
       "type": "input_value",
       "name": "x1",
@@ -48,19 +90,27 @@ Blockly.defineBlocksWithJsonArray([
       "type": "input_value",
       "name": "y2",
       "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Colour"
     }
   ],
-  "inputsInline": true,
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw line in buffer",
+  "tooltip": "Draw line on screen",
   "helpUrl": ""
 },
 {
   "type": "display_draw_rect",
-  "message0": "Display draw rectangle start at (x: %1 , y: %2 ) width: %3 height: %4 fill: %5",
+  "message0": "Display draw rectangle %1 x start: %2 y start: %3 width: %4 height: %5 colour: %6 fill: %7",
   "args0": [
+    {
+      "type": "input_dummy"
+    },
     {
       "type": "input_value",
       "name": "x",
@@ -82,6 +132,11 @@ Blockly.defineBlocksWithJsonArray([
       "check": "Number"
     },
     {
+      "type": "input_value",
+      "name": "color",
+      "check": "Colour"
+    },
+    {
       "type": "field_dropdown",
       "name": "fill",
       "options": [
@@ -96,41 +151,28 @@ Blockly.defineBlocksWithJsonArray([
       ]
     }
   ],
-  "inputsInline": true,
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Draw rectangle in buffer",
+  "tooltip": "Draw rectangle on screen",
   "helpUrl": ""
 },
 {
   "type": "display_fill",
-  "message0": "Display fill",
-  "inputsInline": true,
+  "message0": "Display fill colour %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Colour"
+    },
+  ],
+  "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#2980B9",
-  "tooltip": "Fill screen in buffer",
-  "helpUrl": ""
-},
-{
-  "type": "display_clear",
-  "message0": "Display clear",
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#2980B9",
-  "tooltip": "clear anythings in buffer",
-  "helpUrl": ""
-},
-{
-  "type": "display_show",
-  "message0": "Display show",
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#2980B9",
-  "tooltip": "Send buffer to screen",
+  "tooltip": "Fill screen with color",
   "helpUrl": ""
 },
 {
