@@ -38,6 +38,7 @@ $("#new-project").click(async () => {
         `);
         index++;
     }
+    $("#board-see-more-btn").show();
 
     $("#project-create-dialog #hardware-select ul > li > div").click(function() {
         let boardId = $(this).attr("data-board-id");
