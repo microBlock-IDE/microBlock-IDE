@@ -38,6 +38,19 @@ Blockly.Python['display_draw_rect'] = function(block) {
   return code;
 };
 
+Blockly.Python['display_draw_circle'] = function(block) {
+  Blockly.Python.definitions_['import_display'] = 'import display';
+
+  var value_x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
+  var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
+  var value_r = Blockly.Python.valueToCode(block, 'r', Blockly.Python.ORDER_ATOMIC);
+  var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
+  var dropdown_fill = block.getFieldValue('fill');
+
+  var code = `display.${(+dropdown_fill) ? 'fill_circle' : 'circle'}(${value_x}, ${value_y}, ${value_r}, ${value_color})\n`;
+  return code;
+};
+
 Blockly.Python['display_fill'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 

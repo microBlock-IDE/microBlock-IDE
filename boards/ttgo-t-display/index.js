@@ -157,6 +157,32 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="display_draw_circle">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="r">
+                                        <shadow type="math_number">
+                                            <field name="NUM">30</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FFFFFF</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
                                 <block type="display_fill">
                                     <value name="color">
                                         <shadow type="colour_picker">

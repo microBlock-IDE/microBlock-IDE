@@ -159,6 +159,55 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "display_draw_circle",
+  "message0": "Display draw circle %1 x center: %2 y center: %3 radius: %4 colour: %5 fill: %6",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "r",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Colour"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "fill",
+      "options": [
+        [
+          "No",
+          "0"
+        ],
+        [
+          "Yes",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#2980B9",
+  "tooltip": "Draw circle on screen",
+  "helpUrl": ""
+},
+{
   "type": "display_fill",
   "message0": "Display fill colour %1",
   "args0": [
