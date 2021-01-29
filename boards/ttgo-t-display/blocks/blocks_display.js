@@ -5,22 +5,26 @@ Blockly.defineBlocksWithJsonArray([
   "args0": [
     {
       "type": "input_value",
-      "name": "text"
+      "name": "text",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "x",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "y",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "color",
-      "check": "Colour"
+      "check": "Colour",
+      "align": "RIGHT"
     },
     {
       "type": "field_dropdown",
@@ -74,27 +78,32 @@ Blockly.defineBlocksWithJsonArray([
     {
       "type": "input_value",
       "name": "x1",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "y1",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "x2",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "y2",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "color",
-      "check": "Colour"
+      "check": "Colour",
+      "align": "RIGHT"
     }
   ],
   "inputsInline": false,
@@ -114,27 +123,32 @@ Blockly.defineBlocksWithJsonArray([
     {
       "type": "input_value",
       "name": "x",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "y",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "width",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "height",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "color",
-      "check": "Colour"
+      "check": "Colour",
+      "align": "RIGHT"
     },
     {
       "type": "field_dropdown",
@@ -168,22 +182,26 @@ Blockly.defineBlocksWithJsonArray([
     {
       "type": "input_value",
       "name": "x",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "y",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "r",
-      "check": "Number"
+      "check": "Number",
+      "align": "RIGHT"
     },
     {
       "type": "input_value",
       "name": "color",
-      "check": "Colour"
+      "check": "Colour",
+      "align": "RIGHT"
     },
     {
       "type": "field_dropdown",
