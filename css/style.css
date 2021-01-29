@@ -1289,6 +1289,16 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
+#hardware-select > #board-see-more-btn {
+    width: 100%;
+    color: #1C2833;
+    background-color: #E5E7E9;
+}
+
+#hardware-select > #board-see-more-btn:hover {
+    background-color: #D7DBDD;
+}
+
 .box-level-select {
     height: 0;
     overflow: hidden;

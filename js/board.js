@@ -66,6 +66,11 @@ $("#new-project").click(async () => {
     $("#project-create-dialog").show();
 });
 
+$("#board-see-more-btn").click(function() {
+    $("#project-create-dialog #hardware-select ul > li").removeClass("show-when-click-see-more");
+    $(this).hide();
+});
+
 $("#project-create-dialog .close-btn").click(() => $("#project-create-dialog").hide())
 
 let loadBoard = async () => {

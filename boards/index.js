@@ -12,4 +12,4 @@ loadScript(`${rootPath}/boards/kidbright32-v1.6/index.js`);  // Add KidBright32 
 loadScript(`${rootPath}/boards/openkb/index.js`);  // Add OpenKB
 loadScript(`${rootPath}/boards/ipst-wifi/index.js`);  // Add IPST-WiFi
 loadScript(`${rootPath}/boards/kidbright32-v1.5/index.js`);  // Add KidBright32 V1.5
-// loadScript(`${rootPath}/boards/ttgo-t-display/index.js`);  // Add TTGO T-Display
+loadScript(`${rootPath}/boards/ttgo-t-display/index.js`);  // Add TTGO T-Display
