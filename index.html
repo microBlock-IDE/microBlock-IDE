@@ -30,10 +30,12 @@
             writeFileAsync = promisify(nodeFS.writeFile);
 
             dive = require('dive');
+			
+			sharedObj = remote.getGlobal('sharedObj');
             
-            pjson = require('../package.json');
+            pjson = require(`${sharedObj.rootPath}/../package.json`);
 
-            sharedObj = remote.getGlobal('sharedObj');
+            
             ipcRenderer = require('electron').ipcRenderer;
 
             rootPath = "/.";
