@@ -19,11 +19,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for IPST-WiFi V1.5.0",
-            path: "firmware/MicroPython.for.IPST-WiFi.V1.5.0.bin",
-            version: "V1.5.0",
-            date: "2020-12-28",
-            board: "IPST-WiFi",
+            name: "MicroPython for ESP32 Dev Board V1.6.0",
+            path: "firmware/MicroPython.for.ESP32.Dev.Board.V1.6.0.bin",
+            version: "V1.6.0",
+            date: "2021-1-30",
+            board: "ESP32 Dev Board",
             cpu: "ESP32"
         }
     ],
