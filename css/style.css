@@ -523,6 +523,25 @@ ul.switch-mode > li:last-child {
     box-shadow: 0 0 10px rgb(0 0 0 / 39%);
 }
 
+@media screen and (max-width: 1200px) {
+    .dialog {
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .dialog {
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+
 .dialog::before {
     position: absolute;
     width: 200%;
@@ -769,6 +788,40 @@ ul.switch-mode > li:last-child {
     list-style: none;
     padding: 10px;
     padding-top: 0;
+}
+
+@media screen and (max-width: 1200px) {
+    .extension-category-list { 
+        flex-basis: 160px;
+    }
+
+    .extension-list > li {
+        width: calc(100% / 3);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .extension-category-list { 
+        flex-basis: 140px;
+    }
+
+    .extension-category-list > li { 
+        font-size: 12px;
+    }
+    
+    .extension-list > li {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .extension-category-list {
+        display: none;
+    }
+
+    .extension-list > li {
+        width: 100%;
+    }
 }
 
 .extension-box {
@@ -1283,6 +1336,18 @@ ul.switch-mode > li:last-child {
 
 #hardware-select > ul > li {
     width: 20%;
+}
+
+@media screen and (max-width: 1200px) {
+    #hardware-select > ul > li {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #hardware-select > ul > li {
+        width: calc(100% / 3);
+    }
 }
 
 #hardware-select > ul > li.show-when-click-see-more {
