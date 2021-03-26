@@ -104,14 +104,6 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
-  "type": "imu_compass_heading",
-  "message0": "compass heading (°)",
-  "output": "Number",
-  "colour": "#E67E22",
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
   "type": "imu_rotation",
   "message0": "rotation (°) %1",
   "args0": [
@@ -131,47 +123,6 @@ Blockly.defineBlocksWithJsonArray([
     }
   ],
   "output": "Number",
-  "colour": "#E67E22",
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "imu_magnetic_force",
-  "message0": "magnetic force (uT) %1",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "axis",
-      "options": [
-        [
-          "x",
-          "0"
-        ],
-        [
-          "y",
-          "1"
-        ],
-        [
-          "z",
-          "2"
-        ],
-        [
-          "strength",
-          "3"
-        ]
-      ]
-    }
-  ],
-  "output": "Number",
-  "colour": "#E67E22",
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "imu_calibrate_compass",
-  "message0": "calibrate compass",
-  "previousStatement": null,
-  "nextStatement": null,
   "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""

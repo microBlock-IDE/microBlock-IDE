@@ -129,9 +129,7 @@ addBoard({
                         "imu_is_gesture",
                         "imu_acceleration",
                         "imu_rotation",
-                        "imu_compass_heading",
-                        "imu_magnetic_force",
-                        "imu_calibrate_compass",
+                        "imu_raw_gyro",
                     ]
                 },
                 {
