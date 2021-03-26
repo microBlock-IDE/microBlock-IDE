@@ -1481,6 +1481,15 @@ ul.switch-mode > li:last-child {
     background-color: #D4AC0D;
 }
 
+#firmware-upgrade-dialog  > section > section > article button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#firmware-upgrade-dialog  > section > section > article button:disabled:hover {
+    background-color: #F1C40F;
+}
+
 #firmware-upgrade-dialog  > section > section > article button#continue-upload {
     background-color: #FFFFFF;
     color: #000;
@@ -1501,6 +1510,13 @@ ul.switch-mode > li:last-child {
 
 #firmware-upgrade-dialog  > section > section > article.doing > .icon.loading {
     animation: objectMoveLoading 3s infinite;
+}
+
+#firmware-upgrade-dialog .note-for-rp2 {
+    margin-top: 15px;
+    color: #FF0000;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 @keyframes objectMoveLoading {

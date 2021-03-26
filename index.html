@@ -25,6 +25,7 @@
             spawn = require('child_process').spawn;
             os = require('os');
             path = require("path");
+            nodeDiskInfo = require('node-disk-info');
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
@@ -405,6 +406,7 @@
                             <button id="install-firmware-button">Upgrade Firmware</button>
                             <button id="continue-upload">Continue</button>
                         </div>
+                        <div class="note-for-rp2">Hold BOOT button then click RESET button before next</div>
                     </article>
                     <article class="doing">
                         <div class="icon loading"><i class="fas fa-truck-loading"></i></div>

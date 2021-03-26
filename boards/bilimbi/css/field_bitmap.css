@@ -1,0 +1,95 @@
+.FieldBitmapDropdown {
+    width: 200px;
+    color: #FFF;
+}
+
+.FieldBitmapDropdown > .image-preview {
+    background-color: #2874A6;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    height: 90px;
+    position: relative;
+}
+
+.FieldBitmapDropdown > .image-preview > .preview {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.38);
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 8px);
+    transform: translate(-50%, -50%);
+}
+
+.FieldBitmapDropdown > .image-preview > .size-label {
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #FFF;
+}
+
+.FieldBitmapDropdown > .control {
+    font-size: 14px;
+}
+
+.FieldBitmapDropdown > .control > div {
+    margin-bottom: 12px;
+}
+
+.FieldBitmapDropdown > .control > div:last-child {
+    margin-bottom: 0;
+}
+
+.FieldBitmapDropdown > .control > div > .choose-image-btn {
+    background-color: #2874A6;
+    color: #FFF;
+    text-align: center;
+    width: 100%;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    outline: none;
+
+}
+
+.FieldBitmapDropdown > .control > div > .label {
+    width: 100%;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.FieldBitmapDropdown > .control > div > .label > .value { 
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 12px;
+    padding: 3px 5px;
+    background-color: #2874A6;
+    border-radius: 2px;
+}
+
+.FieldBitmapDropdown > .control > div > .inp > input {
+    width: 100%;
+}
+
+.FieldBitmapDropdown > .control > div > .inp > .check-button {
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    border: 1px solid #2874A6;
+    overflow: hidden;
+}
+
+.FieldBitmapDropdown > .control > div > .inp > .check-button > div {
+    flex-grow: 1;
+    padding: 3px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.FieldBitmapDropdown > .control > div > .inp > .check-button > div.active {
+    background-color: #2874A6;
+}

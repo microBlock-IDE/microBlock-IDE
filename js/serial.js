@@ -384,9 +384,9 @@ class UploadViaREPL {
 
         serialLastData = "";
         await writeSerialByte(4); // Soft reset
-        await sleep(100);
+        await sleep(300);
 
-        serialLastData = "";
+        // serialLastData = "";
         if (!await this.sendByteLoopWaitNextCommand(3, 100, 100)) { // Ctrl + C
             throw "Exit main program error";
         }
@@ -546,20 +546,35 @@ let realDeviceUploadFlow = async (code) => {
 
     try {
         let method;
-        method = new UploadOnBoot();
+        if (boardId) {
+            let board = boards.find(board => board.id === boardId);
+            if (board.uploadMode && board.uploadMode === "REPL") {
+                method = new UploadViaREPL();
+                try {
+                    await method.start();
+                } catch (e) {
+                    if (isElectron) {
+                        firewareUpgradeFlow();
+                    }
+                    throw e;
+                }
+            }
+        } else {
+            method = new UploadOnBoot();
 
-        try {
-            await method.start();
-        } catch (e) {
-            NotifyW("Switch to upload via RawREPL [RECOMMENDED Upgrade fireware]");
-            method = new UploadViaREPL();
             try {
                 await method.start();
             } catch (e) {
-                if (isElectron) {
-                    firewareUpgradeFlow();
+                NotifyW("Switch to upload via RawREPL [RECOMMENDED Upgrade fireware]");
+                method = new UploadViaREPL();
+                try {
+                    await method.start();
+                } catch (e) {
+                    if (isElectron) {
+                        firewareUpgradeFlow();
+                    }
+                    throw e;
                 }
-                throw e;
             }
         }
 
