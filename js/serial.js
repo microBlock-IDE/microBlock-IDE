@@ -243,12 +243,13 @@ let boardReset = () => { // Hard-reset
                 serialPort.set({ // EN = 0, BOOT = 1
                     dtr: false,
                     rts: true
-                }, () => 
+                }, async () => {
+                    await sleep(50);
                     serialPort.set({ // EN = 1, BOOT = 1
                         dtr: true,
                         rts: true
                     }, resolve)
-                )
+                })
             );
         }
     });
