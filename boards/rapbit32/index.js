@@ -19,6 +19,7 @@ addBoard({
         "../ipst-wifi/blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
         "../kidbright32/blocks/blocks_buzzer.js",
+        "blocks/blocks_servo.js",
         "blocks/blocks_rgbled.js",
         "../kidbright32/blocks/blocks_advanced.js",
 
@@ -29,6 +30,7 @@ addBoard({
         "../ipst-wifi/blocks/generators_switch.js",
         "../kidbright32/blocks/generators_pin.js",
         "../kidbright32/blocks/generators_buzzer.js",
+        "../kidbright32/blocks/generators_servo.js",
         "blocks/generators_rgbled.js",
         "../kidbright32/blocks/generators_avanced.js",
     ],
@@ -219,6 +221,20 @@ addBoard({
                     icon: `../kidbright32/images/usb.png`,
                     color: "#fbbd5e",
                     blocks: [
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="Buzzer"></label>',
                         },
