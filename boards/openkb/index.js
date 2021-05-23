@@ -21,10 +21,11 @@ addBoard({
         "blocks/blocks_pin.js",
         "../kidbright32/blocks/blocks_buzzer.js",
         "blocks/blocks_advanced.js",
+
         "../kidbright32/blocks/generators_display.js",
         "../kidbright32/blocks/generators_rtc.js",
         "../kidbright32/blocks/generators_sensor.js",
-        "../kidbright32/blocks/generators_servo.js",
+        "blocks/generators_servo.js",
         "../kidbright32/blocks/generators_switch.js",
         "../kidbright32/blocks/generators_pin.js",
         "../kidbright32/blocks/generators_buzzer.js",
