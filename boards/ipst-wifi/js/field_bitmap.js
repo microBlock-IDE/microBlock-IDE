@@ -390,7 +390,13 @@ CustomFields.FieldBitmap.prototype.updateImagePreview_ = function() {
 
     this.updateValue_();
   }.bind(this);
-  tmpImage.src = this.fileChoose_;
+  if (isElectron) {
+    const contents = nodeFS.readFileSync(this.fileChoose_, { encoding: 'base64' });
+    console.log(contents);
+    tmpImage.src = "data:image/png;base64," + contents;
+  } else {
+    tmpImage.src = this.fileChoose_;
+  }
 };
 
 CustomFields.FieldBitmap.prototype.updateValue_ = function() {
