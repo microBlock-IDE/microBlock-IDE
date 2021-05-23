@@ -66,7 +66,7 @@ addBoard({
             blocks: [
                 {
                     name: "Wheel",
-                    icon: `../kidbright32/images/filter.png`,
+                    icon: `images/tire.png`,
                     color: "#28B463",
                     blocks: [
                         "motor_forward",

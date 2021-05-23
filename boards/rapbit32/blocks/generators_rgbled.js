@@ -2,7 +2,7 @@ Blockly.Python['rgbled_setup'] = function(block) {
   Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['from_neopixel_import_neopixel'] = 'from neopixel import NeoPixel';
 
-  var code = `np = NeoPixel(Pin(12, Pin.OUT), 3); np.bright = 50\n`;
+  var code = `np = NeoPixel(Pin(13, Pin.OUT), 4); np.bright = 50\n`;
   return code;
 };
 
