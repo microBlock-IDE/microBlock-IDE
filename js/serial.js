@@ -547,19 +547,22 @@ let realDeviceUploadFlow = async (code) => {
 
     try {
         let method;
-        if (boardId) {
-            let board = boards.find(board => board.id === boardId);
-            if (board.uploadMode && board.uploadMode === "REPL") {
-                method = new UploadViaREPL();
-                try {
-                    await method.start();
-                } catch (e) {
-                    if (isElectron) {
-                        firewareUpgradeFlow();
-                    }
-                    throw e;
+
+        const enterToREPL = async () => {
+            method = new UploadViaREPL();
+            try {
+                await method.start();
+            } catch (e) {
+                if (isElectron) {
+                    firewareUpgradeFlow();
                 }
+                throw e;
             }
+        };
+
+        let board = boards.find(board => board.id === boardId);
+        if (board.uploadMode && board.uploadMode === "REPL") {
+            await enterToREPL();
         } else {
             method = new UploadOnBoot();
 
@@ -567,15 +570,7 @@ let realDeviceUploadFlow = async (code) => {
                 await method.start();
             } catch (e) {
                 NotifyW("Switch to upload via RawREPL [RECOMMENDED Upgrade fireware]");
-                method = new UploadViaREPL();
-                try {
-                    await method.start();
-                } catch (e) {
-                    if (isElectron) {
-                        firewareUpgradeFlow();
-                    }
-                    throw e;
-                }
+                await enterToREPL();
             }
         }
 
