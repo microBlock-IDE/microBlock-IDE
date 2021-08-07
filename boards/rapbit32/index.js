@@ -18,6 +18,7 @@ addBoard({
         "blocks/blocks_sensor.js",
         "../ipst-wifi/blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
+        "blocks/blocks_ir.js",
         "../kidbright32/blocks/blocks_buzzer.js",
         "blocks/blocks_servo.js",
         "blocks/blocks_rgbled.js",
@@ -29,6 +30,7 @@ addBoard({
         "blocks/generators_sensor.js",
         "../ipst-wifi/blocks/generators_switch.js",
         "../kidbright32/blocks/generators_pin.js",
+        "blocks/generators_ir.js",
         "../kidbright32/blocks/generators_buzzer.js",
         "../kidbright32/blocks/generators_servo.js",
         "blocks/generators_rgbled.js",
@@ -190,6 +192,7 @@ addBoard({
                         "sensor_light_is_color",
                         "sensor_light",
                         "ultrasonic_read",
+                        "ir_read",
                         {
                             xml: `
                                 <block type="sensor_set_threshold">
