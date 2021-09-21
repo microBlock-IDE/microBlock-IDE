@@ -34,7 +34,7 @@ let serialConnectWeb = async () => {
     try {
         await serialPort.open({ baudrate: 115200 });
     } catch(e) {
-        if (e.toString().indexOf("required member baudRate is undefined") >= 0) { // New version of Google Chrome ?
+        if (e.toString().indexOf("undefined") >= 0) { // New version of Google Chrome ?
             try {
                 await serialPort.open({ baudRate: 115200 });
             } catch(e) {
