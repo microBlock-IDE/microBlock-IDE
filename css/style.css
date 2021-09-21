@@ -1192,6 +1192,7 @@ ul.switch-mode > li:last-child {
     border-radius: 4px;
     padding: 6px 12px;
     outline: none;;
+    margin-left: 10px;
 }
 
 #port-select-dialog > section > section > .control-button > button:hover {
@@ -1666,7 +1667,194 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
+#ota-connect-dialog {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3989;
+    padding: 40px 20px;
 
+    display: none;
+}
+
+#ota-connect-dialog > section {
+    background-color: #FFF;
+    max-width: 580px;
+    border-radius: 4px;
+    margin: auto;
+}
+
+#ota-connect-dialog > section > header {
+    position: relative;
+}
+
+#ota-connect-dialog > section > header > div.title {
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#ota-connect-dialog > section > header > .close-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #B2BABB;
+    padding: 10px;
+}
+
+#ota-connect-dialog > section > header > .close-btn:hover {
+    color: #7F8C8D;
+}
+
+#ota-connect-dialog > section > section {
+    padding: 20px;
+    padding-top: 0;
+    text-align: center;
+}
+
+#ota-connect-dialog > section > section > article {
+    display: none;
+}
+
+#ota-connect-dialog > section > section > article.todo {
+    display: block;
+}
+
+#ota-connect-dialog > section > section > article.doing {
+    /* display: block; */
+}
+
+#ota-connect-dialog > section > section > article.done {
+    /* display: block; */
+}
+
+#ota-connect-dialog > section > section > article > p,
+#ota-connect-dialog > section > section > article > select,
+#ota-connect-dialog > section > section > article > .progress-box {
+    margin-bottom: 30px;
+}
+
+#ota-connect-dialog > section > section > article > p {
+    font-size: 20px;
+}
+
+#ota-connect-dialog > section > section > article > select {
+    display: block;
+    width: 280px;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ECF0F1;
+    padding: 6px;
+    outline: none;
+    border-radius: 4px;
+}
+
+#ota-connect-dialog > section > section > article button {
+    display: inline-block;
+    margin: auto;
+
+    background-color: #F1C40F;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 22px;
+    outline: none;;
+    font-size: 18px;
+}
+
+#ota-connect-dialog > section > section > article button:hover {
+    background-color: #D4AC0D;
+}
+
+#ota-connect-dialog > section > section > article button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#ota-connect-dialog > section > section > article button:disabled:hover {
+    background-color: #F1C40F;
+}
+
+#ota-connect-dialog > section > section > article button#continue-upload {
+    background-color: #FFFFFF;
+    color: #000;
+}
+
+#ota-connect-dialog > section > section > article button#continue-upload:hover {
+    background-color: #ECF0F1;
+}
+
+#ota-connect-dialog > section > section > article > .icon {
+    font-size: 120px;
+    margin: 40px auto;
+}
+
+#ota-connect-dialog > section > section > article.todo > .icon {
+    color: #F1C40F;
+}
+
+#ota-connect-dialog > section > section > article.doing > .icon.loading {
+    animation: objectMoveLoading 3s infinite;
+}
+
+#ota-connect-dialog .note-for-rp2 {
+    margin-top: 15px;
+    color: #FF0000;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#ota-connect-dialog  > section > section > article.done > .icon.success {
+    color: #2ECC71;
+}
+
+#ota-connect-dialog > section > section > article.done > .icon.fail {
+    color: #E74C3C;
+}
+
+#ota-connect-dialog > section > section > article > .warning {
+    color: #FF0000;
+    font-size: 16px;
+}
+
+#ota-connect-dialog > section > section > article > .progress-box {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    background-color: #F0F3F4;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#ota-connect-dialog > section > section > article > .progress-box > .back-drop {
+    width: 50%;
+    height: 100%;
+    background-color: #2ECC71;
+}
+
+#ota-connect-dialog > section > section > article > .progress-box > .caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#ota-connect-dialog > section > section > article .close-btn {
+    background-color: #FFF;
+    color: #424949;
+}
+
+#ota-connect-dialog > section > section > article .close-btn:hover {
+    background-color: #F0F3F4;
+}
 
 /* Blockly hardover */
 .blocklyToolboxDiv {

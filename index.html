@@ -385,6 +385,7 @@
 
                     </ul>
                     <div class="control-button">
+                        <button id="ota-select-button">OTA Connect</button>
                         <button id="port-select-button">OK</button>
                     </div>
                 </section>
@@ -449,6 +450,45 @@
             </section>
         </div>
 
+        <div id="ota-connect-dialog">
+            <section>
+                <header>
+                    <div class="title">OTA Connect</div>
+                    <div class="close-btn"><i class="fas fa-times"></i></div>
+                </header>
+                <section>
+                    <article class="todo">
+                        <div class="icon"><i class="far fa-meh"></i></div>
+                        <p>Select </p>
+                        <select id="firmware-version-select"></select>
+                        <div class="botton-group">
+                            <button id="install-firmware-button">Upgrade Firmware</button>
+                            <button id="continue-upload">Continue</button>
+                        </div>
+                        <div class="note-for-rp2">Hold BOOT button then click RESET button before next</div>
+                    </article>
+                    <article class="doing">
+                        <div class="icon loading"><i class="fas fa-truck-loading"></i></div>
+                        <p>Installing Firmware...</p>
+                        <div class="progress-box">
+                            <div class="back-drop"></div>
+                            <div class="caption"></div>
+                        </div>
+                        <p class="warning"><i class="fas fa-exclamation-triangle"></i> Don't close program or unplug device</p>
+                    </article>
+                    <article class="done">
+                        <div class="icon success"><i class="far fa-laugh-beam"></i></div>
+                        <div class="icon fail"><i class="far fa-sad-tear"></i></div>
+                        <p id="firmware-upgrade-status">Upgrade Successful</p>
+                        <div class="botton-group">
+                            <button class="upload-btn">Upload Program</button>
+                            <button class="close-btn">Close</button>
+                        </div>
+                    </article>
+                </section>
+            </section>
+        </div>
+
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
             <category name="  " colour="#FFFFFF">
                 <block type="controls_if"></block>
@@ -506,6 +546,7 @@
 
         <script>
         if (isElectron) {
+            loadScript("js/ota.js");
             loadScript("js/fireware.js");
         }
         </script>

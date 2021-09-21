@@ -39,21 +39,13 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for IPST-WiFi V1.5.0",
-            path: "firmware/MicroPython.for.IPST-WiFi.V1.5.0.bin",
-            version: "V1.5.0",
-            date: "2020-12-28",
-            board: "IPST-WiFi",
+            name: "MicroPython for Rapbit32(XA) V1.7.0",
+            path: "firmware/MicroPython.for.Rapbit32(XA).V1.7.0.bin",
+            version: "V1.7.0",
+            date: "2021-08-07",
+            board: "Rapbit32(XA)",
             cpu: "ESP32"
         },
-        {
-            name: "MicroPython for IPST-WiFi V1.4.0",
-            path: "firmware/MicroPython.for.IPST-WiFi.V1.4.0.bin",
-            version: "V1.4.0",
-            date: "2020-11-20",
-            board: "IPST-WiFi",
-            cpu: "ESP32"
-        }
     ],
     usb: [
         {

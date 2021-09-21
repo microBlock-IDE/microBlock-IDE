@@ -1,6 +1,6 @@
 Blockly.Python['ir_read'] = function (block) {
-    Blockly.Python.definitions_['import_IR'] = 'import IR';
+    Blockly.Python.definitions_['import_ir'] = 'import ir';
 
-    var code = `IR.read()`;
+    var code = `ir.read()`;
     return [code, Blockly.Python.ORDER_NONE];
 };

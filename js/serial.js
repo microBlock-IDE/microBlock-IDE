@@ -119,12 +119,16 @@ let showPortSelect = () => {
             }
             $("#port-select-dialog").hide();
         });  
+
+        $("#ota-select-button").click(() => {
+            $("#port-select-dialog").hide();
+        });
         
         $("#port-select-dialog .close-btn").click(() => {
             reject("cancle");
             $("#port-select-dialog").hide();
         });
-        
+              
         $("#port-select-dialog").show();
     }));
 }
