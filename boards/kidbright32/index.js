@@ -36,6 +36,14 @@ KidBright32_config = {
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for KidBright32 V1.8.0",
+            path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.8.0.bin",
+            version: "V1.8.0",
+            date: "2021-11-19",
+            board: "KidBright32",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for KidBright32 V1.6.0",
             path: "../kidbright32/firmware/MicroPython.for.KidBright32.V1.6.0.bin",
             version: "V1.6.0",
