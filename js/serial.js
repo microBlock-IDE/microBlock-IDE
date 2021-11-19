@@ -457,7 +457,13 @@ class UploadViaREPL {
 
         RawREPLMode = false;   
         
-        await this.writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
+        let board = boards.find(board => board.id === boardId);
+        if (board?.chip === "RP2") {
+            await writeSerialByte(4); // Soft reset
+            await sleep(300);
+        } else {
+            await this.writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
+        }
     }
 
     async sendByteLoopWaitNextCommand(data, delay=100, max_try=5) {
