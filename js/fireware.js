@@ -86,7 +86,7 @@ $("#install-firmware-button").click(async () => {
             "--compress",
             "--erase-all",
             "--flash_mode",  "dio",
-            "--flash_freq",  "80m",
+            "--flash_freq",  "40m",
             "--flash_size",  "detect",
             "0x1000", fwPath
         ];
