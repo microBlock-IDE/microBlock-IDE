@@ -3,6 +3,7 @@ addBoard({
     name: "IPST-WiFi",
     description: "",
     image: "images/cover.jpg",
+    chip: "ESP32",
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",

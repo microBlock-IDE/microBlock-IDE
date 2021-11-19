@@ -3,6 +3,7 @@ KidBright32_config = {
     name: "",
     description: "",
     image: "images/cover.jpg",
+    chip: "ESP32",
     script: [ 
         "../kidbright32/js/field_dotmatrix.js",
         "../kidbright32/js/field_note.js",
