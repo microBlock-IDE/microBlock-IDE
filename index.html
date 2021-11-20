@@ -111,6 +111,10 @@
         <script src="xterm.js/xterm.js"></script>
         <script src="xterm.js/xterm-addon-fit.js"></script>
 
+        <!-- esptool.js -->
+        <script src="js/utilities.js"></script>
+        <script src="js/esptool.js"></script>
+
         <!-- Monaco -->
         <link rel="stylesheet" href="monaco-editor/min/vs/editor/editor.main.css">
 
@@ -494,6 +498,7 @@
 
         <script src="blocksTree.js"></script>
         <script src="js/mode.js"></script>
+        <script src="js/fireware.js"></script>
         <script src="js/serial.js"></script>
         <script src="js/simulator.js"></script>
         <script src="js/terminal.js"></script>
@@ -503,12 +508,6 @@
         <script src="js/dashboard.js"></script>
         <script src="js/board.js"></script>
         <script src="boards/index.js"></script>
-
-        <script>
-        if (isElectron) {
-            loadScript("js/fireware.js");
-        }
-        </script>
 
         <script src="js/install.js"></script>
 

@@ -34,7 +34,7 @@ let serialConnectWeb = async () => {
     try {
         await serialPort.open({ baudrate: 115200 });
     } catch(e) {
-        if (e.toString().indexOf("required member baudRate is undefined") >= 0) { // New version of Google Chrome ?
+        if (e.toString().indexOf("Failed to read the 'baudRate' property") >= 0) { // New version of Google Chrome ?
             try {
                 await serialPort.open({ baudRate: 115200 });
             } catch(e) {
@@ -46,7 +46,7 @@ let serialConnectWeb = async () => {
             }
         } else {
             NotifyE("Can't open serial port, some program use this port ?");
-            console.log(e);
+            console.log("Error in try 2", e);
             serialPort = null;
             
             return false;
@@ -75,16 +75,21 @@ let serialConnectWeb = async () => {
 
     serialPort.readable.pipeTo(new WritableStream({
         write(chunk) {
-            for (let key of chunk) {
-                term.write(String.fromCharCode(key));
-                serialLastData += String.fromCharCode(key);
-            }
-            if (serialLastData.length > 300) {
-                serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
-            }
-            if (dashboardIsReady) {
-                dashboardWin.streamDataIn(chunk);
-            }        
+            if (!firmwareUpdateMode) {
+                for (let key of chunk) {
+                    term.write(String.fromCharCode(key));
+                    serialLastData += String.fromCharCode(key);
+                }
+                if (serialLastData.length > 300) {
+                    serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
+                }
+                if (dashboardIsReady) {
+                    dashboardWin.streamDataIn(chunk);
+                }
+            } else {
+                inputBuffer = inputBuffer.concat(Array.from(chunk));
+                console.log(inputBuffer);
+            }     
         }
     }));
 
@@ -192,13 +197,17 @@ let serialConnectElectron = async (portName = "", autoConnect = false, uploadMod
     }
 
     serialPort.on("data", (chunk) => {
-        term.write(chunk);
-        serialLastData += chunk;
-        if (serialLastData.length > 300) {
-            serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
-        }
-        if (sharedObj.dashboardWin) {
-            sharedObj.dashboardWin.webContents.send("serial-data-in", chunk);
+        if (!firmwareUpdateMode) {
+            term.write(chunk);
+            serialLastData += chunk;
+            if (serialLastData.length > 300) {
+                serialLastData = serialLastData.substring(serialLastData.length - 300, serialLastData.length);
+            }
+            if (sharedObj.dashboardWin) {
+                sharedObj.dashboardWin.webContents.send("serial-data-in", chunk);
+            }
+        } else {
+            inputBuffer = inputBuffer.concat(Array.from(chunk));
         }
     });
 
@@ -219,38 +228,81 @@ let serialConnect = () => {
     return (!isElectron) ? serialConnectWeb() : serialConnectElectron()
 };
 
-let boardReset = () => { // Hard-reset
+let boardReset = (enterToBootMode) => { // Hard-reset
+    if (typeof enterToBootMode === "undefined") {
+        enterToBootMode = false;
+    }
+
     return new Promise(async resolve => {
-        if (!isElectron) { // Web
-            await serialPort.setSignals({ // EN = 1, BOOT = 1
-                dataTerminalReady: true,
-                requestToSend: true
-            });
-            await serialPort.setSignals({ // EN = 0, BOOT = 1
-                dataTerminalReady: false,
-                requestToSend: true
-            });
-            await serialPort.setSignals({ // EN = 1, BOOT = 1
-                dataTerminalReady: true,
-                requestToSend: true
-            });
-            resolve();
-        } else { // Electron
-            serialPort.set({ // EN = 1, BOOT = 1
-                dtr: true,
-                rts: true
-            }, () => 
-                serialPort.set({ // EN = 0, BOOT = 1
-                    dtr: false,
+        if (!enterToBootMode) {
+            if (!isElectron) { // Web
+                await serialPort.setSignals({ // EN = 1, BOOT = 1
+                    dataTerminalReady: true,
+                    requestToSend: true
+                });
+                await serialPort.setSignals({ // EN = 0, BOOT = 1
+                    dataTerminalReady: false,
+                    requestToSend: true
+                });
+                await serialPort.setSignals({ // EN = 1, BOOT = 1
+                    dataTerminalReady: true,
+                    requestToSend: true
+                });
+                resolve();
+            } else { // Electron
+                serialPort.set({ // EN = 1, BOOT = 1
+                    dtr: true,
                     rts: true
-                }, async () => {
-                    await sleep(50);
-                    serialPort.set({ // EN = 1, BOOT = 1
-                        dtr: true,
+                }, () => 
+                    serialPort.set({ // EN = 0, BOOT = 1
+                        dtr: false,
                         rts: true
-                    }, resolve)
-                })
-            );
+                    }, async () => {
+                        await sleep(50);
+                        serialPort.set({ // EN = 1, BOOT = 1
+                            dtr: true,
+                            rts: true
+                        }, resolve)
+                    })
+                );
+            }
+        } else {
+            if (!isElectron) { // Web
+                await serialPort.setSignals({ // EN = 1, BOOT = 0
+                    dataTerminalReady: 0,
+                    requestToSend: 1
+                });
+                await sleep(50);
+                await serialPort.setSignals({ // EN = 0, BOOT = 1
+                    dataTerminalReady: 1,
+                    requestToSend: 0
+                });
+                await sleep(500);
+                await serialPort.setSignals({ // EN = 1, BOOT = 1
+                    dataTerminalReady: 0,
+                    requestToSend: 0
+                });
+                await sleep(100);
+                resolve();
+            } else { // Electron
+                console.log("Try to BOOT mode");
+                serialPort.set({ // EN = 1, BOOT = 0
+                    dtr: 0,
+                    rts: 1
+                }, async () => {
+                    await sleep(300);
+                    serialPort.set({ // EN = 0, BOOT = 1
+                        dtr: 1,
+                        rts: 0
+                    }, async () => {
+                        // await sleep(50);
+                        serialPort.set({ // EN = 1, BOOT = 1
+                            dtr: 0,
+                            rts: 0
+                        }, resolve)
+                    });
+                });
+            }
         }
     });
 }
@@ -559,9 +611,7 @@ let realDeviceUploadFlow = async (code) => {
             try {
                 await method.start();
             } catch (e) {
-                if (isElectron) {
-                    firewareUpgradeFlow();
-                }
+                firewareUpgradeFlow();
                 throw e;
             }
         };
@@ -686,11 +736,17 @@ async function writeSerialByte(data) {
 
 async function writeSerialBytes(data) {
     if (!isElectron) {
-        let buff = new Uint8Array(data);
-        await writer.write(buff);
+        await writer.write(new Uint8Array(data));
     } else {
         let b = Buffer.from(data);
-        await new Promise(resolve => serialPort.write(b, resolve));
+        let writeSize = 0;
+        while(writeSize < b.length) {
+            const len = Math.min(1024, b.length - writeSize);
+            const block = b.slice(writeSize, writeSize + len);
+            await new Promise(resolve => serialPort.write(block, resolve));
+            console.log(block);
+            writeSize += len;
+        }
     }
 }
 
