@@ -117,6 +117,10 @@
                     throw e;
                 }
 
+                console.log("eraseFlash");
+                logMsg("Erase Flash...");
+                await espToolStub.eraseFlash();
+
                 for (const { offset, file } of firmwareFile) {
                     // setTextProcess("อัพโหลด " + file);
                     const data = await (await fetch(file)).arrayBuffer();
@@ -174,6 +178,8 @@
 
                     $("#firmware-upgrade-dialog article.doing").hide();
                     $("#firmware-upgrade-dialog article.done").show();
+
+                    $("#firmware-upgrade-dialog .close-btn").show();
                 });
 
                 $("#firmware-upgrade-dialog .upload-btn").click(() => {
