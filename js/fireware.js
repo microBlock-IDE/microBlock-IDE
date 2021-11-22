@@ -5,7 +5,7 @@ let firewareUpgradeFlow = async () => {
     let board = boards.find(board => board.id === boardId);
     
     $("#firmware-version-select").html(board.firmware.map((a, index) => `<option value="${index}">${a.name}</option>`));
-    
+
     if (board?.chip === "RP2") {
         if (!isElectron) {
             $("#install-firmware-button").prop("disabled", false);
@@ -64,6 +64,14 @@ $("#install-firmware-button").click(async () => {
     
     if (chipId === "ESP32") { // ESP32
         if (!isElectron) {
+            let data = null;
+            if (!isElectron) {
+                data = await (await fetch(fwPath)).arrayBuffer();
+            } else {
+                data = await readFileAsync(fwPath);
+            }
+            console.log(typeof data, data);
+            
             if (!serialPort) {
                 if (!await serialConnect()) {
                     return;
@@ -172,13 +180,7 @@ $("#install-firmware-button").click(async () => {
 
             const file = board.firmware[fwIndex].path;
             console.log("flashData", file);
-            let data = null;
-            if (!isElectron) {
-                data = await (await fetch(fwPath)).arrayBuffer();
-            } else {
-                data = await readFileAsync(fwPath);
-            }
-            console.log(typeof data, data);
+            
             await espToolStub.flashData(data, 0x1000, file);
 
             console.log("disconnect");
