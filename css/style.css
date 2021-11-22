@@ -1374,7 +1374,7 @@ ul.switch-mode > li:last-child {
     width: 100px;
 }
 
-#firmware-upgrade-dialog  {
+#firmware-upgrade-dialog {
     background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     width: 100%;
@@ -1389,11 +1389,23 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
+#firmware-upgrade-dialog.fullScreen {
+    display: block !important;
+    padding: 0;
+}
+
 #firmware-upgrade-dialog  > section {
     background-color: #FFF;
     max-width: 580px;
     border-radius: 4px;
     margin: auto;
+}
+
+#firmware-upgrade-dialog.fullScreen  > section {
+    max-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
 }
 
 #firmware-upgrade-dialog  > section > header {
@@ -1414,6 +1426,10 @@ ul.switch-mode > li:last-child {
     font-size: 14px;
     color: #B2BABB;
     padding: 10px;
+}
+
+#firmware-upgrade-dialog.fullScreen  > section > header > .close-btn {
+    display: none;
 }
 
 #firmware-upgrade-dialog  > section > header > .close-btn:hover {

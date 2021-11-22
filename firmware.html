@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Firmware Upgrade</title>
+        <meta name="description" content="Firmware Upgrade">
+        <meta name="theme-color" content="#F1C40F" />
+        <link rel="icon" href="favicon.ico" sizes="64x64">
+        <link rel="manifest" href="manifest.json">
+
+        <!-- jQuery -->
+        <script src="js/jquery-3.5.1.min.js"></script>
+
+        <!-- esptool.js -->
+        <script src="firmware-update/utilities.js"></script>
+        <script src="firmware-update/esptool.js"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="fontawesome/css/all.min.css">
+        
+        <link rel="stylesheet" href="css/style.css">
+
+        <script>
+            const logMsg = text => {
+                console.log(text);
+                $("#firmware-upgrade-dialog .progress-box > .caption").text(text);
+            }
+
+            const debugMsg = (...args) => {
+                function getStackTrace() {
+                    let stack = new Error().stack;
+                    stack = stack.split("\n").map(v => v.trim());
+                    for (let i = 0; i < 3; i++) {
+                        stack.shift();
+                    }
+
+                    let trace = [];
+                    for (let line of stack) {
+                        line = line.replace("at ", "");
+                        trace.push({
+                            "func": line.substr(0, line.indexOf("(") - 1),
+                            "pos": line.substring(line.indexOf(".js:") + 4, line.lastIndexOf(":"))
+                        });
+                    }
+
+                    return trace;
+                }
+
+                let stack = getStackTrace();
+                stack.shift();
+                let top = stack.shift();
+                let prefix = '[' + top.func + ":" + top.pos + '] ';
+                for (let arg of args) {
+                    if (typeof arg == "string") {
+                        logMsg(prefix + arg);
+                    } else if (typeof arg == "number") {
+                        logMsg(prefix + arg);
+                    } else if (typeof arg == "boolean") {
+                        logMsg(prefix + arg ? "true" : "false");
+                    } else if (Array.isArray(arg)) {
+                        logMsg(prefix + "[" + arg.map(value => espTool.toHex(value)).join(", ") + "]");
+                    } else if (typeof arg == "object" && (arg instanceof Uint8Array)) {
+                        logMsg(prefix + "[" + Array.from(arg).map(value => espTool.toHex(value)).join(", ") + "]");
+                    } else {
+                        logMsg(prefix + "Unhandled type of argument:" + typeof arg);
+                        console.log(arg);
+                    }
+                    prefix = "";  // Only show for first argument
+                }
+            }
+
+            const formatMacAddr = macAddr => macAddr.map(value => value.toString(16).toUpperCase().padStart(2, "0")).join(":");
+
+            const updateProgress = (part, percentage) => {
+                console.log(`Upload [${part}]: ${percentage}%`);
+                $("#firmware-upgrade-dialog  .progress-box > .back-drop").width(`${percentage}%`);
+                // setUploadProgress(percentage);
+            };
+
+            const espTool = new EspLoader({
+                updateProgress,
+                logMsg,
+                debugMsg,
+                debug: false
+            });
+
+            const updateFirmware = async (firmwareFile) => {
+                if (espTool.connected()) {
+                    await espTool.disconnect();
+                }
+
+                // setTextProcess("เชื่อมต่อ...");
+                // setUploadProgress(-2);
+                await espTool.connect()
+                readLoop().catch((error) => {
+                    console.log("toggleUIConnected -> false");
+                    console.log(error);
+                });
+
+                let espToolStub = null;
+                try {
+                    // setTextProcess("เข้าโหมดอัพโหลด...");
+                    // setUploadProgress(-2);
+                    if (await espTool.sync()) {
+                        logMsg("Connected to " + await espTool.chipName());
+                        logMsg("MAC Address: " + formatMacAddr(espTool.macAddr()));
+                        espToolStub = await espTool.runStub();
+                    } else {
+                        console.error("Sync error");
+                        // setUploadProgress(-1);
+                        throw "Sync error";
+                    }
+                } catch (e) {
+                    console.error(e);
+                    // setUploadProgress(-1);
+                    throw e;
+                }
+
+                for (const { offset, file } of firmwareFile) {
+                    // setTextProcess("อัพโหลด " + file);
+                    const data = await (await fetch(file)).arrayBuffer();
+                    await espToolStub.flashData(data, offset, file);
+                }
+
+                await espTool.disconnect();
+                // setTextProcess("อัพเดทเสร็จสิ้น");
+                // setUploadFinish(true);
+            };
+
+            $(document).ready(() => {
+                const urlSearchParams = new URLSearchParams(window.location.search);
+                const params = Object.fromEntries(urlSearchParams.entries());
+                const boardId = params.board;
+                const firmwareList = JSON.parse(params.firmware);
+
+                $("#firmware-version-select").html(firmwareList.map((a, index) => `<option value="${index}">${a.name}</option>`));
+
+                $("#firmware-upgrade-dialog article").hide();
+                $("#firmware-upgrade-dialog article.todo").show();
+                $("#firmware-upgrade-dialog").show();
+                $("#install-firmware-button").prop("disabled", false);
+                $("#firmware-upgrade-dialog .note-for-rp2").hide();
+
+                $("#install-firmware-button").click(async () => {
+                    $("#firmware-upgrade-dialog article.todo").hide();
+                    $("#firmware-upgrade-dialog  .progress-box > .back-drop").width(0);
+                    $("#firmware-upgrade-dialog article.doing").show();
+
+                    $("#firmware-upgrade-dialog .close-btn").hide();
+
+                    let fwIndex = +$("#firmware-version-select").val();
+                    let fwPath = firmwareList[fwIndex].path;
+                    fwPath = fwPath.startsWith("/") ? fwPath : `/boards/${boardId}/${fwPath}`;
+
+                    try {
+                        await updateFirmware([
+                            {
+                                offset: 0x1000,
+                                file: fwPath
+                            }
+                        ]);
+                        $("#firmware-upgrade-dialog article.done .icon").hide();
+                        $("#firmware-upgrade-dialog article.done .icon.success").show();
+                        $("#firmware-upgrade-status").text("Firmware Upgrade Successful");
+                        $("#firmware-upgrade-dialog .upload-btn").show();
+                    } catch(err) {
+                        console.log(err);
+                        $("#firmware-upgrade-dialog article.done .icon").hide();
+                        $("#firmware-upgrade-dialog article.done .icon.fail").show();
+                        $("#firmware-upgrade-status").text("Firmware Upgrade Fail : " + err.toString());
+                        $("#firmware-upgrade-dialog .upload-btn").hide();
+                    }
+
+                    $("#firmware-upgrade-dialog article.doing").hide();
+                    $("#firmware-upgrade-dialog article.done").show();
+                });
+
+                $("#firmware-upgrade-dialog .upload-btn").click(() => {
+                    $("#upload-program").click();
+                    $("#firmware-upgrade-dialog .close-btn").click();
+                });
+
+                $("#firmware-upgrade-dialog .close-btn").click(() => window.close());
+
+                $("#continue-upload").click(() => {
+                    window.opener.document.querySelector("#upload-program").click()
+                    setTimeout(() => window.close(), 300);
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="firmware-upgrade-dialog" class="fullScreen">
+            <section>
+                <header>
+                    <div class="title">Firmware Upgrade</div>
+                    <div class="close-btn"><i class="fas fa-times"></i></div>
+                </header>
+                <section>
+                    <article class="todo">
+                        <div class="icon"><i class="far fa-meh"></i></div>
+                        <p>You haven't installed MicroPython or it's out of date.</p>
+                        <select id="firmware-version-select"></select>
+                        <div class="botton-group">
+                            <button id="install-firmware-button">Upgrade Firmware</button>
+                            <button id="continue-upload">Continue</button>
+                        </div>
+                        <div class="note-for-rp2">Hold BOOT button then click RESET button before next</div>
+                    </article>
+                    <article class="doing">
+                        <div class="icon loading"><i class="fas fa-truck-loading"></i></div>
+                        <p>Installing Firmware...</p>
+                        <div class="progress-box">
+                            <div class="back-drop"></div>
+                            <div class="caption"></div>
+                        </div>
+                        <p class="warning"><i class="fas fa-exclamation-triangle"></i> Don't close program or unplug device</p>
+                    </article>
+                    <article class="done">
+                        <div class="icon success"><i class="far fa-laugh-beam"></i></div>
+                        <div class="icon fail"><i class="far fa-sad-tear"></i></div>
+                        <p id="firmware-upgrade-status">Upgrade Successful</p>
+                        <div class="botton-group">
+                            <button class="upload-btn">Upload Program</button>
+                            <button class="close-btn">Close</button>
+                        </div>
+                    </article>
+                </section>
+            </section>
+        </div>
+    </body>
+</html>

@@ -1,5 +1,6 @@
 let uf2MountPath = "";
 let firmwareUpdateMode = false;
+let windowFirewareUpdate = null;
 
 let firewareUpgradeFlow = async () => {
     let board = boards.find(board => board.id === boardId);
@@ -34,8 +35,20 @@ let firewareUpgradeFlow = async () => {
             checkRP2DriveAvailable();
         }
     } else {
+        /*
         $("#install-firmware-button").prop("disabled", false);
         $("#firmware-upgrade-dialog .note-for-rp2").hide();
+        */
+
+        const w=600, h=460;
+        const y =(window.top.outerHeight / 2) + window.top.screenY - (h / 2);
+        const x = (window.top.outerWidth / 2) + window.top.screenX - (w / 2);
+        windowFirewareUpdate = window.open(
+            "/firmware.html?board=" + encodeURI(boardId) + "&firmware=" + encodeURI(JSON.stringify(board.firmware)), 
+            "Firmware Update", 
+            `width=600,height=500,top=${y},left=${x}`
+        );
+        return;
     }
 
     $("#firmware-upgrade-dialog article").hide();
