@@ -18,4 +18,5 @@ loadScript(`${rootPath}/boards/ttgo-t-display/index.js`);  // Add TTGO T-Display
 loadScript(`${rootPath}/boards/rapbit32/index.js`);  // Add Rapbit32(XA)
 loadScript(`${rootPath}/boards/esp32-dev-board/index.js`);  // Add ESP32 Dev Board
 loadScript(`${rootPath}/boards/raspberry-pi-pico/index.js`);  // Add Raspberry Pi Pico
+loadScript(`${rootPath}/boards/openbit/index.js`);  // Add Raspberry Pi Pico
 // loadScript(`${rootPath}/boards/bilimbi/index.js`);  // Add BILIMBI
