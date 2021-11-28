@@ -7,11 +7,18 @@ let firewareUpgradeFlow = async () => {
     
     $("#firmware-version-select").html(board.firmware.map((a, index) => `<option value="${index}">${a.name}</option>`));
 
-    if (board?.chip === "RP2") {
-        if (!isElectron) {
-            $("#install-firmware-button").prop("disabled", false);
-            $("#firmware-upgrade-dialog .note-for-rp2").hide();
-        } else {
+    if ((!isElectron) && (board?.chip === "ESP32")) {
+        const w = 600, h = 460;
+        const y = (window.top.outerHeight / 2) + window.top.screenY - (h / 2);
+        const x = (window.top.outerWidth / 2) + window.top.screenX - (w / 2);
+        windowFirewareUpdate = window.open(
+            "/firmware.html?board=" + encodeURI(boardId) + "&firmware=" + encodeURI(JSON.stringify(board.firmware)),
+            "Firmware Update",
+            `width=600,height=500,top=${y},left=${x}`
+        );
+        return;
+    } else {
+        if (board?.chip === "RP2") {
             $("#install-firmware-button").prop("disabled", true);
             $("#firmware-upgrade-dialog .note-for-rp2").show();
 
@@ -33,22 +40,10 @@ let firewareUpgradeFlow = async () => {
             };
 
             checkRP2DriveAvailable();
+        } else {
+            $("#install-firmware-button").prop("disabled", false);
+            $("#firmware-upgrade-dialog .note-for-rp2").hide();
         }
-    } else {
-        /*
-        $("#install-firmware-button").prop("disabled", false);
-        $("#firmware-upgrade-dialog .note-for-rp2").hide();
-        */
-
-        const w=600, h=460;
-        const y =(window.top.outerHeight / 2) + window.top.screenY - (h / 2);
-        const x = (window.top.outerWidth / 2) + window.top.screenX - (w / 2);
-        windowFirewareUpdate = window.open(
-            "/firmware.html?board=" + encodeURI(boardId) + "&firmware=" + encodeURI(JSON.stringify(board.firmware)), 
-            "Firmware Update", 
-            `width=600,height=500,top=${y},left=${x}`
-        );
-        return;
     }
 
     $("#firmware-upgrade-dialog article").hide();
@@ -375,4 +370,4 @@ $("#continue-upload").click(() => {
     $("#upload-program").click();
 });
 
-setTimeout(() => firewareUpgradeFlow(), 500);
+// setTimeout(() => firewareUpgradeFlow(), 500);
