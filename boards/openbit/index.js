@@ -118,6 +118,11 @@ addBoard({
                                             <field name="TEXT">A</field>
                                         </shadow>
                                     </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
+                                        </shadow>
+                                    </value>
                                 </block>
                             `
                         },
@@ -127,6 +132,11 @@ addBoard({
                                     <value name="value">
                                         <shadow type="text">
                                             <field name="TEXT">Hello!</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -140,6 +150,11 @@ addBoard({
                                             <field name="NUM">12</field>
                                         </shadow>
                                     </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
+                                        </shadow>
+                                    </value>
                                 </block>
                             `
                         },
@@ -149,6 +164,11 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">4</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -162,6 +182,11 @@ addBoard({
                                             <field name="NUM">2</field>
                                         </shadow>
                                     </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
+                                        </shadow>
+                                    </value>
                                 </block>
                             `
                         },
@@ -171,6 +196,11 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -187,6 +217,11 @@ addBoard({
                                     <value name="y">
                                         <shadow type="math_number">
                                             <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="color">
+                                        <shadow type="colour_picker">
+                                            <field name="COLOUR">#FF0000</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -209,6 +244,32 @@ addBoard({
                             `
                         },
                         "display_clear",
+                        {
+                            xml: '<label text="Color"></label>',
+                        },
+                        "colour_picker",
+                        "colour_random",
+                        {
+                            xml: `
+                                <block type="colour_rgb">
+                                    <value name="RED">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="GREEN">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="BLUE">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        }
                     ]
                 },
                 {
