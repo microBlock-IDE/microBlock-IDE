@@ -36,11 +36,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for KidBright32 V1.8.0",
-            path: "firmware/MicroPython.for.KidBright32.V1.8.0.bin",
-            version: "V1.8.0",
-            date: "2021-11-19",
-            board: "KidBright32",
+            name: "MicroPython for open:bit V1.8.0-dirty",
+            path: "firmware/MicroPython.for.openbit.V1.8.0-dirty.bin",
+            version: "V1.8.0-dirty",
+            date: "2021-11-28",
+            board: "open:bit",
             cpu: "ESP32"
         }
     ],
