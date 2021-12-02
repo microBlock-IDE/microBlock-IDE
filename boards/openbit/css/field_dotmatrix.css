@@ -1,57 +1,97 @@
-.FieldDotMatrixDropdown {
-    width: 330px;
-    height: 270px;
+.FieldDotMatrixRGBDropdown {
+    width: 260px;
+    height: 256px;
     display: flex;
     flex-direction: column;
 }
 
-.FieldDotMatrixDropdown .custom-container,
-.FieldDotMatrixDropdown .collection-container {
+.FieldDotMatrixRGBDropdown .custom-container,
+.FieldDotMatrixRGBDropdown .collection-container {
     display: none;
     flex-grow: 1;
     height: 100%;
     overflow-y: auto;
 }
 
-.FieldDotMatrixDropdown .custom-container {
+.FieldDotMatrixRGBDropdown .custom-container {
     text-align: center;
 }
 
-.FieldDotMatrixDropdown .screen {
-    background-color: #000;
-    display: inline-block;
-    padding: 2px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-  
-.FieldDotMatrixDropdown .screen > input[type=checkbox] {
-    visibility: hidden;
-    width: 16px;
-    height: 16px;
-    margin: 2px;
-}
-  
-.FieldDotMatrixDropdown .screen > input[type=checkbox]::after {
-    background-color: #FFF;
-    visibility: visible;
-    display: inline-block;
-    content: " ";
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-}
-  
-.FieldDotMatrixDropdown .screen > input[type=checkbox]:checked::after {
-    background-color: #F00;
-}
-
-.FieldDotMatrixDropdown .menu {
+.FieldDotMatrixRGBDropdown .custom-container .box-screen {
     display: flex;
     flex-direction: row;
 }
 
-.FieldDotMatrixDropdown .menu > div {
+.FieldDotMatrixRGBDropdown .custom-container .color-palette {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-left: 3px;
+}
+
+.FieldDotMatrixRGBDropdown .custom-container .color-palette > .row {
+    display: flex;
+    flex-direction: row;
+}
+
+.FieldDotMatrixRGBDropdown .custom-container .color-palette > .row > span {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.FieldDotMatrixRGBDropdown .custom-container .color-palette > .row > span:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    border-color: #FFF;
+    z-index: 999999;
+}
+
+.FieldDotMatrixRGBDropdown .custom-container .color-palette > .row > span.active {
+    outline: 1px solid #000;
+    border-color: #FFF;
+    z-index: 999999;
+    box-shadow: none;
+}
+
+.FieldDotMatrixRGBDropdown .custom-container .color-palette > .row > span.custom {
+    flex-grow: 1;
+    padding: 4px;
+    height: auto;
+    font-size: 12px;
+    color: #000;
+}
+
+.FieldDotMatrixRGBDropdown .before-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.FieldDotMatrixRGBDropdown .screen {
+    background-color: #000;
+    display: inline-block;
+    padding: 7px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+  
+.FieldDotMatrixRGBDropdown .screen span {
+    width: 14px;
+    height: 14px;
+    margin: 7px;
+    border: 1px solid #000;
+    outline: 1px solid rgba(255, 255, 255, 0.459);
+    display: inline-block;
+}
+
+.FieldDotMatrixRGBDropdown .menu {
+    display: flex;
+    flex-direction: row;
+}
+
+.FieldDotMatrixRGBDropdown .menu > div {
     width: 50%;
     color: #FFF;
     padding: 6px;
@@ -61,22 +101,22 @@
     cursor: pointer;
 }
 
-.FieldDotMatrixDropdown .menu > div:hover {
+.FieldDotMatrixRGBDropdown .menu > div:hover {
     background-color:  rgba(0, 0, 0, 0.05);
 }
 
-.FieldDotMatrixDropdown .menu > div.active {
+.FieldDotMatrixRGBDropdown .menu > div.active {
     border-bottom-color: #FFF;
 }
 
-.FieldDotMatrixDropdown .button-group {
+.FieldDotMatrixRGBDropdown .button-group {
     text-align: center;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.FieldDotMatrixDropdown .button-group > button {
+.FieldDotMatrixRGBDropdown .button-group > button {
     background-color:  rgba(0, 0, 0, 0.2);
     color: #FFF;
     border-radius: 4px;
@@ -88,16 +128,16 @@
     outline: none;
 }
 
-.FieldDotMatrixDropdown .button-group > button:hover {
+.FieldDotMatrixRGBDropdown .button-group > button:hover {
     background-color:  rgba(0, 0, 0, 0.3);
 }
 
-.FieldDotMatrixDropdown .collection-container img {
+.FieldDotMatrixRGBDropdown .collection-container img {
     max-width: 100%;
     height: auto;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul {
+.FieldDotMatrixRGBDropdown .collection-container > ul {
     padding: 0;
     margin: 0;
     display: flex;
@@ -105,23 +145,23 @@
     flex-wrap: wrap;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul > li {
+.FieldDotMatrixRGBDropdown .collection-container > ul > li {
     width: 50%;
     list-style: none;
     padding: 5px;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul > li > img {
+.FieldDotMatrixRGBDropdown .collection-container > ul > li > img {
     padding: 6px;
     background-color:  rgba(255, 255, 255, 0.6);
     border-radius: 5px;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul > li > img:hover {
+.FieldDotMatrixRGBDropdown .collection-container > ul > li > img:hover {
     box-shadow: 0 0 0 2px #FFF;
 }
 
-.FieldDotMatrixDropdown .collection-container > ul > li > img.active {
+.FieldDotMatrixRGBDropdown .collection-container > ul > li > img.active {
     box-shadow: 0 0 0 2px #FFCC33;
 }
 

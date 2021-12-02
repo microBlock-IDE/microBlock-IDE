@@ -5,11 +5,15 @@ addBoard({
     image: "images/cover.jpg",
     chip: "ESP32",
     script: [ 
-        "js/field_dotmatrix.js",
+        "js/colorpicker.js",
+
+        "js/field_dotmatrix_rgb.js",
         "js/field_note.js",
         "js/sound.js",
     ],
     css: [
+        "css/colorpicker.css",
+
         "css/field_dotmatrix.css",
         "css/field_note.css",
     ],
