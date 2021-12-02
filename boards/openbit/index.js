@@ -36,6 +36,14 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for open:bit V1.8.1",
+            path: "firmware/MicroPython.for.openbit.V1.8.1.bin",
+            version: "V1.8.1",
+            date: "2021-12-02",
+            board: "open:bit",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for open:bit V1.8.0-dirty",
             path: "firmware/MicroPython.for.openbit.V1.8.0-dirty.bin",
             version: "V1.8.0-dirty",
