@@ -7,7 +7,7 @@ Blockly.defineBlocksWithJsonArray([
       "type": "input_dummy"
     },
     {
-      "type": "field_dotmatrix",
+      "type": "field_dotmatrix_rgb",
       "name": "value"
     }
   ],

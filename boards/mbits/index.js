@@ -1,6 +1,6 @@
 addBoard({
-    id: "openbit",
-    name: "open:bit",
+    id: "mbits",
+    name: "Mbits",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
@@ -14,7 +14,7 @@ addBoard({
     css: [
         "css/colorpicker.css",
 
-        "css/field_dotmatrix.css",
+        "css/field_dotmatrix_rgb.css",
         "css/field_note.css",
     ],
     blocks: [
@@ -40,16 +40,24 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for open:bit V1.8.1",
-            path: "firmware/MicroPython.for.openbit.V1.8.1.bin",
+            name: "MicroPython for Mbits V1.8.4",
+            path: "firmware/MicroPython.for.Mbits.V1.8.4.bin",
+            version: "V1.8.4",
+            date: "2021-12-04",
+            board: "Mbits",
+            cpu: "ESP32"
+        },
+        {
+            name: "MicroPython for Mbits V1.8.1",
+            path: "firmware/MicroPython.for.Mbits.V1.8.1.bin",
             version: "V1.8.1",
             date: "2021-12-02",
             board: "open:bit",
             cpu: "ESP32"
         },
         {
-            name: "MicroPython for open:bit V1.8.0-dirty",
-            path: "firmware/MicroPython.for.openbit.V1.8.0-dirty.bin",
+            name: "MicroPython for Mbits V1.8.0-dirty",
+            path: "firmware/MicroPython.for.Mbits.V1.8.0-dirty.bin",
             version: "V1.8.0-dirty",
             date: "2021-11-28",
             board: "open:bit",

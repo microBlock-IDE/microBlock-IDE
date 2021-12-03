@@ -638,7 +638,7 @@ CustomFields.FieldDotMatrixRGB.prototype.fromXml = function(fieldElement) {
 
 // Blockly needs to know the JSON name of this field. Usually this is
 // registered at the bottom of the field class.
-Blockly.fieldRegistry.register('field_dotmatrix', CustomFields.FieldDotMatrixRGB);
+Blockly.fieldRegistry.register('field_dotmatrix_rgb', CustomFields.FieldDotMatrixRGB);
 
 // Called by initView to create all of the SVGs. This is just used to keep
 // the code more organized.
