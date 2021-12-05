@@ -763,7 +763,7 @@ let moduleBuiltIn = [
     "_thread", "machine", "uhashlib", "uselect",
     "_webrepl", "math", "uhashlib", "usocket",
     "apa106", "micropython", "uheapq", "ussl",
-    "btree", "neopixel", "uio", "ustruct",
+    "btree", "uio", "ustruct",
     "builtins", "network", "ujson", "utime",
     "cmath", "ntptime", "umqtt/robust", "utimeq",
     "dht", "onewire", "umqtt/simple", "uwebsocket",
