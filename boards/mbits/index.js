@@ -40,6 +40,14 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for Mbits V1.8.5",
+            path: "firmware/MicroPython.for.Mbits.V1.8.5.bin",
+            version: "V1.8.5",
+            date: "2021-12-05",
+            board: "Mbits",
+            cpu: "ESP32"
+        },
+        {
             name: "MicroPython for Mbits V1.8.4",
             path: "firmware/MicroPython.for.Mbits.V1.8.4.bin",
             version: "V1.8.4",
