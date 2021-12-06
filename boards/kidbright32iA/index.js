@@ -1,7 +1,7 @@
 boardConfig = _.cloneDeep(KidBright32_config);
 
 Object.assign(boardConfig, { 
-    id: "kidbright32ia",
+    id: "kidbright32iA",
     name: "KidBright32iA",
     description: "",
     image: "images/cover.jpg"
