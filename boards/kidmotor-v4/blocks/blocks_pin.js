@@ -12,11 +12,17 @@ Blockly.defineBlocksWithJsonArray([
       ]
     },
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": [
-        "Boolean",
-        "Number"
+      "options": [
+        [ "D1", "10" ],
+        [ "D2", "11" ],
+        [ "D3", "12" ],
+        [ "D4", "26" ],
+        [ "D5", "27" ],
+        [ "SV1", "18" ],
+        [ "SV2", "19" ],
+        [ "SV3", "20" ],
       ]
     }
   ],
@@ -32,11 +38,17 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "digital read pin %1",
   "args0": [
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": [
-        "Boolean",
-        "Number"
+      "options": [
+        [ "D1", "10" ],
+        [ "D2", "11" ],
+        [ "D3", "12" ],
+        [ "D4", "26" ],
+        [ "D5", "27" ],
+        [ "SV1", "18" ],
+        [ "SV2", "19" ],
+        [ "SV3", "20" ],
       ]
     }
   ],
@@ -54,11 +66,11 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "analog read pin %1",
   "args0": [
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": [
-        "Boolean",
-        "Number"
+      "options": [
+        [ "D4", "26" ],
+        [ "D5", "27" ],
       ]
     }
   ],
@@ -78,11 +90,17 @@ Blockly.defineBlocksWithJsonArray([
       "check": "Number"
     },
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": [
-        "Boolean",
-        "Number"
+      "options": [
+        [ "D1", "10" ],
+        [ "D2", "11" ],
+        [ "D3", "12" ],
+        [ "D4", "26" ],
+        [ "D5", "27" ],
+        [ "SV1", "18" ],
+        [ "SV2", "19" ],
+        [ "SV3", "20" ],
       ]
     }
   ],

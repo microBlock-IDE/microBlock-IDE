@@ -172,11 +172,6 @@ addBoard({
                                             <field name="NUM">1</field>
                                         </shadow>
                                     </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">13</field>
-                                        </shadow>
-                                    </value>
                                 </block>
                             `
                         },
@@ -188,36 +183,11 @@ addBoard({
                                             <field name="NUM">1023</field>
                                         </shadow>
                                     </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">13</field>
-                                        </shadow>
-                                    </value>
                                 </block>
                             `
                         },
-                        {
-                            xml: `
-                                <block type="pin_digital_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="pin_analog_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
+                        "pin_digital_read",
+                        "pin_analog_read",
                     ]
                 },
                 {
