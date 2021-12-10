@@ -25,11 +25,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for Raspberry Pi Pico V1.17",
-            path: "firmware/rp2-pico-20210902-v1.17.uf2",
-            version: "v1.17",
-            date: "2021-09-02",
-            board: "Raspberry Pi Pico",
+            name: "MicroPython for KidMotorV4 V1.0.0",
+            path: "firmware/MicroPython.for.KidMotorV4.V1.0.0.uf2",
+            version: "V1.8.5-3-gc7ed62f8d-dirty",
+            date: "2021-12-08",
+            board: "KidMotor V4",
             cpu: "RP2040"
         }
     ],
@@ -500,7 +500,7 @@ addBoard({
                         {
                             xml: '<label text="Sensor"></label>',
                         },
-                        /* {
+                        {
                             xml: `
                                 <block type="dht_read">
                                     <value name="pin">
@@ -510,7 +510,7 @@ addBoard({
                                     </value>
                                 </block>
                             `
-                        }, */
+                        },
                         {
                             xml: `
                                 <block type="ds18x20_read">
@@ -522,6 +522,53 @@ addBoard({
                                 </block>
                             `
                         },
+                        {
+                            xml: '<label text="RTC"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="rtc_set_time">
+                                    <value name="hour">
+                                        <shadow type="math_number">
+                                            <field name="NUM">16</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="sec">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="day">
+                                        <shadow type="math_number">
+                                            <field name="NUM">22</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="month">
+                                        <shadow type="math_number">
+                                            <field name="NUM">8</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="year">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2020</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "rtc_get_hour",
+                        "rtc_get_min",
+                        "rtc_get_sec",
+                        "rtc_get_microsecond",
+                        "rtc_get_day",
+                        "rtc_get_month",
+                        "rtc_get_year",
+                        "rtc_sync_ntp",
                         {
                             xml: '<label text="Task"></label>',
                         },
