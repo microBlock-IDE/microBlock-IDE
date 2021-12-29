@@ -6,18 +6,22 @@ addBoard({
     uploadMode: "REPL",
     chip: "RP2",
     script: [ 
-
+        "../ipst-wifi/js/field_bitmap.js",
     ],
     css: [
-
+        "../ipst-wifi/css/field_bitmap.css",
     ],
     blocks: [
         "blocks/blocks_motor.js",
+        "../ipst-wifi/blocks/blocks_display.js",
+        "../kidbright32/blocks/blocks_switch.js",
         "blocks/blocks_servo.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
 
         "blocks/generators_motor.js",
+        "../ipst-wifi/blocks/generators_display.js",
+        "../kidbright32/blocks/generators_switch.js",
         "../kidbright32/blocks/generators_servo.js",
         "blocks/generators_pin.js",
         "blocks/generators_avanced.js",
@@ -157,6 +161,121 @@ addBoard({
                                 </block>
                             `
                         },
+                    ]
+                },
+                {
+                    name: "Display",
+                    icon: `../ipst-wifi/images/display.png`,
+                    color: "#e64c3c",
+                    blocks: [
+                        {
+                            xml: `
+                                <block type="display_draw_text">
+                                    <value name="text">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello!</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_draw_bitmap">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_draw_line">
+                                    <value name="x1">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y1">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="x2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_draw_rect">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="width">
+                                        <shadow type="math_number">
+                                            <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="height">
+                                        <shadow type="math_number">
+                                            <field name="NUM">60</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "display_fill",
+                        "display_clear",
+                        "display_show"
+                    ]
+                },
+                {
+                    name: "Switch",
+                    icon: `../kidbright32/images/filter.png`,
+                    color: "#fbbd5e",
+                    blocks: [
+                        {
+                            xml: '<label text="Switch"></label>',
+                        },
+                        "switch_on_pressed",
+                        "switch_on_press",
+                        "switch_on_release",
+                        "switch_is_press",
+                        "switch_is_release",
+                        "switch_get_value",
                     ]
                 },
                 {
@@ -568,7 +687,7 @@ addBoard({
                         "rtc_get_day",
                         "rtc_get_month",
                         "rtc_get_year",
-                        "rtc_sync_ntp",
+                        // "rtc_sync_ntp",
                         {
                             xml: '<label text="Task"></label>',
                         },
