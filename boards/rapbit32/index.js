@@ -18,6 +18,7 @@ addBoard({
         "../ipst-wifi/blocks/blocks_display.js",
         "blocks/blocks_sensor.js",
         "../ipst-wifi/blocks/blocks_switch.js",
+        "blocks/blocks_ir.js",
         "blocks/blocks_pin.js",
         "../kidbright32/blocks/blocks_buzzer.js",
         "blocks/blocks_servo.js",
@@ -29,6 +30,7 @@ addBoard({
         "../ipst-wifi/blocks/generators_display.js",
         "blocks/generators_sensor.js",
         "../ipst-wifi/blocks/generators_switch.js",
+        "blocks/generators_ir.js",
         "../kidbright32/blocks/generators_pin.js",
         "../kidbright32/blocks/generators_buzzer.js",
         "../kidbright32/blocks/generators_servo.js",
@@ -202,6 +204,10 @@ addBoard({
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
+                        {
+                            xml: '<label text="Remote Control"></label>',
+                        },
+                        "ir_read",
                         {
                             xml: '<label text="External Input"></label>',
                         },
