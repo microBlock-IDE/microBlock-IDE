@@ -14,7 +14,7 @@ addBoard({
     blocks: [
         "blocks/blocks_motor.js",
         "../ipst-wifi/blocks/blocks_display.js",
-        "../kidbright32/blocks/blocks_switch.js",
+        "blocks/blocks_switch.js",
         "blocks/blocks_servo.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
@@ -28,6 +28,14 @@ addBoard({
     ],
     modules: [ ],
     firmware: [
+        {
+            name: "MicroPython for KidMotorV4 V1.9.0-dirty",
+            path: "firmware/MicroPython.for.KidMotorV4.V1.9.0-dirty.uf2",
+            version: "V1.9.0-dirty",
+            date: "2022-01-10",
+            board: "KidMotor V4",
+            cpu: "RP2040"
+        },
         {
             name: "MicroPython for KidMotorV4 V1.0.0",
             path: "firmware/MicroPython.for.KidMotorV4.V1.0.0.uf2",
