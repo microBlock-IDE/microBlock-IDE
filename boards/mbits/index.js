@@ -1,6 +1,6 @@
 addBoard({
     id: "mbits",
-    name: "Mbits",
+    name: "Mbits V2.0",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",

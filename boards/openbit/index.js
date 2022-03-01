@@ -1,6 +1,6 @@
 addBoard({
     id: "openbit",
-    name: "OpenBit",
+    name: "Open:bit",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
