@@ -19,9 +19,7 @@ addBoard({
     ],
     blocks: [
         "blocks/blocks_display.js",
-        
         "blocks/blocks_sensor.js",
-        "blocks/blocks_servo.js",
         "blocks/blocks_switch.js",
         "blocks/blocks_imu.js",
         "blocks/blocks_pin.js",
@@ -30,7 +28,6 @@ addBoard({
 
         "blocks/generators_display.js",
         "blocks/generators_sensor.js",
-        "blocks/generators_servo.js",
         "blocks/generators_switch.js",
         "blocks/generators_imu.js",
         "blocks/generators_pin.js",
@@ -40,37 +37,13 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for Mbits V1.8.5",
-            path: "firmware/MicroPython.for.Mbits.V1.8.5.bin",
-            version: "V1.8.5",
-            date: "2021-12-05",
-            board: "Mbits",
+            name: "MicroPython for OpenBit V1.9.0-dirty",
+            path: "firmware/MicroPython.for.OpenBit.V1.9.0-dirty.bin",
+            version: "V1.9.0-dirty",
+            date: "2022-01-05",
+            board: "OpenBit",
             cpu: "ESP32"
         },
-        {
-            name: "MicroPython for Mbits V1.8.4",
-            path: "firmware/MicroPython.for.Mbits.V1.8.4.bin",
-            version: "V1.8.4",
-            date: "2021-12-04",
-            board: "Mbits",
-            cpu: "ESP32"
-        },
-        {
-            name: "MicroPython for Mbits V1.8.1",
-            path: "firmware/MicroPython.for.Mbits.V1.8.1.bin",
-            version: "V1.8.1",
-            date: "2021-12-02",
-            board: "open:bit",
-            cpu: "ESP32"
-        },
-        {
-            name: "MicroPython for Mbits V1.8.0-dirty",
-            path: "firmware/MicroPython.for.Mbits.V1.8.0-dirty.bin",
-            version: "V1.8.0-dirty",
-            date: "2021-11-28",
-            board: "open:bit",
-            cpu: "ESP32"
-        }
     ],
     usb: [
         {
@@ -104,11 +77,6 @@ addBoard({
             value: __Function,
             press: __Function,
             release: __Function
-        },
-        servo: {
-            SV1: __Number,
-            SV2: __Number,
-            angle: __Function
         },
         imu: {
             update: __Function,

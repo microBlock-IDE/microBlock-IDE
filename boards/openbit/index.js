@@ -5,34 +5,34 @@ addBoard({
     image: "images/cover.jpg",
     chip: "ESP32",
     script: [ 
-        "js/colorpicker.js",
+        "../mbits/js/colorpicker.js",
 
-        "js/field_dotmatrix_rgb.js",
-        "js/field_note.js",
-        "js/sound.js",
+        "../mbits/js/field_dotmatrix_rgb.js",
+        "../mbits/js/field_note.js",
+        "../mbits/js/sound.js",
     ],
     css: [
-        "css/colorpicker.css",
+        "../mbits/css/colorpicker.css",
 
-        "css/field_dotmatrix_rgb.css",
-        "css/field_note.css",
+        "../mbits/css/field_dotmatrix_rgb.css",
+        "../mbits/css/field_note.css",
     ],
     blocks: [
-        "blocks/blocks_display.js",
-        "blocks/blocks_sensor.js",
-        "blocks/blocks_switch.js",
-        "blocks/blocks_imu.js",
-        "blocks/blocks_pin.js",
-        "blocks/blocks_buzzer.js",
-        "blocks/blocks_advanced.js",
+        "../mbits/blocks/blocks_display.js",
+        "../mbits/blocks/blocks_sensor.js",
+        "../mbits/blocks/blocks_switch.js",
+        "../mbits/blocks/blocks_imu.js",
+        "../mbits/blocks/blocks_pin.js",
+        "../mbits/blocks/blocks_buzzer.js",
+        "../mbits/blocks/blocks_advanced.js",
 
-        "blocks/generators_display.js",
-        "blocks/generators_sensor.js",
-        "blocks/generators_switch.js",
-        "blocks/generators_imu.js",
-        "blocks/generators_pin.js",
-        "blocks/generators_buzzer.js",
-        "blocks/generators_avanced.js",
+        "../mbits/blocks/generators_display.js",
+        "../mbits/blocks/generators_sensor.js",
+        "../mbits/blocks/generators_switch.js",
+        "../mbits/blocks/generators_imu.js",
+        "../mbits/blocks/generators_pin.js",
+        "../mbits/blocks/generators_buzzer.js",
+        "../mbits/blocks/generators_avanced.js",
     ],
     modules: [ ],
     firmware: [
@@ -98,7 +98,7 @@ addBoard({
         {
             name: "Beginner",
             description: "",
-            icon: "images/puzzle.png",
+            icon: "../mbits/images/puzzle.png",
             blocks: [
                 {
                     name: "Display",
@@ -270,7 +270,7 @@ addBoard({
                 },
                 {
                     name: "Input",
-                    icon: `images/filter.png`,
+                    icon: `../mbits/images/filter.png`,
                     color: "#fbbd5e",
                     blocks: [
                         {
@@ -306,7 +306,7 @@ addBoard({
                 },
                 {
                     name: "Output",
-                    icon: `images/usb.png`,
+                    icon: `../mbits/images/usb.png`,
                     color: "#fbbd5e",
                     blocks: [
                         {
