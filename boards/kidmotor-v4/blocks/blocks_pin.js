@@ -63,7 +63,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "pin_analog_read",
-  "message0": "analog read pin %1",
+  "message0": "analog read pin %1 (raw)",
   "args0": [
     {
       "type": "field_dropdown",
@@ -77,7 +77,7 @@ Blockly.defineBlocksWithJsonArray([
   "output": "Number",
   "inputsInline": true,
   "colour": "#E74C3C",
-  "tooltip": "Read analog value from pin 26 to 29 in range 0 - 4095",
+  "tooltip": "Read analog value from pin 26 or 27 in range 0 - 4095",
   "helpUrl": ""
 },
 {
@@ -110,5 +110,24 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#E74C3C",
   "tooltip": "Write PWM value 0 to 1023 to any pin",
   "helpUrl": ""
-}
+},
+{
+  "type": "pin_analog_read_calibrated",
+  "message0": "analog read pin %1 (calibrated)",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+        [ "D4", "26" ],
+        [ "D5", "27" ],
+      ]
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "#E74C3C",
+  "tooltip": "Read analog value from pin 26 to 29 in range 0 - 4000",
+  "helpUrl": ""
+},
 ]);
