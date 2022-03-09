@@ -77,7 +77,7 @@ Blockly.defineBlocksWithJsonArray([
   "output": "Number",
   "inputsInline": true,
   "colour": "#E74C3C",
-  "tooltip": "Read analog value from pin 26 or 27 in range 0 - 4095",
+  "tooltip": "Read analog value from pin D4 or D5 in range 0 - 4095",
   "helpUrl": ""
 },
 {
@@ -127,7 +127,7 @@ Blockly.defineBlocksWithJsonArray([
   "output": "Number",
   "inputsInline": true,
   "colour": "#E74C3C",
-  "tooltip": "Read analog value from pin 26 to 29 in range 0 - 4000",
+  "tooltip": "Read analog value from pin D4 or D5 in range 0 - 4000",
   "helpUrl": ""
 },
 ]);

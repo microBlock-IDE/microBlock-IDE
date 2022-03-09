@@ -8,14 +8,14 @@ addBoard({
         "js/colorpicker.js",
 
         "js/field_dotmatrix_rgb.js",
-        "js/field_note.js",
-        "js/sound.js",
+        "../kidbright32/js/field_note.js",
+        "../kidbright32/js/sound.js",
     ],
     css: [
         "css/colorpicker.css",
 
         "css/field_dotmatrix_rgb.css",
-        "css/field_note.css",
+        "../kidbright32/css/field_note.css",
     ],
     blocks: [
         "blocks/blocks_display.js",
@@ -37,11 +37,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for OpenBit V1.9.0-dirty",
-            path: "firmware/MicroPython.for.OpenBit.V1.9.0-dirty.bin",
-            version: "V1.9.0-dirty",
-            date: "2022-01-05",
-            board: "OpenBit",
+            name: "MicroPython for Mibits V2 V1.9.0-3-g4b4e069a5-dirty",
+            path: "firmware/MicroPython.for.Mbits_V2.V1.9.0-3-g4b4e069a5-dirty.bin",
+            version: "V1.9.0-3-g4b4e069a5-dirty",
+            date: "2022-03-09",
+            board: "Mbits V2",
             cpu: "ESP32"
         },
     ],

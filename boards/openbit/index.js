@@ -8,14 +8,14 @@ addBoard({
         "../mbits/js/colorpicker.js",
 
         "../mbits/js/field_dotmatrix_rgb.js",
-        "../mbits/js/field_note.js",
-        "../mbits/js/sound.js",
+        "../kidbright32/js/field_note.js",
+        "../kidbright32/js/sound.js",
     ],
     css: [
         "../mbits/css/colorpicker.css",
 
         "../mbits/css/field_dotmatrix_rgb.css",
-        "../mbits/css/field_note.css",
+        "../kidbright32/css/field_note.css",
     ],
     blocks: [
         "../mbits/blocks/blocks_display.js",
@@ -102,7 +102,7 @@ addBoard({
             blocks: [
                 {
                     name: "Display",
-                    icon: `images/matrix.png`,
+                    icon: `../mbits/images/matrix.png`,
                     color: "#e64c3c",
                     blocks: [
                         "display_custom",

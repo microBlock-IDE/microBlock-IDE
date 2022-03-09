@@ -91,7 +91,12 @@ playNotes = (notes, duration, play_callback, stop_callback) => {
         let bpm = 120;
         let quarter_delay = (60 * 1000) / bpm;
         let delay = quarter_delay * duration;
-        playNoteTimer = setTimeout(() => playNote(play_callback, stop_callback), delay)
+        playNoteTimer = setTimeout(() => {
+            playNoteOscillator.stop();
+            setTimeout(() => {
+                playNote(play_callback, stop_callback);
+            }, delay / 2);
+        }, delay / 2);
     };
 
     playNote(play_callback, stop_callback);

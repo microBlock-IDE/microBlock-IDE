@@ -314,6 +314,7 @@ addBoard({
                             `
                         },
                         "pin_digital_read",
+                        "pin_analog_read_calibrated",
                         "pin_analog_read",
                     ]
                 },
