@@ -352,6 +352,21 @@ addBoard({
                             `
                         },
                         {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="servo_write">
+                                    <field name="pin">14</field>
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
                             xml: '<label text="External Output"></label>',
                         },
                         {
