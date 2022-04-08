@@ -572,7 +572,19 @@ addBoard({
                             xml: '<label text="Text"></label>',
                         },
                         "text",
-                        "text_join"
+                        "text_join",
+                        {
+                            xml: `
+                                <block type="logic_compare">
+                                    <field name="OP">EQ</field>
+                                    <value name="B">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello!</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {
