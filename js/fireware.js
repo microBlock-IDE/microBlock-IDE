@@ -299,7 +299,7 @@ $("#install-firmware-button").click(async () => {
             });
         }
     } else if (chipId === "RP2") {
-        if (!isElectron) {
+        //if (!isElectron) {
             ((uri, name) => {
                 var link = document.createElement("a");
                 // If you don't know the name or want to use
@@ -320,7 +320,7 @@ $("#install-firmware-button").click(async () => {
             $("#firmware-upgrade-dialog article.done").show();
 
             $("#firmware-upgrade-dialog .close-btn").show();
-        } else {
+/*        } else {
             const sourceFile = fwPath;
             const destFile = path.join(uf2MountPath, "/firmware.uf2");
 
@@ -352,7 +352,7 @@ $("#install-firmware-button").click(async () => {
 
                 readStream.pipe(nodeFS.createWriteStream(destFile));
             });
-        }
+        }*/
     }
 });
 
