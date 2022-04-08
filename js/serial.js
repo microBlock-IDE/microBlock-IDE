@@ -469,27 +469,54 @@ class UploadViaREPL {
             content = "#No Code";
         }
 
+        let board = boards.find(board => board.id === boardId);
+        const chipId = board?.chip || "ESP32";
+
         let firstWriteFlag = true;
         serialLastData = "";
-        for (const chunkContent1 of content.match(/.{1,500}/gs)) {
+        let chunkContent1Array = [];
+        if (chipId === "ESP32") {
+            chunkContent1Array = content.match(/.{1,500}/gs);
+        } else if (chipId === "RP2") {
+            chunkContent1Array = content.match(/.{1,2048}/gs);
+        }
+        for (const chunkContent1 of chunkContent1Array) {
             serialLastData = "";
             if (!await this.sendLineLoopWaitMatch(`f = open("${fileName}", "${firstWriteFlag ? 'w' : 'a'}");w=f.write;p=print`, /OK[^>]*>$/gm, isElectron ? 50 : 100, 20)) {
                 throw `open file ${fileName} fail !`;
             }
 
-            for (const chunkContent2 of chunkContent1.match(/.{1,100}/gs)) {
+            if (chipId === "ESP32") {
+                for (const chunkContent2 of chunkContent1.match(/.{1,100}/gs)) {
+                    serialLastData = "";
+                    if (!await this.sendLineLoopWaitMatch(`p(w(${JSON.stringify(chunkContent2).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`, /OK[0-9]{1,3}[^>]*>/gm, isElectron ? 50 : 100, 20)) {
+                        throw `write ${chunkContent2.length} fail !`
+                    }
+        
+                    let n = /OK([0-9]{1,3})[^>]*>/gm.exec(serialLastData);
+                    if (!n) {
+                        throw "Match fail";
+                    }
+
+                    let cUTF8 = chunkContent2.match(/[\u007F-\uFFFF]/g);
+                    let sendN = chunkContent2.length + (cUTF8 ? cUTF8.length * 2 : 0);
+                    if (+n[1] !== sendN) {
+                        throw `Data lost ? Send: ${sendN}, Ros: ${+n[1]}`;
+                    }
+                }
+            } else if (chipId === "RP2") {
                 serialLastData = "";
-                if (!await this.sendLineLoopWaitMatch(`p(w(${JSON.stringify(chunkContent2).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`, /OK[0-9]{1,3}[^>]*>/gm, isElectron ? 50 : 100, 20)) {
+                if (!await this.sendLineLoopWaitMatch(`p(w(${JSON.stringify(chunkContent1).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`, /OK[0-9]{1,3}[^>]*>/gm, isElectron ? 50 : 100, 20)) {
                     throw `write ${chunkContent2.length} fail !`
                 }
-    
-                let n = /OK([0-9]{1,3})[^>]*>/gm.exec(serialLastData);
+
+                let n = /OK([0-9]{1,4})[^>]*>/gm.exec(serialLastData);
                 if (!n) {
                     throw "Match fail";
                 }
 
-                let cUTF8 = chunkContent2.match(/[\u007F-\uFFFF]/g);
-                let sendN = chunkContent2.length + (cUTF8 ? cUTF8.length * 2 : 0);
+                let cUTF8 = chunkContent1.match(/[\u007F-\uFFFF]/g);
+                let sendN = chunkContent1.length + (cUTF8 ? cUTF8.length * 2 : 0);
                 if (+n[1] !== sendN) {
                     throw `Data lost ? Send: ${sendN}, Ros: ${+n[1]}`;
                 }
@@ -501,6 +528,7 @@ class UploadViaREPL {
             }
 
             firstWriteFlag = false;
+            
         }
     }
 
