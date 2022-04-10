@@ -35,6 +35,16 @@ KidBright32_config = {
         "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
+    examples: [
+        {
+            name: "Blink (WiFI LED)",
+            files: "../kidbright32/examples/blink",
+        },
+        {
+            name: "OLED 16x8 show hart icon",
+            files: "../kidbright32/examples/led16x8-show-hart",
+        },
+    ],
     firmware: [
         {
             name: "MicroPython for KidBright32 V1.9.0 (dirty)",
