@@ -57,6 +57,24 @@ if (isElectron) {
                 { role: 'zoomin' },
                 { role: 'zoomout' },
                 { type: 'separator' },
+                {
+                    label: "Block Styles",
+                    submenu: [
+                        {
+                            type: "radio",
+                            label: "Geras",
+                            click: () => selectRenderer("geras"),
+                            checked: localStorage.getItem("renderer") === "geras"
+                        },
+                        {
+                            type: "radio",
+                            label: "Zelos",
+                            click: () => selectRenderer("zelos"),
+                            checked: localStorage.getItem("renderer") === "zelos"
+                        },
+                    ]
+                },
+                { type: 'separator' },
                 { role: 'togglefullscreen' }
             ]
         },

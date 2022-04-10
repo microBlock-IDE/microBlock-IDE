@@ -191,7 +191,10 @@ blocklyWorkspace = Blockly.inject(blocklyDiv, {
     rtl : false, 
     oneBasedIndex : false, 
     sounds : true, 
-    readOnly: isEmbed
+    readOnly: isEmbed,
+
+    /* Option */
+    renderer: localStorage.getItem("renderer") || "geras",
 });
 
 window.addEventListener('resize', Blockly.triggleResize, false);
@@ -224,6 +227,11 @@ Blockly.prompt = function(message, defaultValue, callback) {
     function() {
         callback(null);
     });
+};
+
+const selectRenderer = renderer => {
+    localStorage.setItem("renderer", renderer);
+    window.location.reload();
 };
 
 if (isElectron) {
