@@ -464,59 +464,29 @@
                     </ul>
                 </div>
                 <div class="icon">
-                    <button id="open-extension-creator" data-tippy-content="Add to workspace">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    <button id="add-example-code-to-workspace" data-tippy-content="Add to workspace"><i class="fas fa-file-import"></i></button>
                     <button data-tippy-content="Close" class="close-dialog"><i class="fas fa-times"></i></button>
-                    <div class="add-extension-box">
-                        <form action="#" method="POST" id="form-add-extension">
-                            <label for="extension-github-url">GitHug Repository URL</label>
-                            <input type="url" id="extension-github-url" name="extension-github-url" autocomplete="off" placeholder="https://github.com/username/repository" required>
-                            <button type="submit">Add Extension</button>
-                            <button type="reset">Cancel</button>
-                        </form>
-                    </div>
                 </div>
             </header>
-            <section class="extension-work-box">
-                <ul class="extension-category-list">
-                    <li class="active">All</li>
-                    <li>Display</li>
-                    <li>Communication</li>
-                    <li>Signal Input/Output</li>
-                    <li>Sensors</li>
-                    <li>Device Control</li>
-                    <li>Timing</li>
-                    <li>Data Storage</li>
-                    <li>Data Processing</li>
-                    <li>Other</li>
-                    <li class="hr"></li>
-                    <li>Installed</li>
-                </ul>
-                <ul class="extension-list">
-                    <li>
-                        <div class="extension-box" data-extension-id="1">
-                            <div class="header">
-                                <div class="cover">
-                                    <img src="images/icon/led.png" alt="">
-                                </div>
-                                <div class="detail">
-                                    <div class="name">MQTT<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
-                                    <div class="author">Sonthaya Nongnuch</div>
-                                    <div class="other">
-                                        <span class="version">1.0.0</span>
-                                        <a href="https://www." target="_blank"><i class="fab fa-github"></i></a>
-                                    </div>
-                                </div>
+            <section>
+                <div class="example-list">
+
+                </div>
+                <div class="code-view">
+                    <section class="work-box">
+                        <div id="blocklyArea"></div>
+                        <div id="blocklyDiv" style="position: absolute;"></div>
+                    </section>
+                    <article>
+                        <header>
+                            <div class="title">1234</div>
+                            <div class="icon">
+                                <button class="close-article"><i class="fas fa-times"></i></button>
                             </div>
-                            <div class="description">Connect everything with MQTT</div>
-                            <div class="button">
-                                <button class="extension-install"><i class="fas fa-download"></i> Install</button>
-                                <button class="extension-uninstall"><i class="fas fa-trash-alt"></i> Uninstall</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                        </header>
+                        <section>124567893214</section>
+                    </article>
+                </div>
             </section>
         </div>
 

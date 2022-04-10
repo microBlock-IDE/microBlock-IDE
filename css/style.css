@@ -129,8 +129,8 @@ ul.switch-mode.small {
 }
 
 ul.switch-mode.small > li {
-    padding: 6px 8px;
-    font-size: 12px;
+    padding: 6px 10px;
+    font-size: 14px;
 }
 
 ul.top-bar-button {
@@ -1691,6 +1691,16 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
+#code-example-dialog {
+    z-index: 9998;
+}
+
+#code-example-dialog > section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    background-color: #FFF;
+}
 
 
 /* Blockly hardover */
