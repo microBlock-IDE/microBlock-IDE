@@ -124,6 +124,15 @@ ul.switch-mode > li.active {
     font-size: 12px;
 }
 
+ul.switch-mode.small {
+    padding: 4px;
+}
+
+ul.switch-mode.small > li {
+    padding: 6px 8px;
+    font-size: 12px;
+}
+
 ul.top-bar-button {
     padding: 0;
     margin: 0;

@@ -454,6 +454,72 @@
             </section>
         </div>
 
+        <div id="code-example-dialog" class="dialog">
+            <header>
+                <div class="title">Examples</div>
+                <div class="center">
+                    <ul class="switch-mode small" id="code-example-mode-select-switch">
+                        <li data-value="1" data-tippy-content="Switch to Block mode" class="active">Block</li>
+                        <li data-value="2" data-tippy-content="Switch to Code mode">Code</li>
+                    </ul>
+                </div>
+                <div class="icon">
+                    <button id="open-extension-creator" data-tippy-content="Add to workspace">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button data-tippy-content="Close" class="close-dialog"><i class="fas fa-times"></i></button>
+                    <div class="add-extension-box">
+                        <form action="#" method="POST" id="form-add-extension">
+                            <label for="extension-github-url">GitHug Repository URL</label>
+                            <input type="url" id="extension-github-url" name="extension-github-url" autocomplete="off" placeholder="https://github.com/username/repository" required>
+                            <button type="submit">Add Extension</button>
+                            <button type="reset">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </header>
+            <section class="extension-work-box">
+                <ul class="extension-category-list">
+                    <li class="active">All</li>
+                    <li>Display</li>
+                    <li>Communication</li>
+                    <li>Signal Input/Output</li>
+                    <li>Sensors</li>
+                    <li>Device Control</li>
+                    <li>Timing</li>
+                    <li>Data Storage</li>
+                    <li>Data Processing</li>
+                    <li>Other</li>
+                    <li class="hr"></li>
+                    <li>Installed</li>
+                </ul>
+                <ul class="extension-list">
+                    <li>
+                        <div class="extension-box" data-extension-id="1">
+                            <div class="header">
+                                <div class="cover">
+                                    <img src="images/icon/led.png" alt="">
+                                </div>
+                                <div class="detail">
+                                    <div class="name">MQTT<span class="installed-icon"><i class="fas fa-check-circle"></i></span></div>
+                                    <div class="author">Sonthaya Nongnuch</div>
+                                    <div class="other">
+                                        <span class="version">1.0.0</span>
+                                        <a href="https://www." target="_blank"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="description">Connect everything with MQTT</div>
+                            <div class="button">
+                                <button class="extension-install"><i class="fas fa-download"></i> Install</button>
+                                <button class="extension-uninstall"><i class="fas fa-trash-alt"></i> Uninstall</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
         <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
             <category name="  " colour="#FFFFFF">
                 <block type="controls_if"></block>
@@ -506,6 +572,7 @@
         <script src="js/dialog.js"></script>
         <script src="js/code-share.js"></script>
         <script src="js/extension.js"></script>
+        <script src="js/code-example.js"></script>
         <script src="js/dashboard.js"></script>
         <script src="js/board.js"></script>
         <script src="boards/index.js"></script>
