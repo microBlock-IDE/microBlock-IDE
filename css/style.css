@@ -1702,6 +1702,62 @@ ul.switch-mode > li:last-child {
     background-color: #FFF;
 }
 
+.example-list {
+    width: 260px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.19);
+    z-index: 999;
+}
+
+.example-list > ul {
+    padding: 0;
+    margin: 0;
+}
+
+.example-list > ul > li {
+    list-style: none;
+    padding: 5px 10px;
+}
+
+.example-list > ul > li.sub-header {
+    font-size: 12px;
+    color: #ABB2B9;
+    margin-top: 20px;
+}
+
+.example-list > ul > li > a {
+    padding: 12px 20px;
+    background-color: #EAECEE;
+    color: #212F3D;
+    font-size: 16px;
+    display: block;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.example-list > ul > li > a:hover {
+    background-color: #D5D8DC;
+}
+
+.example-list > ul > li.active > a {
+    background-color: #F1C40F;
+    color: #FFF;
+}
+
+.code-view {
+    flex-grow: 1;
+    display: flex;
+}
+
+.work-box {
+    flex-grow: 1;
+    height: 100%;
+}
+
+#blocklyDivExampleCode {
+    width: 100%;
+    height: 100%;
+}
+
 
 /* Blockly hardover */
 .blocklyToolboxDiv {
