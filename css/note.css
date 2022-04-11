@@ -1,0 +1,78 @@
+#note {
+    /* display: flex; */
+    flex-direction: column;
+    height: 100%;
+    z-index: 3988;
+    width: 300px;
+
+    display: none;
+    flex-shrink: 0;
+    position: relative;
+}
+
+#note > header {
+    background-color: #7F8C8D;
+    position: relative;
+    width: 100%;
+}
+
+#note > header > .title {
+    color: #FFF;
+    padding: 20px;
+    font-size: 24px;
+    /* text-align: center; */
+    width: 100%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 39%);
+}
+
+#note > header > .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#note > header > .icon > button {
+    border-radius: 100px;
+    border: none;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    outline: none;
+    color: #FFF;
+    background-color: #616A6B;
+}
+
+#note > header > .icon > button:hover {
+    background-color: #515A5A;
+}
+
+#note > header > .icon > button > i {
+    text-align: center;
+}
+ 
+#note > section {
+    background-color: #FFF;
+    height: 100%;
+    flex-grow: 1;
+}
+
+#note-h-resize {
+    position: absolute;
+    width: 6px;
+    height: 100%;
+    background-color: #424949;
+    cursor: col-resize;
+    top: 0;
+    z-index: 3989;
+    opacity: 0;
+}
+
+#note-h-resize:hover {
+    opacity: 1;
+}
+
+#note-h-resize.active {
+    width: 30px;
+    opacity: 1;
+}

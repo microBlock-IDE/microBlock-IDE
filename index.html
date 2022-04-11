@@ -128,6 +128,7 @@
         <link rel="stylesheet" href="css/animate.min.css">
 
         <link rel="stylesheet" href="css/simulator.css">
+        <link rel="stylesheet" href="css/note.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
 
@@ -200,6 +201,7 @@
                             <li><button id="upload-program" data-tippy-content="Upload" class="zoom"><i class="fas fa-upload"></i></button></li>
                         </ul>
                         <ul class="button-list right">
+                            <li><button id="open-note" data-tippy-content="Open Note"><i class="fas fa-sticky-note"></i></button>
                             <li><button id="open-terminal" data-tippy-content="Open Terminal"><i class="fas fa-terminal"></i></button></li>
                         </ul>
                     </div>
@@ -246,9 +248,22 @@
                 </section>
             </article>
 
+            <!-- Right Note -->
+            <article id="note">
+                <header>
+                    <div class="title">Note</div>
+                    <div class="icon">
+                        <button id="close-note" data-tippy-content="Close"><i class="fas fa-times"></i></button>
+                    </div>
+                </header>
+                <section>
+                    
+                </section>
+            </article>
         </section>
 
         <article id="terminal-h-resize"></article>
+        <article id="note-h-resize"></article>
 
         <div id="dialog-backdrop"></div>
 
@@ -556,6 +571,7 @@
         <script src="js/serial.js"></script>
         <script src="js/simulator.js"></script>
         <script src="js/terminal.js"></script>
+        <script src="js/note.js"></script>
         <script src="js/dialog.js"></script>
         <script src="js/code-share.js"></script>
         <script src="js/extension.js"></script>
