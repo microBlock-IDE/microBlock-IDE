@@ -318,9 +318,9 @@ let hotUpdate = async () => {
     if (configFileContent) {
         let projectConfig = JSON.parse(configFileContent);
         if (projectConfig) {
-            useMode = projectConfig.mode;
-            boardId = projectConfig.board ? projectConfig.board : null;
-            levelName = projectConfig.level ? projectConfig.level : null;
+            useMode = projectConfig?.mode || "block";
+            boardId = projectConfig?.board || null;
+            levelName = projectConfig?.level || null;
         }
     }
 
