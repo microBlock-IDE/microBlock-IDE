@@ -53,26 +53,26 @@ $("#code-example-mode-select-switch > li").click(async function () {
     $(this).addClass("active");
 });
 
-
-
 const openExampleDialog = () => {
-    $("#example-list-item").html("");
-    
-    // Get board example
-    const board = boards.find(board => board.id === boardId);
-    
-    $("#example-list-item").append(`<li class="sub-header">Board Example</li>`);
-    (board?.examples || []).forEach((item, index) => {
-        $("#example-list-item").append(`
-            <li>
-                <a 
-                    href="#" 
-                    data-index="${index}" 
-                    data-type="board"
-                    data-files="${item?.files || ""}"
-                >${item.name}</a></li>
-        `);
-    });
+    if ($("#example-list-item > li").length <= 0) {
+        $("#example-list-item").html("");
+        
+        // Get board example
+        const board = boards.find(board => board.id === boardId);
+        
+        $("#example-list-item").append(`<li class="sub-header">Board Example</li>`);
+        (board?.examples || []).forEach((item, index) => {
+            $("#example-list-item").append(`
+                <li>
+                    <a 
+                        href="#" 
+                        data-index="${index}" 
+                        data-type="board"
+                        data-files="${item?.files || ""}"
+                    >${item.name}</a></li>
+            `);
+        });
+    }
 
     $("#example-list-item > li > a").click(async function(e) {
         e.preventDefault();
@@ -101,6 +101,18 @@ const openExampleDialog = () => {
     Blockly.svgResize(blocklyWorkspaceExampleCode);
 }
 
-setTimeout(() => {
-    openExampleDialog();
-}, 1000);
+const addExampleCodeToMain = async () => {
+    const fileMby = $("#example-list-item > li.active > a").attr("data-files");
+    if (!fileMby) {
+        return;
+    }
+    const rawFileData = await (await fetch(`boards/${boardId}/${fileMby}.mby`)).text();
+    const local_vFSTree = JSON.parse(rawFileData);
+    const xmlCode = local_vFSTree["main.xml"];
+
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xmlCode), blocklyWorkspace);
+    $("#code-example-dialog .close-dialog").click();
+};
+
+$("#add-example-code-to-workspace").click(addExampleCodeToMain);
+$("#open-example-dialog").click(openExampleDialog);
