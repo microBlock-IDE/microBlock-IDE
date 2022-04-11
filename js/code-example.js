@@ -40,6 +40,7 @@ $("#code-example-mode-select-switch > li").click(async function () {
         $("#blocklyDivExampleCode").show();
         $("#codeEditorExampleCode").hide();
         Blockly.svgResize(blocklyWorkspaceExampleCode);
+        blocklyWorkspaceExampleCode.scrollCenter();
     } else if (value == 2) { // Code mode
         $("#blocklyDivExampleCode").hide();
         $("#codeEditorExampleCode").show();
@@ -91,6 +92,7 @@ const openExampleDialog = () => {
         $("#example-list-item > li").removeClass("active");
         $(this).parent().addClass("active");
 
+        $("#noSelectExampleFile").hide();
         $("#code-example-mode-select-switch > li.active").click();
     });
     

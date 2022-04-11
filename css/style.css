@@ -1757,13 +1757,34 @@ ul.switch-mode > li:last-child {
     height: 100%;
 }
 
-#blocklyDivExampleCode,
-#codeEditorExampleCode {
+.work-box > div {
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
+#noSelectExampleFile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#noSelectExampleFile > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #D5D8DC;
+}
+
+#noSelectExampleFile > div > i {
+    font-size: 120px;
+    margin-bottom: 10px;
+}
+
+#noSelectExampleFile > div > span {
+    font-size: 18px;
+    font-weight: bold;
+}
 
 /* Blockly hardover */
 .blocklyToolboxDiv {
