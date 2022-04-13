@@ -71,15 +71,73 @@
     border-radius: 4px;
     background-color: #FFF;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.18);
-    border-left: 4px solid #F1C40F;
+    border-left: 4px solid #FFF;
 }
 
 .note-box-main > header {
+    color: #000;
     font-size: 18px;
-    color: #F1C40F;
     padding: 15px;
     padding-bottom: 0;
 }
+
+/* Color */
+.note-box-main.yellow {
+    border-color: #F1C40F;
+}
+
+.note-box-main.yellow > header {
+    color: #F1C40F;
+}
+
+.note-box-main.green {
+    border-color: #2ECC71;
+}
+
+.note-box-main.green > header {
+    color: #2ECC71;
+}
+
+.note-box-main.orange {
+    border-color: #E67E22;
+}
+
+.note-box-main.orange > header {
+    color: #E67E22;
+}
+
+.note-box-main.blue {
+    border-color: #3498DB;
+}
+
+.note-box-main.blue > header {
+    color: #3498DB;
+}
+
+.note-box-main.purple {
+    border-color: #8E44AD;
+}
+
+.note-box-main.purple > header {
+    color: #8E44AD;
+}
+
+.note-box-main.red {
+    border-color: #E74C3C;
+}
+
+.note-box-main.red > header {
+    color: #E74C3C;
+}
+
+.note-box-main.grey {
+    border-color: #2C3E50;
+}
+
+.note-box-main.grey > header {
+    color: #2C3E50;
+}
+
 
 .note-box-main > .sub-header {
     font-size: 12px;
@@ -91,7 +149,98 @@
     color: #424949;
     padding: 15px;
     padding-top: 10px;
+    padding-bottom: 7px;
     font-size: 14px;
+}
+
+.note-box-main > footer {
+    border-top: 1px solid #e9e9e9;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px 15px;
+}
+
+.note-box-main > footer > ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.note-box-main > footer > ul > li {
+    list-style: none;
+    padding: 4px;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.note-box-main > footer > ul.color-list > li > span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 100mS;
+}
+
+.note-box-main > footer > ul.color-list > li > span:hover {
+    transform: scale(1.2);
+}
+
+.note-box-main > footer > ul.color-list > li > span.yellow {
+    background-color: #F1C40F;
+}
+
+.note-box-main > footer > ul.color-list > li > span.green {
+    background-color: #2ECC71;
+}
+
+.note-box-main > footer > ul.color-list > li > span.orange {
+    background-color: #E67E22;
+}
+
+.note-box-main > footer > ul.color-list > li > span.blue {
+    background-color: #3498DB;
+}
+
+.note-box-main > footer > ul.color-list > li > span.purple {
+    background-color: #8E44AD;
+}
+
+.note-box-main > footer > ul.color-list > li > span.red {
+    background-color: #E74C3C;
+}
+
+.note-box-main > footer > ul.color-list > li > span.grey {
+    background-color: #2C3E50;
+}
+
+.note-box-main.yellow > footer > ul.color-list > li > span.yellow,
+.note-box-main.green > footer > ul.color-list > li > span.green,
+.note-box-main.orange > footer > ul.color-list > li > span.orange,
+.note-box-main.blue > footer > ul.color-list > li > span.blue,
+.note-box-main.purple > footer > ul.color-list > li > span.purple,
+.note-box-main.red > footer > ul.color-list > li > span.red,
+.note-box-main.grey > footer > ul.color-list > li > span.grey {
+    box-shadow: 0 0 0 1px #000;
+    transform: scale(1);
+}
+
+.note-box-main > footer > ul > li > .delete-note {
+    font-size: 12px;
+    border: none;
+    padding: 0;
+    display: inline-block;
+    color: #E74C3C;
+    outline: none;
+    transition: all 100mS;
+    cursor: pointer;
+}
+
+.note-box-main > footer > ul > li > .delete-note:hover {
+    transform: scale(1.2);
 }
 
 #note-h-resize {
