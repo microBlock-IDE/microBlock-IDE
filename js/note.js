@@ -166,4 +166,4 @@ $("#new-note").click(() => {
     saveNote();
 });
 
-setTimeout(() => $("#open-note").click(), 1000);
+// setTimeout(() => $("#open-note").click(), 1000);
