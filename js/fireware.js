@@ -259,7 +259,7 @@ $("#install-firmware-button").click(async () => {
                 console.log("stdout:", data.toString());
 
                 let line = data.toString();
-                line = line.substring(line.lastIndexOf("\n"));
+                line = line.substring(line.lastIndexOf(os.platform() !== "darwin" ? "\n" : "\r"));
                 line = line.trim();
 
                 $("#firmware-upgrade-dialog .progress-box > .caption").text(line);
