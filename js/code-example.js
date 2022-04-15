@@ -62,15 +62,19 @@ const openExampleDialog = () => {
         
         $("#example-list-item").append(`<li class="sub-header">Board Example</li>`);
         (board?.examples || []).forEach((item, index) => {
-            $("#example-list-item").append(`
-                <li>
-                    <a 
-                        href="#" 
-                        data-index="${index}" 
-                        data-type="board"
-                        data-files="${item?.files || ""}"
-                    >${item.name}</a></li>
-            `);
+            if (typeof item === "string") {
+                $("#example-list-item").append(`<li class="sub-header">${item}</li>`);
+            } else {
+                $("#example-list-item").append(`
+                    <li>
+                        <a 
+                            href="#" 
+                            data-index="${index}" 
+                            data-type="board"
+                            data-files="${item?.files || ""}"
+                        >${item.name}</a></li>
+                `);
+            }
         });
     }
 

@@ -36,13 +36,61 @@ KidBright32_config = {
     ],
     modules: [ ],
     examples: [
+        "Basic",
         {
             name: "Blink (WiFI LED)",
             files: "../kidbright32/examples/blink",
         },
         {
-            name: "OLED 16x8 show hart icon",
+            name: "Digital Read (IN1)",
+            files: "../kidbright32/examples/digital-read",
+        },
+        {
+            name: "Analog Read (IN1)",
+            files: "../kidbright32/examples/analog-read",
+        },
+        {
+            name: "Hello, Terminal",
+            files: "../kidbright32/examples/hello-terminal",
+        },
+        "LED 16x8",
+        {
+            name: "Show hart icon",
             files: "../kidbright32/examples/led16x8-show-hart",
+        },
+        {
+            name: "Text scroll",
+            files: "../kidbright32/examples/led16x8-text-scroll",
+        },
+        "Sound",
+        {
+            name: "Beep",
+            files: "../kidbright32/examples/beep",
+        },
+        {
+            name: "Play music",
+            files: "../kidbright32/examples/play-music",
+        },
+        "Project",
+        {
+            name: "WiFi LED toggle",
+            files: "../kidbright32/examples/wifi-led-toggle",
+        },
+        {
+            name: "Random",
+            files: "../kidbright32/examples/random",
+        },
+        {
+            name: "Counter",
+            files: "../kidbright32/examples/counter",
+        },
+        {
+            name: "Countdown",
+            files: "../kidbright32/examples/countdown",
+        },
+        {
+            name: "Thermometer (DHTxx)",
+            files: "../kidbright32/examples/dht-read",
         },
     ],
     firmware: [
