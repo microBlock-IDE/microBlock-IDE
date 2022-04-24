@@ -1,6 +1,6 @@
 addBoard({
     id: "openbit",
-    name: "Open:bit",
+    name: "OpenBIT",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
@@ -20,6 +20,7 @@ addBoard({
     blocks: [
         "../mbits/blocks/blocks_display.js",
         "../mbits/blocks/blocks_sensor.js",
+        "blocks/blocks_sensor.js",
         "../mbits/blocks/blocks_switch.js",
         "../mbits/blocks/blocks_imu.js",
         "../mbits/blocks/blocks_pin.js",
@@ -28,6 +29,7 @@ addBoard({
 
         "../mbits/blocks/generators_display.js",
         "../mbits/blocks/generators_sensor.js",
+        "blocks/generators_sensor.js",
         "../mbits/blocks/generators_switch.js",
         "../mbits/blocks/generators_imu.js",
         "../mbits/blocks/generators_pin.js",
@@ -287,6 +289,7 @@ addBoard({
                         },
                         "sensor_microphone",
                         "sensor_temp",
+                        "sensor_light",
                         {
                             xml: '<label text="IMU"></label>',
                         },
