@@ -15,14 +15,10 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "10" ],
-        [ "D2", "11" ],
-        [ "D3", "12" ],
-        [ "D4", "26" ],
-        [ "D5", "27" ],
-        [ "SV1", "18" ],
-        [ "SV2", "19" ],
-        [ "SV3", "20" ],
+        [ "D1", "25" ],
+        [ "D2", "27" ],
+        [ "D3", "28" ],
+        [ "D4", "29" ],
       ]
     }
   ],
@@ -41,14 +37,10 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "10" ],
-        [ "D2", "11" ],
-        [ "D3", "12" ],
-        [ "D4", "26" ],
-        [ "D5", "27" ],
-        [ "SV1", "18" ],
-        [ "SV2", "19" ],
-        [ "SV3", "20" ],
+        [ "D1", "25" ],
+        [ "D2", "27" ],
+        [ "D3", "28" ],
+        [ "D4", "29" ],
       ]
     }
   ],
@@ -69,15 +61,21 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D4", "26" ],
-        [ "D5", "27" ],
+        [ "A0", "0" ],
+        [ "A1", "1" ],
+        [ "A2", "2" ],
+        [ "A3", "3" ],
+        [ "A4", "4" ],
+        [ "A5", "5" ],
+        [ "A6", "6" ],
+        [ "A7", "7" ],
       ]
     }
   ],
   "output": "Number",
   "inputsInline": true,
   "colour": "#E74C3C",
-  "tooltip": "Read analog value from pin D4 or D5 in range 0 - 4095",
+  "tooltip": "Read analog value from pin Ax in range 0 - 4095",
   "helpUrl": ""
 },
 {
@@ -93,14 +91,10 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "10" ],
-        [ "D2", "11" ],
-        [ "D3", "12" ],
-        [ "D4", "26" ],
-        [ "D5", "27" ],
-        [ "SV1", "18" ],
-        [ "SV2", "19" ],
-        [ "SV3", "20" ],
+        [ "D1", "25" ],
+        [ "D2", "27" ],
+        [ "D3", "28" ],
+        [ "D4", "29" ],
       ]
     }
   ],
@@ -119,15 +113,21 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D4", "26" ],
-        [ "D5", "27" ],
+        [ "A0", "0" ],
+        [ "A1", "1" ],
+        [ "A2", "2" ],
+        [ "A3", "3" ],
+        [ "A4", "4" ],
+        [ "A5", "5" ],
+        [ "A6", "6" ],
+        [ "A7", "7" ],
       ]
     }
   ],
   "output": "Number",
   "inputsInline": true,
   "colour": "#E74C3C",
-  "tooltip": "Read analog value from pin D4 or D5 in range 0 - 4000",
+  "tooltip": "Read analog value from pin Ax in range 0 - 4000",
   "helpUrl": ""
 },
 ]);

@@ -7,18 +7,10 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "ch",
       "options": [
-        [
-          "SV1",
-          "SV1"
-        ],
-        [
-          "SV2",
-          "SV2"
-        ],
-        [
-          "SV3",
-          "SV3"
-        ],
+        [ "SV1", "SV1" ],
+        [ "SV2", "SV2" ],
+        [ "SV3", "SV3" ],
+        [ "SV4", "SV4" ],
       ]
     },
     {

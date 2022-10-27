@@ -6,21 +6,27 @@ addBoard({
     uploadMode: "REPL",
     chip: "RP2",
     script: [ 
-        
+        "../kidbright32/js/field_note.js",
+        "../kidbright32/js/sound.js",
     ],
     css: [
-       
+        "../kidbright32/css/field_note.css",
     ],
     blocks: [
-        "blocks/blocks_display.js",
-        "blocks/blocks_motor.js",
+        "../ttgo-t-display/blocks/blocks_display.js",
+        "../kidmotor-v4/blocks/blocks_motor.js",
+        "blocks/blocks_servo.js",
+        "blocks/blocks_switch.js",
+        "../kidbright32/blocks/blocks_buzzer.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
 
-        "blocks/generators_display.js",
-        "blocks/generators_motor.js",
+        "../ttgo-t-display/blocks/generators_display.js",
+        "../kidmotor-v4/blocks/generators_motor.js",
+        "../kidbright32/blocks/generators_servo.js",
+        "../kidbright32/blocks/generators_switch.js",
         "blocks/generators_pin.js",
-        "blocks/generators_avanced.js",
+        "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
     firmware: [
@@ -313,7 +319,6 @@ addBoard({
                             `
                         },
                         "motor_stop",
-                        /*
                         {
                             xml: '<label text="Servo"></label>',
                         },
@@ -327,11 +332,11 @@ addBoard({
                                     </value>
                                 </block>
                             `
-                        },*/
+                        },
                     ]
                 },
                 {
-                    name: "Pin",
+                    name: "I/O",
                     icon: "/images/icon/led.png",
                     color: "#e64c3c",
                     blocks: [
@@ -345,7 +350,7 @@ addBoard({
                                     </value>
                                     <value name="pin">
                                         <shadow type="math_number">
-                                            <field name="NUM">13</field>
+                                            <field name="NUM">25</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -361,7 +366,7 @@ addBoard({
                                     </value>
                                     <value name="pin">
                                         <shadow type="math_number">
-                                            <field name="NUM">13</field>
+                                            <field name="NUM">25</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -372,7 +377,7 @@ addBoard({
                                 <block type="pin_digital_read">
                                     <value name="pin">
                                         <shadow type="math_number">
-                                            <field name="NUM">5</field>
+                                            <field name="NUM">25</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -383,7 +388,69 @@ addBoard({
                                 <block type="pin_analog_read">
                                     <value name="pin">
                                         <shadow type="math_number">
-                                            <field name="NUM">5</field>
+                                            <field name="NUM">A0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="pin_analog_read_calibrated">
+                                    <value name="pin">
+                                        <shadow type="math_number">
+                                            <field name="NUM">A0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="Switch"></label>',
+                        },
+                        "switch_on_pressed",
+                        "switch_on_press",
+                        "switch_on_release",
+                        "switch_is_press",
+                        "switch_is_release",
+                        "switch_get_value",
+                        {
+                            xml: '<label text="Buzzer"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_tone">
+                                    <value name="freq">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2000</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="duration">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_notes">
+                                    <value name="notes">
+                                        <block type="make_note">
+                                            <field name="notes">C5</field>
+                                        </block>
+                                    </value>
+                                    <field name="duration">1 / 2</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_volume">
+                                    <value name="level">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -713,28 +780,8 @@ addBoard({
                         {
                             xml: '<label text="Sensor"></label>',
                         },
-                        /* {
-                            xml: `
-                                <block type="dht_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        }, */
-                        {
-                            xml: `
-                                <block type="ds18x20_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
+                        "dht_read",
+                        "ds18x20_read",
                         {
                             xml: '<label text="Task"></label>',
                         },

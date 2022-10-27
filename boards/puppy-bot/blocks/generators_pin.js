@@ -18,34 +18,20 @@ Blockly.Python['pin_digital_read'] = function (block) {
 };
 
 Blockly.Python['pin_analog_read'] = function (block) {
-    Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
-    Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
-
-    var functionName = Blockly.Python.provideFunction_(
-        'adcRead',
-        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(analog_pin):',
-        '  adc = ADC(Pin(analog_pin))',
-        '  return (adc.read_u16() >> 4)']);
+    Blockly.Python.definitions_['from_analog_import_analog_read'] = 'from analog import analog_read';
 
     var dropdown_pin = block.getFieldValue('pin');
 
-    var code = `${functionName}(${dropdown_pin})`;
+    var code = `analog_read(${dropdown_pin})`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
 Blockly.Python['pin_analog_read_calibrated'] = function (block) {
-    Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
-    Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
-
-    var functionName = Blockly.Python.provideFunction_(
-        'adcReadCalibrated',
-        ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(analog_pin):',
-        '  adc = ADC(Pin(analog_pin))',
-        '  return min(max((adc.read_u16() >> 4) - 24, 0), 4000)']);
+    Blockly.Python.definitions_['from_analog_import_analog_read_dalibrated'] = 'from analog import analog_read_calibrated';
 
     var dropdown_pin = block.getFieldValue('pin');
 
-    var code = `${functionName}(${dropdown_pin})`;
+    var code = `analog_read_calibrated(${dropdown_pin})`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 

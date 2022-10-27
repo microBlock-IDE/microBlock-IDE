@@ -18,9 +18,14 @@ Blockly.defineBlocksWithJsonArray([
       ]
     },
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": "Number"
+      "options": [
+        [ "D1", "25" ],
+        [ "D2", "27" ],
+        [ "D3", "28" ],
+        [ "D4", "29" ],
+      ]
     },
     {
       "type": "field_dropdown",
@@ -48,9 +53,14 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "DS18x20 pin %1 read temperature",
   "args0": [
     {
-      "type": "input_value",
+      "type": "field_dropdown",
       "name": "pin",
-      "check": "Number"
+      "options": [
+        [ "D1", "25" ],
+        [ "D2", "27" ],
+        [ "D3", "28" ],
+        [ "D4", "29" ],
+      ]
     }
   ],
   "inputsInline": true,
@@ -58,5 +68,5 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#8E44AD",
   "tooltip": "",
   "helpUrl": ""
-},
+}
 ]);

@@ -11,10 +11,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ]
       ]
     }
   ],
@@ -35,10 +31,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ]
       ]
     }
   ],
@@ -59,10 +51,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ]
       ]
     }
   ],
@@ -83,10 +71,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ]
       ]
     },
     {
@@ -115,10 +99,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ]
       ]
     },
     {
@@ -147,14 +127,6 @@ Blockly.defineBlocksWithJsonArray([
           "SW1",
           "SW1"
         ],
-        [
-          "SW2",
-          "SW2"
-        ],
-        [
-          "SW1+SW2",
-          "SW12"
-        ]
       ]
     },
     {
