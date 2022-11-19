@@ -3,7 +3,8 @@ addBoard({
     name: "PuppyBot",
     description: "",
     image: "images/cover.jpg",
-    uploadMode: "REPL",
+    uploadMode: "MSC",
+    mscSize: 1417216,
     chip: "RP2",
     script: [ 
         "../kidbright32/js/field_note.js",
@@ -13,7 +14,7 @@ addBoard({
         "../kidbright32/css/field_note.css",
     ],
     blocks: [
-        "../ttgo-t-display/blocks/blocks_display.js",
+        "blocks/blocks_display.js",
         "../kidmotor-v4/blocks/blocks_motor.js",
         "blocks/blocks_servo.js",
         "blocks/blocks_switch.js",
@@ -21,20 +22,21 @@ addBoard({
         "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
 
-        "../ttgo-t-display/blocks/generators_display.js",
+        "blocks/generators_display.js",
         "../kidmotor-v4/blocks/generators_motor.js",
         "../kidbright32/blocks/generators_servo.js",
         "../kidbright32/blocks/generators_switch.js",
+        "../kidbright32/blocks/generators_buzzer.js",
         "blocks/generators_pin.js",
         "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for Raspberry Pi Pico V1.17",
-            path: "firmware/rp2-pico-20210902-v1.17.uf2",
-            version: "v1.17",
-            date: "2021-09-02",
+            name: "MicroPython for PupyBot v1.19.1-560-g68f166dae-dirty",
+            path: "firmware/MicroPython.for.PuppyBot.v1.19.1-560-g68f166dae-dirty.uf2",
+            version: "v1.19.1-560-g68f166dae-dirty",
+            date: "2022-11-19",
             board: "Raspberry Pi Pico",
             cpu: "RP2040"
         }
@@ -409,8 +411,8 @@ addBoard({
                             xml: '<label text="Switch"></label>',
                         },
                         "switch_on_pressed",
-                        "switch_on_press",
-                        "switch_on_release",
+                        /*"switch_on_press",
+                        "switch_on_release",*/
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
