@@ -507,7 +507,7 @@ class UploadViaREPL {
             } else if (chipId === "RP2") {
                 serialLastData = "";
                 if (!await this.sendLineLoopWaitMatch(`p(w(${JSON.stringify(chunkContent1).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`, /OK[0-9]{1,3}[^>]*>/gm, isElectron ? 50 : 100, 20)) {
-                    throw `write ${chunkContent2.length} fail !`
+                    throw `write ${chunkContent1.length} fail !`
                 }
 
                 let n = /OK([0-9]{1,4})[^>]*>/gm.exec(serialLastData);
@@ -544,6 +544,103 @@ class UploadViaREPL {
         } else {
             await this.writeSerialNewLine(`exec(open("main.py", "r").read(),globals())`);
         }
+    }
+
+    async sendByteLoopWaitNextCommand(data, delay=100, max_try=5) {
+        let okFlag = false;
+        for (let i=0;i<max_try;i++) {
+            await writeSerialByte(data);
+            await sleep(delay);
+            if (microPythonIsReadyNextCommand()) {
+                okFlag = true;
+                break;
+            }
+            
+        }
+        return okFlag;
+    }
+
+    async sendLineLoopWaitMatch(line, regex, delay=100, max_try=5) {
+        await this.writeSerialNewLine(line);
+        let okFlag = false;
+        for (let i=0;i<max_try;i++) {
+            await sleep(delay);
+            if (serialLastData.match(regex)) {
+                okFlag = true;
+                break;
+            }
+        }
+        return okFlag;
+    }
+
+    writeSerialNewLine(text) {
+        writeSerial(text + ((!RawREPLMode) ? "\r\n" : "\x04"));
+    }
+};
+
+class UploadViaMSC {
+    constructor() {
+        RawREPLMode = false;
+    }
+
+    async start() {
+        if (!serialLastData.endsWith(">>>") && serialLastData.endsWith(">")) { // Raw REPL mode ?
+            serialLastData = "";
+            RawREPLMode = true;
+            await this.sendByteLoopWaitNextCommand(2, 100, 5); // Ctrl + B, Exit Raw REPL
+        }
+        RawREPLMode = false;
+
+        serialLastData = "";
+        if (!await this.sendByteLoopWaitNextCommand(3, 100, 100)) { // Ctrl + C
+            throw "Access to MicroPython error";
+        }
+
+        serialLastData = "";
+        await writeSerialByte(4); // Soft reset
+        await sleep(300);
+
+        // serialLastData = "";
+        if (!await this.sendByteLoopWaitNextCommand(3, 100, 100)) { // Ctrl + C
+            throw "Exit main program error";
+        }
+
+        let checkVersion = /MicroPython\s+([^\s]+)\s+on\s+([0-9\-]+);\s?(.+)\s+with\s+([^\s]+)$/m.exec(serialLastData);
+        if (checkVersion) {
+            this.firmwareInfo = { 
+                version: checkVersion[1],
+                date: checkVersion[2],
+                board: checkVersion[3],
+                cpu: checkVersion[4]
+            };
+        }
+    }
+
+    async getFirmwareInfo() {
+        return this.firmwareInfo;
+    }
+
+    async upload(fileName, content) {
+        if (content.length == 0) {
+            content = "#No Code";
+        }
+
+        let board = boards.find(board => board.id === boardId);
+
+        const drives = await nodeDiskInfo.getDiskInfo();
+        const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === board.mscSize);
+        if (!RP2DriveInfo) {
+            throw `MSC drive not found !`;
+        }
+
+        const mount = RP2DriveInfo.mounted;
+        await writeFileAsync(path.join(mount, "/", fileName), content);
+        // await sleep(50);
+    }
+
+    async end() {
+        await writeSerialByte(4); // Soft reset
+        await sleep(300);
     }
 
     async sendByteLoopWaitNextCommand(data, delay=100, max_try=5) {
@@ -647,6 +744,14 @@ let realDeviceUploadFlow = async (code) => {
         let board = boards.find(board => board.id === boardId);
         if (board.uploadMode && board.uploadMode === "REPL") {
             await enterToREPL();
+        } else if (board.uploadMode && board.uploadMode === "MSC") {
+            method = new UploadViaMSC();
+            try {
+                await method.start();
+            } catch (e) {
+                firewareUpgradeFlow();
+                throw e;
+            }
         } else {
             method = new UploadOnBoot();
 
