@@ -21,9 +21,22 @@ Blockly.Python['pin_analog_read'] = function (block) {
     Blockly.Python.definitions_['from_analog_import_analog_read'] = 'from analog import analog_read';
 
     var dropdown_pin = block.getFieldValue('pin');
+    if ((+dropdown_pin) >= 8) {
+        Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
+        Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
 
-    var code = `analog_read(${dropdown_pin})`;
-    return [code, Blockly.Python.ORDER_NONE];
+        var functionName = Blockly.Python.provideFunction_(
+            'adcRead',
+            ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(analog_pin):',
+            '  adc = ADC(Pin(analog_pin))',
+            '  return (adc.read_u16() >> 4)']);
+            
+        var code = `${functionName}(${((+dropdown_pin) - 8) + 27})`;
+        return [code, Blockly.Python.ORDER_NONE];
+    } else {
+        var code = `analog_read(${dropdown_pin})`;
+        return [code, Blockly.Python.ORDER_NONE];
+    }
 };
 
 Blockly.Python['pin_analog_read_calibrated'] = function (block) {

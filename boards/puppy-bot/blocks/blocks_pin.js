@@ -69,6 +69,9 @@ Blockly.defineBlocksWithJsonArray([
         [ "A5", "5" ],
         [ "A6", "6" ],
         [ "A7", "7" ],
+        [ "A8", "8" ],
+        [ "A9", "9" ],
+        [ "A10", "10" ],
       ]
     }
   ],
