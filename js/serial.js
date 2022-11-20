@@ -581,6 +581,7 @@ class UploadViaREPL {
 class UploadViaMSC {
     constructor() {
         RawREPLMode = false;
+        this.mount = null;
     }
 
     async start() {
@@ -614,6 +615,16 @@ class UploadViaMSC {
                 cpu: checkVersion[4]
             };
         }
+
+        const drives = await nodeDiskInfo.getDiskInfo();
+        
+        const board = boards.find(board => board.id === boardId);
+        const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === board.mscSize);
+        if (!RP2DriveInfo) {
+            throw `MSC drive not found !`;
+        }
+
+        this.mount = RP2DriveInfo.mounted;
     }
 
     async getFirmwareInfo() {
@@ -625,16 +636,7 @@ class UploadViaMSC {
             content = "#No Code";
         }
 
-        let board = boards.find(board => board.id === boardId);
-
-        const drives = await nodeDiskInfo.getDiskInfo();
-        const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === board.mscSize);
-        if (!RP2DriveInfo) {
-            throw `MSC drive not found !`;
-        }
-
-        const mount = RP2DriveInfo.mounted;
-        await writeFileAsync(path.join(mount, "/", fileName), content);
+        await writeFileAsync(path.join(this.mount, "/", fileName), content);
         // await sleep(50);
     }
 
@@ -749,8 +751,9 @@ let realDeviceUploadFlow = async (code) => {
             try {
                 await method.start();
             } catch (e) {
-                firewareUpgradeFlow();
-                throw e;
+                console.warn(e);
+                NotifyW("Switch to upload via RawREPL [RECOMMENDED Upgrade fireware]");
+                await enterToREPL();
             }
         } else {
             method = new UploadOnBoot();
@@ -758,6 +761,7 @@ let realDeviceUploadFlow = async (code) => {
             try {
                 await method.start();
             } catch (e) {
+                console.warn(e);
                 NotifyW("Switch to upload via RawREPL [RECOMMENDED Upgrade fireware]");
                 await enterToREPL();
             }
@@ -792,7 +796,8 @@ let realDeviceUploadFlow = async (code) => {
             await method.upload(a.file, a.content);
         }
 
-        await method.end();  
+        await method.end(); 
+        delete method;
     } catch(e) {
         throw e;
     }
