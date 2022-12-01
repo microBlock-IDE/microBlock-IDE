@@ -617,6 +617,7 @@ class UploadViaMSC {
         }
 
         const drives = await nodeDiskInfo.getDiskInfo();
+        // console.log("All drive:", drives);
         
         const board = boards.find(board => board.id === boardId);
         const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === board.mscSize);

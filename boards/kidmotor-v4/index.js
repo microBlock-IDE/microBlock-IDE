@@ -3,7 +3,8 @@ addBoard({
     name: "KidMotor V4.0",
     description: "",
     image: "images/cover.jpg",
-    uploadMode: "REPL",
+    uploadMode: "MSC",
+    mscSize: 1417216,
     chip: "RP2",
     script: [ 
         "../ipst-wifi/js/field_bitmap.js",
@@ -28,6 +29,14 @@ addBoard({
     ],
     modules: [ ],
     firmware: [
+        {
+            name: "MicroPython for KidMotorV4 V1.19-microblock-dirty",
+            path: "firmware/MicroPython.for.KidMotorV4.V1.19-microblock-dirty.uf2",
+            version: "v1.19-microblock-dirty",
+            date: "2022-12-01",
+            board: "KidMotor V4",
+            cpu: "RP2040"
+        },
         {
             name: "MicroPython for KidMotorV4 V1.9.0-dirty",
             path: "firmware/MicroPython.for.KidMotorV4.V1.9.0-dirty.uf2",
@@ -279,8 +288,8 @@ addBoard({
                             xml: '<label text="Switch"></label>',
                         },
                         "switch_on_pressed",
-                        "switch_on_press",
-                        "switch_on_release",
+                        // "switch_on_press",
+                        // "switch_on_release",
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
