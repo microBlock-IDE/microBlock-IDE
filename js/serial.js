@@ -477,7 +477,7 @@ class UploadViaREPL {
         let chunkContent1Array = [];
         if (chipId === "ESP32") {
             chunkContent1Array = content.match(/.{1,500}/gs);
-        } else if (chipId === "RP2") {
+        } else if (chipId.indexOf("RP2") >= 0) {
             chunkContent1Array = content.match(/.{1,2048}/gs);
         }
         for (const chunkContent1 of chunkContent1Array) {
@@ -504,7 +504,7 @@ class UploadViaREPL {
                         throw `Data lost ? Send: ${sendN}, Ros: ${+n[1]}`;
                     }
                 }
-            } else if (chipId === "RP2") {
+            } else if (chipId.indexOf("RP2") >= 0) {
                 serialLastData = "";
                 if (!await this.sendLineLoopWaitMatch(`p(w(${JSON.stringify(chunkContent1).replace(/[\u007F-\uFFFF]/g, chr => "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4))}))`, /OK[0-9]{1,3}[^>]*>/gm, isElectron ? 50 : 100, 20)) {
                     throw `write ${chunkContent1.length} fail !`
@@ -538,7 +538,7 @@ class UploadViaREPL {
         RawREPLMode = false;   
         
         let board = boards.find(board => board.id === boardId);
-        if (board?.chip === "RP2") {
+        if (board?.chip.indexOf("RP2") >= 0) {
             await writeSerialByte(4); // Soft reset
             await sleep(300);
         } else {

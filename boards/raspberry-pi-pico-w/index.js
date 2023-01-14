@@ -4,7 +4,7 @@ addBoard({
     description: "",
     image: "images/cover.jpg",
     uploadMode: "REPL",
-    chip: "RP2",
+    chip: "RP2-WiFi",
     script: [ 
         
     ],
