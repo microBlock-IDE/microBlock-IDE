@@ -3,7 +3,8 @@ addBoard({
     name: "Raspberry Pi Pico",
     description: "",
     image: "images/cover.jpg",
-    uploadMode: "REPL",
+    uploadMode: "MSC",
+    mscSize: 1417216,
     chip: "RP2",
     script: [ 
         
@@ -20,6 +21,14 @@ addBoard({
     ],
     modules: [ ],
     firmware: [
+        {
+            name: "MicroPython for Raspberry Pi Pico v1.19.1-796-gf4811b0b4-dirty",
+            path: "firmware/MicroPython.for.Pico.v1.19.1-796-gf4811b0b4-dirty.uf2",
+            version: "v1.19.1-796-gf4811b0b4-dirty",
+            date: "2023-01-14",
+            board: "Raspberry Pi Pico",
+            cpu: "RP2040"
+        },
         {
             name: "MicroPython for Raspberry Pi Pico V1.17",
             path: "firmware/rp2-pico-20210902-v1.17.uf2",
