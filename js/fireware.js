@@ -18,7 +18,7 @@ let firewareUpgradeFlow = async () => {
         );
         return;
     } else {
-        if (board?.chip === "RP2") {
+        if (board?.chip.indexOf("RP2") >= 0) {
             $("#install-firmware-button").prop("disabled", true);
             $("#firmware-upgrade-dialog .note-for-rp2").show();
 
@@ -298,7 +298,7 @@ $("#install-firmware-button").click(async () => {
                 }
             });
         }
-    } else if (chipId === "RP2") {
+    } else if (chipId.indexOf("RP2") >= 0) {
         //if (!isElectron) {
             ((uri, name) => {
                 var link = document.createElement("a");

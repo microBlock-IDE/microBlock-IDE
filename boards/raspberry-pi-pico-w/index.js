@@ -3,7 +3,8 @@ addBoard({
     name: "Raspberry Pi Pico W",
     description: "",
     image: "images/cover.jpg",
-    uploadMode: "REPL",
+    uploadMode: "MSC",
+    mscSize: 843776,
     chip: "RP2-WiFi",
     script: [ 
         
@@ -21,11 +22,11 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for Raspberry Pi Pico W V1.19.1 (Nightly)",
-            path: "firmware/rp2-pico-w-20221025-unstable-v1.19.1-562-g5ee1cb277.uf2",
-            version: "v1.19.1",
-            date: "2022-10-25",
-            board: "Raspberry Pi Pico @",
+            name: "MicroPython v1.19.1-796-gf4811b0b4-dirty",
+            path: "firmware/MicroPython.for.Pico.W.v1.19.1-796-gf4811b0b4-dirty.uf2",
+            version: "v1.19.1-796-gf4811b0b4-dirty",
+            date: "2023-01-14",
+            board: "Raspberry Pi Pico W",
             cpu: "RP2040"
         }
     ],
