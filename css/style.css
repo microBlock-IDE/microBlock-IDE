@@ -305,6 +305,21 @@ ul.switch-mode > li:last-child {
     color: #FFF;
 }
 
+.page > .main > footer > .control-box > ul.button-list > li > button > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .page > .main > footer > .control-box > ul.button-list > li > input {
     margin-right: 14px;
     padding: 10px 14px;
@@ -328,7 +343,7 @@ ul.switch-mode > li:last-child {
     background-color: #2E4053;
 }
 
-.page > .main > footer > .control-box > ul.button-list > li > button.loading > i {
+.page > .main > footer > .control-box > ul.button-list > li > button.loading i {
     animation: goOutToTop 1.6s;
     transform: translateY(-300%);
 }
