@@ -726,6 +726,7 @@ let realDeviceUploadFlow = async (code) => {
         }
     }
 
+    filesUpload = filesUpload.concat(extra_files);
     filesUpload.push({
         file: "main.py",
         content: code
@@ -813,6 +814,7 @@ $("#upload-program").click(async function() {
 
     let code;
     if (useMode === "block") {
+        extra_files = [];
         code = Blockly.Python.workspaceToCode(blocklyWorkspace);
     } else if (useMode === "code") {
         code = editor.getValue();
