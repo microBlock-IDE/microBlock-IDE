@@ -5,9 +5,8 @@ Blockly.Python['display_draw_text'] = function(block) {
   var value_x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
   var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
-  var dropdown_font = block.getFieldValue('font');
-  dropdown_font = dropdown_font === "text8x8" ? `"${dropdown_font}"` : "display." + dropdown_font;
-  var code = `display.text(str(${value_text}), ${value_x}, ${value_y}, ${value_color}, ${dropdown_font})\n`;
+  var value_size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC);
+  var code = `display.text(str(${value_text}), ${value_x}, ${value_y}, ${value_color}, ${value_size})\n`;
   return code;
 };
 

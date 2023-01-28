@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "display_draw_text",
-  "message0": "Display draw text %1 x: %2 y: %3 colour: %4 font: %5",
+  "message0": "Display draw text %1 x: %2 y: %3 colour: %4 size: %5",
   "args0": [
     {
       "type": "input_value",
@@ -27,44 +27,11 @@ Blockly.defineBlocksWithJsonArray([
       "align": "RIGHT"
     },
     {
-      "type": "field_dropdown",
-      "name": "font",
-      "options": [
-        [
-          "8x8",
-          "text8x8"
-        ],
-        /*
-        [
-          "Supermarket 20",
-          "FONT_SUPERMARKET_20"
-        ],
-        [
-          "Supermarket 40",
-          "FONT_SUPERMARKET_40"
-        ],
-        [
-          "Supermarket 60",
-          "FONT_SUPERMARKET_60"
-        ],
-        [
-          "Supermarket 120",
-          "FONT_SUPERMARKET_120"
-        ],
-        [
-          "TH Sarabun New 20",
-          "FONT_TH_SARABUN_NEW_20"
-        ],
-        [
-          "TH Sarabun New 40",
-          "FONT_TH_SARABUN_NEW_40"
-        ],
-        [
-          "TH Sarabun New 60",
-          "FONT_TH_SARABUN_NEW_60"
-        ]*/
-      ]
-    }
+      "type": "input_value",
+      "name": "size",
+      "check": "Number",
+      "align": "RIGHT"
+    },
   ],
   "inputsInline": false,
   "previousStatement": null,
@@ -255,7 +222,7 @@ Blockly.defineBlocksWithJsonArray([
       "type": "input_dummy"
     },
     {
-      "type": "field_bitmap",
+      "type": "field_bitmap_rgb",
       "name": "image",
       "colour": "#ff0000"
     },

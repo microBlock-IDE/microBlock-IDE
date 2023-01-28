@@ -9,9 +9,11 @@ addBoard({
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",
+        "js/field_bitmap_rgb.js",
     ],
     css: [
         "../kidbright32/css/field_note.css",
+        "css/field_bitmap_rgb.css",
     ],
     blocks: [
         "blocks/blocks_display.js",
@@ -82,10 +84,15 @@ addBoard({
                                             <field name="COLOUR">#FFFFFF</field>
                                         </shadow>
                                     </value>
+                                    <value name="size">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
                                 </block>
                             `
                         },
-                        /* {
+                        {
                             xml: `
                                 <block type="display_draw_bitmap">
                                     <value name="x">
@@ -100,7 +107,7 @@ addBoard({
                                     </value>
                                 </block>
                             `
-                        }, */
+                        },
                         {
                             xml: `
                                 <block type="display_draw_line">
