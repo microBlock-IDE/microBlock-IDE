@@ -23,4 +23,5 @@ loadScript(`${rootPath}/boards/mbits/index.js`);  // Add Mbits
 loadScript(`${rootPath}/boards/openbit/index.js`);  // Add OpenBit
 loadScript(`${rootPath}/boards/kidmotor-v4/index.js`);  // Add KidMotor V4.0
 loadScript(`${rootPath}/boards/puppy-bot/index.js`);  // Add PuppyBot
+loadScript(`${rootPath}/boards/easy-bot/index.js`);  // Add PuppyBot
 // loadScript(`${rootPath}/boards/bilimbi/index.js`);  // Add BILIMBI

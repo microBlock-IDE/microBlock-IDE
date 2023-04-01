@@ -1,0 +1,95 @@
+.FieldBitmapRGBDropdown {
+    width: 200px;
+    color: #FFF;
+}
+
+.FieldBitmapRGBDropdown > .image-preview {
+    background-color: #2874A6;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    height: 160px;
+    position: relative;
+}
+
+.FieldBitmapRGBDropdown > .image-preview > .preview {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.38);
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 8px);
+    transform: translate(-50%, -50%);
+}
+
+.FieldBitmapRGBDropdown > .image-preview > .size-label {
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #FFF;
+}
+
+.FieldBitmapRGBDropdown > .control {
+    font-size: 14px;
+}
+
+.FieldBitmapRGBDropdown > .control > div {
+    margin-bottom: 12px;
+}
+
+.FieldBitmapRGBDropdown > .control > div:last-child {
+    margin-bottom: 0;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .choose-image-btn {
+    background-color: #2874A6;
+    color: #FFF;
+    text-align: center;
+    width: 100%;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    outline: none;
+
+}
+
+.FieldBitmapRGBDropdown > .control > div > .label {
+    width: 100%;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .label > .value { 
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 12px;
+    padding: 3px 5px;
+    background-color: #2874A6;
+    border-radius: 2px;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .inp > input {
+    width: 100%;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .inp > .check-button {
+    display: flex;
+    flex-direction: row;
+    border-radius: 4px;
+    border: 1px solid #2874A6;
+    overflow: hidden;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .inp > .check-button > div {
+    flex-grow: 1;
+    padding: 3px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.FieldBitmapRGBDropdown > .control > div > .inp > .check-button > div.active {
+    background-color: #2874A6;
+}
