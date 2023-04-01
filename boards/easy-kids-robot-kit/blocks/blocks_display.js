@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "display_draw_text",
-  "message0": "Display draw text %1 x: %2 y: %3 colour: %4 size: %5",
+  "message0": "Display draw text %1 x: %2 y: %3 color: %4 size: %5",
   "args0": [
     {
       "type": "input_value",
@@ -42,7 +42,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "display_draw_line",
-  "message0": "Display draw line %1 start x: %2 start y: %3 x end: %4 y end: %5 colour: %6",
+  "message0": "Display draw line %1 start x: %2 start y: %3 x end: %4 y end: %5 color: %6",
   "args0": [
     {
       "type": "input_dummy"
@@ -87,7 +87,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "display_draw_rect",
-  "message0": "Display draw rectangle %1 x start: %2 y start: %3 width: %4 height: %5 colour: %6 fill: %7",
+  "message0": "Display draw rectangle %1 x start: %2 y start: %3 width: %4 height: %5 color: %6 fill: %7",
   "args0": [
     {
       "type": "input_dummy"
@@ -146,7 +146,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "display_draw_circle",
-  "message0": "Display draw circle %1 x center: %2 y center: %3 radius: %4 colour: %5 fill: %6",
+  "message0": "Display draw circle %1 x center: %2 y center: %3 radius: %4 color: %5 fill: %6",
   "args0": [
     {
       "type": "input_dummy"
