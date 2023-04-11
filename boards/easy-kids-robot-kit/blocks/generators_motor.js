@@ -1,5 +1,5 @@
 Blockly.Python['motor_forward'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -9,7 +9,7 @@ Blockly.Python['motor_forward'] = function(block) {
 };
 
 Blockly.Python['motor_backward'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -19,7 +19,7 @@ Blockly.Python['motor_backward'] = function(block) {
 };
 
 Blockly.Python['motor_turn_left'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -29,7 +29,7 @@ Blockly.Python['motor_turn_left'] = function(block) {
 };
 
 Blockly.Python['motor_turn_right'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -39,7 +39,7 @@ Blockly.Python['motor_turn_right'] = function(block) {
 };
 
 Blockly.Python['motor_spin_left'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -49,7 +49,7 @@ Blockly.Python['motor_spin_left'] = function(block) {
 };
 
 Blockly.Python['motor_spin_right'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -59,7 +59,7 @@ Blockly.Python['motor_spin_right'] = function(block) {
 };
 
 Blockly.Python['motor_move'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var dropdown_move = block.getFieldValue('move');
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
@@ -69,7 +69,7 @@ Blockly.Python['motor_move'] = function(block) {
 };
 
 Blockly.Python['motor_wheel'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed1 = Blockly.Python.valueToCode(block, 'speed1', Blockly.Python.ORDER_ATOMIC);
   var value_speed2 = Blockly.Python.valueToCode(block, 'speed2', Blockly.Python.ORDER_ATOMIC);
@@ -79,7 +79,7 @@ Blockly.Python['motor_wheel'] = function(block) {
 };
 
 Blockly.Python['motor_stop'] = function(block) {
-  Blockly.Python.definitions_['import_motor'] = 'import motor';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var code = `motor.stop()\n`;
   return code;

@@ -813,8 +813,8 @@ $("#upload-program").click(async function() {
     $("#upload-program").addClass("loading");
 
     let code;
+    extra_files = [];
     if (useMode === "block") {
-        extra_files = [];
         code = Blockly.Python.workspaceToCode(blocklyWorkspace);
     } else if (useMode === "code") {
         code = editor.getValue();

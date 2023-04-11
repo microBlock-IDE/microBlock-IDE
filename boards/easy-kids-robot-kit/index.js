@@ -27,7 +27,7 @@ addBoard({
 
         "blocks/generators_display.js",
         "blocks/generators_motor.js",
-        "../kidbright32/blocks/generators_servo.js",
+        "blocks/generators_servo.js",
         "../kidbright32/blocks/generators_switch.js",
         "blocks/generators_sensor.js",
         "../kidbright32/blocks/generators_buzzer.js",
@@ -48,8 +48,8 @@ addBoard({
     ],
     usb: [
         {
-            vendorId: "2E8A",
-            productId: "0005"
+            vendorId: "1A86",
+            productId: "55D4"
         }
     ],
     autoCompletion: { },
