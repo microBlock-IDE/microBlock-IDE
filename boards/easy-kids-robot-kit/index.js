@@ -30,7 +30,7 @@ addBoard({
         "blocks/generators_servo.js",
         "../kidbright32/blocks/generators_switch.js",
         "blocks/generators_sensor.js",
-        "../kidbright32/blocks/generators_buzzer.js",
+        "blocks/generators_buzzer.js",
         "blocks/generators_pin.js",
         "blocks/generators_rgbled.js",
         "../kidbright32/blocks/generators_avanced.js",
