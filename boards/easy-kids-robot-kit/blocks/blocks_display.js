@@ -1,45 +1,73 @@
 Blockly.defineBlocksWithJsonArray([
-{
-  "type": "display_draw_text",
-  "message0": "Display draw text %1 x: %2 y: %3 color: %4 size: %5",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "text",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "x",
-      "check": "Number",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "y",
-      "check": "Number",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "color",
-      "check": "Colour",
-      "align": "RIGHT"
-    },
-    {
-      "type": "input_value",
-      "name": "size",
-      "check": "Number",
-      "align": "RIGHT"
-    },
-  ],
-  "inputsInline": false,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#2980B9",
-  "tooltip": "Draw text on screen",
-  "helpUrl": ""
-},
+  {
+    "type": "display_draw_text",
+    "message0": "Display draw text %1 x: %2 y: %3 colour: %4 font: %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "text",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "x",
+        "check": "Number",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "y",
+        "check": "Number",
+        "align": "RIGHT"
+      },
+      {
+        "type": "input_value",
+        "name": "color",
+        "check": "Colour",
+        "align": "RIGHT"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "font",
+        "options": [
+          [
+            "Supermarket 20",
+            "FONT_SUPERMARKET_20"
+          ],
+          [
+            "Supermarket 40",
+            "FONT_SUPERMARKET_40"
+          ],
+          [
+            "Supermarket 60",
+            "FONT_SUPERMARKET_60"
+          ],
+          [
+            "Supermarket 120",
+            "FONT_SUPERMARKET_120"
+          ],
+          [
+            "TH Sarabun New 20",
+            "FONT_TH_SARABUN_NEW_20"
+          ],
+          [
+            "TH Sarabun New 40",
+            "FONT_TH_SARABUN_NEW_40"
+          ],
+          [
+            "TH Sarabun New 60",
+            "FONT_TH_SARABUN_NEW_60"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2980B9",
+    "tooltip": "Draw text on screen",
+    "helpUrl": ""
+  },
 {
   "type": "display_draw_line",
   "message0": "Display draw line %1 start x: %2 start y: %3 x end: %4 y end: %5 color: %6",

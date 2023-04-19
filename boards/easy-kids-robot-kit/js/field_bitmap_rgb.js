@@ -306,18 +306,18 @@ CustomFields.FieldBitmapRGB.prototype.updateImagePreview_ = function() {
     let ratio = 1;
 
     if (imageWidth > imageHeight) {
-      if(imageWidth > 160) {
-        ratio = 160 / imageWidth;
+      if(imageWidth > 240) {
+        ratio = 240 / imageWidth;
       }
-      if((imageHeight * ratio) > 128) {
-        ratio = 128 / imageHeight;
+      if((imageHeight * ratio) > 240) {
+        ratio = 240 / imageHeight;
       }
     } else {
-      if(imageHeight > 128) {
-        ratio = 128 / imageHeight;
+      if(imageHeight > 240) {
+        ratio = 240 / imageHeight;
       }
-      if ((imageWidth * ratio) > 160) {
-        ratio = 160 / imageWidth;
+      if ((imageWidth * ratio) > 240) {
+        ratio = 240 / imageWidth;
       }
     }
 
@@ -421,8 +421,8 @@ CustomFields.FieldBitmapRGB.prototype.createView_ = function() {
   }, this.fieldGroup_);
    
   this.preview_ = Blockly.utils.dom.createSvgElement('image', {
-     'width': '160',
-     'height': '128'
+     'width': '240',
+     'height': '240'
   }, this.movableGroup_);
 
   this.preview_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',  '');
