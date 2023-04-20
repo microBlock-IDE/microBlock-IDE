@@ -38,12 +38,12 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for EasyKids Robot Kit v1.19.1-796-gf4811b0b4-dirty",
-            path: "firmware/MicroPython.for.PuppyBot.v1.19.1-796-gf4811b0b4-dirty.uf2",
-            version: "v1.19.1-796-gf4811b0b4-dirty",
-            date: "2023-01-28",
+            name: "MicroPython for EasyKids Robot Kit V1.9.1-1-g441167767-dirty",
+            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-1-g441167767-dirty.bin",
+            version: "V1.9.1-1-g441167767-dirty",
+            date: "2023-04-19",
             board: "EasyKids Robot Kit",
-            cpu: "RP2040"
+            cpu: "ESP32"
         },
     ],
     usb: [
