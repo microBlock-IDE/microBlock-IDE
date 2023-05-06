@@ -15,10 +15,12 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "25" ],
-        [ "D2", "27" ],
-        [ "D3", "28" ],
-        [ "D4", "29" ],
+        [ "D0", "26" ],
+        [ "D1", "13" ],
+        [ "D2", "14" ],
+        [ "D3", "15" ],
+        [ "D4", "27" ],
+        [ "D5", "32" ],
       ]
     }
   ],
@@ -37,10 +39,12 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "25" ],
-        [ "D2", "27" ],
-        [ "D3", "28" ],
-        [ "D4", "29" ],
+        [ "D0", "26" ],
+        [ "D1", "13" ],
+        [ "D2", "14" ],
+        [ "D3", "15" ],
+        [ "D4", "27" ],
+        [ "D5", "32" ],
       ]
     }
   ],
@@ -91,10 +95,12 @@ Blockly.defineBlocksWithJsonArray([
       "type": "field_dropdown",
       "name": "pin",
       "options": [
-        [ "D1", "25" ],
-        [ "D2", "27" ],
-        [ "D3", "28" ],
-        [ "D4", "29" ],
+        [ "D0", "26" ],
+        [ "D1", "13" ],
+        [ "D2", "14" ],
+        [ "D3", "15" ],
+        [ "D4", "27" ],
+        [ "D5", "32" ],
       ]
     }
   ],

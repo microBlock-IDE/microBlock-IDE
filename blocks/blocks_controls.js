@@ -171,3 +171,37 @@ Blockly.defineBlocksWithJsonArray([
   ]
 },
 ]);
+
+Blockly.Blocks['controls_on_start'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("on start");
+    this.appendStatementInput("block")
+      .setCheck(null);
+    this.setColour("#D4AC0D");
+    this.setTooltip("");
+    this.setHelpUrl("");
+
+    this.setDeletable(false);
+    // this.setMovable(false);
+    this.setEditable(false);
+  }
+};
+
+Blockly.Blocks['controls_forever_no_connect'] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("forever");
+    this.appendStatementInput("block")
+      .setCheck(null);
+    this.setColour("#D4AC0D");
+    this.setTooltip("");
+    this.setHelpUrl("");
+
+    this.setDeletable(false);
+    // this.setMovable(false);
+    this.setEditable(false);
+  }
+};
+
+

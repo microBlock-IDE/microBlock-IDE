@@ -124,9 +124,20 @@ let loadBoard = async () => {
     } else {
         switchModeTo(MODE_REAL_DEVICE);
     }
+
+    if (typeof board?.onLoad === "function") {
+        await board.onLoad(blocklyWorkspace, board);
+    }
 }
 
 $("#create-project-btn").click(async () => {
+    {
+        const board = boards.find(board => board.id === (boardId || "kidbright32-v1.3"));
+        if (typeof board?.onDispose === "function") {
+            await board.onDispose(blocklyWorkspace, board);
+        }
+    }
+
     let projectName = $("#project-name-input").val();
     boardId = $("#project-create-dialog #hardware-select ul > li > div.active").attr("data-board-id");
     levelName = $("#project-create-dialog #level-select ul > li > div.active").attr("data-level-name");
@@ -135,16 +146,23 @@ $("#create-project-btn").click(async () => {
 
     blocklyWorkspace.clear();
     if (editor) editor.setValue("");
+
+    {
+        const board = boards.find(board => board.id === (boardId || "kidbright32-v1.3"));
+        if (board?.defaultCode) {
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(board.defaultCode), blocklyWorkspace);
+        }
+    }
+
     // vFSTree = "";
     // vFSTree = { };
     if (useMode === "block") {
-        fs.write("/main.xml", "");
-        updataWorkspaceAndCategoryFromvFS();
+        // fs.write("/main.xml", "");
+        updataWorkspaceAndCategoryFromvFS(true);
         blocklyWorkspace.setScale(1);
         blocklyWorkspace.scrollCenter();
-
     } else if (useMode === "code") {
-        fs.write("/main.py", "");
+        // fs.write("/main.py", "");
     }
 
     $("#project-name").val(projectName);
@@ -152,4 +170,6 @@ $("#create-project-btn").click(async () => {
     $("#project-create-dialog").hide();
     NotifyS("New project " + projectName);
     statusLog("New project " + projectName);
+
+    saveCodeToLocal();
 });

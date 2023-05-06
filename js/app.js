@@ -250,7 +250,7 @@ if (isElectron) {
 }
 
 /* Auto Save to localStorage */
-let updataWorkspaceAndCategoryFromvFS = async () => {
+let updataWorkspaceAndCategoryFromvFS = async (disable_load_fs) => {
     if (!vFSTree) {
         vFSTree = { };
     }
@@ -298,6 +298,10 @@ let updataWorkspaceAndCategoryFromvFS = async () => {
 
     updateBlockCategory();
     
+    if (disable_load_fs) {
+        return;
+    }
+
     let oldCode = fs.read("/main.xml");
     if (typeof oldCode === "string") {
         blocklyWorkspace.clear();

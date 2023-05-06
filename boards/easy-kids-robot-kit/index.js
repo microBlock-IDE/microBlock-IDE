@@ -53,6 +53,18 @@ addBoard({
         }
     ],
     autoCompletion: { },
+    defaultCode: `
+        <xml>
+            <block type="controls_on_start" x="-388" y="-63"></block>
+            <block type="controls_forever_no_connect" x="-238" y="-63"></block>
+        </xml>
+    `,
+    onLoad: async (workspace, board) => {
+        workspace.addChangeListener(Blockly.Events.disableOrphans);
+    },
+    onDispose: async (workspace, board) => {
+        workspace.removeChangeListener(Blockly.Events.disableOrphans);
+    },
     level: [
         {
             name: "Beginner",
