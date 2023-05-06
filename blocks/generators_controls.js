@@ -20,28 +20,13 @@ Blockly.Python['controls_forever'] = function(block) {
 
 Blockly.Python['controls_on_start'] = function(block) {
   var statements_block = Blockly.Python.statementToCode(block, 'block');
-  var functionName = Blockly.Python.provideFunction_(
-    'setup',
-    [
-      'def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
-      statements_block || "  pass"
-    ]
-  );
-
-  var code = ``;
+  const line = statements_block.split(/\r\n|\r|\n/);
+  const code = line.map(a => a.substring(2)).join("\n") + "\n";
   return code;
 };
 
 Blockly.Python['controls_forever_no_connect'] = function(block) {
   var statements_block = Blockly.Python.statementToCode(block, 'block');
-  var functionName = Blockly.Python.provideFunction_(
-    'loop',
-    [
-      'def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
-      statements_block || "  pass"
-    ]
-  );
-
-  var code = `setup()\nwhile True:\n  loop()\n`;
+  var code = `while True:\n${statements_block || "  pass"}\n`;
   return code;
 };

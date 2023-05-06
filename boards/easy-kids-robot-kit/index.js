@@ -1,3 +1,29 @@
+Blockly.Events.disableOrphansCustom = function (event) {
+    if (event.type == Blockly.Events.MOVE ||
+        event.type == Blockly.Events.CREATE) {
+        if (!event.workspaceId) {
+            return;
+        }
+        var workspace = Blockly.Workspace.getById(event.workspaceId);
+        var block = workspace.getBlockById(event.blockId);
+        if (block) {
+            var parent = block.getParent();
+            if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
+                var children = block.getDescendants(false);
+                for (var i = 0, child; (child = children[i]); i++) {
+                    child.setEnabled(true);
+                }
+            } else if ((block.outputConnection || block.previousConnection) &&
+                !workspace.isDragging()) {
+                do {
+                    block.setEnabled(false);
+                    block = block.getNextBlock();
+                } while (block);
+            }
+        }
+    }
+};  
+
 addBoard({
     id: "easy-kids-robot-kit",
     name: "EasyKids Robot Kit",
@@ -55,15 +81,18 @@ addBoard({
     autoCompletion: { },
     defaultCode: `
         <xml>
-            <block type="controls_on_start" x="-388" y="-63"></block>
-            <block type="controls_forever_no_connect" x="-238" y="-63"></block>
+            <block type="controls_on_start" x="0" y="0">
+                <next>
+                    <block type="controls_forever_no_connect"></block>
+                </next>
+            </block>
         </xml>
     `,
     onLoad: async (workspace, board) => {
-        workspace.addChangeListener(Blockly.Events.disableOrphans);
+        workspace.addChangeListener(Blockly.Events.disableOrphansCustom);
     },
     onDispose: async (workspace, board) => {
-        workspace.removeChangeListener(Blockly.Events.disableOrphans);
+        workspace.removeChangeListener(Blockly.Events.disableOrphansCustom);
     },
     level: [
         {
