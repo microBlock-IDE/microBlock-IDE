@@ -272,6 +272,12 @@ CustomFields.FieldBitmapRGB.prototype.showEditor_ = function() {
     input.click();
   }.bind(this));
 
+  if (this.fileChoose_ && this.fileChoose_.length > 0) {
+    for (let e of this.editor_.querySelectorAll(".control > div")) {
+      e.style.display = "block";
+    }
+  }
+
   this.editor_.querySelector(".size-inp").addEventListener("input", function(e) {
     this.editor_.querySelector(".size-value").innerText = `${e.target.value}%`;
 
@@ -393,6 +399,7 @@ CustomFields.FieldBitmapRGB.prototype.toXml = function(fieldElement) {
   // 'value'. The textContent doesn't need to contain anything, but saving
   // something to it does aid in readability.
   fieldElement.textContent = this.value_;
+  fieldElement.setAttribute("file", this.fileChoose_ || "");
 
   // Always return the element!
   return fieldElement;
@@ -404,6 +411,7 @@ CustomFields.FieldBitmapRGB.prototype.fromXml = function(fieldElement) {
   // Because we had to do custom serialization for this field, we also need
   // to do custom de-serialization.
 
+  this.fileChoose_ = fieldElement.getAttribute("file") || "";
   var value = fieldElement.textContent;
   // The end goal is to call this.setValue()
   this.setValue(value);
