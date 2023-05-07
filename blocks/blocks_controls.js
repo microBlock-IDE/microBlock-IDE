@@ -178,7 +178,7 @@ Blockly.Blocks['controls_on_start'] = {
       .appendField("on start");
     this.appendStatementInput("block")
       .setCheck(null);
-    this.setNextStatement(true, null);
+    this.setNextStatement(true, [ "controls_on_start", "controls_forever_no_connect" ]);
     this.setColour("#D4AC0D");
     this.setTooltip("");
     this.setHelpUrl("");
@@ -195,7 +195,7 @@ Blockly.Blocks['controls_forever_no_connect'] = {
       .appendField("forever");
     this.appendStatementInput("block")
       .setCheck(null);
-    this.setPreviousStatement(true, [ "controls_on_start" ]);
+    this.setPreviousStatement(true, [ "controls_on_start", "controls_forever_no_connect" ]);
     this.setColour("#D4AC0D");
     this.setTooltip("");
     this.setHelpUrl("");

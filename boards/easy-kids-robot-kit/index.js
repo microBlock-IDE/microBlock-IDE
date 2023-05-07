@@ -8,7 +8,9 @@ Blockly.Events.disableOrphansCustom = function (event) {
         var block = workspace.getBlockById(event.blockId);
         if (block) {
             var parent = block.getParent();
-            if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
+            if (parent?.type === "controls_on_start") {
+                block.setParent(null); 
+            } else if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
                 var children = block.getDescendants(false);
                 for (var i = 0, child; (child = children[i]); i++) {
                     child.setEnabled(true);
@@ -64,13 +66,21 @@ addBoard({
     modules: [ ],
     firmware: [
         {
+            name: "MicroPython for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
+            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-5-g79adb87da-dirty.bin",
+            version: "V1.9.1-5-g79adb87da-dirty",
+            date: "2023-05-07",
+            board: "EasyKids Robot Kit",
+            cpu: "ESP32"
+        },
+        /* {
             name: "MicroPython for EasyKids Robot Kit V1.9.1-1-g441167767-dirty",
             path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-1-g441167767-dirty.bin",
             version: "V1.9.1-1-g441167767-dirty",
             date: "2023-04-19",
             board: "EasyKids Robot Kit",
             cpu: "ESP32"
-        },
+        }, */
     ],
     usb: [
         {
