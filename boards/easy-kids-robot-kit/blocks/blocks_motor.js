@@ -108,10 +108,12 @@ Blockly.defineBlocksWithJsonArray([
             "type": "field_dropdown",
             "name": "move",
             "options": [
-                ["move forward", "1"],
-                ["move backward", "2"],
-                ["turn left", "3"],
-                ["turn right", "4"]
+                ["move forward", "motor.FORWARD"],
+                ["move backward", "motor.BACKWARD"],
+                ["turn left", "motor.TURN_LEFT"],
+                ["turn right", "motor.TURN_RIGHT"],
+                ["spin left", "motor.SPIN_LEFT"],
+                ["spin right", "motor.SPIN_RIGHT"]
             ]
         }, {
             "type": "input_value",
