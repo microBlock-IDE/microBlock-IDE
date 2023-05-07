@@ -8,9 +8,7 @@ Blockly.Events.disableOrphansCustom = function (event) {
         var block = workspace.getBlockById(event.blockId);
         if (block) {
             var parent = block.getParent();
-            if (parent?.type === "controls_on_start") {
-                block.setParent(null); 
-            } else if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
+            if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
                 var children = block.getDescendants(false);
                 for (var i = 0, child; (child = children[i]); i++) {
                     child.setEnabled(true);

@@ -95,7 +95,7 @@ let updateBlockCategory = async () => {
 
     toolboxTextXML += `</xml>`;
 
-    let toolboxXML = Blockly.Xml.textToDom(toolboxTextXML);
+    let toolboxXML = Blockly.utils.xml.textToDom(toolboxTextXML);
 
     blocklyWorkspace.updateToolbox(toolboxXML);
     /* blocklyWorkspace.scrollbar.resize(); */
@@ -201,33 +201,33 @@ window.addEventListener('resize', Blockly.triggleResize, false);
 Blockly.triggleResize();
 
 /** Override Blockly.alert() with custom implementation. */
-Blockly.alert = function(message, callback) {
+Blockly.dialog.setAlert((message, callback) => {
     Notiflix.Report.Info("Alert", message, "OK", callback);
-};
+});
 
 /** Override Blockly.confirm() with custom implementation. */
-Blockly.confirm = function(message, callback) {
+Blockly.dialog.setConfirm((message, callback) => {
     Notiflix.Confirm.Show('Are you Confirm ?', message, 'Yes', 'No', function() {
         callback(true);
     },
     function() {
         callback(false);
     });
-};
+});
 
 Notiflix.Confirm.Init({
     plainText: false
 });
 
 /** Override Blockly.prompt() with custom implementation. */
-Blockly.prompt = function(message, defaultValue, callback) {
+Blockly.dialog.setPrompt((message, defaultValue, callback) => {
     Notiflix.Confirm.Show("Prompt", `${message}<br><br><input type="text" id="prompt-input" value="${defaultValue}">`, 'OK', 'Cancle', function() {
         callback($("#prompt-input").val());
     },
     function() {
         callback(null);
     });
-};
+});
 
 const selectRenderer = renderer => {
     localStorage.setItem("renderer", renderer);
@@ -306,7 +306,7 @@ let updataWorkspaceAndCategoryFromvFS = async (disable_load_fs) => {
     if (typeof oldCode === "string") {
         blocklyWorkspace.clear();
         try {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(oldCode), blocklyWorkspace);
+            Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(oldCode), blocklyWorkspace);
         } catch (e) {
             console.log(e);
         }

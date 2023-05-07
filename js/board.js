@@ -150,7 +150,7 @@ $("#create-project-btn").click(async () => {
     {
         const board = boards.find(board => board.id === (boardId || "kidbright32-v1.3"));
         if (board?.defaultCode) {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(board.defaultCode), blocklyWorkspace);
+            Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(board.defaultCode), blocklyWorkspace);
         }
     }
 

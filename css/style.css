@@ -192,6 +192,7 @@ ul.switch-mode > li:last-child {
     width: 100%;
 }
 
+/*
 #blocks-editor {
     display: flex;
 }
@@ -244,6 +245,33 @@ ul.switch-mode > li:last-child {
 
 #blocks-editor > .block-category > ul > li > .icon > img {
     width: 60%;
+}*/
+
+.blocklyTreeRowContentContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.blocklyTreeRowContentContainer > .blocklyTreeIcon {
+    width: 100%;
+    height: auto;
+    background: none !important;
+    text-align: center;
+    visibility: visible;
+    padding: 6px;
+    padding-top: 10px;
+}
+
+.blocklyTreeRowContentContainer > .blocklyTreeIcon > img {
+    width: 60%;
+}
+
+.blocklyTreeRowContentContainer > .blocklyTreeLabel {
+    text-align: center;
+    font-size: 14px;
+    padding: 6px;
+    padding-bottom: 10px;
+    padding-top: 0;
 }
 
 #blocks-editor > .work-box {

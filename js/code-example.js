@@ -87,7 +87,7 @@ const openExampleDialog = () => {
 
         blocklyWorkspaceExampleCode.clear();
         try {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xmlCode), blocklyWorkspaceExampleCode);
+            Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlCode), blocklyWorkspaceExampleCode);
         } catch (e) {
             console.log(e);
         }
@@ -114,7 +114,7 @@ const addExampleCodeToMain = async () => {
     const local_vFSTree = JSON.parse(rawFileData);
     const xmlCode = local_vFSTree["main.xml"];
 
-    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xmlCode), blocklyWorkspace);
+    Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xmlCode), blocklyWorkspace);
     $("#code-example-dialog .close-dialog").click();
 };
 

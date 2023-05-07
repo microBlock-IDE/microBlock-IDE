@@ -1,6 +1,6 @@
 
 let pythonCodeToBlock = (code) => {
-    return Blockly.Xml.textToDom(`
+    return Blockly.utils.xml.textToDom(`
     <xml>
         <block type="text_code">
             <field name="code">${code}</field>
