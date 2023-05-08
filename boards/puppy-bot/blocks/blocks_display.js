@@ -222,7 +222,7 @@ Blockly.defineBlocksWithJsonArray([
       "type": "input_dummy"
     },
     {
-      "type": "field_bitmap_rgb",
+      "type": "field_bitmap_rgb2",
       "name": "image",
       "colour": "#ff0000"
     },

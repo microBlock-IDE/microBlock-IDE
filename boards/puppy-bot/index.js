@@ -9,11 +9,11 @@ addBoard({
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",
-        "js/field_bitmap_rgb.js",
+        "js/field_bitmap_rgb2.js",
     ],
     css: [
         "../kidbright32/css/field_note.css",
-        "css/field_bitmap_rgb.css",
+        "css/field_bitmap_rgb2.css",
     ],
     blocks: [
         "blocks/blocks_display.js",
