@@ -1,107 +1,60 @@
-Blockly.Events.disableOrphansCustom = function (event) {
-    if (event.type == Blockly.Events.MOVE ||
-        event.type == Blockly.Events.CREATE) {
-        if (!event.workspaceId) {
-            return;
-        }
-        var workspace = Blockly.Workspace.getById(event.workspaceId);
-        var block = workspace.getBlockById(event.blockId);
-        if (block) {
-            var parent = block.getParent();
-            if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
-                var children = block.getDescendants(false);
-                for (var i = 0, child; (child = children[i]); i++) {
-                    child.setEnabled(true);
-                }
-            } else if ((block.outputConnection || block.previousConnection) &&
-                !workspace.isDragging()) {
-                do {
-                    block.setEnabled(false);
-                    block = block.getNextBlock();
-                } while (block);
-            }
-        }
-    }
-};  
-
 addBoard({
-    id: "easy-kids-robot-kit",
-    name: "3in1 EASYKIDS BOARD",
+    id: "rapbit32xa",
+    name: "Rapbit32XA",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",
-        "js/field_bitmap_rgb.js",
+        "../ipst-wifi/js/field_bitmap.js",
     ],
     css: [
         "../kidbright32/css/field_note.css",
-        "css/field_bitmap_rgb.css",
+        "../ipst-wifi/css/field_bitmap.css",
     ],
     blocks: [
-        "blocks/blocks_display.js",
         "blocks/blocks_motor.js",
-        "blocks/blocks_servo.js",
-        "blocks/blocks_switch.js",
+        "../ipst-wifi/blocks/blocks_display.js",
         "blocks/blocks_sensor.js",
-        "../kidbright32/blocks/blocks_buzzer.js",
+        "../ipst-wifi/blocks/blocks_switch.js",
+        "blocks/blocks_ir.js",
         "blocks/blocks_pin.js",
+        "../kidbright32/blocks/blocks_buzzer.js",
+        "blocks/blocks_servo.js",
         "blocks/blocks_rgbled.js",
-        "blocks/blocks_advanced.js",
-        "blocks/blocks_color.js",
+        "../kidbright32/blocks/blocks_advanced.js",
 
-        "blocks/generators_display.js",
         "blocks/generators_motor.js",
-        "blocks/generators_servo.js",
-        "../kidbright32/blocks/generators_switch.js",
         "blocks/generators_sensor.js",
-        "blocks/generators_buzzer.js",
-        "blocks/generators_pin.js",
+        "../ipst-wifi/blocks/generators_display.js",
+        "blocks/generators_sensor.js",
+        "../ipst-wifi/blocks/generators_switch.js",
+        "blocks/generators_ir.js",
+        "../kidbright32/blocks/generators_pin.js",
+        "../kidbright32/blocks/generators_buzzer.js",
+        "../kidbright32/blocks/generators_servo.js",
         "blocks/generators_rgbled.js",
         "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
-            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-5-g79adb87da-dirty.bin",
-            version: "V1.9.1-5-g79adb87da-dirty",
-            date: "2023-05-07",
-            board: "EasyKids Robot Kit",
+            name: "MicroPython for Rapbit32 V1.9.0-dirty",
+            path: "firmware/MicroPython.for.Rapbit32.V1.9.0-dirty.bin",
+            version: "V1.9.0-dirty",
+            date: "2021-12-30",
+            board: "Rapbit32(XA)",
             cpu: "ESP32"
         },
-        /* {
-            name: "MicroPython for EasyKids Robot Kit V1.9.1-1-g441167767-dirty",
-            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-1-g441167767-dirty.bin",
-            version: "V1.9.1-1-g441167767-dirty",
-            date: "2023-04-19",
-            board: "EasyKids Robot Kit",
-            cpu: "ESP32"
-        }, */
     ],
     usb: [
         {
-            vendorId: "1A86",
-            productId: "55D4"
+            vendorId: "10C4",
+            productId: "EA60"
         }
     ],
     autoCompletion: { },
-    defaultCode: `
-        <xml>
-            <block type="controls_on_start" x="0" y="0">
-                <next>
-                    <block type="controls_forever_no_connect"></block>
-                </next>
-            </block>
-        </xml>
-    `,
-    onLoad: async (workspace, board) => {
-        workspace.addChangeListener(Blockly.Events.disableOrphansCustom);
-    },
-    onDispose: async (workspace, board) => {
-        workspace.removeChangeListener(Blockly.Events.disableOrphansCustom);
-    },
     level: [
         {
             name: "Beginner",
@@ -109,153 +62,22 @@ addBoard({
             icon: "../kidbright32/images/puzzle.png",
             blocks: [
                 {
-                    name: "Moving",
+                    name: "Wheel",
                     icon: `images/tire.png`,
                     color: "#28B463",
                     blocks: [
-                        {
-                            xml: `
-                                <block type="motor_forward">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_backward">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_turn_left">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_turn_right">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_spin_left">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_spin_right">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_move">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_wheel">
-                                    <value name="speed1">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="speed2">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
+                        "motor_forward",
+                        "motor_backward",
+                        "motor_turn_left",
+                        "motor_turn_right",
+                        "motor_move",
+                        "motor_wheel",
                         "motor_stop",
-                        {
-                            xml: '<label text="Servo"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="external_servo">
-                                    <value name="angle">
-                                        <shadow type="math_number">
-                                            <field name="NUM">90</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
                     ]
                 },
                 {
                     name: "Display",
-                    icon: `../ttgo-t-display/images/display.png`,
+                    icon: `../ipst-wifi/images/display.png`,
                     color: "#e64c3c",
                     blocks: [
                         {
@@ -268,22 +90,12 @@ addBoard({
                                     </value>
                                     <value name="x">
                                         <shadow type="math_number">
-                                            <field name="NUM">60</field>
+                                            <field name="NUM">0</field>
                                         </shadow>
                                     </value>
                                     <value name="y">
                                         <shadow type="math_number">
-                                            <field name="NUM">60</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FFFFFF</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="size">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
+                                            <field name="NUM">0</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -328,11 +140,6 @@ addBoard({
                                             <field name="NUM">60</field>
                                         </shadow>
                                     </value>
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FFFFFF</field>
-                                        </shadow>
-                                    </value>
                                 </block>
                             `
                         },
@@ -359,184 +166,74 @@ addBoard({
                                             <field name="NUM">60</field>
                                         </shadow>
                                     </value>
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FFFFFF</field>
-                                        </shadow>
-                                    </value>
                                 </block>
                             `
                         },
-                        {
-                            xml: `
-                                <block type="display_draw_circle">
-                                    <value name="x">
-                                        <shadow type="math_number">
-                                            <field name="NUM">100</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="y">
-                                        <shadow type="math_number">
-                                            <field name="NUM">100</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="r">
-                                        <shadow type="math_number">
-                                            <field name="NUM">30</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FFFFFF</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="display_fill">
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FFFFFF</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="colour_rgb">
-                                    <value name="RED">
-                                    <shadow type="math_number">
-                                        <field name="NUM">100</field>
-                                    </shadow>
-                                    </value>
-                                    <value name="GREEN">
-                                    <shadow type="math_number">
-                                        <field name="NUM">50</field>
-                                    </shadow>
-                                    </value>
-                                    <value name="BLUE">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        "colour_random",
+                        "display_fill",
+                        "display_clear",
+                        "display_show"
                     ]
                 },
                 {
-                    name: "RGB LED",
-                    icon: `images/rgb.png`,
-                    color: "#e64c3c",
-                    blocks: [
-                        {
-                            xml: '<label text="RGBLED"></label>',
-                        },
-                        "rgbled_setup",
-                        {
-                            xml: `
-                                <block type="rgbled_set_color">
-                                    <value name="n">
-                                        <shadow type="math_number">
-                                            <field name="NUM">0</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FF0000</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="rgbled_fill_color">
-                                    <value name="color">
-                                        <shadow type="colour_picker">
-                                            <field name="COLOUR">#FF0000</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        "rgbled_show",
-                        "rgbled_clear",
-                        {
-                            xml: `
-                                <block type="rgbled_rainbow">
-                                    <value name="wait">
-                                        <shadow type="math_number">
-                                            <field name="NUM">30</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="rgbled_set_brightness">
-                                    <value name="brightness">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="colour_picker">
-                                    <field name="COLOUR">#FF0000</field>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="colour_rgb">
-                                    <value name="RED">
-                                    <shadow type="math_number">
-                                        <field name="NUM">100</field>
-                                    </shadow>
-                                    </value>
-                                    <value name="GREEN">
-                                    <shadow type="math_number">
-                                        <field name="NUM">50</field>
-                                    </shadow>
-                                    </value>
-                                    <value name="BLUE">
-                                    <shadow type="math_number">
-                                        <field name="NUM">0</field>
-                                    </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        "colour_random",
-                    ]
-                },
-                {
-                    name: "I/O",
-                    icon: "/images/icon/led.png",
-                    color: "#e64c3c",
+                    name: "Input",
+                    icon: `../kidbright32/images/filter.png`,
+                    color: "#fbbd5e",
                     blocks: [
                         {
                             xml: '<label text="Sensor"></label>',
                         },
+                        "sensor_light_is_color",
+                        "sensor_light",
                         "ultrasonic_read",
+                        {
+                            xml: `
+                                <block type="sensor_set_threshold">
+                                    <value name="threshold">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2000</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="Switch"></label>',
                         },
-                        "switch_on_pressed",
-                        /*"switch_on_press",
-                        "switch_on_release",*/
+                        "switch_on_press",
+                        "switch_on_release",
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
+                        {
+                            xml: '<label text="Remote Control"></label>',
+                        },
+                        "ir_read",
+                        {
+                            xml: '<label text="External Input"></label>',
+                        },
+                        "pin_digital_read",
+                        "pin_analog_read"
+                    ]
+                },
+                {
+                    name: "Output",
+                    icon: `../kidbright32/images/usb.png`,
+                    color: "#fbbd5e",
+                    blocks: [
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: '<label text="Buzzer"></label>',
                         },
@@ -580,7 +277,94 @@ addBoard({
                             `
                         },
                         {
-                            xml: '<label text="I/O"></label>',
+                            xml: '<label text="RGBLED"></label>',
+                        },
+                        "rgbled_setup",
+                        {
+                            xml: `
+                                <block type="rgbled_set_color1">
+                                    <value name="n">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="rgbled_set_color2">
+                                    <value name="n">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="red">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="green">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="blue">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "rgbled_fill_color1",
+                        {
+                            xml: `
+                                <block type="rgbled_fill_color2">
+                                    <value name="red">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="green">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="blue">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "rgbled_show",
+                        "rgbled_clear",
+                        {
+                            xml: `
+                                <block type="rgbled_rainbow">
+                                    <value name="wait">
+                                        <shadow type="math_number">
+                                            <field name="NUM">30</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="rgbled_set_brightness">
+                                    <value name="brightness">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="External Output"></label>',
                         },
                         {
                             xml: `
@@ -588,11 +372,6 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">25</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -604,33 +383,6 @@ addBoard({
                                     <value name="value">
                                         <shadow type="math_number">
                                             <field name="NUM">1023</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">25</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="pin_digital_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">25</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="pin_analog_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">A0</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -958,10 +710,52 @@ addBoard({
                             `
                         },
                         {
-                            xml: '<label text="Sensor"></label>',
+                            xml: '<label text="Internal RTC"></label>',
                         },
-                        "dht_read",
-                        "ds18x20_read",
+                        {
+                            xml: `
+                                <block type="rtc_set_time">
+                                    <value name="hour">
+                                        <shadow type="math_number">
+                                            <field name="NUM">16</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="sec">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="day">
+                                        <shadow type="math_number">
+                                            <field name="NUM">22</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="month">
+                                        <shadow type="math_number">
+                                            <field name="NUM">8</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="year">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2020</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "rtc_get_hour",
+                        "rtc_get_min",
+                        "rtc_get_sec",
+                        "rtc_get_microsecond",
+                        "rtc_get_day",
+                        "rtc_get_month",
+                        "rtc_get_year",
+                        "rtc_sync_ntp",
                         {
                             xml: '<label text="Task"></label>',
                         },
@@ -991,7 +785,7 @@ addBoard({
                                 </block>
                             `
                         },
-                        // "is_woke_from_deep_sleep",
+                        "is_woke_from_deep_sleep",
                         "board_reset"
                     ]
                 }

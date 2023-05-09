@@ -17,7 +17,7 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "LED1",
-          "19"
+          "23"
         ],
         [
           "LED2",

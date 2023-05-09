@@ -1,6 +1,6 @@
 addBoard({
     id: "rapbit32",
-    name: "Rapbit32(XA)",
+    name: "Rapbit32",
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
@@ -40,10 +40,10 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for Rapbit32 V1.9.0-dirty",
-            path: "firmware/MicroPython.for.Rapbit32.V1.9.0-dirty.bin",
-            version: "V1.9.0-dirty",
-            date: "2021-12-30",
+            name: "MicroPython for Rapbit32 V1.9.1-5-g79adb87da-dirty",
+            path: "firmware/MicroPython.for.Rapbit32.V1.9.1-5-g79adb87da-dirty.bin",
+            version: "V1.9.1-5-g79adb87da-dirty",
+            date: "2023-05-09",
             board: "Rapbit32(XA)",
             cpu: "ESP32"
         },
