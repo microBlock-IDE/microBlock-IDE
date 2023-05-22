@@ -40,8 +40,8 @@ class FieldBitmapRGB extends Blockly.Field {
     }, this.fieldGroup_);
      
     this.preview_ = Blockly.utils.dom.createSvgElement('image', {
-       'width': '240',
-       'height': '240'
+       'width': '150',
+       'height': '150'
     }, this.movableGroup_);
   
     this.preview_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',  '');
@@ -235,18 +235,18 @@ class FieldBitmapRGB extends Blockly.Field {
       let ratio = 1;
   
       if (imageWidth > imageHeight) {
-        if(imageWidth > 240) {
-          ratio = 240 / imageWidth;
+        if(imageWidth > 150) {
+          ratio = 150 / imageWidth;
         }
-        if((imageHeight * ratio) > 240) {
-          ratio = 240 / imageHeight;
+        if((imageHeight * ratio) > 150) {
+          ratio = 150 / imageHeight;
         }
       } else {
-        if(imageHeight > 240) {
-          ratio = 240 / imageHeight;
+        if(imageHeight > 150) {
+          ratio = 150 / imageHeight;
         }
-        if ((imageWidth * ratio) > 240) {
-          ratio = 240 / imageWidth;
+        if ((imageWidth * ratio) > 150) {
+          ratio = 150 / imageWidth;
         }
       }
   
