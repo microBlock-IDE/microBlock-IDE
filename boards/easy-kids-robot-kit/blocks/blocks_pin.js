@@ -21,6 +21,7 @@ Blockly.defineBlocksWithJsonArray([
         [ "D3", "15" ],
         [ "D4", "27" ],
         [ "D5", "32" ],
+        [ "D6", "33" ],
       ]
     }
   ],
