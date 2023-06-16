@@ -9,11 +9,30 @@ const select_file = file => {
         NotifyS(msg);
         statusLog(msg);
     }
-}
+};
+
+const delete_file = file => {
+    fs.remove(`/${file}`);
+    $("#file-explorer-open-btn").click();
+};
 
 const updateProjectFileSelectEventHandle = () => {
-    $("#project-file-list > li").on("click", function() {
+    $("#project-file-list > li").on("click", function(e) {
+        if ($(e.target).hasClass("fa-trash")) {
+            e.preventDefault();
+            return;
+        }
+
         select_file($(this).attr("data-file"));
+    });
+
+    $("#project-file-list > li .delete-btn").on("click", function(e) {
+        if (!$(e.target).hasClass("fa-trash")) {
+            e.preventDefault();
+            return;
+        }
+
+        delete_file($(this).parents("li").attr("data-file"));
     })
 };
 
@@ -27,7 +46,13 @@ $("#file-explorer-open-btn").on("click", () => {
 
         const file_type = file_name.endsWith(".py") ? "python" : "block";
         const file_icon = file_name.endsWith(".py") ? "fab fa-python" : "fas fa-cube";
-        list_code += `<li class="${file_type + (file_name === file_name_select ? " active" : "")}" data-file="${file_name}"><i class="${file_icon}"></i><span>${file_name.replace(/\.(py|xml)/, "")}</span></li>`
+        list_code += `
+            <li class="${file_type + (file_name === file_name_select ? " active" : "")}" data-file="${file_name}">
+                <i class="${file_icon}"></i>
+                <span>${file_name.replace(/\.(py|xml)/, "")}</span>
+                <button style="display: ${[ "main.py", "main.xml" ].indexOf(file_name) >= 0 ? "none" : "block"}" class="delete-btn"><i class="fas fa-trash"></i></button>
+            </li>
+        `;
     }
     $("#project-file-list").html(list_code);
     updateProjectFileSelectEventHandle();
