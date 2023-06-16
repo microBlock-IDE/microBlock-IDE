@@ -710,6 +710,11 @@ addBoard({
                             `
                         },
                         {
+                            xml: '<label text="Import"></label>',
+                        },
+                        "import",
+                        "call_import",
+                        {
                             xml: '<label text="Internal RTC"></label>',
                         },
                         {

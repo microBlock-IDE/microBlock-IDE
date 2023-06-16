@@ -332,7 +332,7 @@ Blockly.Blocks['call_import'] = {
     if (([ "change" ].indexOf(e?.type) < 0) || e.isUiEvent || e.blockId !== this.id) {
       return;
     }
-    console.log("changeEvent", e, this);
+    // console.log("changeEvent", e, this);
     const function_detail = JSON.parse(this.getFieldValue('object')) || {};
     this._updateInputValue(function_detail);
   },

@@ -424,6 +424,11 @@ addBoard({
                             `
                         },
                         {
+                            xml: '<label text="Import"></label>',
+                        },
+                        "import",
+                        "call_import",
+                        {
                             xml: '<label text="Sensor"></label>',
                         },
                         /* {
