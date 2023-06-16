@@ -36,8 +36,31 @@ const updateProjectFileSelectEventHandle = () => {
     });
 };
 
+const updateExtensionSelectEventHandle = () => {
+    $("#extension-list > li .delete-btn").on("click", function(e) {
+        if (!$(e.target).hasClass("fa-trash")) {
+            e.preventDefault();
+            return;
+        }
+
+        const extension_id = $(this).parents("li").attr("data-extension-id");
+        fs.remove(`/extension/${extension_id}`);
+        if (isElectron) {
+            let path = `${sharedObj.extensionDir}/${extension_id}`;
+            if (nodeFS.existsSync(path)) {
+                nodeFS.rmdirSync(path, { recursive: true });
+            }
+        }
+
+        updateBlockCategory();
+        $("#file-explorer-open-btn").click();
+    });
+}
+
 $("#file-explorer-open-btn").on("click", () => {
     $("#file-explorer-dialog").addClass("active");
+
+    // Project file list
     let list_code = "";
     for (const file_name of fs.ls("/")) {
         if (!file_name.endsWith(".py") && !file_name.endsWith(".xml")) { // Show only .py and .xml
@@ -56,6 +79,26 @@ $("#file-explorer-open-btn").on("click", () => {
     }
     $("#project-file-list").html(list_code);
     updateProjectFileSelectEventHandle();
+
+    // Extension list
+    list_code = "";
+    let extension_installed_list = fs.ls("/extension");
+    if (isElectron) {
+        extension_installed_list = extension_installed_list.concat(nodeFS.ls(sharedObj.extensionDir));
+    }
+    for (const extension_id of extension_installed_list) {
+        let extension = fs.read(`/extension/${extension_id}/extension.js`);
+        extension = eval(extension);
+        list_code += `
+            <li data-extension-id="${extension_id}">
+                <i class="fas fa-cubes"></i>
+                <span>${extension?.name || "?"}</span>
+                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+            </li>
+        `;
+    }
+    $("#extension-list").html(list_code);
+    updateExtensionSelectEventHandle();
 });
 
 $("#new-file").on("click", () => {
@@ -119,6 +162,36 @@ $("#import-file").on("click", async () => {
             import_file(file_path.split(/[\\\/]/).pop(), data.toString());
         });
     }
+});
+
+$("#import-extension").on("click", async () => {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".zip";
+    input.addEventListener("change", async function () {
+        // console.log(this.files);
+        const file_name = this.files[0];
+        const zipReader = new zip.ZipReader(new zip.BlobReader(file_name));
+        const entries = await zipReader.getEntries("cp437");
+        for (const item of entries) {
+            if (item.directory) { // Skip
+                continue;
+            }
+
+            const file_path = item.filename;
+            if (file_path.endsWith(".js")) {
+                const data = await item.getData(new zip.TextWriter());
+                fs.write(`/extension/${file_path}`, data);
+            } else if (file_path.endsWith(".png") || file_path.endsWith(".jpg")) {
+                const data = await item.getData(new zip.Data64URIWriter(file_path.endsWith(".png") ? "image/png" : "image/jpeg"));
+                fs.write(`/extension/${file_path}`, data);
+            }
+        }
+
+        updataWorkspaceAndCategoryFromvFS(true); // disable load fs
+        $("#file-explorer-open-btn").click();
+    }, false);
+    input.click();
 });
 
 $("#file-explorer-dialog").click(e => {

@@ -89,6 +89,7 @@
 
         <!-- zlib -->
         <script src="js/pako.min.js"></script>
+        <script src="js/zip.min.js"></script>
 
         <!-- MD5 -->
         <script src="js/md5.min.js"></script>
@@ -580,6 +581,18 @@
                     </div>
                 </header>
                 <ul id="project-file-list">
+                    <li class="python" data-file="main.py"><i class="fab fa-python"></i><span>main.py</span></li>
+                    <li class="active" data-file="pid.py"><i class="fas fa-cube"></i><span>pid.py</span></li>
+                </ul>
+                <header>
+                    <div class="subject">Extension</div>
+                    <div>
+                        <button data-tippy-content="Import" id="import-extension">
+                            <i class="fas fa-file-import"></i>
+                        </button>
+                    </div>
+                </header>
+                <ul id="extension-list">
                     <li class="python" data-file="main.py"><i class="fab fa-python"></i><span>main.py</span></li>
                     <li class="active" data-file="pid.py"><i class="fas fa-cube"></i><span>pid.py</span></li>
                 </ul>
