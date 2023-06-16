@@ -33,7 +33,7 @@ const updateProjectFileSelectEventHandle = () => {
         }
 
         delete_file($(this).parents("li").attr("data-file"));
-    })
+    });
 };
 
 $("#file-explorer-open-btn").on("click", () => {
@@ -119,4 +119,12 @@ $("#import-file").on("click", async () => {
             import_file(file_path.split(/[\\\/]/).pop(), data.toString());
         });
     }
+});
+
+$("#file-explorer-dialog").click(e => {
+    if (e.target.id !== "file-explorer-dialog") {
+        return;
+    }
+
+    $("#file-explorer-dialog").removeClass("active");
 });
