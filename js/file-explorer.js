@@ -3,7 +3,7 @@ const select_file = file => {
         file_name_select = file;
         updateWorkspace();
     }
-    $("#file-explorer-dialog").css("display", "none");
+    $("#file-explorer-dialog").removeClass("active");
     { // Notify
         const msg = "Switch to file " + file.replace(/\.(py|xml)/, "");
         NotifyS(msg);
@@ -18,7 +18,7 @@ const updateProjectFileSelectEventHandle = () => {
 };
 
 $("#file-explorer-open-btn").on("click", () => {
-    $("#file-explorer-dialog").css("display", "block");
+    $("#file-explorer-dialog").addClass("active");
     let list_code = "";
     for (const file_name of fs.ls("/")) {
         if (!file_name.endsWith(".py") && !file_name.endsWith(".xml")) { // Show only .py and .xml
@@ -45,4 +45,53 @@ $("#new-file").on("click", () => {
         fs.write(`/${file_name}.xml`, "");
         select_file(file_name + ".xml");
     });
+});
+
+const import_file = (file_name, file_data) => {
+    console.log(file_name, file_data);
+    fs.write(`/${file_name}`, file_data);
+    $("#file-explorer-open-btn").click();
+};
+
+$("#import-file").on("click", async () => {
+    if (!isElectron) {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".py";
+        input.addEventListener("change", function() {
+            // console.log(this.files);
+            const file_name = this.files[0];
+            const fr = new FileReader();
+            fr.onload = async () => {
+                import_file(file_name, fr.result);
+            };
+            fr.readAsText(this.files[0]);
+        }, false); 
+        input.click();
+    } else {
+        let result = await dialog.showOpenDialogSync({
+            properties: [
+                'openFile'
+            ],
+            filters: [{
+                name: 'Python',
+                extensions: ['py']
+            }]
+        });
+
+        if (result == undefined) {
+            return;
+        }
+
+        const file_path = result[0];
+
+        nodeFS.readFile(file_path, async (err, data) => {
+            if (err) {
+                NotifyE("Import fail: " + err.toString());
+                return;
+            }
+
+            import_file(file_path.split(/[\\\/]/).pop(), data.toString());
+        });
+    }
 });

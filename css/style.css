@@ -1956,13 +1956,21 @@ ul.switch-mode > li:last-child {
 
 #file-explorer-dialog {
     position: absolute;
-    background: rgba(0, 0, 0, 0.19);
-    width: 100%;
-    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    width: 0;
+    height: 0;
     top: 0;
     left: 0;
     z-index: 999;
-    display: none;
+    transition: background-color 300mS ease-in;
+    opacity: 0;
+}
+
+#file-explorer-dialog.active {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.19);
 }
 
 #file-explorer-dialog > article {
@@ -1972,6 +1980,12 @@ ul.switch-mode > li:last-child {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     font-size: 14px;
     color: #2C3E50;
+    transform: translateX(-100%);
+    transition: transform 300mS ease-in;
+}
+
+#file-explorer-dialog.active > article {
+    transform: translateX(0);
 }
 
 #file-explorer-dialog > article button {
