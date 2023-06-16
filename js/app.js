@@ -249,8 +249,38 @@ if (isElectron) {
     nodeFS.ls = (dir) => nodeFS.readdirSync(dir).filter(f => nodeFS.statSync(path.join(dir, f)).isDirectory());
 }
 
+file_name_select = "main.xml";
+
+const updateWorkspace = () => {
+    if (file_name_select.endsWith(".xml")) { // Update block
+        const code = fs.read(`/${file_name_select}`);
+        blocklyWorkspace.clear();
+        $("#mode-select-switch > li[data-value='1']").click();
+        if (code) {
+            try {
+                Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(code), blocklyWorkspace);
+            } catch (e) {
+                console.log(e);
+            }
+            blocklyWorkspace.scrollCenter();
+        }
+    }
+
+    if (file_name_select.endsWith(".py")) {  // Update code
+        const code = fs.read(`/${file_name_select}`);
+        $("#mode-select-switch > li[data-value='2']").click();
+        $(async () => {
+            while(!editor) {
+                await sleep(100);
+            }
+            editor.updateOptions({ readOnly: false });
+        });
+        editor.setValue(code || "");
+    }
+}
+
 /* Auto Save to localStorage */
-let updataWorkspaceAndCategoryFromvFS = async (disable_load_fs) => {
+const updataWorkspaceAndCategoryFromvFS = async (disable_load_fs) => {
     if (!vFSTree) {
         vFSTree = { };
     }
@@ -302,16 +332,7 @@ let updataWorkspaceAndCategoryFromvFS = async (disable_load_fs) => {
         return;
     }
 
-    let oldCode = fs.read("/main.xml");
-    if (typeof oldCode === "string") {
-        blocklyWorkspace.clear();
-        try {
-            Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(oldCode), blocklyWorkspace);
-        } catch (e) {
-            console.log(e);
-        }
-        blocklyWorkspace.scrollCenter();
-    }
+    updateWorkspace();
 }
 
 let hotUpdate = async () => {
@@ -322,15 +343,23 @@ let hotUpdate = async () => {
     if (configFileContent) {
         let projectConfig = JSON.parse(configFileContent);
         if (projectConfig) {
-            useMode = projectConfig?.mode || "block";
+            // useMode = projectConfig?.mode || "block";
             boardId = projectConfig?.board || null;
             levelName = projectConfig?.level || null;
         }
     }
 
-    if (!useMode) {
+    const file_list = fs.ls("/");
+    if (file_list.indexOf("main.py") >= 0) {
+        useMode = "code";
+        file_name_select = "main.py";
+    } else if (file_list.indexOf("main.xml") >= 0) {
+        useMode = "block";
+        file_name_select = "main.xml";
+    } else {
         useMode = "block";
     }
+
     if ((!boardId) || (!levelName)) {
         boardId = boards[0].id;
         levelName = boards[0].level[0].name;
@@ -345,10 +374,7 @@ let hotUpdate = async () => {
             while(!editor) {
                 await sleep(100);
             }
-            let code = fs.read("main.py");
-            if (code) {
-                editor.setValue(code);
-            }
+            updateWorkspace();
             editor.updateOptions({ readOnly: false });
         });
     }
@@ -424,17 +450,18 @@ if (callHotUpdate) {
 }
 
 let saveCodeToLocal = () => {
-    if (useMode === "block") {
-        fs.remove("/main.py");
+    const file_write_path = `/${file_name_select}`;
+    if (file_write_path.endsWith(".xml")) {
+        // fs.remove("/main.py");
         try {
             var xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(blocklyWorkspace));
-            fs.write("/main.xml", xmlText);
+            fs.write(file_write_path, xmlText);
         } catch (e) {
             console.log(e);
         }
-    } else if (useMode === "code") {
-        fs.remove("/main.xml");
-        fs.write("/main.py", editor.getValue());
+    } else if (file_write_path.endsWith(".py")) {
+        // fs.remove("/main.xml");
+        fs.write(file_write_path, editor.getValue());
     }
     fs.write("/config.json", JSON.stringify({
         mode: useMode,

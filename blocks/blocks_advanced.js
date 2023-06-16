@@ -292,5 +292,144 @@ Blockly.defineBlocksWithJsonArray([
   "colour": "#8E44AD",
   "tooltip": "",
   "helpUrl": ""
-}
+},
 ]);
+
+Blockly.Blocks['import'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField('import')
+      .appendField(new Blockly.FieldDropdown(this.generateOptions), 'file_name');
+    this.setColour("#8E44AD");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+  generateOptions: function() {
+    const option = fs.ls("/").filter(a => a !== file_name_select && (a.endsWith(".py") || a.endsWith(".xml")) && a !== "main.py" && a !== "main.xml").map(a => ([ a.replace(/\.(py|xml)/, ""), a ]));
+    return (option.length > 0 && option) || [[ "", "" ]];
+  }
+};
+
+Blockly.Blocks['call_import'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField('call')
+      .appendField(new Blockly.FieldDropdown(this.generateOptions), 'object');
+    this.setColour("#8E44AD");
+    this.setTooltip("");
+    this.setHelpUrl("");
+
+    /* this.setOnChange(function(changeEvent) {
+      if (([ "change" ].indexOf(changeEvent?.type) < 0) || changeEvent.isUiEvent) {
+        return;
+      }
+      console.log("changeEvent", changeEvent);
+      const function_detail = JSON.parse(this.getFieldValue('object')) || {};
+      this._updateInputValue(function_detail);
+    });*/
+  },
+  onchange: function(e) {
+    if (([ "change" ].indexOf(e?.type) < 0) || e.isUiEvent || e.blockId !== this.id) {
+      return;
+    }
+    console.log("changeEvent", e, this);
+    const function_detail = JSON.parse(this.getFieldValue('object')) || {};
+    this._updateInputValue(function_detail);
+  },
+  generateOptions: function() {
+    const file_list = fs.ls("/").filter(a => a !== file_name_select && (a.endsWith(".py") || a.endsWith(".xml")) && a !== "main.py" && a !== "main.xml") || [ ];
+    const option = [];
+    console.log(file_list);
+    for (const file_name of file_list) {
+      if (file_name.endsWith(".xml")) {
+        const dom = Blockly.utils.xml.textToDom(fs.read(file_name));
+        for (const block of dom.querySelectorAll("block[type='procedures_defreturn'],block[type='procedures_defnoreturn'],block[type='procedures_callreturn']")) {
+          const function_name = block.querySelector("field[name='NAME']").textContent;
+          const call_function = file_name.replace(/\.(py|xml)/, "") + "." + function_name;
+          const function_detail = JSON.stringify({
+            file: file_name,
+            function: function_name,
+            output: block.getAttribute("type") === "procedures_defreturn",
+            input: [ ...block?.querySelectorAll("mutation > arg")]?.map(a => a.getAttribute("name")) || null
+          });
+          option.push([ call_function, function_detail ]);
+        }
+      } else if (file_name.endsWith(".py")) {
+        const code = fs.read(file_name);
+
+        // Find function name
+        const regex = /^def\s+(.*)\((.*)\)\s*:/gm;
+        let m;
+        while ((m = regex.exec(code)) !== null) {
+          if (m.index === regex.lastIndex) {
+            regex.lastIndex++;
+          }
+
+          const function_name = m[1];
+          const call_function = file_name.replace(/\.(py|xml)/, "") + "." + function_name;
+          const function_detail = JSON.stringify({
+            file: file_name,
+            function: function_name,
+            output: false,
+            input: m[2].split(",").map(a => a.replace(/\=.+/, ""))
+          });
+          option.push([ call_function, function_detail ]);
+        }
+      }
+    }
+    return (option.length > 0 && option) || [[ "", "" ]];
+  },
+
+  _updateInputValue: function(function_detail) {
+    if (function_detail?.output) {
+      this.unplug();
+      this.setPreviousStatement(false);
+      this.setNextStatement(false);
+      this.setOutput(true);
+    } else {
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setOutput(false);
+    }
+    const to_remove = [];
+    for (const input of this.inputList) {
+      if (input.name.length > 0) {
+        to_remove.push(input.name);
+      }
+    }
+    to_remove.forEach(inputName => this.removeInput(inputName));
+    for (const input_name of function_detail?.input) {
+      if (this.inputList.map(a => a.name).indexOf(input_name) >= 0) {
+        continue;
+      }
+      this.appendValueInput(input_name)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField(input_name + ":");
+      console.log("Add", input_name);
+    }
+
+    this.mutationToDom();
+  },
+
+
+  /**
+   * Create XML to represent number of text inputs.
+   * @returns {!Element} XML storage element.
+   * @this {Blockly.Block}
+   */
+  mutationToDom: function() {
+    const container = Blockly.utils.xml.createElement('mutation');
+    container.textContent = this.getFieldValue('object');
+    return container;
+  },
+
+  /**
+   * Parse XML to restore the text inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this {Blockly.Block}
+   */
+  domToMutation: function(xmlElement) {
+    const function_detail = JSON.parse(xmlElement.textContent) || {};
+    this._updateInputValue(function_detail);
+  }
+};

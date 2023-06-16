@@ -5,20 +5,21 @@ let onKeyUpTimer = null;
 $("#mode-select-switch > li").click(async function () {
     let value = $(this).attr("data-value");
     if (value == 1) { // Block mode
-        if (useMode === "code") {
+        if (file_name_select.endsWith(".py")) {
             if (editor.getValue().length > 0) {
                 if (!await NotifyConfirm("Code will convert to block (BETA). Are you confirm swith to block mode ?")) {
                     return;
                 }
                 updataWorkspaceAndCategoryFromvFS();
                 codeFromMonacoToBlock();
+                fs.remove("/" + file_name_select);
+                file_name_select = file_name_select.replace(/\.(py|xml)/, "") + ".xml";
             }
             editor.updateOptions({ readOnly: true });
         }
         $("#blocks-editor").css("display", "flex");
         $("#code-editor").hide();
         Blockly.triggleResize();
-        useMode = "block";
     } else if (value == 2) { // Code mode
         $("#blocks-editor").hide();
         $("#code-editor").css("display", "flex");
@@ -27,7 +28,7 @@ $("#mode-select-switch > li").click(async function () {
         if (!editor) {
             editor = monaco.editor.create($("#code-editor > article")[0], {
                 language: 'python',
-                readOnly: useMode === "code" ? false : true,
+                readOnly: file_name_select.endsWith(".py") ? false : true,
                 automaticLayout: true
             });
 
@@ -54,21 +55,19 @@ $("#mode-select-switch > li").click(async function () {
                     17, // ArrowRight
                     18, // ArrowDown
                 ]
-                if (!evant.ctrlKey && !evant.metaKey && !evant.shiftKey && allowKey.indexOf(evant.keyCode) === -1 && useMode !== "code") {
+                if (!evant.ctrlKey && !evant.metaKey && !evant.shiftKey && allowKey.indexOf(evant.keyCode) === -1 && !file_name_select.endsWith(".py")) {
                     evant.preventDefault();
                     if (isEmbed) { 
                         return;
                     }
+                    fs.remove("/" + file_name_select);
                     if (await NotifyConfirm("If edit code, program in block will lost. Are you want to edit ?")) {
                         editor.updateOptions({ readOnly: false });
-                        useMode = "code";
-                    } else {
-                        editor.updateOptions({ readOnly: true });
-                        useMode = "block";
+                        file_name_select = file_name_select.replace(/\.(py|xml)/, "") + ".py";
                     }
                 }
 
-                if (useMode === "code") {
+                if (file_name_select.endsWith(".py")) {
                     if (onKeyUpTimer) clearTimeout(onKeyUpTimer);
                     onKeyUpTimer = setTimeout(() => {
                         saveCodeToLocal();

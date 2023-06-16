@@ -144,8 +144,13 @@ $("#create-project-btn").click(async () => {
 
     await loadBoard();
 
+    // Delete old file
+    fs.ls("/").filter(a => a.endsWith(".py") || a.endsWith(".xml")).map(a => fs.remove("/" + a));
+
     blocklyWorkspace.clear();
     if (editor) editor.setValue("");
+    
+    file_name_select = "main." + (useMode === "block" ? "xml" : "py");
 
     {
         const board = boards.find(board => board.id === (boardId || "kidbright32-v1.3"));

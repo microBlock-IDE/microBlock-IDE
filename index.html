@@ -143,6 +143,9 @@
             <article class="main">
                 <header>
                     <div class="left">
+                        <button id="file-explorer-open-btn">
+                            <i class="fas fa-bars"></i>
+                        </button>
                         <div class="header-logo animate__animated animate__bounceInLeft">microBlock</div>
                     </div>
                     <div class="center">
@@ -563,6 +566,26 @@
             </category>
         </xml>
 
+        <section id="file-explorer-dialog">
+            <article>
+                <header>
+                    <div class="subject">Project</div>
+                    <div>
+                        <button data-tippy-content="New" id="new-file">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button data-tippy-content="Import">
+                            <i class="fas fa-file-import"></i>
+                        </button>
+                    </div>
+                </header>
+                <ul id="project-file-list">
+                    <li class="python" data-file="main.py"><i class="fab fa-python"></i><span>main.py</span></li>
+                    <li class="active" data-file="pid.py"><i class="fas fa-cube"></i><span>pid.py</span></li>
+                </ul>
+            </article>
+        </section>
+
         <script>var require = { paths: { 'vs': 'monaco-editor/min/vs' } };</script>
         <script src="monaco-editor/min/vs/loader.js"></script>
 	    <script src="monaco-editor/min/vs/editor/editor.main.nls.js"></script>
@@ -606,6 +629,7 @@
         <script src="js/code-example.js"></script>
         <script src="js/dashboard.js"></script>
         <script src="js/board.js"></script>
+        <script src="js/file-explorer.js"></script>
         <script src="boards/index.js"></script>
 
         <script src="js/install.js"></script>

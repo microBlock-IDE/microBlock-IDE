@@ -209,3 +209,26 @@ Blockly.Python['run_in_background'] = function(block) {
     return code;
 };
 
+Blockly.Python['import'] = function(block) {
+    var dropdown_file_name = block.getFieldValue('file_name');
+    Blockly.Python.definitions_['import_' + dropdown_file_name] = 'import ' + dropdown_file_name.replace(/\.(py|xml)/, "");
+    
+    return "";
+};
+
+Blockly.Python['call_import'] = function(block) {
+    const function_detail = JSON.parse(block.getFieldValue('object'));
+    const file_name = function_detail.file;
+
+    Blockly.Python.definitions_['import_' + file_name] = 'import ' + file_name.replace(/\.(py|xml)/, "");
+
+    const variable = [];
+    for (const { name } of this.inputList) {
+        if (name.length > 0) {
+            variable.push(Blockly.Python.valueToCode(block, name, Blockly.Python.ORDER_ATOMIC) || "None");
+        }
+    }
+    
+    return `${file_name.replace(/\.(py|xml)/, "")}.${function_detail.function}(${variable.join(", ")})\n`;
+};
+  

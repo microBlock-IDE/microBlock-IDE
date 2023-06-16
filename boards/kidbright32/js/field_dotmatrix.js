@@ -43,7 +43,7 @@ const collection = [
 
 class FieldDotMatrix extends Blockly.Field {
   constructor(opt_value, opt_validator) {
-    super(opt_value || "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", opt_validator);
+    super(opt_value || "\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00", opt_validator);
 
     this.size_ = new Blockly.utils.Size(0, 0);
     this.SERIALIZABLE = true;
