@@ -339,7 +339,7 @@ Blockly.Blocks['call_import'] = {
   generateOptions: function() {
     const file_list = fs.ls("/").filter(a => a !== file_name_select && (a.endsWith(".py") || a.endsWith(".xml")) && a !== "main.py" && a !== "main.xml") || [ ];
     const option = [];
-    console.log(file_list);
+    // console.log(file_list);
     for (const file_name of file_list) {
       if (file_name.endsWith(".xml")) {
         const dom = Blockly.utils.xml.textToDom(fs.read(file_name));
@@ -405,7 +405,7 @@ Blockly.Blocks['call_import'] = {
       this.appendValueInput(input_name)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(input_name + ":");
-      console.log("Add", input_name);
+      // console.log("Add", input_name);
     }
 
     this.mutationToDom();

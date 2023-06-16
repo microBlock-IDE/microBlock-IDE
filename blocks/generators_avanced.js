@@ -217,7 +217,7 @@ Blockly.Python['import'] = function(block) {
 };
 
 Blockly.Python['call_import'] = function(block) {
-    const function_detail = JSON.parse(block.getFieldValue('object'));
+    const function_detail = JSON.parse(block.getFieldValue('object')) || { };
     const file_name = function_detail.file;
 
     Blockly.Python.definitions_['import_' + file_name] = 'import ' + file_name.replace(/\.(py|xml)/, "");
@@ -229,6 +229,11 @@ Blockly.Python['call_import'] = function(block) {
         }
     }
     
-    return `${file_name.replace(/\.(py|xml)/, "")}.${function_detail.function}(${variable.join(", ")})\n`;
+    const code = `${file_name.replace(/\.(py|xml)/, "")}.${function_detail.function}(${variable.join(", ")})`;
+    if (function_detail.output) {
+        return [code, Blockly.Python.ORDER_NONE];
+    }   
+
+    return code + "\n";
 };
   
