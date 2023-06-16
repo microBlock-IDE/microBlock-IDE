@@ -358,22 +358,58 @@ Blockly.Blocks['call_import'] = {
         const code = fs.read(file_name);
 
         // Find function name
-        const regex = /^def\s+(.*)\((.*)\)\s*:/gm;
-        let m;
-        while ((m = regex.exec(code)) !== null) {
-          if (m.index === regex.lastIndex) {
-            regex.lastIndex++;
-          }
+        let in_function_find_return = false;
+        let focus_function = "";
+        let focus_input = [];
+        let focus_output = false;
+        for (const line of code.split("\n")) { // read line by line
+          if (line.startsWith("def ")) {
+            if (in_function_find_return) {
+              const call_function = file_name.replace(/\.(py|xml)/, "") + "." + focus_function;
+              const function_detail = JSON.stringify({
+                file: file_name,
+                function: focus_function,
+                input: focus_input,
+                output: focus_output,
+              });
+              option.push([ call_function, function_detail ]);
+              in_function_find_return = false;
+            }
 
-          const function_name = m[1];
-          const call_function = file_name.replace(/\.(py|xml)/, "") + "." + function_name;
+            const def_cut = line.match(/^def\s+(.*)\((.*)\)\s*:/);
+            focus_function = def_cut[1];
+            focus_input = def_cut[2].split(",").map(a => a.replace(/\=.+/, "").replace(/^\s+|\s+$/gm, ""));
+            focus_output = false;
+            in_function_find_return = true;
+          } else if ((line.match(/^(\s+)/)?.[0]?.length || 0) > 0) {
+            if (in_function_find_return && line.indexOf("return ") > 0) {
+              focus_output = true;
+            }
+          } else {
+            if (in_function_find_return) {
+              const call_function = file_name.replace(/\.(py|xml)/, "") + "." + focus_function;
+              const function_detail = JSON.stringify({
+                file: file_name,
+                function: focus_function,
+                input: focus_input,
+                output: focus_output,
+              });
+              option.push([ call_function, function_detail ]);
+              in_function_find_return = false;
+            }
+          }
+        }
+
+        if (in_function_find_return) {
+          const call_function = file_name.replace(/\.(py|xml)/, "") + "." + focus_function;
           const function_detail = JSON.stringify({
             file: file_name,
-            function: function_name,
-            output: false,
-            input: m[2].split(",").map(a => a.replace(/\=.+/, ""))
+            function: focus_function,
+            input: focus_input,
+            output: focus_output,
           });
           option.push([ call_function, function_detail ]);
+          in_function_find_return = false;
         }
       }
     }
@@ -403,6 +439,7 @@ Blockly.Blocks['call_import'] = {
         continue;
       }
       this.appendValueInput(input_name)
+        .setCheck(null)
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField(input_name + ":");
       // console.log("Add", input_name);

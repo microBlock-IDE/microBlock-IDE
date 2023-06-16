@@ -218,7 +218,7 @@ Blockly.Python['import'] = function(block) {
 
 Blockly.Python['call_import'] = function(block) {
     const function_detail = JSON.parse(block.getFieldValue('object')) || { };
-    const file_name = function_detail.file;
+    const file_name = function_detail?.file || "";
 
     Blockly.Python.definitions_['import_' + file_name] = 'import ' + file_name.replace(/\.(py|xml)/, "");
 
