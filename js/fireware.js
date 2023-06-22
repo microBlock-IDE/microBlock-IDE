@@ -37,7 +37,7 @@ let firewareUpgradeFlow = async () => {
                             return;
                         }
                     }
-                } else if (platform === "linux") {
+                } else if ((platform === "linux") || (platform === "darwin")) {
                     const drives = await (new Promise((resolve, reject) => {
                         let stdout = "";
 
@@ -59,12 +59,13 @@ let firewareUpgradeFlow = async () => {
                                                 .map(a => a.split(" ").filter(a => a.length !== 0))
                                                 .map(a => ({ 
                                                     filesystem: a[0],
-                                                    blocks: +a[1] * 1024,
-                                                    mounted: a[5],
+                                                    blocks: +a[1] * (os.platform() === "darwin" ? 512 : 1024),
+                                                    mounted: os.platform() === "darwin" ? a[8] : a[5],
                                                 }));
                             resolve(info);
                         });
-                    }))
+                    }));
+                    console.log("Drive", drives);
                     const RP2DriveInfo = drives.find(a => a.blocks === 134066176);
                     if (RP2DriveInfo) {
                         console.log("found", RP2DriveInfo);
@@ -77,8 +78,6 @@ let firewareUpgradeFlow = async () => {
                             return;
                         }
                     }
-                } else if (platform === "darwin") {
-
                 }
 
                 setTimeout(checkRP2DriveAvailable, 100);

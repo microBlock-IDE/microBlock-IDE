@@ -621,8 +621,8 @@ class UploadViaMSC {
         let drives = [];
         if (platform === "win32") {
             drives = await nodeDiskInfo.getDiskInfo();
-        } else if (platform === "linux") {
-            throw `MSC not support in linux !`;
+        } else if (platform === "linux" || platform === "darwin") {
+            throw `MSC not support in linux and darwin !`;
 
             drives = await (new Promise((resolve, reject) => {
                 let stdout = "";
@@ -651,8 +651,6 @@ class UploadViaMSC {
                     resolve(info);
                 });
             }))
-        } else if (platform === "darwin") {
-
         }
         console.log("All drive:", drives);
         
