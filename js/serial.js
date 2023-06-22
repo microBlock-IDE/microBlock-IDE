@@ -616,11 +616,48 @@ class UploadViaMSC {
             };
         }
 
-        const drives = await nodeDiskInfo.getDiskInfo();
-        // console.log("All drive:", drives);
+        const platform = os.platform();
+
+        let drives = [];
+        if (platform === "win32") {
+            drives = await nodeDiskInfo.getDiskInfo();
+        } else if (platform === "linux") {
+            throw `MSC not support in linux !`;
+
+            drives = await (new Promise((resolve, reject) => {
+                let stdout = "";
+
+                const df_h = spawn("df -a", [], {shell: true});
+
+                df_h.stdout.on("data", (data) => {
+                    // console.log("stdout:", data.toString());
+                    stdout = data.toString();
+                });
+                
+                df_h.stderr.on("data", (data) => {
+                    // console.log("stderr:", data.toString());
+                });
+                
+                df_h.on("exit", (code) => {
+                    // console.warn("esptool error code", code);
+                    const info = stdout.split("\n")
+                                        .filter(a => a.startsWith("/dev"))
+                                        .map(a => a.split(" ").filter(a => a.length !== 0))
+                                        .map(a => ({ 
+                                            filesystem: a[0],
+                                            blocks: +a[1] * 1024,
+                                            mounted: a[5],
+                                        }));
+                    resolve(info);
+                });
+            }))
+        } else if (platform === "darwin") {
+
+        }
+        console.log("All drive:", drives);
         
         const board = boards.find(board => board.id === boardId);
-        const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === board.mscSize);
+        const RP2DriveInfo = drives.find(a => a.blocks === board.mscSize);
         if (!RP2DriveInfo) {
             throw `MSC drive not found !`;
         }
@@ -642,6 +679,9 @@ class UploadViaMSC {
     }
 
     async end() {
+        if (os.platform() === "linux") {
+            await sleep(2000);
+        }
         await writeSerialByte(4); // Soft reset
         await sleep(300);
     }

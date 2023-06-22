@@ -23,17 +23,62 @@ let firewareUpgradeFlow = async () => {
             $("#firmware-upgrade-dialog .note-for-rp2").show();
 
             const checkRP2DriveAvailable = async () => {
-                const drives = await nodeDiskInfo.getDiskInfo();
-                const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === 134066176);
-                if (RP2DriveInfo) {
-                    const mount = RP2DriveInfo.mounted;
-                    if (nodeFS.existsSync(path.join(mount, "/INFO_UF2.TXT"))) {
-                        console.log("RP2 Drive info", RP2DriveInfo);
-                        uf2MountPath = mount;
-                        $("#firmware-upgrade-dialog .note-for-rp2").hide();
-                        $("#install-firmware-button").prop("disabled", false);
-                        return;
+                const platform = os.platform();
+                if (platform === "win32") {
+                    const drives = await nodeDiskInfo.getDiskInfo();
+                    const RP2DriveInfo = drives.find(a => a.filesystem === "Removable Disk" && a.blocks === 134066176);
+                    if (RP2DriveInfo) {
+                        const mount = RP2DriveInfo.mounted;
+                        if (nodeFS.existsSync(path.join(mount, "/INFO_UF2.TXT"))) {
+                            console.log("RP2 Drive info", RP2DriveInfo);
+                            uf2MountPath = mount;
+                            $("#firmware-upgrade-dialog .note-for-rp2").hide();
+                            $("#install-firmware-button").prop("disabled", false);
+                            return;
+                        }
                     }
+                } else if (platform === "linux") {
+                    const drives = await (new Promise((resolve, reject) => {
+                        let stdout = "";
+
+                        const df_h = spawn("df -a", [], {shell: true});
+
+                        df_h.stdout.on("data", (data) => {
+                            // console.log("stdout:", data.toString());
+                            stdout = data.toString();
+                        });
+                        
+                        df_h.stderr.on("data", (data) => {
+                            // console.log("stderr:", data.toString());
+                        });
+                        
+                        df_h.on("exit", (code) => {
+                            // console.warn("esptool error code", code);
+                            const info = stdout.split("\n")
+                                                .filter(a => a.startsWith("/dev"))
+                                                .map(a => a.split(" ").filter(a => a.length !== 0))
+                                                .map(a => ({ 
+                                                    filesystem: a[0],
+                                                    blocks: +a[1] * 1024,
+                                                    mounted: a[5],
+                                                }));
+                            resolve(info);
+                        });
+                    }))
+                    const RP2DriveInfo = drives.find(a => a.blocks === 134066176);
+                    if (RP2DriveInfo) {
+                        console.log("found", RP2DriveInfo);
+                        const mount = RP2DriveInfo.mounted;
+                        if (nodeFS.existsSync(path.join(mount, "/INFO_UF2.TXT"))) {
+                            console.log("RP2 Drive info", RP2DriveInfo);
+                            uf2MountPath = mount;
+                            $("#firmware-upgrade-dialog .note-for-rp2").hide();
+                            $("#install-firmware-button").prop("disabled", false);
+                            return;
+                        }
+                    }
+                } else if (platform === "darwin") {
+
                 }
 
                 setTimeout(checkRP2DriveAvailable, 100);
@@ -299,7 +344,7 @@ $("#install-firmware-button").click(async () => {
             });
         }
     } else if (chipId.indexOf("RP2") >= 0) {
-        //if (!isElectron) {
+        if (!isElectron || os.platform() === "win32") {
             ((uri, name) => {
                 var link = document.createElement("a");
                 // If you don't know the name or want to use
@@ -320,7 +365,7 @@ $("#install-firmware-button").click(async () => {
             $("#firmware-upgrade-dialog article.done").show();
 
             $("#firmware-upgrade-dialog .close-btn").show();
-/*        } else {
+        } else {
             const sourceFile = fwPath;
             const destFile = path.join(uf2MountPath, "/firmware.uf2");
 
@@ -352,7 +397,7 @@ $("#install-firmware-button").click(async () => {
 
                 readStream.pipe(nodeFS.createWriteStream(destFile));
             });
-        }*/
+        }
     }
 });
 
