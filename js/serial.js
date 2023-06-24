@@ -716,6 +716,17 @@ class UploadViaMSC {
     }
 };
 
+const xmlToCode = xml_text => {
+    const work_div = document.createElement("div");
+    document.querySelector("body").appendChild(work_div);
+    const tmp_workspace = Blockly.inject(work_div, {});
+    Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml_text), tmp_workspace);
+    const code = Blockly.Python.workspaceToCode(tmp_workspace);
+    work_div.remove();
+
+    return code;
+}
+
 let realDeviceUploadFlow = async (code) => {
     if (!serialPort) {
         if (!await serialConnect()) {
@@ -762,13 +773,37 @@ let realDeviceUploadFlow = async (code) => {
                 }
             }
         }
-    }
 
+        for (const fileName of fs.ls("/")) {
+            if ((fileName === "main.py") || (fileName === "main.xml")) { // Skip main file
+                continue;
+            }
+
+            if (uploadModuleList.indexOf(fileName.replace(/\..+$/, "")) >= 0) {
+                if (fileName.endsWith(".py") || fileName.endsWith(".mpy")) {
+                    filesUpload.push({
+                        file: fileName.replace(/^.*[\\\/]/, ''),
+                        content: fs.read(`/${fileName}`)
+                    });
+                } else if (fileName.endsWith(".xml")) {
+                    const code = xmlToCode(fs.read(`/${fileName}`));
+
+                    filesUpload.push({
+                        file: fileName.replace(/^.*[\\\/]/, '').replace(".xml", ".py"),
+                        content: code
+                    });
+                }
+            }
+        }
+    }
+    
     filesUpload = filesUpload.concat(extra_files);
     filesUpload.push({
         file: "main.py",
         content: code
     });
+
+    console.log(filesUpload);
 
     try {
         let method;
@@ -852,10 +887,11 @@ $("#upload-program").click(async function() {
 
     let code;
     extra_files = [];
-    if (useMode === "block") {
-        code = Blockly.Python.workspaceToCode(blocklyWorkspace);
-    } else if (useMode === "code") {
-        code = editor.getValue();
+    const file_list = fs.ls("/");
+    if (file_list.indexOf("main.xml") >= 0) {
+        code = xmlToCode(fs.read(`/main.xml`));
+    } else if (file_list.indexOf("main.py") >= 0) {
+        code = fs.read(`/main.py`);
     }
 
     console.log(code);
