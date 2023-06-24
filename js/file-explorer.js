@@ -179,7 +179,7 @@ $("#import-extension").on("click", async () => {
             }
 
             const file_path = item.filename;
-            if (file_path.endsWith(".js")) {
+            if (file_path.endsWith(".js") || file_path.endsWith(".py")) {
                 const data = await item.getData(new zip.TextWriter());
                 fs.write(`/extension/${file_path}`, data);
             } else if (file_path.endsWith(".png") || file_path.endsWith(".jpg")) {
