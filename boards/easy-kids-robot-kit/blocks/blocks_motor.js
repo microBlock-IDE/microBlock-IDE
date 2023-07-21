@@ -102,6 +102,40 @@ Blockly.defineBlocksWithJsonArray([
         "helpUrl": ""
     },
     {
+        "type": "motor_side_left",
+        "message0": "side left at power %1 %% for %2 secs",
+        "args0": [{
+            "type": "input_value",
+            "name": "speed",
+        }, {
+            "type": "input_value",
+            "name": "time",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#28B463",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "motor_side_right",
+        "message0": "side right at power %1 %% for %2 secs",
+        "args0": [{
+            "type": "input_value",
+            "name": "speed",
+        }, {
+            "type": "input_value",
+            "name": "time",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#28B463",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
         "type": "motor_move",
         "message0": "%1 at power %2 %%",
         "args0": [{
@@ -113,7 +147,9 @@ Blockly.defineBlocksWithJsonArray([
                 ["turn left", "motor.TURN_LEFT"],
                 ["turn right", "motor.TURN_RIGHT"],
                 ["spin left", "motor.SPIN_LEFT"],
-                ["spin right", "motor.SPIN_RIGHT"]
+                ["spin right", "motor.SPIN_RIGHT"],
+                ["side left", "motor.SIDE_LEFT"],
+                ["side right", "motor.SIDE_RIGHT"]
             ]
         }, {
             "type": "input_value",
@@ -128,13 +164,19 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "motor_wheel",
-        "message0": "left wheel turns at power %1 %%, right wheel turns at power %2 %%",
+        "message0": "M1 at power %1 %%, M2 at power %2 %%, M3 at power %3 %%, M4 at power %4 %%",
         "args0": [{
             "type": "input_value",
             "name": "speed1",
         }, {
             "type": "input_value",
             "name": "speed2",
+        }, {
+            "type": "input_value",
+            "name": "speed3",
+        }, {
+            "type": "input_value",
+            "name": "speed4",
         }],
         "inputsInline": true,
         "previousStatement": null,

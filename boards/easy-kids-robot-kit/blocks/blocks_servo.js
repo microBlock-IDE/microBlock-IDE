@@ -12,6 +12,7 @@ Blockly.defineBlocksWithJsonArray([
         [ "SV3", "SV3" ],
         [ "SV4", "SV4" ],
         [ "SV5", "SV5" ],
+        [ "SV5", "SV6" ],
       ]
     },
     {

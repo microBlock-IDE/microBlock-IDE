@@ -1,5 +1,19 @@
 Blockly.defineBlocksWithJsonArray([
   {
+    "type": "math_number",
+    "message0": "%1",
+    "args0": [{
+      "type": "field_number",
+      "name": "NUM",
+      "value": 0
+    }],
+    "output": "Number",
+    "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
+    "colour": "#34495E",
+    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+    "extensions": ["parent_tooltip_when_inline"]
+  },
+  {
     "type": "math_arithmetic",
     "message0": "%1 %2 %3",
     "args0": [
@@ -269,5 +283,23 @@ Blockly.defineBlocksWithJsonArray([
     "colour": "#34495E",
     "tooltip": "",
     "helpUrl": ""
+  },
+  {
+    "type": "logic_boolean",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BOOL",
+        "options": [
+          ["%{BKY_LOGIC_BOOLEAN_TRUE}", "TRUE"],
+          ["%{BKY_LOGIC_BOOLEAN_FALSE}", "FALSE"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#34495E",
+    "tooltip": "%{BKY_LOGIC_BOOLEAN_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_BOOLEAN_HELPURL}"
   },
 ]);

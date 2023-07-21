@@ -211,6 +211,38 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="motor_side_left">
+                                    <value name="speed">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="time">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="motor_side_right">
+                                    <value name="speed">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="time">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
                                 <block type="motor_move">
                                     <value name="speed">
                                         <shadow type="math_number">
@@ -229,6 +261,16 @@ addBoard({
                                         </shadow>
                                     </value>
                                     <value name="speed2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed3">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed4">
                                         <shadow type="math_number">
                                             <field name="NUM">50</field>
                                         </shadow>
@@ -710,6 +752,13 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="math_number">
+                                    <field name="NUM">0</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
                                 <block type="math_arithmetic">
                                     <value name="A">
                                         <shadow type="math_number">
@@ -717,57 +766,6 @@ addBoard({
                                         </shadow>
                                     </value>
                                     <field name="OP">ADD</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">MINUS</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">MULTIPLY</field>
-                                    <value name="B">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="math_arithmetic">
-                                    <value name="A">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                    <field name="OP">DIVIDE</field>
                                     <value name="B">
                                         <shadow type="math_number">
                                             <field name="NUM">1</field>
@@ -865,6 +863,13 @@ addBoard({
                         },
                         {
                             xml: '<label text="Logic"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="logic_boolean">
+                                    <field name="BOOL">TRUE</field>
+                                </block>
+                            `
                         },
                         {
                             xml: `
