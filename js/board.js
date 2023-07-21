@@ -12,17 +12,19 @@ $("#new-project").click(async () => {
     }
 
     $("#project-create-dialog #hardware-select ul").html("");
-    (() => {
-        let board = boards.find(board => board.id === boardId);
-        $("#project-create-dialog #hardware-select ul").append(`
-            <li>
-                <div data-board-id="${board.id}">
-                    <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
-                    <div class="name">${board.name}</div>
-                </div>
-            </li>
-        `);
-    })();
+    {
+        const board = boards.find(board => board?.id === boardId);
+        if (board) {
+            $("#project-create-dialog #hardware-select ul").append(`
+                <li>
+                    <div data-board-id="${board.id}">
+                        <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
+                        <div class="name">${board.name}</div>
+                    </div>
+                </li>
+            `);
+        }
+    }
     let index = 1;
     for (let board of boards) {
         if (board.id === boardId) {

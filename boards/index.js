@@ -25,4 +25,5 @@ loadScript(`${rootPath}/boards/openbit/index.js`);  // Add OpenBit
 loadScript(`${rootPath}/boards/kidmotor-v4/index.js`);  // Add KidMotor V4.0
 loadScript(`${rootPath}/boards/puppy-bot/index.js`);  // Add PuppyBot
 loadScript(`${rootPath}/boards/easy-kids-robot-kit/index.js`);  // Add EasyKids Robot Kit
+loadScript(`${rootPath}/boards/rp2-nano/index.js`);  // Add ArtronShop RP2 Nano
 // loadScript(`${rootPath}/boards/bilimbi/index.js`);  // Add BILIMBI
