@@ -478,7 +478,6 @@ addBoard({
                         {
                             xml: '<label text="RGBLED"></label>',
                         },
-                        "rgbled_setup",
                         {
                             xml: `
                                 <block type="rgbled_set_color">
