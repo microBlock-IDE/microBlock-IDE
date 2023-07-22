@@ -58,23 +58,23 @@ Blockly.Python['motor_spin_right'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_side_left'] = function(block) {
+Blockly.Python['motor_slide_left'] = function(block) {
   Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   
-  var code = `motor.side_left(${value_speed}, ${value_time})\n`;
+  var code = `motor.slide_left(${value_speed}, ${value_time})\n`;
   return code;
 };
 
-Blockly.Python['motor_side_right'] = function(block) {
+Blockly.Python['motor_slide_right'] = function(block) {
   Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
 
-  var code = `motor.side_right(${value_speed}, ${value_time})\n`;
+  var code = `motor.slide_right(${value_speed}, ${value_time})\n`;
   return code;
 };
 

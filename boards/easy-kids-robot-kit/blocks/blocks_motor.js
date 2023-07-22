@@ -102,8 +102,8 @@ Blockly.defineBlocksWithJsonArray([
         "helpUrl": ""
     },
     {
-        "type": "motor_side_left",
-        "message0": "side left at power %1 %% for %2 secs",
+        "type": "motor_slide_left",
+        "message0": "slide left at power %1 %% for %2 secs",
         "args0": [{
             "type": "input_value",
             "name": "speed",
@@ -119,8 +119,8 @@ Blockly.defineBlocksWithJsonArray([
         "helpUrl": ""
     },
     {
-        "type": "motor_side_right",
-        "message0": "side right at power %1 %% for %2 secs",
+        "type": "motor_slide_right",
+        "message0": "slide right at power %1 %% for %2 secs",
         "args0": [{
             "type": "input_value",
             "name": "speed",
@@ -148,8 +148,8 @@ Blockly.defineBlocksWithJsonArray([
                 ["turn right", "motor.TURN_RIGHT"],
                 ["spin left", "motor.SPIN_LEFT"],
                 ["spin right", "motor.SPIN_RIGHT"],
-                ["side left", "motor.SIDE_LEFT"],
-                ["side right", "motor.SIDE_RIGHT"]
+                ["slide left", "motor.SLIDE_LEFT"],
+                ["slide right", "motor.SLIDE_RIGHT"]
             ]
         }, {
             "type": "input_value",

@@ -67,7 +67,7 @@ addBoard({
             name: "MicroPython for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
             path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-5-g79adb87da-dirty.bin",
             version: "V1.9.1-5-g79adb87da-dirty",
-            date: "2023-05-07",
+            date: "2023-07-22",
             board: "EasyKids Robot Kit",
             cpu: "ESP32"
         },
@@ -211,7 +211,7 @@ addBoard({
                         },
                         {
                             xml: `
-                                <block type="motor_side_left">
+                                <block type="motor_slide_left">
                                     <value name="speed">
                                         <shadow type="math_number">
                                             <field name="NUM">50</field>
@@ -227,7 +227,7 @@ addBoard({
                         },
                         {
                             xml: `
-                                <block type="motor_side_right">
+                                <block type="motor_slide_right">
                                     <value name="speed">
                                         <shadow type="math_number">
                                             <field name="NUM">50</field>
