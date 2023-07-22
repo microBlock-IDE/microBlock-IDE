@@ -170,6 +170,49 @@ Blockly.defineBlocksWithJsonArray([
     "controls_for_tooltip"
   ]
 },
+{
+  "type": "while_loop",
+  "message0": "while %1 do %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "condition",
+      "check": [
+        "Boolean",
+        "Number"
+      ]
+    },
+    {
+      "type": "input_statement",
+      "name": "DO"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#D4AC0D",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "controls_flow_statements",
+  "message0": "%1",
+  "args0": [{
+    "type": "field_dropdown",
+    "name": "FLOW",
+    "options": [
+      ["%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_BREAK}", "BREAK"],
+      ["%{BKY_CONTROLS_FLOW_STATEMENTS_OPERATOR_CONTINUE}", "CONTINUE"]
+    ]
+  }],
+  "previousStatement": null,
+  "colour": "#D4AC0D",
+  "helpUrl": "%{BKY_CONTROLS_FLOW_STATEMENTS_HELPURL}",
+  "extensions": [
+    "controls_flow_tooltip",
+    "controls_flow_in_loop_check"
+  ]
+}
 ]);
 
 Blockly.Blocks['controls_on_start'] = {

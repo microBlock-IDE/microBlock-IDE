@@ -695,7 +695,17 @@ addBoard({
                                 </block>
                             `
                         },
-                        "controls_forever",
+                        {
+                            xml: `
+                                <block type="while_loop">
+                                    <value name="condition">
+                                        <shadow type="logic_boolean">
+                                            <field name="BOOL">TRUE</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         {
                             xml: `
                                 <block type="controls_repeat_ext">
@@ -739,6 +749,7 @@ addBoard({
                         },
                         "controls_wait_until",
                         "controls_whileUntil",
+                        // "controls_flow_statements",
                     ]
                 },
                 {
