@@ -1,6 +1,6 @@
-Blockly.Python['ultrasonic_read'] = function(block) {
-    Blockly.Python.definitions_['from_board_import_sensor'] = 'from board import sensor';
+Blockly.Python['easy_kids_ultrasonic_read'] = function(block) {
+    Blockly.Python.definitions_['from_board_import_ultrasonic'] = 'from board import ultrasonic';
   
-    var code = `sensor.distance()`;
+    var code = `ultrasonic.distance()`;
     return [code, Blockly.Python.ORDER_NONE];
 };

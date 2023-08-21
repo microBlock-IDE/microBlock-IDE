@@ -568,7 +568,7 @@ addBoard({
                         {
                             xml: '<label text="Sensor"></label>',
                         },
-                        "ultrasonic_read",
+                        "easy_kids_ultrasonic_read",
                         {
                             xml: '<label text="Switch"></label>',
                         },
