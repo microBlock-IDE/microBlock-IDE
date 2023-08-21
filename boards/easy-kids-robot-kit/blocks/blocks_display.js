@@ -57,6 +57,18 @@ Blockly.defineBlocksWithJsonArray([
           [
             "TH Sarabun New 60",
             "FONT_TH_SARABUN_NEW_60"
+          ],
+          [
+            "TH Sarabun New 80",
+            "FONT_TH_SARABUN_NEW_80"
+          ],
+          [
+            "TH Sarabun New 120",
+            "FONT_TH_SARABUN_NEW_120"
+          ],
+          [
+            "TH Sarabun New 200",
+            "FONT_TH_SARABUN_NEW_200"
           ]
         ]
       }
