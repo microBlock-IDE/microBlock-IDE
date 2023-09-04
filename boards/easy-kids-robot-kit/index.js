@@ -7,18 +7,47 @@ Blockly.Events.disableOrphansCustom = function (event) {
         var workspace = Blockly.Workspace.getById(event.workspaceId);
         var block = workspace.getBlockById(event.blockId);
         if (block) {
+            /*
             var parent = block.getParent();
+            console.log("block", block.type, block);
             if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
                 var children = block.getDescendants(false);
                 for (var i = 0, child; (child = children[i]); i++) {
                     child.setEnabled(true);
                 }
-            } else if ((block.outputConnection || block.previousConnection) &&
-                !workspace.isDragging()) {
+            } else if ((block.outputConnection || block.previousConnection) && (!workspace.isDragging())) {
                 do {
                     block.setEnabled(false);
                     block = block.getNextBlock();
                 } while (block);
+            }
+            */
+            if (!workspace.isDragging()) {
+                let block_is_valid = false;
+
+                if ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0) {
+                    block_is_valid = true;
+                } else {
+                    // Find parent block
+                    let parent = block.getParent();
+                    console.log("first parent", block.type, parent);
+                    while (parent) {
+                        // if (parent.type)
+                        console.log("loop parent", block.type, parent.type);
+                        if ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(parent.type) >= 0) {
+                            block_is_valid = true;
+                            break;
+                        }
+                        parent = parent.getParent();
+                    }
+                }
+
+                // Enable / Disable block
+                block.setEnabled(block_is_valid);
+                var children = block.getDescendants(false);
+                for (var i = 0, child; (child = children[i]); i++) {
+                    child.setEnabled(block_is_valid);
+                }
             }
         }
     }
@@ -48,6 +77,7 @@ addBoard({
         "../kidbright32/blocks/blocks_buzzer.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_rgbled.js",
+        "blocks/blocks_gamepad.js",
         "blocks/blocks_advanced.js",
         "blocks/blocks_color.js",
 
@@ -59,6 +89,7 @@ addBoard({
         "blocks/generators_buzzer.js",
         "blocks/generators_pin.js",
         "blocks/generators_rgbled.js",
+        "blocks/generators_gamepad.js",
         "../kidbright32/blocks/generators_avanced.js",
     ],
     modules: [ ],
@@ -558,6 +589,22 @@ addBoard({
                             `
                         },
                         "colour_random",
+                    ]
+                },
+                {
+                    name: "Gamepad",
+                    icon: "images/gamepad.png",
+                    color: "#e64c3c",
+                    blocks: [
+                        "gamepad_is_connected",
+                        "gamepad_axis_x",
+                        "gamepad_axis_y",
+                        "gamepad_axis_right_x",
+                        "gamepad_axis_right_y",
+                        "gamepad_dpad_left",
+                        "gamepad_dpad_top",
+                        "gamepad_dpad_right",
+                        "gamepad_dpad_bottom",
                     ]
                 },
                 {
