@@ -12,7 +12,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     'output': 'Colour',
     'helpUrl': '%{BKY_COLOUR_PICKER_HELPURL}',
-    'style': 'colour_blocks',
+    "colour": "#7F8C8D",
     'tooltip': '%{BKY_COLOUR_PICKER_TOOLTIP}',
     'extensions': ['parent_tooltip_when_inline'],
   },
@@ -23,7 +23,7 @@ Blockly.defineBlocksWithJsonArray([
     'message0': 'random color',
     'output': 'Colour',
     'helpUrl': '%{BKY_COLOUR_RANDOM_HELPURL}',
-    'style': 'colour_blocks',
+    "colour": "#7F8C8D",
     'tooltip': '%{BKY_COLOUR_RANDOM_TOOLTIP}',
   },
 
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     'output': 'Colour',
     'helpUrl': '%{BKY_COLOUR_RGB_HELPURL}',
-    'style': 'colour_blocks',
+    "colour": "#7F8C8D",
     'tooltip': '%{BKY_COLOUR_RGB_TOOLTIP}',
   },
 ]);

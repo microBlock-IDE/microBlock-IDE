@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "gamepad_is_connected",
-  "message0": "is connected",
+  "message0": "Gamepad is Connected",
   "inputsInline": true,
   "output": [
     "Number",
@@ -12,87 +12,151 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
-  "type": "gamepad_axis_x",
-  "message0": "left stick X",
-  "inputsInline": true,
-  "output": [ "Number" ],
+  "type": "gamepad_forget_keys",
+  "message0": "Gamepad Forget Keys",
+  "previousStatement": null,
+  "nextStatement": null,
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "gamepad_axis_y",
-  "message0": "left stick y",
-  "inputsInline": true,
-  "output": [ "Number" ],
+  "type": "gamepad_axis",
+  "message0": "Gamepad Axis %1",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "fn_name",
+      "options": [
+        [
+          "Left Stick X",
+          "axisX"
+        ],
+        [
+          "Left Stick Y",
+          "axisY"
+        ],
+        [
+          "Right Stick X",
+          "axisRX"
+        ],
+        [
+          "Right Stick Y",
+          "axisRY"
+        ],
+        [
+          "Accelerometer X",
+          "accelX"
+        ],
+        [
+          "Accelerometer Y",
+          "accelY"
+        ],
+        [
+          "Accelerometer Z",
+          "accelZ"
+        ],
+        [
+          "Gyroscope X",
+          "gyroX"
+        ],
+        [
+          "Gyroscope Y",
+          "gyroY"
+        ],
+        [
+          "Gyroscope Z",
+          "gyroZ"
+        ]
+      ]
+    }
+  ],
+  "output": "Number",
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "gamepad_axis_right_x",
-  "message0": "right stick x",
-  "inputsInline": true,
-  "output": [ "Number" ],
-  "colour": "#2C3E50",
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "gamepad_axis_right_y",
-  "message0": "right stick y",
-  "inputsInline": true,
-  "output": [ "Number" ],
-  "colour": "#2C3E50",
-  "tooltip": "",
-  "helpUrl": ""
-},
-{
-  "type": "gamepad_dpad_left",
-  "message0": "D-Pad left is press",
-  "inputsInline": true,
+  "type": "gamepad_button_is_press",
+  "message0": "Gamepad Button %1 is Pressed",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "fn_name",
+      "options": [
+        [
+          "Up",
+          "up"
+        ],
+        [
+          "Left",
+          "left"
+        ],
+        [
+          "Right",
+          "right"
+        ],
+        [
+          "Down",
+          "down"
+        ],
+        [
+          "Cross",
+          "cross"
+        ],
+        [
+          "Square",
+          "square"
+        ],
+        [
+          "Triangle",
+          "triangle"
+        ],
+        [
+          "Circle",
+          "circle"
+        ],
+        [
+          "L1",
+          "l1"
+        ],
+        [
+          "L2",
+          "l2"
+        ],
+        [
+          "R1",
+          "r1"
+        ],
+        [
+          "R2",
+          "r2"
+        ]
+      ]
+    }
+  ],
   "output": [
-    "Number",
-    "Boolean"
+    "Boolean",
+    "Number"
   ],
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "gamepad_dpad_top",
-  "message0": "D-Pad top is press",
-  "inputsInline": true,
-  "output": [
-    "Number",
-    "Boolean"
-  ],
+  "type": "gamepad_temperature",
+  "message0": "Gamepad Temperature",
+  "output": "Number",
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
 },
 {
-  "type": "gamepad_dpad_right",
-  "message0": "D-Pad right is press",
-  "inputsInline": true,
-  "output": [
-    "Number",
-    "Boolean"
-  ],
+  "type": "gamepad_battery_level",
+  "message0": "Gamepad Battery Level",
+  "output": "Number",
   "colour": "#2C3E50",
   "tooltip": "",
   "helpUrl": ""
-},
-{
-  "type": "gamepad_dpad_bottom",
-  "message0": "D-Pad bottom is press",
-  "inputsInline": true,
-  "output": [
-    "Number",
-    "Boolean"
-  ],
-  "colour": "#2C3E50",
-  "tooltip": "",
-  "helpUrl": ""
-},
+}
 ]);

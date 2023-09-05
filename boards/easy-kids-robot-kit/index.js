@@ -10,14 +10,16 @@ Blockly.Events.disableOrphansCustom = function (event) {
             if (!workspace.isDragging()) {
                 let block_is_valid = false;
 
-                if ([ 
+                const valid_top_block = [ 
                     "controls_on_start", 
                     "controls_forever_no_connect", 
                     "procedures_defnoreturn",
                     "procedures_defreturn",
                     "procedures_mutatorcontainer",
                     "procedures_mutatorarg",
-                ].indexOf(block.type) >= 0) {
+                ];
+
+                if (valid_top_block.indexOf(block.type) >= 0) {
                     block_is_valid = true;
                 } else {
                     // Find parent block
@@ -25,7 +27,7 @@ Blockly.Events.disableOrphansCustom = function (event) {
                     // console.log("first parent", block.type, parent);
                     while (parent) {
                         // console.log("loop parent", block.type, parent.type);
-                        if ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(parent.type) >= 0) {
+                        if (valid_top_block.indexOf(parent.type) >= 0) {
                             block_is_valid = true;
                             break;
                         }
@@ -86,7 +88,15 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
+            name: "MicroPython (Gamepad) for EasyKids Robot Kit v1.2.0-dirty",
+            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty.bin",
+            version: "v1.2.0-dirty",
+            date: "2023-09-05",
+            board: "EasyKids Robot Kit",
+            cpu: "ESP32"
+        },
+        {
+            name: "MicroPython (No Gamepad) for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
             path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-5-g79adb87da-dirty.bin",
             version: "V1.9.1-5-g79adb87da-dirty",
             date: "2023-07-22",
@@ -470,6 +480,13 @@ addBoard({
                         },
                         {
                             xml: `
+                                <block type="colour_picker">
+                                    <field name="COLOUR">#FF0000</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
                                 <block type="colour_rgb">
                                     <value name="RED">
                                     <shadow type="math_number">
@@ -588,14 +605,11 @@ addBoard({
                     color: "#e64c3c",
                     blocks: [
                         "gamepad_is_connected",
-                        "gamepad_axis_x",
-                        "gamepad_axis_y",
-                        "gamepad_axis_right_x",
-                        "gamepad_axis_right_y",
-                        "gamepad_dpad_left",
-                        "gamepad_dpad_top",
-                        "gamepad_dpad_right",
-                        "gamepad_dpad_bottom",
+                        "gamepad_forget_keys",
+                        "gamepad_axis",
+                        "gamepad_button_is_press",
+                        // "gamepad_temperature", // not work on Gamepad
+                        "gamepad_battery_level",
                     ]
                 },
                 {

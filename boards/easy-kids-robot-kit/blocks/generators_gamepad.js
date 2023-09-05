@@ -1,62 +1,45 @@
-Blockly.Python['gamepad_is_connected'] = function (block) {
+Blockly.Python.forBlock['gamepad_is_connected'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
     var code = `bluepad32.is_connected()`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['gamepad_axis_x'] = function (block) {
+Blockly.Python.forBlock['gamepad_forget_keys'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
-    var code = `bluepad32.axisX()`;
+    var code = 'bluepad32.forget_keys()';
+    return code;
+};
+
+Blockly.Python.forBlock['gamepad_axis'] = function (block) {
+    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
+
+    var dropdown_fn_name = block.getFieldValue('fn_name');
+
+    var code = `bluepad32.${dropdown_fn_name}()`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['gamepad_axis_y'] = function (block) {
+Blockly.Python.forBlock['gamepad_button_is_press'] = function(block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
-    var code = `bluepad32.axisY()`;
+    var dropdown_fn_name = block.getFieldValue('fn_name');
+
+    var code = `bluepad32.${dropdown_fn_name}()`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['gamepad_axis_right_x'] = function (block) {
+Blockly.Python.forBlock['gamepad_temperature'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
-    var code = `bluepad32.axisRX()`;
+    var code = 'bluepad32.temperature()';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['gamepad_axis_right_y'] = function (block) {
+Blockly.Python.forBlock['gamepad_battery_level'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
-    var code = `bluepad32.axisRY()`;
-    return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gamepad_dpad_left'] = function (block) {
-    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
-
-    var code = `True if (bluepad32.dpad() & 0x08) else False`;
-    return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gamepad_dpad_top'] = function (block) {
-    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
-
-    var code = `True if (bluepad32.dpad() & 0x01) else False`;
-    return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gamepad_dpad_right'] = function (block) {
-    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
-
-    var code = `True if (bluepad32.dpad() & 0x04) else False`;
-    return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Python['gamepad_dpad_bottom'] = function (block) {
-    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
-
-    var code = `True if (bluepad32.dpad() & 0x02) else False`;
+    var code = 'bluepad32.battery()';
     return [code, Blockly.Python.ORDER_NONE];
 };
