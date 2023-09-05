@@ -66,7 +66,7 @@ Blockly.defineBlocksWithJsonArray([
     "tooltip": "%{BKY_MATH_RANDOM_INT_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_RANDOM_INT_HELPURL}"
   },
-  /*{
+  {
     "type": "logic_compare",
     "message0": "%1 %2 %3",
     "args0": [
@@ -96,7 +96,7 @@ Blockly.defineBlocksWithJsonArray([
     "colour": "#34495E",
     "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
     "extensions": ["logic_compare", "logic_op_tooltip"]
-  },*/
+  },
   {
     "type": "logic_operation",
     "message0": "%1 %2 %3",

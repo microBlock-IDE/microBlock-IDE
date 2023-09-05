@@ -7,33 +7,24 @@ Blockly.Events.disableOrphansCustom = function (event) {
         var workspace = Blockly.Workspace.getById(event.workspaceId);
         var block = workspace.getBlockById(event.blockId);
         if (block) {
-            /*
-            var parent = block.getParent();
-            console.log("block", block.type, block);
-            if ((parent && parent.isEnabled()) || ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0)) {
-                var children = block.getDescendants(false);
-                for (var i = 0, child; (child = children[i]); i++) {
-                    child.setEnabled(true);
-                }
-            } else if ((block.outputConnection || block.previousConnection) && (!workspace.isDragging())) {
-                do {
-                    block.setEnabled(false);
-                    block = block.getNextBlock();
-                } while (block);
-            }
-            */
             if (!workspace.isDragging()) {
                 let block_is_valid = false;
 
-                if ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(block.type) >= 0) {
+                if ([ 
+                    "controls_on_start", 
+                    "controls_forever_no_connect", 
+                    "procedures_defnoreturn",
+                    "procedures_defreturn",
+                    "procedures_mutatorcontainer",
+                    "procedures_mutatorarg",
+                ].indexOf(block.type) >= 0) {
                     block_is_valid = true;
                 } else {
                     // Find parent block
                     let parent = block.getParent();
-                    console.log("first parent", block.type, parent);
+                    // console.log("first parent", block.type, parent);
                     while (parent) {
-                        // if (parent.type)
-                        console.log("loop parent", block.type, parent.type);
+                        // console.log("loop parent", block.type, parent.type);
                         if ([ "controls_on_start", "controls_forever_no_connect" ].indexOf(parent.type) >= 0) {
                             block_is_valid = true;
                             break;

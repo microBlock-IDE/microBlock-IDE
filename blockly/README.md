@@ -1,60 +1,79 @@
-# Blockly [![Build Status]( https://travis-ci.org/google/blockly.svg?branch=master)](https://travis-ci.org/google/blockly)
+# Blockly
 
+Google's Blockly is a web-based, visual programming editor. Users can drag
+blocks together to build programs. All code is free and open source.
 
-Google's Blockly is a web-based, visual programming editor.  Users can drag
-blocks together to build programs.  All code is free and open source.
+The source for this module is in the [Blockly repo](http://github.com/google/blockly).
 
-**The project page is https://developers.google.com/blockly/**
+## Installation
 
-![](https://developers.google.com/blockly/images/sample.png)
+You can install this package either via `npm` or `unpkg`.
 
-Blockly has an active [developer forum](https://groups.google.com/forum/#!forum/blockly).  Please drop by and say hello. Show us your prototypes early; collectively we have a lot of experience and can offer hints which will save you time. We actively monitor the forums and typically respond to questions within 2 working days.
+### npm
 
-Help us focus our development efforts by telling us [what you are doing with
-Blockly](https://developers.google.com/blockly/registration).  The questionnaire only takes
-a few minutes and will help us better support the Blockly community.
-
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
-
-We support IE11 and test it using [BrowserStack](https://browserstack.com)
-
-Want to contribute? Great! First, read [our guidelines for contributors](https://developers.google.com/blockly/guides/modify/contributing).
-
-## Releases
-
-The next major release will be **September 25th, 2020**.
-
-We release by pushing the latest code to the master branch, followed by updating our [docs](https://developers.google.com/blockly) and [demo pages](https://blockly-demo.appspot.com). We typically release a new version of Blockly once a quarter (every 3 months). If there are breaking bugs, such as a crash when performing a standard action or a rendering issue that makes Blockly unusable, we will cherry-pick fixes to master between releases to fix them. The [releases page](https://github.com/google/blockly/releases) has a list of all releases.
-
-Releases are tagged by the release date (YYYYMMDD) with a leading '2.' and a trailing '.0' in case we ever need a major or minor version (such as [2.20190722.1](https://github.com/google/blockly/tree/2.20190722.1)). If you're using npm, you can install the ``blockly`` package on npm: 
 ```bash
 npm install blockly
 ```
 
-### New APIs
+### unpkg
 
-Once a new API is merged into master it is considered beta until the following release. We generally try to avoid changing an API after it has been merged to master, but sometimes we need to make changes after seeing how an API is used. If an API has been around for at least two releases we'll do our best to avoid breaking it.
+```html
+<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+```
 
-Unreleased APIs may change radically. Anything that is in `develop` but not `master` is subject to change without warning.
+## Example Usage
 
-### Branches
+```js
+import Blockly from 'blockly';
+Blockly.inject('blocklyDiv', {
+    ...
+})
+```
 
-There are two main branches for Blockly.
+## Samples
 
-**[master](https://github.com/google/blockly)** - This is the (mostly) stable current release of Blockly.
+For samples on how to integrate Blockly into your project, view the list of samples at [blockly-samples](https://github.com/google/blockly-samples).
 
-**[develop](https://github.com/google/blockly/tree/develop)** - This is where most of our work happens. Pull requests should always be made against develop. This branch will generally be usable, but may be less stable than the master branch. Once something is in develop we expect it to merge to master in the next release.
+### Importing Blockly
 
-**other branches:** - Larger changes may have their own branches until they are good enough for people to try out. These will be developed separately until we think they are almost ready for release. These branches typically get merged into develop immediately after a release to allow extra time for testing.
+When you import Blockly with `import * as Blockly from 'blockly';` you'll get the default modules:
+Blockly core, Blockly built-in blocks, the JavaScript generator and the English lang files.
 
-## Issues and Milestones
+If you need more flexibility, you'll want to define your imports more carefully:
 
-We typically triage all bugs within 2 working days, which includes adding any appropriate labels and assigning it to a milestone. Please keep in mind, we are a small team so even feature requests that everyone agrees on may not be prioritized.
+#### Blockly Core
 
-### Milestones
+```js
+import * as Blockly from 'blockly/core';
+```
 
-**Upcoming release** - The upcoming release milestone is for all bugs we plan on fixing before the next release. This typically has the form of `year_quarter_release` (such as `2019_q2_release`). Some bugs will be added to this release when they are triaged, others may be added closer to a release.
+#### Blockly built in blocks
 
-**Bug Bash Backlog** - These are bugs that we're still prioritizing. They haven't been added to a specific release yet, but we'll consider them for each release depending on relative priority and available time.
+```js
+import * as libraryBlocks from 'blockly/blocks';
+```
 
-**Icebox** - These are bugs that we do not intend to spend time on. They are either too much work or minor enough that we don't expect them to ever take priority. We are still happy to accept pull requests for these bugs.
+#### Blockly Generators
+
+If your application needs to generate code from the Blockly blocks, you'll want to include a generator.
+
+```js
+import {pythonGenerator} from 'blockly/python';
+```
+
+to include the Python generator. You can also import `{javascriptGenerator} from 'blockly/javascript'`, `{phpGenerator} from 'blockly/php'`, `{dartGenerator} from 'blockly/dart'` and `{luaGenerator} from 'blockly/lua'`.
+
+#### Blockly Languages
+
+```js
+import * as Fr from 'blockly/msg/fr';
+Blockly.setLocale(Fr);
+```
+
+To import the French lang files. Once you've imported the specific lang module, you'll also want to set the locale in Blockly.
+
+For a full list of supported Blockly locales, see: [https://github.com/google/blockly/tree/master/msg/js](https://github.com/google/blockly/tree/master/msg/js)
+
+## License
+
+Apache 2.0
