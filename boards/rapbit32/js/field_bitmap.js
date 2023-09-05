@@ -1,25 +1,4 @@
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/**
- * @fileoverview A field used to customize a turtle.
- * @author bekawestberg@gmail.com (Beka Westberg)
- */
 'use strict';
-
-// You must provide the constructor for your custom field.
-goog.provide('CustomFields.FieldBitmap');
-
-// You must require the abstract field class to inherit from.
-goog.require('Blockly.Field');
-goog.require('Blockly.fieldRegistry');
-goog.require('Blockly.utils');
-goog.require('Blockly.utils.dom');
-goog.require('Blockly.utils.object');
-goog.require('Blockly.utils.Size');
 
 var CustomFields = CustomFields || {};
 
