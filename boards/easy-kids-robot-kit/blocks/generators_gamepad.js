@@ -12,6 +12,15 @@ Blockly.Python.forBlock['gamepad_forget_keys'] = function (block) {
     return code;
 };
 
+Blockly.Python.forBlock['gamepad_enable_new_bluetooth_connections'] = function (block) {
+    Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
+
+    var dropdown_enable = block.getFieldValue('enable');
+
+    var code = `bluepad32.enable_bluetooth_connections(${dropdown_enable})\n`;
+    return code;
+};
+
 Blockly.Python.forBlock['gamepad_axis'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 

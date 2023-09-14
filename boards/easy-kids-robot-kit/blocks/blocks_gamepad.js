@@ -21,6 +21,31 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "gamepad_enable_new_bluetooth_connections",
+  "message0": "Gamepad %1 New Bluetooth Connections",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "enable",
+      "options": [
+        [
+          "Enable",
+          "True"
+        ],
+        [
+          "Disable",
+          "False"
+        ],
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#2C3E50",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "gamepad_axis",
   "message0": "Gamepad Axis %1",
   "args0": [

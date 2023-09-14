@@ -89,9 +89,9 @@ addBoard({
     firmware: [
         {
             name: "MicroPython (Gamepad) for EasyKids Robot Kit v1.2.0-dirty",
-            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty.bin",
+            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty-1.bin",
             version: "v1.2.0-dirty",
-            date: "2023-09-05",
+            date: "2023-09-15",
             board: "EasyKids Robot Kit",
             cpu: "ESP32"
         },
@@ -606,6 +606,7 @@ addBoard({
                     blocks: [
                         "gamepad_is_connected",
                         "gamepad_forget_keys",
+                        "gamepad_enable_new_bluetooth_connections",
                         "gamepad_axis",
                         "gamepad_button_is_press",
                         // "gamepad_temperature", // not work on Gamepad
