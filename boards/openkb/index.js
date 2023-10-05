@@ -4,6 +4,33 @@ addBoard({
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
+    pins_define: {
+        digital: [
+            [ "OUT1", 26 ],
+            [ "OUT2", 27 ],
+            18,
+            19,
+            23,
+        ],
+        digital_input_only: [
+            [ "IN1", 32 ],
+            [ "IN2", 33 ],
+            [ "IN3", 34 ],
+            [ "IN4", 35 ],
+        ],
+        digital_output_only: [
+            [ "BT LED",   17 ],
+            [ "WiFi LED", 2 ],
+            [ "NTP LED",  15 ],
+            [ "IOT LED",  12 ],
+        ],
+        analog: [
+            [ "IN1", 32 ],
+            [ "IN2", 33 ],
+            [ "IN3", 34 ],
+            [ "IN4", 35 ],
+        ],
+    },
     script: [ 
         "../kidbright32/js/field_dotmatrix.js",
         "../kidbright32/js/field_note.js",

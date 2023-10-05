@@ -4,6 +4,25 @@ addBoard({
     description: "",
     image: "images/cover.jpg",
     chip: "ESP32",
+    pins_define: {
+        digital: [
+            5,
+            19,
+            23
+        ],
+        digital_input_only: [
+            32,
+            33,
+            34,
+            35
+        ],
+        analog: [
+            32,
+            33,
+            34,
+            35
+        ],
+    },
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",

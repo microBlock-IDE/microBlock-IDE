@@ -6,6 +6,23 @@ addBoard({
     uploadMode: "MSC",
     mscSize: 1417216,
     chip: "RP2",
+    pins_define: {
+        digital: [
+            [ "D1", "25" ],
+            [ "D2", "27" ],
+            [ "D3", "28" ],
+            [ "D4", "29" ],
+            [ "S1", "12" ],
+            [ "S2", "13" ],
+            [ "S3", "14" ],
+            [ "S4", "15" ],
+        ],
+        analog: [
+            [ "A8", "27" ],
+            [ "A9", "28" ],
+            [ "A10", "29" ],
+        ],
+    },
     script: [ 
         "../kidbright32/js/field_note.js",
         "../kidbright32/js/sound.js",
