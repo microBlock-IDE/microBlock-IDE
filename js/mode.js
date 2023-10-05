@@ -7,14 +7,16 @@ $("#mode-select-switch > li").click(async function () {
     if (value == 1) { // Block mode
         if (file_name_select.endsWith(".py")) {
             if (editor.getValue().length > 0) {
-                if (!await NotifyConfirm("Code will convert to block (BETA). Are you confirm swith to block mode ?")) {
+                if (!await NotifyConfirm("Code will convert to block (BETA). Are you confirm switch to block mode ?")) {
                     return;
                 }
-                updataWorkspaceAndCategoryFromvFS();
-                codeFromMonacoToBlock();
-                fs.remove("/" + file_name_select);
-                file_name_select = file_name_select.replace(/\.(py|xml)/, "") + ".xml";
             }
+            updataWorkspaceAndCategoryFromvFS();
+            if (editor.getValue().length > 0) {
+                codeFromMonacoToBlock();
+            }
+            fs.remove("/" + file_name_select);
+            file_name_select = file_name_select.replace(/\.(py|xml)/, "") + ".xml";
             editor.updateOptions({ readOnly: true });
         }
         $("#blocks-editor").css("display", "flex");
@@ -60,10 +62,11 @@ $("#mode-select-switch > li").click(async function () {
                     if (isEmbed) { 
                         return;
                     }
-                    fs.remove("/" + file_name_select);
+                    file_select_without_ext = file_name_select.replace(/\.(py|xml)/, "");
+                    fs.remove("/" + file_select_without_ext + ".xml");
                     if (await NotifyConfirm("If edit code, program in block will lost. Are you want to edit ?")) {
                         editor.updateOptions({ readOnly: false });
-                        file_name_select = file_name_select.replace(/\.(py|xml)/, "") + ".py";
+                        file_name_select = file_select_without_ext + ".py";
                     }
                 }
 
