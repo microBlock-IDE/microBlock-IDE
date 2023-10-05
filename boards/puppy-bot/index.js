@@ -38,7 +38,7 @@ addBoard({
             name: "MicroPython for PupyBot v1.19.1-796-gf4811b0b4-dirty",
             path: "firmware/MicroPython.for.PuppyBot.v1.19.1-796-gf4811b0b4-dirty.uf2",
             version: "v1.19.1-796-gf4811b0b4-dirty",
-            date: "2023-01-28",
+            date: "2023-10-05",
             board: "Raspberry Pi Pico",
             cpu: "RP2040"
         },
