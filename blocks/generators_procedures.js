@@ -14,3 +14,16 @@ Blockly.Python['random_seed'] = function(block) {
   var code = 'random.seed(ADC(Pin(35)).read())\n';
   return code;
 };
+
+Blockly.JavaScript['random_seed'] = function(block) {
+  var code = 'randomSeed(analogRead(0));\n';
+  return code;
+};
+
+Blockly.JavaScript.forBlock['math_random_int'] = function(block) {
+  const argument0 = Blockly.JavaScript.valueToCode(block, 'FROM', Blockly.JavaScript.ORDER_NONE) || '0';
+  const argument1 = Blockly.JavaScript.valueToCode(block, 'TO', Blockly.JavaScript.ORDER_NONE) || '0';
+  
+  const code = 'random(' + argument0 + ', ' + argument1 + ')';
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

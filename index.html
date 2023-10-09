@@ -23,12 +23,14 @@
             promisify = require('util').promisify;
             shell = require('electron').shell;
             spawn = require('child_process').spawn;
+            exec = require('child_process').exec;
             os = require('os');
             path = require("path");
             nodeDiskInfo = require('node-disk-info');
 
             readFileAsync = promisify(nodeFS.readFile);
             writeFileAsync = promisify(nodeFS.writeFile);
+            execAsync = promisify(exec);
 
             dive = require('dive');
 			
@@ -64,6 +66,7 @@
         <script src="blockly/blockly_compressed.js"></script>
         <script src="blockly/blocks_compressed.js"></script>
         <script src="blockly/python_compressed.js"></script>
+        <script src="blockly/javascript_compressed.js"></script>
         <script src="blockly/msg/en.js"></script>
 
         <!-- Blockly Plugin -->
@@ -616,6 +619,7 @@
         <script src="blocks/generators_text_code.js"></script>
         <script src="blocks/generators_procedures.js"></script>
         <script src="blocks/generators_operators.js"></script>
+        <script src="blocks/generators_variables.js"></script>
 
         <!-- Python to Block converter -->
         <script src="js/code2block.js"></script>
@@ -640,6 +644,7 @@
         <script src="js/dashboard.js"></script>
         <script src="js/board.js"></script>
         <script src="js/file-explorer.js"></script>
+        <script src="js/arduino.js"></script>
         <script src="boards/index.js"></script>
 
         <script src="js/install.js"></script>

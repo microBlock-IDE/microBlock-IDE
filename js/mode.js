@@ -26,10 +26,16 @@ $("#mode-select-switch > li").click(async function () {
         $("#blocks-editor").hide();
         $("#code-editor").css("display", "flex");
 
-        let code = Blockly.Python.workspaceToCode(blocklyWorkspace);
+        const { isArduinoPlatform } = boards.find(board => board.id === boardId);
+        let code = "";
+        if (!isArduinoPlatform) { // MicroPython
+            code = Blockly.Python.workspaceToCode(blocklyWorkspace);
+        } else { // C++
+            code = Blockly.JavaScript.workspaceToCode(blocklyWorkspace);
+        }
         if (!editor) {
             editor = monaco.editor.create($("#code-editor > article")[0], {
-                language: 'python',
+                language: !isArduinoPlatform ? 'python' : 'cpp',
                 readOnly: file_name_select.endsWith(".py") ? false : true,
                 automaticLayout: true
             });

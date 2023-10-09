@@ -20,7 +20,10 @@ for (const id of [
     "rp2-nano", // Add ArtronShop RP2 Nano
     "puppy-bot-4wd", // Add PuppyBot(4WD)
     "ttgo-t-display", // Add TTGO T-Display
-    "kidbright32-v1.5" // Add KidBright32 V1.5
+    "kidbright32-v1.5", // Add KidBright32 V1.5
+
+    // Arduino platform
+    "arduino-uno",
 ]) {
     document.write(`<script src="${rootPath}/boards/${id}/index.js"></script>`);
 }
