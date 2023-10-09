@@ -1,5 +1,40 @@
 Blockly.defineBlocksWithJsonArray([
 {
+  "type": "pin_mode",
+  "message0": "set pin %1 as %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "pin",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "mode",
+      "options": [
+        [
+          "OUTPUT",
+          "OUTPUT"
+        ],
+        [
+          "INPUT",
+          "INPUT"
+        ],
+        [
+          "INPUT_PULLUP",
+          "INPUT_PULLUP"
+        ],
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#E74C3C",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "pin_digital_write",
   "message0": "digital write %1 to pin %2",
   "args0": [

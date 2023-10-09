@@ -6,7 +6,7 @@ Blockly.Python['controls_wait'] = function (block) {
 
 Blockly.JavaScript['controls_wait'] = function (block) {
   var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = `delay(${value_time} * 1000)\n`;
+  var code = `delay(${value_time} * 1000);\n`;
   return code;
 };
 

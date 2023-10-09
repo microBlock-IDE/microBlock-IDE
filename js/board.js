@@ -130,6 +130,10 @@ let loadBoard = async () => {
     if (typeof board?.onLoad === "function") {
         await board.onLoad(blocklyWorkspace, board);
     }
+
+    if (board?.isArduinoPlatform) {
+        arduino_board_init();
+    }
 }
 
 $("#create-project-btn").click(async () => {

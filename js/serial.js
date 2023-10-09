@@ -721,7 +721,8 @@ const xmlToCode = xml_text => {
     document.querySelector("body").appendChild(work_div);
     const tmp_workspace = Blockly.inject(work_div, {});
     Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml_text), tmp_workspace);
-    const code = Blockly.Python.workspaceToCode(tmp_workspace);
+    const { isArduinoPlatform } = boards.find(board => board.id === boardId);
+    const code = (!isArduinoPlatform) ? Blockly.Python.workspaceToCode(tmp_workspace) : Blockly.JavaScript.workspaceToCode(tmp_workspace);
     work_div.remove();
 
     return code;
@@ -895,17 +896,21 @@ $("#upload-program").click(async function() {
     }
 
     console.log(code);
-
+    const { isArduinoPlatform } = boards.find(board => board.id === boardId);
     try {
-        if (deviceMode === MODE_REAL_DEVICE) {
-            await realDeviceUploadFlow(code);
-        } else if (deviceMode === MODE_SIMULATOR) {
-            let simSystem = domSimulatorIframe.contentWindow.simSystem;
-            if (simSystem) {
-                simSystem.runCode(code);
-            } else {
-                console.warn("Connect to domSimulatorIframe error");
+        if (!isArduinoPlatform) {
+            if (deviceMode === MODE_REAL_DEVICE) {
+                await realDeviceUploadFlow(code);
+            } else if (deviceMode === MODE_SIMULATOR) {
+                let simSystem = domSimulatorIframe.contentWindow.simSystem;
+                if (simSystem) {
+                    simSystem.runCode(code);
+                } else {
+                    console.warn("Connect to domSimulatorIframe error");
+                }
             }
+        } else {
+            await arduino_upload(code);
         }
 
         timeDiff = (new Date()).getTime() - t0;

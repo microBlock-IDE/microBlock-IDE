@@ -74,8 +74,8 @@ addBoard({
     modules: [ ],
     usb: [
         {
-            vendorId: "2E8A",
-            productId: "0005"
+            vendorId: "2341",
+            productId: "0043"
         }
     ],
     autoCompletion: { },
