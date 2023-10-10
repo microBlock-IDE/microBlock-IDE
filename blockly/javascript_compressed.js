@@ -1007,9 +1007,9 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement) {
             this.isInitialized = !0
         }
         finish(a) {
-            console.log(Blockly.JavaScript?.dbNameType_);
+            // console.log(Blockly.JavaScript?.dbNameType_);
             this.definitions_['variables'] = this.definitions_['variables'].map(name => `${Blockly.JavaScript?.dbNameType_?.[name] || "int"} ${name};`).join("\n");
-            console.log(this.definitions_);
+            // console.log(this.definitions_);
 
             const b = Object.values(this.definitions_);
             super.finish(a);

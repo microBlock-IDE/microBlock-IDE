@@ -4,10 +4,9 @@ Blockly.JavaScript.forBlock["variables_set"] = function (block) {
     let varName = Blockly.JavaScript.nameDB_.getName(block.getField("VAR").getText(), Blockly.Names.NameType.VARIABLE);
 
     let childType;
-    console.log(block, "childBlocks_", block.childBlocks_);
     if (block.childBlocks_.length >= 1) {
         let child = block.getInputTargetBlock("VALUE");
-        console.log("child", child);
+        // console.log("child", child);
         if (child && child.outputConnection.check && child.outputConnection.check[0]) {
             childType = child.outputConnection.check[0];
             let targetGetVarBlock = Blockly.getMainWorkspace().getAllBlocks().filter(e => e.type === "variables_get" && e.getField("VAR").getText() === varName);
@@ -22,7 +21,7 @@ Blockly.JavaScript.forBlock["variables_set"] = function (block) {
         Blockly.JavaScript.dbNameType_ = {};
     }
     Blockly.JavaScript.dbNameType_[varName] = childType;
-    console.log(Blockly.JavaScript.dbNameType_);
+    // console.log(Blockly.JavaScript.dbNameType_);
 
     return varName + " = " + argument0 + ";\n";
 };
