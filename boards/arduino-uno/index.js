@@ -492,12 +492,23 @@ addBoard({
                             `
                         },
                         {
-                            xml: '<label text="Debug"></label>',
+                            xml: '<label text="Serial"></label>',
                         },
                         {
                             xml: `
-                                <block type="print">
-                                    <value name="value">
+                                <block type="serial_begin">
+                                    <value name="baud">
+                                        <shadow type="math_number">
+                                            <field name="NUM">9600</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="serial_print">
+                                    <value name="text">
                                         <shadow type="text">
                                             <field name="TEXT">Hello, world!</field>
                                         </shadow>
@@ -506,66 +517,35 @@ addBoard({
                             `
                         },
                         {
+                            xml: `
+                                <block type="serial_println">
+                                    <value name="text">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello, world!</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="serial_set_timeout">
+                                    <value name="timeout">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "serial_available",
+                        "serial_read_string",
+                        "serial_read_number",
+                        {
                             xml: '<label text="Import"></label>',
                         },
                         "import",
                         "call_import",
-                        {
-                            xml: '<label text="Sensor"></label>',
-                        },
-                        /* {
-                            xml: `
-                                <block type="dht_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        }, */
-                        {
-                            xml: `
-                                <block type="ds18x20_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: '<label text="Task"></label>',
-                        },
-                        "run_in_background",
-                        {
-                            xml: '<label text="Low Power Mode"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="light_sleep">
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="deep_sleep">
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        // "is_woke_from_deep_sleep",
-                        "board_reset"
                     ]
                 }
             ]

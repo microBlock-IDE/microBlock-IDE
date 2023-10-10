@@ -4,6 +4,12 @@ Blockly.Python['print'] = function(block) {
     return code;
 };
 
+Blockly.JavaScript['print'] = function(block) {
+    var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+    var code = `Serial.println(${value_value})\n`;
+    return code;
+};
+
 Blockly.Python['dht_read'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['import_dht'] = 'import dht';
@@ -155,6 +161,14 @@ Blockly.Python['send_into_source'] = function(block) {
     var value_source = Blockly.Python.valueToCode(block, 'source', Blockly.Python.ORDER_ATOMIC);
 
     var code = `print(str(${value_source}) + "=" + str(${value_value}))\n`;
+    return code;
+};
+
+Blockly.JavaScript['send_into_source'] = function(block) {
+    var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_source = Blockly.JavaScript.valueToCode(block, 'source', Blockly.JavaScript.ORDER_ATOMIC);
+
+    var code = `Serial.println(${value_source} + "=" + String(${value_value}));\n`;
     return code;
 };
 

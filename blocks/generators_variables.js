@@ -20,7 +20,7 @@ Blockly.JavaScript.forBlock["variables_set"] = function (block) {
     if (!Blockly.JavaScript.dbNameType_) {
         Blockly.JavaScript.dbNameType_ = {};
     }
-    Blockly.JavaScript.dbNameType_[varName] = childType;
+    Blockly.JavaScript.dbNameType_[varName] = childType === "Number" ? "int" : childType;
     // console.log(Blockly.JavaScript.dbNameType_);
 
     return varName + " = " + argument0 + ";\n";
