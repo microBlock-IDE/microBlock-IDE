@@ -3,6 +3,10 @@ addBoard({
     name: "Mbits V2.0",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "INEX"
+    ],
     chip: "ESP32",
     pins_define: {
         digital: [

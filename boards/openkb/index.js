@@ -3,6 +3,10 @@ addBoard({
     name: "OpenKB",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "INEX"
+    ],
     chip: "ESP32",
     pins_define: {
         digital: [

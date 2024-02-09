@@ -3,6 +3,10 @@ KidBright32_config = {
     name: "",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "KidBright"
+    ],
     chip: "ESP32",
     pins_define: {
         digital: [

@@ -897,6 +897,26 @@ $("#upload-program").click(async function() {
 
     console.log(code);
     const { isArduinoPlatform } = boards.find(board => board.id === boardId);
+    if (isArduinoPlatform) {
+        $("#upload-log-dialog .title").text("Uploading...");
+        // $("#upload-console-log").html("");
+        // ShowDialog($("#upload-log-dialog")); // show upload dialog
+        if (typeof uploadTerm === "undefined") {
+            uploadTerm = new Terminal();
+            if (typeof uploadFitAddon === "undefined") {
+                uploadFitAddon = new FitAddon.FitAddon();
+            }
+            uploadTerm.loadAddon(uploadFitAddon);
+            uploadTerm.open($("#upload-log-dialog > section")[0]);
+            try {
+                uploadFitAddon.fit();
+            } catch(e) {
+                
+            }
+        } else {
+            uploadTerm.clear();
+        }
+    }
     try {
         if (!isArduinoPlatform) {
             if (deviceMode === MODE_REAL_DEVICE) {
@@ -911,6 +931,7 @@ $("#upload-program").click(async function() {
             }
         } else {
             await arduino_upload(code);
+            // $("#upload-log-dialog .close-dialog").click();
         }
 
         timeDiff = (new Date()).getTime() - t0;
@@ -918,6 +939,7 @@ $("#upload-program").click(async function() {
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
     } catch(e) {
+        $("#upload-log-dialog .title").text("Upload Fail");
         NotifyE("Upload Fail !");
         statusLog(`Upload fail because ${e}`);
         console.warn(e);

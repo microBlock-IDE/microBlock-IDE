@@ -132,7 +132,24 @@ let loadBoard = async () => {
     }
 
     if (board?.isArduinoPlatform) {
-        arduino_board_init();
+        // ShowDialog($("#arduino-init-dialog"));
+        if (typeof arduinInitTerm === "undefined") {
+            arduinInitTerm = new Terminal();
+            if (typeof arduinInitFitAddon === "undefined") {
+                arduinInitFitAddon = new FitAddon.FitAddon();
+            }
+            arduinInitTerm.loadAddon(arduinInitFitAddon);
+            arduinInitTerm.open($("#arduino-init-dialog > section")[0]);
+            try {
+                arduinInitFitAddon.fit();
+            } catch(e) {
+                
+            }
+        } else {
+            arduinInitTerm.clear();
+        }
+        await arduino_board_init();
+        // CloseDialog($("#arduino-init-dialog"));
     }
 }
 

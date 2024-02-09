@@ -12,7 +12,7 @@ Blockly.JavaScript.forBlock["variables_set"] = function (block) {
             let targetGetVarBlock = Blockly.getMainWorkspace().getAllBlocks().filter(e => e.type === "variables_get" && e.getField("VAR").getText() === varName);
             (targetGetVarBlock.length > 0) && targetGetVarBlock.map(el => el.setOutput(true, child.outputConnection.check));//el.outputConnection.check_ = child.outputConnection.check_);
         } else { //don't have child or child block not define type
-            childType = "int";
+            childType = "float";
             let targetGetVarBlock = Blockly.getMainWorkspace().getAllBlocks().filter(e => e.type === "variables_get" && e.getField("VAR").getText() === varName);
             (targetGetVarBlock.length > 0) && targetGetVarBlock.map(el => el.setOutput(true, null));
         }
@@ -20,8 +20,16 @@ Blockly.JavaScript.forBlock["variables_set"] = function (block) {
     if (!Blockly.JavaScript.dbNameType_) {
         Blockly.JavaScript.dbNameType_ = {};
     }
-    Blockly.JavaScript.dbNameType_[varName] = childType === "Number" ? "int" : childType;
+    Blockly.JavaScript.dbNameType_[varName] = childType === "Number" ? "float" : childType;
     // console.log(Blockly.JavaScript.dbNameType_);
 
     return varName + " = " + argument0 + ";\n";
 };
+
+
+Blockly.JavaScript.forBlock["math_change"] = function (block) {
+    // Add to a variable in place.
+    const argument0 = Blockly.JavaScript.valueToCode(block, 'DELTA', Blockly.JavaScript.ORDER_ADDITION) || '0';
+    const varName = Blockly.JavaScript.nameDB_.getName(block.getField("VAR").getText(), Blockly.Names.NameType.VARIABLE);
+    return `${varName} += ${argument0};\n`;
+  }

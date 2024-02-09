@@ -3,6 +3,10 @@ addBoard({
     name: "Rapbit32",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "PrinceBot"
+    ],
     chip: "ESP32",
     script: [ 
         "../kidbright32/js/field_note.js",

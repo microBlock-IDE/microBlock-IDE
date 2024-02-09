@@ -3,6 +3,10 @@ addBoard({
     name: "ArtronShop RP2 Nano",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "RP2040",
+        "ArtronShop"
+    ],
     uploadMode: "MSC",
     mscSize: 1417216,
     chip: "RP2",

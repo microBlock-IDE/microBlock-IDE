@@ -15,8 +15,8 @@ Blockly.Python['random_seed'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['random_seed'] = function(block) {
-  var code = 'randomSeed(analogRead(0));\n';
+Blockly.JavaScript.forBlock['random_seed'] = function(block) {
+  var code = 'randomSeed(analogRead(A0));\n';
   return code;
 };
 
@@ -28,11 +28,10 @@ Blockly.JavaScript.forBlock['math_random_int'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
-
-
 Blockly.JavaScript.forBlock['procedures_defreturn'] = function (block) {
   // Define a procedure with a return value.
   const funcName = Blockly.JavaScript.nameDB_.getName(block.getFieldValue('NAME'), Blockly.Names.NameType.PROCEDURE);
+  console.log("funcName def", funcName);
   var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
   if (Blockly.JavaScript.STATEMENT_PREFIX) {
     var id = block.id.replace(/\$/g, '$$$$');  // Issue 251.
@@ -47,7 +46,8 @@ Blockly.JavaScript.forBlock['procedures_defreturn'] = function (block) {
   const variables = block.getVars();
   for (var i = 0; i < variables.length; i++) {
     args[i] = args[i] = Blockly.JavaScript.nameDB_.getName(variables[i], Blockly.Names.NameType.VARIABLE);
-    let vType = (args[i] in Blockly.JavaScript.dbNameType_) ? Blockly.JavaScript.dbNameType_[args[i]].type : "int";
+    // let vType = (args[i] in Blockly.JavaScript.dbNameType_) ? Blockly.JavaScript.dbNameType_[args[i]].type : "int";
+    let vType = "float";
     argsIncType[i] = vType + ' ' + args[i];
   }
   //--- return type ---//
@@ -60,20 +60,21 @@ Blockly.JavaScript.forBlock['procedures_defreturn'] = function (block) {
     }
   }
   var returnType = 'void';
+  console.log(childType);
   if (childType) {
-    returnType = ({ "number": "int" })?.[childType] || "void";
+    returnType = ({ "number": "float", "string": "String" })?.[childType] || "void";
   } else {
-    if (returnValue in Blockly.JavaScript.dbNameType_) {
+    /*if (returnValue in Blockly.JavaScript.dbNameType_) {
       returnType = Blockly.JavaScript.dbNameType_[returnValue].type;
-    }
+    }*/
   }
   if (returnValue) {
     returnValue = Blockly.JavaScript.INDENT + 'return ' + returnValue + ';\n';
   } else {
-    returnValue = Blockly.JavaScript.INDENT + 'return;\n';
+    // returnValue = Blockly.JavaScript.INDENT + 'return;\n';
   }
 
-  var code = `${returnType} ${funcName}(${argsIncType.join(', ')}) {\n${branch} ${returnValue}}\n`;
+  var code = `${returnType} ${funcName}(${argsIncType.join(', ')}) {\n${branch}${returnValue}}\n`;
   //var code = returnType + ' function ' + funcName + '(' + args.join(', ') + ') {\n' + branch + returnValue + '}';
   code = Blockly.JavaScript.scrub_(block, code);
   // Add % so as not to collide with helper functions in definitions list.
@@ -93,24 +94,29 @@ Blockly.JavaScript.forBlock['procedures_callreturn'] = function (block) {
   // Call a procedure with a return value.
   var funcName = Blockly.JavaScript.nameDB_.getName(
     block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  funcName = funcName.substring(0, funcName.length - 1);
   var args = [];
   for (var i = 0; i < block.arguments_.length; i++) {
     args[i] = Blockly.JavaScript.valueToCode(block, 'ARG' + i,
-      Blockly.JavaScript.ORDER_COMMA) || 'null';
+      Blockly.JavaScript.ORDER_COMMA) || 'NULL';
   }
   var code = funcName + '(' + args.join(', ') + ')';
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript.forBlock['procedures_callnoreturn'] = function (block) {
+  // console.log(block.getFieldValue('NAME'));
   // Call a procedure with no return value.
   var funcName = Blockly.JavaScript.nameDB_.getName(
     block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  // var funcName = block.getFieldValue('NAME');
+  funcName = funcName.substring(0, funcName.length - 1);
   var args = [];
   for (var i = 0; i < block.arguments_.length; i++) {
     args[i] = Blockly.JavaScript.valueToCode(block, 'ARG' + i,
-      Blockly.JavaScript.ORDER_COMMA) || 'null';
+      Blockly.JavaScript.ORDER_COMMA) || 'NULL';
   }
+  console.log("funcName", funcName);
   var code = funcName + '(' + args.join(', ') + ');\n';
   return code;
 };

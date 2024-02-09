@@ -3,6 +3,9 @@ addBoard({
     name: "ESP32 Dev Board",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32"
+    ],
     chip: "ESP32",
     script: [ 
         // "js/field_bitmap.js",

@@ -9,6 +9,17 @@ Blockly.Python['math_map'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.JavaScript.forBlock['math_map'] = function (block) {
+    var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_from_min = Blockly.JavaScript.valueToCode(block, 'from_min', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_from_max = Blockly.JavaScript.valueToCode(block, 'from_max', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_to_min = Blockly.JavaScript.valueToCode(block, 'to_min', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_to_max = Blockly.JavaScript.valueToCode(block, 'to_max', Blockly.JavaScript.ORDER_ATOMIC);
+
+    var code = `map(${value_value}, ${value_from_min}, ${value_from_max}, ${value_to_min}, ${value_to_max})`;
+    return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript.forBlock['logic_compare'] = function (block) {
     // Comparison operator.
     const OPERATORS = { 'EQ': '==', 'NEQ': '!=', 'LT': '<', 'LTE': '<=', 'GT': '>', 'GTE': '>=' };
@@ -29,7 +40,7 @@ Blockly.JavaScript.forBlock['logic_compare'] = function (block) {
         const type0 = getTypeValue("A");
         const type1 = getTypeValue("B");
 
-        if ([ type0, type1 ].indexOf("String")) {
+        if ([type0, type1].indexOf("String")) {
             if (!argument0) {
                 argument0 = '""';
             }
@@ -75,3 +86,56 @@ Blockly.JavaScript.forBlock['logic_operation'] = function (block) {
     return [code, order];
 };
 */
+
+
+Blockly.JavaScript.forBlock['math_round'] = function (block) {
+    // Math operators with single operand.
+    var operator = block.getFieldValue('OP');
+    var code;
+    var arg = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+
+    switch (operator) {
+        case 'ROUND':
+            code = 'round(' + arg + ')';
+            break;
+        case 'ROUNDUP':
+            code = 'ceil(' + arg + ')';
+            break;
+        case 'ROUNDDOWN':
+            code = 'floor(' + arg + ')';
+            break;
+    }
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+}
+
+Blockly.JavaScript.forBlock['math_trig'] = function (block) {
+    // Math operators with single operand.
+    var operator = block.getFieldValue('OP');
+    var code;
+    var arg = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+
+    code = operator.toLowerCase() + '(' + arg + ' * PI / 180.0)';
+    /*
+    switch (operator) {
+        case 'SIN':
+            code = 'sin(' + arg + ' * PI/180.0)';
+            break;
+        case 'COS':
+            code = 'cos(' + arg + ' * PI/180.0)';
+            break;
+        case 'TAN':
+            code = 'tan(' + arg + ' * PI/180.0)';
+            break;
+        case 'ASIN':
+            code = 'asin(' + arg + ') * 180.0 / PI';
+            break;
+        case 'ACOS':
+            code = 'acos(' + arg + ') * 180.0 / PI';
+            break;
+        case 'ATAN':
+            code = 'atan(' + arg + ') * 180.0 / PI';
+            break;
+    }*/
+
+    return [code, Blockly.JavaScript.ORDER_ATOMIC];
+}

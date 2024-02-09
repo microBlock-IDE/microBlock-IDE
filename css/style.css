@@ -1746,6 +1746,29 @@ ul.switch-mode > li:last-child {
     background-color: #FFF;
 }
 
+#upload-log-dialog {
+    z-index: 9998;
+    margin: 0;
+}
+
+#upload-log-dialog> section {
+    height: 100%;
+}
+
+#upload-console-log {
+    background-color: #212F3D;
+    color: #FFF;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 12px;
+    overflow: auto;
+    margin: 0;
+    height: 100%;
+}
+
+#upload-console-log > .e {
+    color: #E74C3C;
+}
+
 .example-list {
     width: 260px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.19);

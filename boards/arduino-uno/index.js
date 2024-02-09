@@ -51,12 +51,15 @@ addBoard({
     name: "Arduino Uno",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "Arduino"
+    ],
     isArduinoPlatform: true,
     fqbn: "arduino:avr:uno",
     platform: {
         id: "arduino:avr",
         version: "1.8.6",
-        package_index: "", // package_xxx_index.json
+        package_index: "https://downloads.arduino.cc/packages/package_staging_index.json", // package_xxx_index.json
     },
     script: [ 
         
@@ -369,6 +372,37 @@ addBoard({
                                     <shadow type="math_number">
                                         <field name="NUM">3.1</field>
                                     </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="math_map">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="from_min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="from_max">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1023</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="to_min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="to_max">
+                                        <shadow type="math_number">
+                                            <field name="NUM">255</field>
+                                        </shadow>
                                     </value>
                                 </block>
                             `

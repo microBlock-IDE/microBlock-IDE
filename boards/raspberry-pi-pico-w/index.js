@@ -3,6 +3,10 @@ addBoard({
     name: "Raspberry Pi Pico W",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "RP2040",
+        "Raspberry Pi"
+    ],
     uploadMode: "MSC",
     mscSize: 843776,
     chip: "RP2-WiFi",

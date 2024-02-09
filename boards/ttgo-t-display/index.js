@@ -3,6 +3,10 @@ addBoard({
     name: "TTGO T-Display",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "TTGO"
+    ],
     chip: "ESP32",
     script: [ 
         // "js/field_bitmap.js",
