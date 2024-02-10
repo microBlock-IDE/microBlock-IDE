@@ -5,6 +5,8 @@ const arduin_cli_name = {
     win32: "arduino-cli.exe"
 };
 const ARDUINO_CLI_PATH = path.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]);
+const ARDUINO_CONFIG_FILE = path.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml");
+const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
 
 let arduino_is_busy = false;
 function arduino_busy(is_busy) {
@@ -128,10 +130,9 @@ async function arduino_upload(code) {
 
     const { fqbn } = boards.find(board => board.id === boardId);
 
-    // Build
-    statusLog(`Building...`);
-    await (new Promise((resolve, reject) => {
-        const proc = spawn(`${ARDUINO_CLI_PATH} compile -b ${fqbn} "${sketch_dir}" -v`, [], { shell: true });
+    const runAndGetOutput = async cmd => (new Promise((resolve, reject) => {
+        uploadTerm.writeln(cmd);
+        const proc = spawn(cmd, [], { shell: true });
 
         proc.stdout.on("data", data => {
             console.log("stdout:", data.toString());
@@ -155,6 +156,10 @@ async function arduino_upload(code) {
         });
     }));
 
+    // Build
+    statusLog(`Building...`);
+    await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} compile -b ${fqbn} "${sketch_dir}" -v`);
+
     // Disconnect Serial port
     const beforeAutoConnectFlag = autoConnectFlag;
     if (serialPort) {
@@ -164,32 +169,9 @@ async function arduino_upload(code) {
     }
 
     // Upload
-    statusLog(`Uploading...`);
+    statusLog(`Uploading`);
     try {
-        await (new Promise((resolve, reject) => {
-            const proc = spawn(`${ARDUINO_CLI_PATH} upload -b ${fqbn} -p ${portName} "${sketch_dir}" -v`, [], { shell: true });
-
-            proc.stdout.on("data", data => {
-                console.log("stdout:", data.toString());
-                // $("#upload-console-log").append(`<span>${data.toString()}</span>`);
-                uploadTerm.write(data.toString());
-            });
-    
-            proc.stderr.on("data", data => {
-                console.warn("stderr:", data.toString());
-                // $("#upload-console-log").append(`<span class="e">${data.toString()}</span>`);
-                uploadTerm.write(data.toString());
-            });
-    
-            proc.on("exit", code => {
-                console.log("arduino-cli error code", code);
-                if (code == 0) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-        }));
+        await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName} "${sketch_dir}" -v`);
     } catch(e) {
         throw e;
     } finally {

@@ -900,7 +900,9 @@ $("#upload-program").click(async function() {
     if (isArduinoPlatform) {
         $("#upload-log-dialog .title").text("Uploading...");
         // $("#upload-console-log").html("");
-        // ShowDialog($("#upload-log-dialog")); // show upload dialog
+        if (+localStorage.getItem("show-console-upload")) {
+            ShowDialog($("#upload-log-dialog")); // show upload dialog
+        }
         if (typeof uploadTerm === "undefined") {
             uploadTerm = new Terminal();
             if (typeof uploadFitAddon === "undefined") {
@@ -913,9 +915,9 @@ $("#upload-program").click(async function() {
             } catch(e) {
                 
             }
-        } else {
-            uploadTerm.clear();
         }
+        setTimeout(() => uploadFitAddon.fit(), 100);
+        uploadTerm.clear();
     }
     try {
         if (!isArduinoPlatform) {
@@ -943,6 +945,9 @@ $("#upload-program").click(async function() {
         NotifyE("Upload Fail !");
         statusLog(`Upload fail because ${e}`);
         console.warn(e);
+        if (isArduinoPlatform) {
+            ShowDialog($("#upload-log-dialog")); // show upload dialog
+        }
     }
     
 

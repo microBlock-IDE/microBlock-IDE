@@ -62,15 +62,17 @@ addBoard({
         package_index: "https://downloads.arduino.cc/packages/package_staging_index.json", // package_xxx_index.json
     },
     script: [ 
-        
+        "js/field_dotmatrix.js",
     ],
     css: [
-       
+        "css/field_dotmatrix.css",
     ],
     blocks: [
+        "blocks/blocks_display.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_advanced.js",
 
+        "blocks/generators_display.js",
         "blocks/generators_pin.js",
         "blocks/generators_avanced.js",
     ],
@@ -104,6 +106,116 @@ addBoard({
             icon: "../kidbright32/images/puzzle.png",
             blocks: [
                 {
+                    name: "Display",
+                    icon: `../kidbright32/images/matrix.png`,
+                    color: "#e64c3c",
+                    blocks: [
+                        "display_begin",
+                        "display_custom",
+                        {
+                            xml: `
+                                <block type="display_show">
+                                    <value name="value">
+                                        <shadow type="text">
+                                            <field name="TEXT">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_scroll">
+                                    <value name="value">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello!</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_show_number">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">123</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        /*{
+                            xml: `
+                                <block type="display_left_show">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_right_show">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">12</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_plot">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },*/
+                        "display_begin_draw",
+                        {
+                            xml: `
+                                <block type="display_dot_show">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="display_dot_hide">
+                                    <value name="x">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="y">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "display_end_draw",
+                        "display_clear",
+                    ]
+                },
+                {
                     name: "Pin",
                     icon: "/images/icon/led.png",
                     color: "#e64c3c",
@@ -111,11 +223,7 @@ addBoard({
                         {
                             xml: `
                                 <block type="pin_mode">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">13</field>
-                                        </shadow>
-                                    </value>
+                                    <field name="pin">13</field>
                                 </block>
                             `
                         },
@@ -127,11 +235,7 @@ addBoard({
                                             <field name="NUM">1</field>
                                         </shadow>
                                     </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">13</field>
-                                        </shadow>
-                                    </value>
+                                    <field name="pin">13</field>
                                 </block>
                             `
                         },
@@ -143,20 +247,40 @@ addBoard({
                                             <field name="NUM">255</field>
                                         </shadow>
                                     </value>
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">13</field>
-                                        </shadow>
-                                    </value>
+                                    <field name="pin">11</field>
                                 </block>
                             `
                         },
                         {
                             xml: `
                                 <block type="pin_digital_read">
-                                    <value name="pin">
+                                    <field name="pin">2</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="pin_analog_read">
+                                    <field name="pin">A0</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="External Interrupt"></label>',
+                        },
+                        "pin_attach_interrupt",
+                        "pin_detach_interrupt",
+                        {
+                            xml: '<label text="Advanced I/O"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="pin_pulse_in">
+                                    <field name="pin">7</field>
+                                    <field name="value">HIGH</field>
+                                    <value name="timeout">
                                         <shadow type="math_number">
-                                            <field name="NUM">5</field>
+                                            <field name="NUM">1000000</field>
                                         </shadow>
                                     </value>
                                 </block>
@@ -164,15 +288,29 @@ addBoard({
                         },
                         {
                             xml: `
-                                <block type="pin_analog_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">5</field>
-                                        </shadow>
-                                    </value>
+                                <block type="pin_shift_in">
+                                    <field name="data_pin">8</field>
+                                    <field name="clock_pin">9</field>
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="pin_shift_out">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">255</field>
+                                        </shadow>
+                                    </value>
+                                    <field name="data_pin">8</field>
+                                    <field name="clock_pin">9</field>
+                                </block>
+                            `
+                        },
+                        /*"pin_shift_out",
+                        "pin_tone",
+                        "pin_tone_duration",
+                        "pin_no_tone",*/
                     ]
                 },
                 {
@@ -235,6 +373,17 @@ addBoard({
                         },
                         "controls_wait_until",
                         "controls_whileUntil",
+                        {
+                            xml: `
+                                <block type="controls_wait_us">
+                                    <value name="time">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {

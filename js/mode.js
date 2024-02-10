@@ -22,6 +22,7 @@ $("#mode-select-switch > li").click(async function () {
         $("#blocks-editor").css("display", "flex");
         $("#code-editor").hide();
         Blockly.triggleResize();
+        useMode = "block";
     } else if (value == 2) { // Code mode
         $("#blocks-editor").hide();
         $("#code-editor").css("display", "flex");
@@ -89,6 +90,7 @@ $("#mode-select-switch > li").click(async function () {
 
         editor.layout();
 
+        useMode = "code";
     } else { // ????
 
     }

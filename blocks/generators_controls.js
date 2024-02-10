@@ -10,6 +10,30 @@ Blockly.JavaScript['controls_wait'] = function (block) {
   return code;
 };
 
+Blockly.Python['controls_wait_ms'] = function (block) {
+  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+  var code = `sleep_ms(${value_time})\n`;
+  return code;
+};
+
+Blockly.JavaScript['controls_wait_ms'] = function (block) {
+  var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = `delay(${value_time});\n`;
+  return code;
+};
+
+Blockly.Python['controls_wait_us'] = function (block) {
+  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+  var code = `sleep_us(${value_time})\n`;
+  return code;
+};
+
+Blockly.JavaScript['controls_wait_us'] = function (block) {
+  var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
+  var code = `delayMicroseconds(${value_time});\n`;
+  return code;
+};
+
 Blockly.Python['controls_wait_until'] = function (block) {
   var value_condition = Blockly.Python.valueToCode(block, 'condition', Blockly.Python.ORDER_ATOMIC);
   var code = `while not ${value_condition}: pass\n`;
