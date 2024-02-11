@@ -16,7 +16,7 @@ function arduino_busy(is_busy) {
 async function arduino_board_init() {
     arduino_busy(true);
 
-    const { fqbn, platform } = boards.find(board => board.id === boardId);
+    const { fqbn, platform, depends } = boards.find(board => board.id === boardId);
 
     const runGetOutput = async cmd => {
         console.log(cmd);
@@ -25,7 +25,7 @@ async function arduino_board_init() {
         console.log(stdout);
         arduinInitTerm.writeln(stdout.replace(/\n/g, "\r\n"));
         */
-        const { stdout, stderr } = await (new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const proc = spawn(cmd, [], { shell: true });
 
             let stdout = "", stderr = "";
@@ -44,23 +44,36 @@ async function arduino_board_init() {
             proc.on("exit", code => {
                 console.log("arduino-cli error code", code);
                 if (code == 0) {
-                    resolve({ stdout, stderr });
+                    let out_json = {};
+                    if (cmd.indexOf("--format json") >= 0) {
+                        try {
+                            out_json = JSON.parse(stdout);
+                        } catch(e) {
+                            console.warn("parse json fail", stdout);
+                        }
+                    }
+                    resolve({ stdout, stderr, out_json });
                 } else {
                     reject({ stdout, stderr });
                 }
             });
-        }));
-
-        return { stdout, stderr };
+        });
     };
 
     statusLog(`Update board index...`);
-    await runGetOutput(`${ARDUINO_CLI_PATH} core update-index`); // update board index
+    try {
+        await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core update-index`); // update board index
+    } catch(e) {
+        NotifyW("Update board index fail");
+        statusLog(`Update board index fail`);
+        console.warn(e);
+    }
 
     { // check board are installed
         statusLog(`Check board are install...`);
-        const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} board listall ${fqbn}`);
-        if (stdout.indexOf(fqbn) > 0) {
+        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
+        // if (stdout.indexOf(fqbn) > 0) {
+        if (out_json?.boards?.findIndex(list => list?.fqbn === fqbn) >= 0) {
             statusLog(`Ready to upload !`);
             console.log(`board ${fqbn} installed, skip install platform`);
         } else {
@@ -70,22 +83,93 @@ async function arduino_board_init() {
 
             // check platform are installed
             statusLog(`Check platform ${platform_id} are install...`);
-            const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} core list`);
-            if (stdout.indexOf(platform_id) > 0) { // found in install list
+            const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core list --format jsonmini`);
+            console.log(out_json);
+            if (out_json?.findIndex(list => list?.id === platform_id) >= 0) { // found in install list
                 statusLog(`Updating platform ${platform_id}...`);
                 console.log(`platform ${platform_id} installed but board not found so update platform`);
-                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} core upgrade ${platform_id}`);
+                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
                 statusLog(`Update platform ${platform_id} done`);
             } else { // not found in install list
                 statusLog(`Installing platform ${platform_id}...`);
                 console.log(`platform ${platform_id} not install so install platform`);
-                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} core install ${platform_id}`);
+                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
                 statusLog(`Install platform ${platform_id} done`);
             }
         }
     }
 
+    // Update lib index
+    statusLog(`Update library index...`);
+    try {
+        await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib update-index`);
+    } catch(e) {
+        NotifyW("Update library index fail");
+        statusLog(`Update library index fail`);
+        console.warn(e);
+    }
+
+    await arduino_check_and_install_library(depends);
+
     arduino_busy(false);
+}
+
+async function arduino_check_and_install_library(depends) {
+    const runGetOutput = async cmd => {
+        console.log(cmd);
+        arduinInitTerm.writeln(cmd);
+        /*const { stdout, stderr } = await execAsync(cmd);
+        console.log(stdout);
+        arduinInitTerm.writeln(stdout.replace(/\n/g, "\r\n"));
+        */
+        return new Promise((resolve, reject) => {
+            const proc = spawn(cmd, [], { shell: true });
+
+            let stdout = "", stderr = "";
+            proc.stdout.on("data", data => {
+                console.log("stdout:", data.toString());
+                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
+                stdout += data.toString();
+            });
+
+            proc.stderr.on("data", data => {
+                console.warn("stderr:", data.toString());
+                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
+                stderr += data.toString();
+            });
+
+            proc.on("exit", code => {
+                console.log("arduino-cli error code", code);
+                if (code == 0) {
+                    let out_json = {};
+                    try {
+                        out_json = JSON.parse(stdout);
+                    } catch(e) {
+
+                    }
+                    resolve({ stdout, stderr, out_json });
+                } else {
+                    reject({ stdout, stderr });
+                }
+            });
+        });
+    };
+
+    for (const lib_name of depends) {
+        const [ name, version ] = lib_name.split("@");
+        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list ${name} --format jsonmini`);
+        if ((out_json.length == 0) || (out_json?.[0]?.library?.version !== version)) { // Check version
+            // Install lib
+            statusLog(`Install ${lib_name}...`);
+            try {
+                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install ${lib_name}`);
+            } catch(e) {
+                NotifyW(`Update library ${lib_name} fail`);
+                statusLog(`Update library index fail`);
+                console.warn(e);
+            }
+        }
+    }
 }
 
 async function arduino_upload(code) {

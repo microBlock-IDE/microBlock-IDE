@@ -23,8 +23,8 @@ let installExtension = async (extensionId) => {
         NotifyE("Not found " + extensionId + " in extension index");
         return false;
     }
-    let extension = extensionIndex[extensionId];
-    let extensionLocalPath = `/extension/${extensionId}`;
+    const extension = extensionIndex[extensionId];
+    const extensionLocalPath = `/extension/${extensionId}`;
     
     let downloadRepo = await downloadRepoFromGitHubStoreInFS(extension.github, extensionLocalPath, msg => NotifyE(msg));
     if (!downloadRepo) {
@@ -45,6 +45,10 @@ let installExtension = async (extensionId) => {
         } else {
             console.warn("Why file " + file + " in blocks ? support .js only so skip it");
         }
+    }
+
+    if (extension?.supportArduinoPlatform && Array.isArray(extension?.depends)) {
+        await arduino_check_and_install_library(extension?.depends);
     }
 
     updateBlockCategory();
@@ -108,9 +112,13 @@ let showExtensionList = (extensionList) => {
     if (isElectron) {
         extensionInstalledList = extensionInstalledList.concat(nodeFS.ls(sharedObj.extensionDir));
     }
-    let board = boards.find(board => board.id === boardId);
+    const board = boards.find(board => board.id === boardId);
     for (const [id, info] of Object.entries(extensionList)) {
         if (Array.isArray(info?.chip) && (!info.chip.includes(board.chip))) { // Skip if chip not support
+            continue;
+        }
+
+        if (board?.isArduinoPlatform && (!info?.supportArduinoPlatform)) { // Skip if Arduino and extension not defined support Arduino
             continue;
         }
 

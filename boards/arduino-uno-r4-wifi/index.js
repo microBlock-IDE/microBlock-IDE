@@ -61,6 +61,9 @@ addBoard({
         version: "1.0.5",
         package_index: "https://downloads.arduino.cc/packages/package_staging_index.json", // package_xxx_index.json
     },
+    depends: [ // Arduino libraries that are needed to build the current board
+        "ArduinoGraphics@1.1.0"
+    ],
     script: [ 
         "js/field_dotmatrix.js",
     ],

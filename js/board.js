@@ -132,7 +132,9 @@ let loadBoard = async () => {
     }
 
     if (board?.isArduinoPlatform) {
-        // ShowDialog($("#arduino-init-dialog"));
+        if (+localStorage.getItem("show-console-board-initial")) {
+            ShowDialog($("#arduino-init-dialog"));
+        }
         if (typeof arduinInitTerm === "undefined") {
             arduinInitTerm = new Terminal();
             if (typeof arduinInitFitAddon === "undefined") {
