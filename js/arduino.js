@@ -173,6 +173,10 @@ async function arduino_check_and_install_library(depends) {
 }
 
 async function arduino_upload(code) {
+    if (arduino_is_busy) {
+        throw "Arduino init now, wait finish at soon~"
+    }
+
     let portName = serialPort?.path || null;
     if (!portName) {
         try {

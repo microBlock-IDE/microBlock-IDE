@@ -150,7 +150,8 @@ let loadBoard = async () => {
         } else {
             arduinInitTerm.clear();
         }
-        await arduino_board_init();
+        // await arduino_board_init();
+        arduino_board_init();
         // CloseDialog($("#arduino-init-dialog"));
     }
 }
