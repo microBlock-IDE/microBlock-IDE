@@ -1003,7 +1003,7 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement) {
                 this.definitions_['variables'] = b.map(name => `${Blockly.JavaScript?.dbNameType_?.[name] || "int"} ${name};`).join("\n");
             }*/
             this.definitions_['include'] = {};
-            this.definitions_['defind'] = {};
+            this.definitions_['define'] = {};
             this.definitions_['variables'] = b;
 
             this.isInitialized = !0
@@ -1013,7 +1013,7 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement) {
             this.definitions_['variables'] = this.definitions_['variables'].map(name => `${Blockly.JavaScript?.dbNameType_?.[name] || "float"} ${name};`).join("\n");
             // console.log(this.definitions_);
             this.definitions_['include'] = Object.values(this.definitions_['include']).join("\n");
-            this.definitions_['defind'] = Object.values(this.definitions_['defind']).join("\n");
+            this.definitions_['define'] = Object.values(this.definitions_['define']).join("\n");
 
             const b = Object.values(this.definitions_);
             super.finish(a);

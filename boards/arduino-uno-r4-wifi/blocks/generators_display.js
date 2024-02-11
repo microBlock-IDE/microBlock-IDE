@@ -1,7 +1,7 @@
 let defined_lib = () => {
     Blockly.JavaScript.definitions_['include']['ArduinoGraphics.h'] = '#include <ArduinoGraphics.h>';
     Blockly.JavaScript.definitions_['include']['Arduino_LED_Matrix.h'] = '#include <Arduino_LED_Matrix.h>';
-    Blockly.JavaScript.definitions_['defind']['matrix'] = 'ArduinoLEDMatrix matrix;';
+    Blockly.JavaScript.definitions_['define']['matrix'] = 'ArduinoLEDMatrix matrix;';
 };
 
 Blockly.JavaScript['display_begin'] = function(block) {
