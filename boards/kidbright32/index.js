@@ -3,6 +3,11 @@ KidBright32_config = {
     name: "",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "KidBright",
+        "IoT"
+    ],
     chip: "ESP32",
     pins_define: {
         digital: [

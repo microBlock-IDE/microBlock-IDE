@@ -17,6 +17,40 @@ Blockly.defineBlocksWithJsonArray([
   "helpUrl": ""
 },
 {
+  "type": "controls_wait_ms",
+  "message0": "wait %1 mS",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#D4AC0D",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "controls_wait_us",
+  "message0": "wait %1 uS",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "time",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#D4AC0D",
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
   "type": "controls_repeat_ext",
   "message0": "%{BKY_CONTROLS_REPEAT_TITLE}",
   "args0": [{

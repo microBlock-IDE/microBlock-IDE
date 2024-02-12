@@ -721,7 +721,8 @@ const xmlToCode = xml_text => {
     document.querySelector("body").appendChild(work_div);
     const tmp_workspace = Blockly.inject(work_div, {});
     Blockly.Xml.domToWorkspace(Blockly.utils.xml.textToDom(xml_text), tmp_workspace);
-    const code = Blockly.Python.workspaceToCode(tmp_workspace);
+    const { isArduinoPlatform } = boards.find(board => board.id === boardId);
+    const code = (!isArduinoPlatform) ? Blockly.Python.workspaceToCode(tmp_workspace) : Blockly.JavaScript.workspaceToCode(tmp_workspace);
     work_div.remove();
 
     return code;
@@ -895,17 +896,44 @@ $("#upload-program").click(async function() {
     }
 
     console.log(code);
-
-    try {
-        if (deviceMode === MODE_REAL_DEVICE) {
-            await realDeviceUploadFlow(code);
-        } else if (deviceMode === MODE_SIMULATOR) {
-            let simSystem = domSimulatorIframe.contentWindow.simSystem;
-            if (simSystem) {
-                simSystem.runCode(code);
-            } else {
-                console.warn("Connect to domSimulatorIframe error");
+    const { isArduinoPlatform } = boards.find(board => board.id === boardId);
+    if (isArduinoPlatform) {
+        $("#upload-log-dialog .title").text("Uploading...");
+        // $("#upload-console-log").html("");
+        if (+localStorage.getItem("show-console-upload")) {
+            ShowDialog($("#upload-log-dialog")); // show upload dialog
+        }
+        if (typeof uploadTerm === "undefined") {
+            uploadTerm = new Terminal();
+            if (typeof uploadFitAddon === "undefined") {
+                uploadFitAddon = new FitAddon.FitAddon();
             }
+            uploadTerm.loadAddon(uploadFitAddon);
+            uploadTerm.open($("#upload-log-dialog > section")[0]);
+            try {
+                uploadFitAddon.fit();
+            } catch(e) {
+                
+            }
+        }
+        setTimeout(() => uploadFitAddon.fit(), 100);
+        uploadTerm.clear();
+    }
+    try {
+        if (!isArduinoPlatform) {
+            if (deviceMode === MODE_REAL_DEVICE) {
+                await realDeviceUploadFlow(code);
+            } else if (deviceMode === MODE_SIMULATOR) {
+                let simSystem = domSimulatorIframe.contentWindow.simSystem;
+                if (simSystem) {
+                    simSystem.runCode(code);
+                } else {
+                    console.warn("Connect to domSimulatorIframe error");
+                }
+            }
+        } else {
+            await arduino_upload(code);
+            // $("#upload-log-dialog .close-dialog").click();
         }
 
         timeDiff = (new Date()).getTime() - t0;
@@ -913,9 +941,13 @@ $("#upload-program").click(async function() {
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
     } catch(e) {
+        $("#upload-log-dialog .title").text("Upload Fail");
         NotifyE("Upload Fail !");
         statusLog(`Upload fail because ${e}`);
         console.warn(e);
+        if (isArduinoPlatform) {
+            ShowDialog($("#upload-log-dialog")); // show upload dialog
+        }
     }
     
 

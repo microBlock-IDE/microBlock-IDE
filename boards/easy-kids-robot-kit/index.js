@@ -51,6 +51,12 @@ addBoard({
     name: "3in1 EASYKIDS BOARD",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "EasyKids Robotics",
+        "Robot",
+        "IoT"
+    ],
     chip: "ESP32",
     script: [ 
         "../kidbright32/js/field_note.js",

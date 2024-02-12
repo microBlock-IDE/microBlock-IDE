@@ -1,11 +1,11 @@
-let extensionIndexURL = "https://api.github.com/repos/microBlock-IDE/microBlock-extension-index/contents/main.json";
+const extensionIndexURL = "https://microblock-ide.github.io/microBlock-extension-index/main.json";
 let extensionIndex = null;
 
 let updateExtensionIndex = async () => {
     let extensionIndexFromAPI = await fetch(extensionIndexURL, { 
         redirect: "follow",
         headers: { 
-            "Accept": "application/vnd.github.v3.raw" 
+            // "Accept": "application/vnd.github.v3.raw" 
         },
     });
     if (!extensionIndexFromAPI.ok) {
@@ -23,8 +23,8 @@ let installExtension = async (extensionId) => {
         NotifyE("Not found " + extensionId + " in extension index");
         return false;
     }
-    let extension = extensionIndex[extensionId];
-    let extensionLocalPath = `/extension/${extensionId}`;
+    const extension = extensionIndex[extensionId];
+    const extensionLocalPath = `/extension/${extensionId}`;
     
     let downloadRepo = await downloadRepoFromGitHubStoreInFS(extension.github, extensionLocalPath, msg => NotifyE(msg));
     if (!downloadRepo) {
@@ -45,6 +45,10 @@ let installExtension = async (extensionId) => {
         } else {
             console.warn("Why file " + file + " in blocks ? support .js only so skip it");
         }
+    }
+
+    if (extension?.supportArduinoPlatform && Array.isArray(extension?.depends)) {
+        await arduino_check_and_install_library(extension?.depends);
     }
 
     updateBlockCategory();
@@ -108,9 +112,13 @@ let showExtensionList = (extensionList) => {
     if (isElectron) {
         extensionInstalledList = extensionInstalledList.concat(nodeFS.ls(sharedObj.extensionDir));
     }
-    let board = boards.find(board => board.id === boardId);
+    const board = boards.find(board => board.id === boardId);
     for (const [id, info] of Object.entries(extensionList)) {
         if (Array.isArray(info?.chip) && (!info.chip.includes(board.chip))) { // Skip if chip not support
+            continue;
+        }
+
+        if (board?.isArduinoPlatform && (!info?.supportArduinoPlatform)) { // Skip if Arduino and extension not defined support Arduino
             continue;
         }
 
@@ -126,7 +134,7 @@ let showExtensionList = (extensionList) => {
                         <div class="author">${info.author ? info.author : 'None'}</div>
                         <div class="other">
                             <span class="version" style="background-color: ${info.color}">${info.version ? info.version : 'None'}</span>
-                            <a href="${info.github ? info.github : '#'}" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href=";" onclick="shell.openExternal('${info.github ? info.github : '#'}'); return false;" target="_blank"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>

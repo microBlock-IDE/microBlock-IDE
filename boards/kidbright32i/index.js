@@ -4,7 +4,13 @@ Object.assign(boardConfig, {
     id: "kidbright32i",
     name: "KidBright32i",
     description: "",
-    image: "images/cover.jpg"
+    image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "KidBright",
+        "IoT",
+        "INEX"
+    ],
 });
 
 boardConfig.blocks = boardConfig.blocks.concat([

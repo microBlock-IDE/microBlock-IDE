@@ -10,15 +10,9 @@ let updateBlockCategory = async () => {
     var categoryIconList = [];
     let toolboxTextXML = `<xml xmlns="https://developers.google.com/blockly/xml">`;
 
-    let toolboxTree = null;
-    if (boardId && levelName) {
-        let board = boards.find(board => board.id === boardId);
-        let level = board.level.find(level => level.name === levelName);
-        toolboxTree = level.blocks;
-    }
-    if (!toolboxTree) {
-        toolboxTree = blocksTree;
-    }
+    const board = boards.find(board => board?.id === boardId);
+    const level = board?.level?.find(level => level.name === levelName);
+    const toolboxTree = level?.blocks || blocksTree;
     // blockTree
     for (let category of toolboxTree) {
         toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
@@ -66,6 +60,11 @@ let updateBlockCategory = async () => {
             categoryIconList.push(`${extensionDir}/${extensionId}/${extension.icon}`);
         }
     }
+    
+    if (board?.isArduinoPlatform) {
+        extenstionTree = extenstionTree.filter(a => a?.supportArduinoPlatform);
+    }
+
     for (let category of extenstionTree) {
         toolboxTextXML += `<category name="${category.name}" colour="${category.color}"${typeof category.blocks === "string" ? ` custom="${category.blocks}"` : ''}>`;
         if (typeof category.blocks === "object") {

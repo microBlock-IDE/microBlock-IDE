@@ -3,6 +3,11 @@ addBoard({
     name: "OpenBIT",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "INEX",
+        "IoT"
+    ],
     chip: "ESP32",
     pins_define: {
         digital: [

@@ -1,4 +1,5 @@
-Blockly.defineBlocksWithJsonArray([{
+Blockly.defineBlocksWithJsonArray([
+{
   "type": "pin_digital_write",
   "message0": "digital write %1 to pin %2",
   "args0": [

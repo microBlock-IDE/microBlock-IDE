@@ -2,6 +2,11 @@ addBoard({
     id: "puppy-bot-4wd",
     name: "PuppyBot(4WD)",
     description: "",
+    tags: [
+        "RP2040",
+        "PrinceBot",
+        "Robot"
+    ],
     image: "images/cover.jpg",
     uploadMode: "MSC",
     mscSize: 1417216,

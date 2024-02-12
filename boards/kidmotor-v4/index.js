@@ -3,6 +3,11 @@ addBoard({
     name: "KidMotor V4.0",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "RP2040",
+        "INEX",
+        "Robot"
+    ],
     uploadMode: "MSC",
     mscSize: 1417216,
     chip: "RP2",

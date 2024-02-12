@@ -5,6 +5,12 @@ Object.assign(boardConfig, {
     name: "KidBright32 V1.3 & V1.4",
     description: "",
     image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "KidBright",
+        "IoT",
+        "NECTEC"
+    ],
     simulator: {
         index: "simulator/index.html",
         script: [ ]

@@ -2,76 +2,71 @@ let boards = [];
 let boardId = null;
 let levelName = null;
 
-let addBoard = (board) => {
-    boards.push(board);
-};
+let addBoard = board => boards.push(board);
+
+let boardIdSelect = null;
 
 $("#new-project").click(async () => {
     if (!(await NotifyConfirm("All blocks will lost. Are you sure of new project ?"))) {
         return;
     }
 
-    $("#project-create-dialog #hardware-select ul").html("");
-    {
-        const board = boards.find(board => board?.id === boardId);
-        if (board) {
-            $("#project-create-dialog #hardware-select ul").append(`
-                <li>
-                    <div data-board-id="${board.id}">
-                        <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
-                        <div class="name">${board.name}</div>
-                    </div>
-                </li>
-            `);
-        }
-    }
-    let index = 1;
-    for (let board of boards) {
-        if (board.id === boardId) {
-            continue;
-        }
-        $("#project-create-dialog #hardware-select ul").append(`
-            <li class="${index > 4 ? "show-when-click-see-more" : ""}">
-                <div data-board-id="${board.id}">
-                    <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
-                    <div class="name">${board.name}</div>
-                </div>
-            </li>
-        `);
-        index++;
-    }
-    $("#board-see-more-btn").show();
+    boardIdSelect = boardId || "kidbright32-v1.3";
 
-    $("#project-create-dialog #hardware-select ul > li > div").click(function() {
-        let boardId = $(this).attr("data-board-id");
-        let board = boards.find(board => board.id === boardId);
-        // console.log(board);
+    const tags_list =   [ "Recommend" ]
+                        .concat(boards
+                                    .map(a => a.tags)
+                                    .reduce((accumulator, currentValue) => accumulator.concat(currentValue))
+                                    .filter((item, index, arr) => arr.indexOf(item) === index)
+                                    .sort()
+                                );
+    // console.log("tags list", tags_list);
+    $("#boards-tags-list").html(tags_list.map(tag => `<li>${tag}</li>`).join(""));
+    $("#boards-tags-list > li").click(e => {
+        $("#boards-tags-list > li").removeClass("active");
+        $(e.currentTarget).addClass("active");
 
-        $("#project-create-dialog #level-select ul").html("");
-        for (let level of board.level) {
-            $("#project-create-dialog #level-select ul").append(`
-                <li>
-                    <div data-level-name="${level.name}">
-                        <div class="image"><img src="${rootPath}/boards/${board.id}/${level.icon}" alt=""></div>
-                        <div class="name">${level.name}</div>
-                    </div>
-                </li>
-            `)
+        const tag_select = e.currentTarget.textContent;
+        // console.log(tag_select);
+        let board_id_in_tag_list = [];
+        if (tag_select === "Recommend") {
+            board_id_in_tag_list = [
+                boardId,
+                "kidbright32-v1.3",
+                "kidbright32i",
+                "kidbright32iP",
+                "kidbright32iA",
+                "kidbright32-v1.6"
+            ].filter((item, index, arr) => arr.indexOf(item) === index).slice(0, 5);
+        } else {
+            board_id_in_tag_list = boards.filter(board => board.tags.indexOf(tag_select) >= 0).map(board => board.id);
         }
+        $("#hardware-select ul").html(
+            board_id_in_tag_list.map(board_id => {
+                const board = boards.find(a => a.id === board_id);
+                return `
+                    <li>
+                        <div data-board-id="${board.id}"${board.id === boardIdSelect ?  'class="active"' : ""}>
+                            <div class="image"><img src="${rootPath}/boards/${board.id}/${board.image}" alt=""></div>
+                            <div class="name">${board.name}</div>
+                        </div>
+                    </li>
+                `
+            }).join("")
+        );
 
-        imageSelectUpdate("#level-select");
-        $(`#level-select ul > li:first-child > div`).click();
+        $("#hardware-select ul > li > div").click(e => {
+            $("#hardware-select ul > li > div").removeClass("active");
+            $(e.currentTarget).addClass("active");
+
+            boardIdSelect = $(e.currentTarget).attr("data-board-id");
+            // console.log(boardIdSelect);
+        });
     });
 
-    imageSelectUpdate("#hardware-select");
-    $(`#hardware-select ul > li > div[data-board-id='${boardId}']`).click();
+    $("#boards-tags-list > li:first-child").click();
 
     $("#project-create-dialog").show();
-});
-
-$("#board-see-more-btn").click(function() {
-    $("#project-create-dialog #hardware-select ul > li").removeClass("show-when-click-see-more");
-    $(this).hide();
 });
 
 $("#project-create-dialog .close-btn").click(() => $("#project-create-dialog").hide())
@@ -80,7 +75,7 @@ let loadBoard = async () => {
     if (!boardId || !levelName) {
         return;
     }
-    let board = boards.find(board => board.id === boardId);
+    const board = boards.find(board => board.id === boardId);
     let scripts = [ ];
     scripts = scripts.concat(board.script);
     scripts = scripts.concat(board.blocks);
@@ -130,6 +125,30 @@ let loadBoard = async () => {
     if (typeof board?.onLoad === "function") {
         await board.onLoad(blocklyWorkspace, board);
     }
+
+    if (board?.isArduinoPlatform) {
+        if (+localStorage.getItem("show-console-board-initial")) {
+            ShowDialog($("#arduino-init-dialog"));
+        }
+        if (typeof arduinInitTerm === "undefined") {
+            arduinInitTerm = new Terminal();
+            if (typeof arduinInitFitAddon === "undefined") {
+                arduinInitFitAddon = new FitAddon.FitAddon();
+            }
+            arduinInitTerm.loadAddon(arduinInitFitAddon);
+            arduinInitTerm.open($("#arduino-init-dialog > section")[0]);
+            try {
+                arduinInitFitAddon.fit();
+            } catch(e) {
+                
+            }
+        } else {
+            arduinInitTerm.clear();
+        }
+        // await arduino_board_init();
+        arduino_board_init();
+        // CloseDialog($("#arduino-init-dialog"));
+    }
 }
 
 $("#create-project-btn").click(async () => {
@@ -141,8 +160,10 @@ $("#create-project-btn").click(async () => {
     }
 
     let projectName = $("#project-name-input").val();
-    boardId = $("#project-create-dialog #hardware-select ul > li > div.active").attr("data-board-id");
-    levelName = $("#project-create-dialog #level-select ul > li > div.active").attr("data-level-name");
+    // boardId = $("#project-create-dialog #hardware-select ul > li > div.active").attr("data-board-id");
+    // levelName = $("#project-create-dialog #level-select ul > li > div.active").attr("data-level-name");
+    boardId = boardIdSelect;
+    levelName = boards.find(board => board.id === boardId).level[0].name;
 
     await loadBoard();
 
