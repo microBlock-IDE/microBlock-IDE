@@ -47,15 +47,15 @@ Blockly.Events.disableOrphansCustom = function (event) {
 };  
 
 addBoard({
-    id: "arduino-micro",
-    name: "Arduino Micro",
+    id: "arduino-mega",
+    name: "Arduino Mega 2560",
     description: "",
     image: "images/cover.jpg",
     tags: [
         "Arduino"
     ],
     isArduinoPlatform: true,
-    fqbn: "arduino:avr:micro",
+    fqbn: "arduino:avr:mega",
     platform: {
         id: "arduino:avr",
         version: "1.8.6",

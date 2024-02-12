@@ -56,7 +56,7 @@ addBoard({
         "INEX",
         "IoT"
     ],
-    chip: "R4-WiFi",
+    chip: "Uno-R4-WiFi",
     isArduinoPlatform: true,
     fqbn: "arduino:renesas_uno:unor4wifi",
     platform: {

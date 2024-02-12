@@ -24,6 +24,9 @@ for (const id of [
 
     // Arduino platform
     "arduino-uno",
+    "arduino-nano",
+    "arduino-mega",
+    "arduino-pro-mini",
     "arduino-uno-r4-wifi",
 ]) {
     document.write(`<script src="${rootPath}/boards/${id}/index.js"></script>`);
