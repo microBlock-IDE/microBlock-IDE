@@ -61,6 +61,7 @@ addBoard({
         version: "1.8.6",
         package_index: "https://downloads.arduino.cc/packages/package_staging_index.json", // package_xxx_index.json
     },
+    board_option: "cpu=atmega328old",
     script: [ 
         
     ],

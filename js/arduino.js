@@ -239,7 +239,7 @@ async function arduino_upload(code) {
       encoding: "utf8",
     });
 
-    const { fqbn } = boards.find(board => board.id === boardId);
+    const { fqbn, board_option } = boards.find(board => board.id === boardId);
 
     const runAndGetOutput = async cmd => (new Promise((resolve, reject) => {
         uploadTerm.writeln(cmd);
@@ -269,7 +269,7 @@ async function arduino_upload(code) {
 
     // Build
     statusLog(`Building...`);
-    await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} compile -b ${fqbn} "${sketch_dir}" -v`);
+    await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
 
     // Disconnect Serial port
     const beforeAutoConnectFlag = autoConnectFlag;
@@ -282,7 +282,7 @@ async function arduino_upload(code) {
     // Upload
     statusLog(`Uploading`);
     try {
-        await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName} "${sketch_dir}" -v`);
+        await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
     } catch(e) {
         throw e;
     } finally {
