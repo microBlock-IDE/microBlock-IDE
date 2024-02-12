@@ -4,8 +4,11 @@ const arduin_cli_name = {
     linux: "arduino-cli-ubuntu-x64",
     win32: "arduino-cli.exe"
 };
-const ARDUINO_CLI_PATH = path.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]);
-const ARDUINO_CONFIG_FILE = path.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml");
+if (typeof path === "undefined") { // non electron handle
+    path = null;
+}
+const ARDUINO_CLI_PATH = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]) || null;
+const ARDUINO_CONFIG_FILE = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml") || null;
 const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
 
 let arduino_is_busy = false;

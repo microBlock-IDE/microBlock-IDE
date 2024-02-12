@@ -41,9 +41,14 @@ $("#new-project").click(async () => {
         } else {
             board_id_in_tag_list = boards.filter(board => board.tags.indexOf(tag_select) >= 0).map(board => board.id);
         }
+
         $("#hardware-select ul").html(
             board_id_in_tag_list.map(board_id => {
                 const board = boards.find(a => a.id === board_id);
+                if ((!isElectron) && board?.isArduinoPlatform) {
+                    return "";
+                }
+
                 return `
                     <li>
                         <div data-board-id="${board.id}"${board.id === boardIdSelect ?  'class="active"' : ""}>
