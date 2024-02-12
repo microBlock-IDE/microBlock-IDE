@@ -10,6 +10,21 @@ if (typeof path === "undefined") { // non electron handle
 const ARDUINO_CLI_PATH = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]) || null;
 const ARDUINO_CONFIG_FILE = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml") || null;
 const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
+const ARDUINO_HOME_PATH = path?.normalize(sharedObj.rootPath + "/../Arduino");
+
+// Write new configs file
+nodeFS?.writeFile(ARDUINO_CONFIG_FILE, 
+`directories:
+  data: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/data"))}
+  downloads: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/downloads"))}
+  user: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/user"))}
+updater:
+  enable_notification: false
+`, err => {
+    if (err) {
+        console.error("write ardunio configs fail", err);
+    }
+});
 
 let arduino_is_busy = false;
 function arduino_busy(is_busy) {
@@ -66,7 +81,7 @@ async function arduino_board_init() {
     const updateBoardIndex = async () => {
         statusLog(`Updating board index`);
         try {
-            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core update-index`); // update board index
+            await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} core update-index`); // update board index
         } catch(e) {
             NotifyW("Update board index fail");
             statusLog(`Update board index fail`);
@@ -76,7 +91,7 @@ async function arduino_board_init() {
 
     const checkBoardAreInstalled = async () => {
         statusLog(`Checking board`);
-        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
+        const { out_json } = await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
         return out_json?.boards?.findIndex(list => list?.fqbn === fqbn) >= 0;
     }
 
@@ -90,17 +105,17 @@ async function arduino_board_init() {
 
             // check platform are installed
             statusLog(`Checking platform ${platform_id}`);
-            const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core list --format jsonmini`);
+            const { out_json } = await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} core list --format jsonmini`);
             // console.log(out_json);
             if (out_json?.findIndex(list => list?.id === platform_id) >= 0) { // found in install list
                 statusLog(`Updating platform ${platform_id}`);
                 // console.log(`platform ${platform_id} installed but board not found so update platform`);
-                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
+                await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
                 statusLog(`Update platform ${platform_id} done`);
             } else { // not found in install list
                 statusLog(`Installing platform ${platform_id}`);
                 // console.log(`platform ${platform_id} not install so install platform`);
-                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
+                await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
                 statusLog(`Install platform ${platform_id} done`);
             }
         }
@@ -162,7 +177,7 @@ async function arduino_check_and_install_library(depends) {
         });
     };
 
-    const installed_list = (await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list --format jsonmini`)).out_json.map(a => a.library).map(a => a.name + "@" + a.version);
+    const installed_list = (await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} lib list --format jsonmini`)).out_json.map(a => a.library).map(a => a.name + "@" + a.version);
     // console.log("lib installed list", installed_list);
 
     const to_install_list = depends.filter(a => installed_list.indexOf(a) < 0);
@@ -171,7 +186,7 @@ async function arduino_check_and_install_library(depends) {
     if ((to_install_list.length > 0) && (!updated_lib_index)) { // Update lib index
         statusLog(`Update library index`);
         try {
-            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib update-index`);
+            await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} lib update-index`);
             updated_lib_index = true;
         } catch (e) {
             NotifyW("Update library index fail");
@@ -185,7 +200,7 @@ async function arduino_check_and_install_library(depends) {
         // Install lib
         statusLog(`Installing ${lib_name}`);
         try {
-            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install \"${lib_name}\"`);
+            await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} lib install \"${lib_name}\"`);
         } catch(e) {
             NotifyW(`Install library ${lib_name} fail`);
             statusLog(`Install library index fail`);
@@ -269,7 +284,7 @@ async function arduino_upload(code) {
 
     // Build
     statusLog(`Building`);
-    await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
+    await runAndGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
 
     // Disconnect Serial port
     const beforeAutoConnectFlag = autoConnectFlag;
@@ -282,7 +297,7 @@ async function arduino_upload(code) {
     // Upload
     statusLog(`Uploading`);
     try {
-        await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
+        await runAndGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
     } catch(e) {
         throw e;
     } finally {
