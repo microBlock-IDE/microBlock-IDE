@@ -5,7 +5,7 @@ let updateExtensionIndex = async () => {
     let extensionIndexFromAPI = await fetch(extensionIndexURL, { 
         redirect: "follow",
         headers: { 
-            "Accept": "application/vnd.github.v3.raw" 
+            // "Accept": "application/vnd.github.v3.raw" 
         },
     });
     if (!extensionIndexFromAPI.ok) {
@@ -134,7 +134,7 @@ let showExtensionList = (extensionList) => {
                         <div class="author">${info.author ? info.author : 'None'}</div>
                         <div class="other">
                             <span class="version" style="background-color: ${info.color}">${info.version ? info.version : 'None'}</span>
-                            <a href="${info.github ? info.github : '#'}" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href=";" onclick="shell.openExternal('${info.github ? info.github : '#'}'); return false;" target="_blank"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
