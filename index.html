@@ -407,9 +407,10 @@
                         </div>
                         <div class="control">
                             <label>Hardware</label>
+                            <ul id="boards-tags-list"></ul>
                             <div id="hardware-select" class="image-select">
                                 <ul></ul>
-                                <button type="button" id="board-see-more-btn">See More</button>
+                                <!-- <button type="button" id="board-see-more-btn">See More</button> -->
                             </div>
                         </div>
                         <div class="control box-level-select">
@@ -427,20 +428,22 @@
         </div>
 
         <div id="port-select-dialog">
-            <section>
-                <header>
-                    <div class="title">Select Device Port</div>
-                    <div class="close-btn"><i class="fas fa-times"></i></div>
-                </header>
+            <div>
                 <section>
-                    <ul id="port-list">
+                    <header>
+                        <div class="title">Select Device Port</div>
+                        <div class="close-btn"><i class="fas fa-times"></i></div>
+                    </header>
+                    <section>
+                        <ul id="port-list">
 
-                    </ul>
-                    <div class="control-button">
-                        <button id="port-select-button">OK</button>
-                    </div>
+                        </ul>
+                        <div class="control-button">
+                            <button id="port-select-button">OK</button>
+                        </div>
+                    </section>
                 </section>
-            </section>
+            </div>
         </div>
 
         <div id="firmware-upgrade-dialog">

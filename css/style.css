@@ -1178,26 +1178,31 @@ ul.switch-mode > li:last-child {
     display: none;
 }
 
-#port-select-dialog > section {
+#port-select-dialog > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#port-select-dialog > div > section {
     background-color: #FFF;
     width: 380px;
     border-radius: 4px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
 }
 
-#port-select-dialog > section > header {
+#port-select-dialog > div > section > header {
     position: relative;
 }
 
-#port-select-dialog > section > header > div.title {
+#port-select-dialog > div > section > header > div.title {
     padding: 14px;
     font-size: 18px;
     font-weight: bold;
 }
 
-#port-select-dialog > section > header > .close-btn {
+#port-select-dialog > div > section > header > .close-btn {
     position: absolute;
     top: 50%;
     right: 10px;
@@ -1207,11 +1212,11 @@ ul.switch-mode > li:last-child {
     padding: 10px;
 }
 
-#port-select-dialog > section > header > .close-btn:hover {
+#port-select-dialog > div > section > header > .close-btn:hover {
     color: #7F8C8D;
 }
 
-#port-select-dialog > section > section > ul {
+#port-select-dialog > div > section > section > ul {
     padding: 0;
     margin: 0;
     height: 300px;
@@ -1219,26 +1224,26 @@ ul.switch-mode > li:last-child {
     overflow: auto;
 }
 
-#port-select-dialog > section > section > ul > li {
+#port-select-dialog > div > section > section > ul > li {
     padding: 10px 20px;
     list-style: none;
 }
 
-#port-select-dialog > section > section > ul > li:hover {
+#port-select-dialog > div > section > section > ul > li:hover {
     background-color: #F8F9F9;
 }
 
-#port-select-dialog > section > section > ul > li.active {
+#port-select-dialog > div > section > section > ul > li.active {
     background-color: #F1C40F;
     color: #FFF;
 }
 
-#port-select-dialog > section > section > .control-button {
+#port-select-dialog > div > section > section > .control-button {
     text-align: right;
     padding: 20px;
 }
 
-#port-select-dialog > section > section > .control-button > button {
+#port-select-dialog > div > section > section > .control-button > button {
     background-color: #F1C40F;
     color: #FFF;
     border: none;
@@ -1247,7 +1252,7 @@ ul.switch-mode > li:last-child {
     outline: none;;
 }
 
-#port-select-dialog > section > section > .control-button > button:hover {
+#port-select-dialog > div > section > section > .control-button > button:hover {
     background-color: #D4AC0D;
 }
 
@@ -1345,6 +1350,37 @@ ul.switch-mode > li:last-child {
     background-color: #D4AC0D;
 }
 
+#boards-tags-list {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    display: flex !important;
+    flex-direction: row;
+}
+
+#boards-tags-list > li {
+    list-style: none;
+    margin-right: 10px;
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 50px;
+    border: 1px solid #ECF0F1;
+    cursor: pointer;
+}
+
+#boards-tags-list > li:hover {
+    border-color: #ABB2B9;
+}
+
+#boards-tags-list > li.active {
+    border-color: #FFF;
+    background-color: #F1C40F;
+    color: #FFF;
+}
+
+#boards-tags-list > li.active:hover {
+    border-color: #FFF;
+}
 
 .image-select {
     width: 100%;
@@ -1747,7 +1783,7 @@ ul.switch-mode > li:last-child {
 }
 
 #upload-log-dialog {
-    z-index: 9998;
+    z-index: 3989;
     margin: 0;
 }
 
