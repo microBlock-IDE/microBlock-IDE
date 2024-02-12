@@ -268,7 +268,7 @@ async function arduino_upload(code) {
     }));
 
     // Build
-    statusLog(`Building...`);
+    statusLog(`Building`);
     await runAndGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
 
     // Disconnect Serial port

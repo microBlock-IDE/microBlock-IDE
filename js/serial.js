@@ -940,6 +940,9 @@ $("#upload-program").click(async function() {
         console.log("Time:", timeDiff, "ms");
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
+        if (isArduinoPlatform) {
+            $("#upload-log-dialog .title").text("Upload Successful");
+        }
     } catch(e) {
         $("#upload-log-dialog .title").text("Upload Fail");
         NotifyE("Upload Fail !");
@@ -947,6 +950,7 @@ $("#upload-program").click(async function() {
         console.warn(e);
         if (isArduinoPlatform) {
             ShowDialog($("#upload-log-dialog")); // show upload dialog
+            $("#upload-log-dialog .title").text("Upload Fail");
         }
     }
     
