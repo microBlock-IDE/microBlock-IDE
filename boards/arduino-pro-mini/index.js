@@ -47,15 +47,15 @@ Blockly.Events.disableOrphansCustom = function (event) {
 };  
 
 addBoard({
-    id: "arduino-uno",
-    name: "Arduino Uno",
+    id: "arduino-pro-mini",
+    name: "Arduino Pro Mini",
     description: "",
     image: "images/cover.jpg",
     tags: [
         "Arduino"
     ],
     isArduinoPlatform: true,
-    fqbn: "arduino:avr:uno",
+    fqbn: "arduino:avr:pro",
     platform: {
         id: "arduino:avr",
         version: "1.8.6",

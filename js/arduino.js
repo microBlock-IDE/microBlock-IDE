@@ -61,7 +61,7 @@ async function arduino_board_init() {
     };
 
     const updateBoardIndex = async () => {
-        statusLog(`Update board index`);
+        statusLog(`Updating board index`);
         try {
             await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core update-index`); // update board index
         } catch(e) {
@@ -72,7 +72,7 @@ async function arduino_board_init() {
     }
 
     const checkBoardAreInstalled = async () => {
-        statusLog(`Check board are install`);
+        statusLog(`Checking board`);
         const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
         return out_json?.boards?.findIndex(list => list?.fqbn === fqbn) >= 0;
     }
@@ -80,26 +80,23 @@ async function arduino_board_init() {
     if (!(await checkBoardAreInstalled())) { // check board are installed
         await updateBoardIndex();
 
-        statusLog(`Check board are install...`);
-        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
-        // if (stdout.indexOf(fqbn) > 0) {
         if (!(await checkBoardAreInstalled())) { // check board are installed (after update board index)
             console.log(`not found board are ${fqbn} install so install/update platform`);
             
             const platform_id = platform.id;
 
             // check platform are installed
-            statusLog(`Check platform ${platform_id} are install`);
+            statusLog(`Checking platform ${platform_id}`);
             const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core list --format jsonmini`);
-            console.log(out_json);
+            // console.log(out_json);
             if (out_json?.findIndex(list => list?.id === platform_id) >= 0) { // found in install list
                 statusLog(`Updating platform ${platform_id}`);
-                console.log(`platform ${platform_id} installed but board not found so update platform`);
+                // console.log(`platform ${platform_id} installed but board not found so update platform`);
                 await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
                 statusLog(`Update platform ${platform_id} done`);
             } else { // not found in install list
                 statusLog(`Installing platform ${platform_id}`);
-                console.log(`platform ${platform_id} not install so install platform`);
+                // console.log(`platform ${platform_id} not install so install platform`);
                 await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
                 statusLog(`Install platform ${platform_id} done`);
             }
