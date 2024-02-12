@@ -60,61 +60,62 @@ async function arduino_board_init() {
         });
     };
 
-    statusLog(`Update board index...`);
-    try {
-        await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core update-index`); // update board index
-    } catch(e) {
-        NotifyW("Update board index fail");
-        statusLog(`Update board index fail`);
-        console.warn(e);
+    const updateBoardIndex = async () => {
+        statusLog(`Update board index`);
+        try {
+            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core update-index`); // update board index
+        } catch(e) {
+            NotifyW("Update board index fail");
+            statusLog(`Update board index fail`);
+            console.warn(e);
+        }
     }
 
-    { // check board are installed
+    const checkBoardAreInstalled = async () => {
+        statusLog(`Check board are install`);
+        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
+        return out_json?.boards?.findIndex(list => list?.fqbn === fqbn) >= 0;
+    }
+
+    if (!(await checkBoardAreInstalled())) { // check board are installed
+        await updateBoardIndex();
+
         statusLog(`Check board are install...`);
         const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} board listall ${fqbn} --format jsonmini`);
         // if (stdout.indexOf(fqbn) > 0) {
-        if (out_json?.boards?.findIndex(list => list?.fqbn === fqbn) >= 0) {
-            statusLog(`Ready to upload !`);
-            console.log(`board ${fqbn} installed, skip install platform`);
-        } else {
+        if (!(await checkBoardAreInstalled())) { // check board are installed (after update board index)
             console.log(`not found board are ${fqbn} install so install/update platform`);
             
             const platform_id = platform.id;
 
             // check platform are installed
-            statusLog(`Check platform ${platform_id} are install...`);
+            statusLog(`Check platform ${platform_id} are install`);
             const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core list --format jsonmini`);
             console.log(out_json);
             if (out_json?.findIndex(list => list?.id === platform_id) >= 0) { // found in install list
-                statusLog(`Updating platform ${platform_id}...`);
+                statusLog(`Updating platform ${platform_id}`);
                 console.log(`platform ${platform_id} installed but board not found so update platform`);
-                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
+                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core upgrade ${platform_id}`);
                 statusLog(`Update platform ${platform_id} done`);
             } else { // not found in install list
-                statusLog(`Installing platform ${platform_id}...`);
+                statusLog(`Installing platform ${platform_id}`);
                 console.log(`platform ${platform_id} not install so install platform`);
-                const { stdout, stderr } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
+                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} core install ${platform_id}`);
                 statusLog(`Install platform ${platform_id} done`);
             }
         }
     }
-
-    // Update lib index
-    statusLog(`Update library index...`);
-    try {
-        await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib update-index`);
-    } catch(e) {
-        NotifyW("Update library index fail");
-        statusLog(`Update library index fail`);
-        console.warn(e);
-    }
-
+    
     if (depends) {
         await arduino_check_and_install_library(depends);
     }
 
+    statusLog(`Ready to upload !`);
+
     arduino_busy(false);
 }
+
+let updated_lib_index = false;
 
 async function arduino_check_and_install_library(depends) {
     if (!Array.isArray(depends)) {
@@ -161,20 +162,36 @@ async function arduino_check_and_install_library(depends) {
         });
     };
 
-    for (const lib_name of depends) {
-        const [ name, version ] = lib_name.split("@");
-        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list "${name}" --format jsonmini`);
-        if ((out_json.length == 0) || (out_json?.[0]?.library?.version !== version)) { // Check version
-            // Install lib
-            statusLog(`Install ${lib_name}...`);
-            try {
-                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install \"${lib_name}\"`);
-            } catch(e) {
-                NotifyW(`Update library ${lib_name} fail`);
-                statusLog(`Update library index fail`);
-                console.warn(e);
-            }
+    const installed_list = (await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list --format jsonmini`)).out_json.map(a => a.library).map(a => a.name + "@" + a.version);
+    // console.log("lib installed list", installed_list);
+
+    const to_install_list = depends.filter(a => installed_list.indexOf(a) < 0);
+    // console.log("lib todo install", to_install_list);
+
+    if ((to_install_list.length > 0) && (!updated_lib_index)) { // Update lib index
+        statusLog(`Update library index`);
+        try {
+            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib update-index`);
+            updated_lib_index = true;
+        } catch (e) {
+            NotifyW("Update library index fail");
+            statusLog(`Update library index fail`);
+            console.warn(e);
         }
+        statusLog(`Updated library index`);
+    }
+
+    for (const lib_name of to_install_list) {
+        // Install lib
+        statusLog(`Installing ${lib_name}`);
+        try {
+            await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install \"${lib_name}\"`);
+        } catch(e) {
+            NotifyW(`Install library ${lib_name} fail`);
+            statusLog(`Install library index fail`);
+            console.warn(e);
+        }
+        statusLog(`Installed ${lib_name}`);
     }
 }
 
