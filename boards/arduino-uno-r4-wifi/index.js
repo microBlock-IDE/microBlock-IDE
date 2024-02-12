@@ -48,12 +48,15 @@ Blockly.Events.disableOrphansCustom = function (event) {
 
 addBoard({
     id: "arduino-uno-r4-wifi",
-    name: "Arduino Uno R4 WiFi",
+    name: "i-Duino R4 / Uno R4 WiFi",
     description: "",
     image: "images/cover.jpg",
     tags: [
-        "Arduino"
+        "Arduino",
+        "INEX",
+        "IoT"
     ],
+    chip: "R4-WiFi",
     isArduinoPlatform: true,
     fqbn: "arduino:renesas_uno:unor4wifi",
     platform: {

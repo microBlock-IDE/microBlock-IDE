@@ -53,7 +53,9 @@ addBoard({
     image: "images/cover.jpg",
     tags: [
         "ESP32",
-        "EasyKids Robotics"
+        "EasyKids Robotics",
+        "Robot",
+        "IoT"
     ],
     chip: "ESP32",
     script: [ 

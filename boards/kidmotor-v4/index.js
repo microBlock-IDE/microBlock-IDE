@@ -5,7 +5,8 @@ addBoard({
     image: "images/cover.jpg",
     tags: [
         "RP2040",
-        "INEX"
+        "INEX",
+        "Robot"
     ],
     uploadMode: "MSC",
     mscSize: 1417216,

@@ -4,7 +4,13 @@ Object.assign(boardConfig, {
     id: "kidbright32-v1.6",
     name: "KidBright32 V1.6 by Gravitech",
     description: "",
-    image: "images/cover.jpg"
+    image: "images/cover.jpg",
+    tags: [
+        "ESP32",
+        "KidBright",
+        "IoT",
+        "Gravitech"
+    ],
 });
 
 boardConfig.blocks = boardConfig.blocks.concat([

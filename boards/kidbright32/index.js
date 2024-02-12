@@ -5,7 +5,8 @@ KidBright32_config = {
     image: "images/cover.jpg",
     tags: [
         "ESP32",
-        "KidBright"
+        "KidBright",
+        "IoT"
     ],
     chip: "ESP32",
     pins_define: {

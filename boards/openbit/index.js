@@ -5,7 +5,8 @@ addBoard({
     image: "images/cover.jpg",
     tags: [
         "ESP32",
-        "INEX"
+        "INEX",
+        "IoT"
     ],
     chip: "ESP32",
     pins_define: {

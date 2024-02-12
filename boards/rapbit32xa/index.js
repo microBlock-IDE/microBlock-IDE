@@ -5,7 +5,8 @@ addBoard({
     image: "images/cover.jpg",
     tags: [
         "ESP32",
-        "ArtronShop"
+        "ArtronShop",
+        "Robot"
     ],
     chip: "ESP32",
     script: [ 

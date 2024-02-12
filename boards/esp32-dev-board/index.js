@@ -4,7 +4,8 @@ addBoard({
     description: "",
     image: "images/cover.jpg",
     tags: [
-        "ESP32"
+        "ESP32",
+        "IoT"
     ],
     chip: "ESP32",
     script: [ 

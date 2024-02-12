@@ -5,7 +5,8 @@ addBoard({
     image: "images/cover.jpg",
     tags: [
         "RP2040",
-        "Raspberry Pi"
+        "Raspberry Pi",
+        "IoT"
     ],
     uploadMode: "MSC",
     mscSize: 843776,

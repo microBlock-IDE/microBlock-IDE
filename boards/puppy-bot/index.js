@@ -4,7 +4,8 @@ addBoard({
     description: "",
     tags: [
         "RP2040",
-        "PrinceBot"
+        "PrinceBot",
+        "Robot"
     ],
     image: "images/cover.jpg",
     uploadMode: "MSC",
