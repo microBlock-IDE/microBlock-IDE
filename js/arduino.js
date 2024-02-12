@@ -109,12 +109,18 @@ async function arduino_board_init() {
         console.warn(e);
     }
 
-    await arduino_check_and_install_library(depends);
+    if (depends) {
+        await arduino_check_and_install_library(depends);
+    }
 
     arduino_busy(false);
 }
 
 async function arduino_check_and_install_library(depends) {
+    if (!Array.isArray(depends)) {
+        return;
+    }
+
     const runGetOutput = async cmd => {
         console.log(cmd);
         arduinInitTerm.writeln(cmd);
@@ -157,12 +163,12 @@ async function arduino_check_and_install_library(depends) {
 
     for (const lib_name of depends) {
         const [ name, version ] = lib_name.split("@");
-        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list ${name} --format jsonmini`);
+        const { out_json } = await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib list "${name}" --format jsonmini`);
         if ((out_json.length == 0) || (out_json?.[0]?.library?.version !== version)) { // Check version
             // Install lib
             statusLog(`Install ${lib_name}...`);
             try {
-                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install ${lib_name}`);
+                await runGetOutput(`${ARDUINO_CLI_PATH} ${ARDUINO_CLI_OPTION} lib install \"${lib_name}\"`);
             } catch(e) {
                 NotifyW(`Update library ${lib_name} fail`);
                 statusLog(`Update library index fail`);
