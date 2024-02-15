@@ -76,6 +76,23 @@ $("#new-project").click(async () => {
 
 $("#project-create-dialog .close-btn").click(() => $("#project-create-dialog").hide())
 
+let arduinoConsoleTerm = {
+    scroll: () => {
+        $("#arduino-console-dialog pre").scrollTop($("#arduino-console-dialog pre")[0].scrollHeight);
+    },
+    writeln: text => {
+        $("#arduino-console-dialog pre")[0].innerText += text + "\r\n";
+        arduinoConsoleTerm.scroll();
+    },
+    write: text => {
+        $("#arduino-console-dialog pre")[0].innerText += text;
+        arduinoConsoleTerm.scroll();
+    },
+    clear: () => {
+        $("#arduino-console-dialog pre")[0].innerText = "";
+    }
+};
+
 let loadBoard = async () => {
     if (!boardId || !levelName) {
         return;
@@ -132,27 +149,37 @@ let loadBoard = async () => {
     }
 
     if (board?.isArduinoPlatform) {
-        if (+localStorage.getItem("show-console-board-initial")) {
-            ShowDialog($("#arduino-init-dialog"));
+        if (+localStorage.getItem("show-console-board-initial") !== -1) {
+            // console.log("show", +localStorage.getItem("show-console-board-initial"), +localStorage.getItem("show-console-board-initial") !== -1);
+            $("#arduino-console-dialog .title").text("Loading...");
+            ShowDialog($("#arduino-console-dialog"));
         }
-        if (typeof arduinInitTerm === "undefined") {
-            arduinInitTerm = new Terminal();
+        arduinoConsoleTerm.clear();
+        /*
+        if (typeof arduinoInitTerm === "undefined") {
+            arduinoInitTerm = new Terminal();
             if (typeof arduinInitFitAddon === "undefined") {
                 arduinInitFitAddon = new FitAddon.FitAddon();
             }
-            arduinInitTerm.loadAddon(arduinInitFitAddon);
-            arduinInitTerm.open($("#arduino-init-dialog > section")[0]);
+            arduinoInitTerm.loadAddon(arduinInitFitAddon);
+            arduinoInitTerm.open($("#arduino-console-dialog > section")[0]);
             try {
                 arduinInitFitAddon.fit();
             } catch(e) {
                 
             }
         } else {
-            arduinInitTerm.clear();
+            arduinoInitTerm.clear();
         }
+        */
         // await arduino_board_init();
-        arduino_board_init();
-        // CloseDialog($("#arduino-init-dialog"));
+        arduino_board_init().then(() => {
+            $("#arduino-console-dialog .title").text("Finish");
+            CloseDialog($("#arduino-console-dialog"));
+        }).catch(e => {
+            console.warn(e);
+            $("#arduino-console-dialog .title").text("Load board FAIL");
+        });
     }
 }
 

@@ -898,26 +898,12 @@ $("#upload-program").click(async function() {
     console.log(code);
     const { isArduinoPlatform } = boards.find(board => board.id === boardId);
     if (isArduinoPlatform) {
-        $("#upload-log-dialog .title").text("Uploading...");
         // $("#upload-console-log").html("");
-        if (+localStorage.getItem("show-console-upload")) {
-            ShowDialog($("#upload-log-dialog")); // show upload dialog
+        if (+localStorage.getItem("show-console-upload") !== -1) {
+            $("#arduino-console-dialog .title").text("Uploading...");
+            ShowDialog($("#arduino-console-dialog"));
         }
-        if (typeof uploadTerm === "undefined") {
-            uploadTerm = new Terminal();
-            if (typeof uploadFitAddon === "undefined") {
-                uploadFitAddon = new FitAddon.FitAddon();
-            }
-            uploadTerm.loadAddon(uploadFitAddon);
-            uploadTerm.open($("#upload-log-dialog > section")[0]);
-            try {
-                uploadFitAddon.fit();
-            } catch(e) {
-                
-            }
-        }
-        setTimeout(() => uploadFitAddon.fit(), 100);
-        uploadTerm.clear();
+        arduinoConsoleTerm.clear();
     }
     try {
         if (!isArduinoPlatform) {
@@ -941,7 +927,7 @@ $("#upload-program").click(async function() {
         NotifyS("Upload Successful");
         statusLog(`Upload successful with ${timeDiff} mS`);
         if (isArduinoPlatform) {
-            $("#upload-log-dialog .title").text("Upload Successful");
+            $("#arduino-console-dialog .title").text("Upload Successful");
         }
     } catch(e) {
         $("#upload-log-dialog .title").text("Upload Fail");
@@ -949,8 +935,8 @@ $("#upload-program").click(async function() {
         statusLog(`Upload fail because ${e}`);
         console.warn(e);
         if (isArduinoPlatform) {
-            ShowDialog($("#upload-log-dialog")); // show upload dialog
-            $("#upload-log-dialog .title").text("Upload Fail");
+            ShowDialog($("#arduino-console-dialog")); // show upload dialog
+            $("#arduino-console-dialog .title").text("Upload Fail");
         }
     }
     

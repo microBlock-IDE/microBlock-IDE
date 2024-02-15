@@ -7,76 +7,96 @@ const arduin_cli_name = {
 if (typeof path === "undefined") { // non electron handle
     path = null;
 }
-const ARDUINO_CLI_PATH = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]) || null;
-const ARDUINO_CONFIG_FILE = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml") || null;
-const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
-const ARDUINO_HOME_PATH = path?.normalize(sharedObj.rootPath + "/../Arduino");
+const isInstalledVersion = (sharedObj?.rootPath?.indexOf("\\AppData\\Local") > 0) || false;
+const USERDATA_PATH = (os?.platform() === "win32" && isInstalledVersion) ? remote?.app?.getPath('userData') : path?.normalize(sharedObj.rootPath + "/..");
 
-// Write new configs file
-nodeFS?.writeFile(ARDUINO_CONFIG_FILE, 
+const ARDUINO_HOME_PATH = isInstalledVersion ? USERDATA_PATH : path?.normalize(USERDATA_PATH + "/Arduino");
+const ARDUINO_DATA_PATH = ARDUINO_HOME_PATH;
+const ARDUINO_DOWNLOAD_PATH = path?.normalize(ARDUINO_HOME_PATH + "/staging");
+const ARDUINO_USER_PATH = path?.normalize(ARDUINO_HOME_PATH + "/user");
+
+const ARDUINO_SKETCH_PATH = path?.normalize(ARDUINO_HOME_PATH + "/sketch");
+
+const ARDUINO_CLI_PATH = path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/" + arduin_cli_name[os.platform()]) || null;
+const ARDUINO_CONFIG_FILE = isInstalledVersion ? path?.normalize(USERDATA_PATH + "/settings.yaml") : path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml") || null;
+const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
+
+const arduino_dir_init = () => {
+    const fs = nodeFS;
+    for (const directoryPath of [ ARDUINO_HOME_PATH, ARDUINO_DATA_PATH, ARDUINO_DOWNLOAD_PATH, ARDUINO_USER_PATH]) {
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath, { recursive: true });
+        }
+    }
+
+    // Write new configs file
+    nodeFS?.writeFileSync(ARDUINO_CONFIG_FILE, 
 `directories:
-  data: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/data"))}
-  downloads: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/downloads"))}
-  user: ${JSON.stringify(path?.normalize(ARDUINO_HOME_PATH + "/user"))}
+  data: ${JSON.stringify(ARDUINO_DATA_PATH)}
+  downloads: ${JSON.stringify(ARDUINO_DOWNLOAD_PATH)}
+  user: ${JSON.stringify(ARDUINO_USER_PATH)}
 updater:
   enable_notification: false
 `, err => {
-    if (err) {
-        console.error("write ardunio configs fail", err);
-    }
-});
+        if (err) {
+            console.error("write ardunio configs fail", err);
+        }
+    });
+}
 
 let arduino_is_busy = false;
 function arduino_busy(is_busy) {
     arduino_is_busy = is_busy;
 }
 
+const runGetOutput = async cmd => {
+    console.log(cmd);
+    arduinoConsoleTerm.writeln(cmd);
+    /*const { stdout, stderr } = await execAsync(cmd);
+    console.log(stdout);
+    arduinoConsoleTerm.writeln(stdout.replace(/\n/g, "\r\n"));
+    */
+    return new Promise((resolve, reject) => {
+        const proc = spawn(cmd, [], { shell: true });
+
+        let stdout = "", stderr = "";
+        proc.stdout.on("data", data => {
+            console.log("stdout:", data.toString());
+            arduinoConsoleTerm.write(data.toString());
+            stdout += data.toString();
+        });
+
+        proc.stderr.on("data", data => {
+            console.warn("stderr:", data.toString());
+            arduinoConsoleTerm.write(data.toString());
+            stderr += data.toString();
+        });
+
+        proc.on("exit", code => {
+            console.log("arduino-cli error code", code);
+            if (code == 0) {
+                let out_json = {};
+                if (cmd.indexOf("--format json") >= 0) {
+                    try {
+                        out_json = JSON.parse(stdout);
+                    } catch(e) {
+                        console.warn("parse json fail", stdout);
+                    }
+                }
+                resolve({ stdout, stderr, out_json });
+            } else {
+                reject({ stdout, stderr });
+            }
+        });
+    });
+};
+
 async function arduino_board_init() {
     arduino_busy(true);
 
+    arduino_dir_init();
+
     const { fqbn, platform, depends } = boards.find(board => board.id === boardId);
-
-    const runGetOutput = async cmd => {
-        console.log(cmd);
-        arduinInitTerm.writeln(cmd);
-        /*const { stdout, stderr } = await execAsync(cmd);
-        console.log(stdout);
-        arduinInitTerm.writeln(stdout.replace(/\n/g, "\r\n"));
-        */
-        return new Promise((resolve, reject) => {
-            const proc = spawn(cmd, [], { shell: true });
-
-            let stdout = "", stderr = "";
-            proc.stdout.on("data", data => {
-                console.log("stdout:", data.toString());
-                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
-                stdout += data.toString();
-            });
-
-            proc.stderr.on("data", data => {
-                console.warn("stderr:", data.toString());
-                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
-                stderr += data.toString();
-            });
-
-            proc.on("exit", code => {
-                console.log("arduino-cli error code", code);
-                if (code == 0) {
-                    let out_json = {};
-                    if (cmd.indexOf("--format json") >= 0) {
-                        try {
-                            out_json = JSON.parse(stdout);
-                        } catch(e) {
-                            console.warn("parse json fail", stdout);
-                        }
-                    }
-                    resolve({ stdout, stderr, out_json });
-                } else {
-                    reject({ stdout, stderr });
-                }
-            });
-        });
-    };
 
     const updateBoardIndex = async () => {
         statusLog(`Updating board index`);
@@ -137,46 +157,6 @@ async function arduino_check_and_install_library(depends) {
         return;
     }
 
-    const runGetOutput = async cmd => {
-        console.log(cmd);
-        arduinInitTerm.writeln(cmd);
-        /*const { stdout, stderr } = await execAsync(cmd);
-        console.log(stdout);
-        arduinInitTerm.writeln(stdout.replace(/\n/g, "\r\n"));
-        */
-        return new Promise((resolve, reject) => {
-            const proc = spawn(cmd, [], { shell: true });
-
-            let stdout = "", stderr = "";
-            proc.stdout.on("data", data => {
-                console.log("stdout:", data.toString());
-                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
-                stdout += data.toString();
-            });
-
-            proc.stderr.on("data", data => {
-                console.warn("stderr:", data.toString());
-                arduinInitTerm.write(data.toString().replace(/\n/g, "\r\n"));
-                stderr += data.toString();
-            });
-
-            proc.on("exit", code => {
-                console.log("arduino-cli error code", code);
-                if (code == 0) {
-                    let out_json = {};
-                    try {
-                        out_json = JSON.parse(stdout);
-                    } catch(e) {
-
-                    }
-                    resolve({ stdout, stderr, out_json });
-                } else {
-                    reject({ stdout, stderr });
-                }
-            });
-        });
-    };
-
     const installed_list = (await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} lib list --format jsonmini`)).out_json.map(a => a.library).map(a => a.name + "@" + a.version);
     // console.log("lib installed list", installed_list);
 
@@ -228,8 +208,7 @@ async function arduino_upload(code) {
 
     // Make sketch
     const fs = nodeFS;
-    const sketch_dir = path.normalize(sharedObj.rootPath + "/../sketch");
-
+	
     // Remove old sketch and make again
     const deleteFolderRecursive = function (directoryPath) {
         if (fs.existsSync(directoryPath)) {
@@ -246,45 +225,15 @@ async function arduino_upload(code) {
             fs.rmdirSync(directoryPath);
         }
     };
-    deleteFolderRecursive(sketch_dir);
-    fs.mkdirSync(sketch_dir, { recursive: true });
+    deleteFolderRecursive(ARDUINO_SKETCH_PATH);
+    fs.mkdirSync(ARDUINO_SKETCH_PATH, { recursive: true });
 
     // write .ino file
-    fs.writeFileSync(path.normalize(sketch_dir + "/sketch.ino"), code, {
+    fs.writeFileSync(path.normalize(ARDUINO_SKETCH_PATH + "/sketch.ino"), code, {
       encoding: "utf8",
     });
 
     const { fqbn, board_option } = boards.find(board => board.id === boardId);
-
-    const runAndGetOutput = async cmd => (new Promise((resolve, reject) => {
-        uploadTerm.writeln(cmd);
-        const proc = spawn(cmd, [], { shell: true });
-
-        proc.stdout.on("data", data => {
-            console.log("stdout:", data.toString());
-            // $("#upload-console-log").append(`<span>${data.toString()}</span>`);
-            uploadTerm.write(data.toString().replace(/\n/g, "\r\n"));
-        });
-
-        proc.stderr.on("data", data => {
-            console.warn("stderr:", data.toString());
-            // $("#upload-console-log").append(`<span class="e">${data.toString()}</span>`);
-            uploadTerm.write(data.toString().replace(/\n/g, "\r\n"));
-        });
-
-        proc.on("exit", code => {
-            console.log("arduino-cli error code", code);
-            if (code == 0) {
-                resolve();
-            } else {
-                reject();
-            }
-        });
-    }));
-
-    // Build
-    statusLog(`Building`);
-    await runAndGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
 
     // Disconnect Serial port
     const beforeAutoConnectFlag = autoConnectFlag;
@@ -294,10 +243,14 @@ async function arduino_upload(code) {
         serialPort = null;
     }
 
+    // Build
+    statusLog(`Building`);
+    await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} compile -b ${fqbn}${(board_option && ` --board-options "${board_option}"`) || ""} "${ARDUINO_SKETCH_PATH}" -v`);
+
     // Upload
     statusLog(`Uploading`);
     try {
-        await runAndGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName}${(board_option && ` --board-options "${board_option}"`) || ""} "${sketch_dir}" -v`);
+        await runGetOutput(`"${ARDUINO_CLI_PATH}" ${ARDUINO_CLI_OPTION} upload -b ${fqbn} -p ${portName}${(board_option && ` --board-options "${board_option}"`) || ""} "${ARDUINO_SKETCH_PATH}" -v`);
     } catch(e) {
         throw e;
     } finally {

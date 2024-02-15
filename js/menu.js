@@ -80,14 +80,14 @@ if (isElectron) {
                         {
                             type: "checkbox",
                             label: "Board initial",
-                            click: e => localStorage.setItem("show-console-board-initial", e.checked ? "1" : "0"),
-                            checked: +localStorage.getItem("show-console-board-initial")
+                            click: e => localStorage.setItem("show-console-board-initial", e.checked ? "1" : "-1"),
+                            checked: +localStorage.getItem("show-console-board-initial") !== -1
                         },
                         {
                             type: "checkbox",
                             label: "Upload",
-                            click: e => localStorage.setItem("show-console-upload", e.checked ? "1" : "0"),
-                            checked: +localStorage.getItem("show-console-upload")
+                            click: e => localStorage.setItem("show-console-upload", e.checked ? "1" : "-1"),
+                            checked: +localStorage.getItem("show-console-upload") !== -1
                         },
                     ]
                 },

@@ -1782,12 +1782,28 @@ ul.switch-mode > li:last-child {
     background-color: #FFF;
 }
 
+#arduino-console-dialog > section {
+    height: 100%;
+}
+
+#arduino-console-dialog > section > pre {
+    white-space: pre-wrap;
+    background-color: #212F3D;
+    color: #FFF;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 12px;
+    overflow: auto;
+    margin: 0;
+    height: 100%;
+    line-height: 16px;
+}
+
 #upload-log-dialog {
     z-index: 3989;
     margin: 0;
 }
 
-#upload-log-dialog> section {
+#upload-log-dialog > section {
     height: 100%;
 }
 

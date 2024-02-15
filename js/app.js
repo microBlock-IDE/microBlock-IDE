@@ -47,6 +47,9 @@ let updateBlockCategory = async () => {
     for (const extensionId of fs.ls("/extension")) {
         let extension = fs.read(`/extension/${extensionId}/extension.js`);
         extension = eval(extension);
+        if (board?.isArduinoPlatform && (!extension?.supportArduinoPlatform)) { // Skip if select board arduino but extension not support arduino
+            continue;
+        }
         extenstionTree.push(extension);
         categoryIconList.push(fs.read(`/extension/${extensionId}/${extension.icon}`));
     }
@@ -59,10 +62,6 @@ let updateBlockCategory = async () => {
             extenstionTree.push(extension);
             categoryIconList.push(`${extensionDir}/${extensionId}/${extension.icon}`);
         }
-    }
-    
-    if (board?.isArduinoPlatform) {
-        extenstionTree = extenstionTree.filter(a => a?.supportArduinoPlatform);
     }
 
     for (let category of extenstionTree) {
