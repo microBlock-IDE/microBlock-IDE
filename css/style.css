@@ -1782,6 +1782,10 @@ ul.switch-mode > li:last-child {
     background-color: #FFF;
 }
 
+#arduino-console-dialog {
+    z-index: 3980 !important;
+}
+
 #arduino-console-dialog > section {
     height: 100%;
 }
