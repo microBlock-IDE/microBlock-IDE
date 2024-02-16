@@ -76,7 +76,7 @@ Blockly.defineBlocksWithJsonArray([
     "inputsInline": false,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#2980B9",
+    "colour": "#0A79D8",
     "tooltip": "Draw text on screen",
     "helpUrl": ""
   },
@@ -121,7 +121,7 @@ Blockly.defineBlocksWithJsonArray([
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2980B9",
+  "colour": "#0A79D8",
   "tooltip": "Draw line on screen",
   "helpUrl": ""
 },
@@ -180,7 +180,7 @@ Blockly.defineBlocksWithJsonArray([
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2980B9",
+  "colour": "#0A79D8",
   "tooltip": "Draw rectangle on screen",
   "helpUrl": ""
 },
@@ -233,7 +233,7 @@ Blockly.defineBlocksWithJsonArray([
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2980B9",
+  "colour": "#0A79D8",
   "tooltip": "Draw circle on screen",
   "helpUrl": ""
 },
@@ -250,7 +250,7 @@ Blockly.defineBlocksWithJsonArray([
   "inputsInline": false,
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2980B9",
+  "colour": "#0A79D8",
   "tooltip": "Fill screen with color",
   "helpUrl": ""
 },
@@ -279,7 +279,7 @@ Blockly.defineBlocksWithJsonArray([
   ],
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2980B9",
+  "colour": "#0A79D8",
   "tooltip": "Show image on screen",
   "helpUrl": ""
 }

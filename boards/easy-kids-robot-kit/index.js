@@ -73,7 +73,7 @@ addBoard({
         "blocks/blocks_servo.js",
         "blocks/blocks_switch.js",
         "blocks/blocks_sensor.js",
-        "../kidbright32/blocks/blocks_buzzer.js",
+        "blocks/blocks_buzzer.js",
         "blocks/blocks_pin.js",
         "blocks/blocks_rgbled.js",
         "blocks/blocks_gamepad.js",
@@ -94,7 +94,8 @@ addBoard({
     modules: [ ],
     firmware: [
         {
-            name: "MicroPython (Gamepad) for EasyKids Robot Kit v1.2.0-dirty",
+            // name: "MicroPython (Gamepad) for EasyKids Robot Kit v1.2.0-dirty",
+            name: "EasyKids_JoyController",
             path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty-1.bin",
             version: "v1.2.0-dirty",
             date: "2023-09-15",
@@ -102,7 +103,8 @@ addBoard({
             cpu: "ESP32"
         },
         {
-            name: "MicroPython (No Gamepad) for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
+            // name: "MicroPython (No Gamepad) for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
+            name: "EasyKids_Standard",
             path: "firmware/MicroPython.for.EasyKids.Robot.Kit.V1.9.1-5-g79adb87da-dirty.bin",
             version: "V1.9.1-5-g79adb87da-dirty",
             date: "2023-07-22",
@@ -318,6 +320,17 @@ addBoard({
                         },
                         "motor_stop",
                         {
+                            xml: `
+                                <block type="motor_set_pwm">
+                                    <value name="freq">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
                             xml: '<label text="Servo"></label>',
                         },
                         {
@@ -520,9 +533,9 @@ addBoard({
                     icon: `images/rgb.png`,
                     color: "#e64c3c",
                     blocks: [
-                        {
+                        /*{
                             xml: '<label text="RGBLED"></label>',
-                        },
+                        },*/
                         {
                             xml: `
                                 <block type="rgbled_set_color">
@@ -574,7 +587,7 @@ addBoard({
                                 </block>
                             `
                         },
-                        {
+                        /*{
                             xml: `
                                 <block type="colour_picker">
                                     <field name="COLOUR">#FF0000</field>
@@ -602,7 +615,7 @@ addBoard({
                                 </block>
                             `
                         },
-                        "colour_random",
+                        "colour_random",*/
                     ]
                 },
                 {

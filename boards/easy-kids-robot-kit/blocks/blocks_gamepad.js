@@ -7,7 +7,7 @@ Blockly.defineBlocksWithJsonArray([
     "Number",
     "Boolean"
   ],
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -16,7 +16,7 @@ Blockly.defineBlocksWithJsonArray([
   "message0": "Gamepad Forget Keys",
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -41,7 +41,7 @@ Blockly.defineBlocksWithJsonArray([
   ],
   "previousStatement": null,
   "nextStatement": null,
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -97,7 +97,7 @@ Blockly.defineBlocksWithJsonArray([
     }
   ],
   "output": "Number",
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -164,7 +164,7 @@ Blockly.defineBlocksWithJsonArray([
     "Boolean",
     "Number"
   ],
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -172,7 +172,7 @@ Blockly.defineBlocksWithJsonArray([
   "type": "gamepad_temperature",
   "message0": "Gamepad Temperature",
   "output": "Number",
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 },
@@ -180,7 +180,7 @@ Blockly.defineBlocksWithJsonArray([
   "type": "gamepad_battery_level",
   "message0": "Gamepad Battery Level",
   "output": "Number",
-  "colour": "#2C3E50",
+  "colour": "#E67E22",
   "tooltip": "",
   "helpUrl": ""
 }

@@ -12,7 +12,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -29,7 +29,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -63,7 +63,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -80,7 +80,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -97,7 +97,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -114,7 +114,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -131,7 +131,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -158,7 +158,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -181,7 +181,7 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
     },
@@ -191,8 +191,22 @@ Blockly.defineBlocksWithJsonArray([
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#28B463",
+        "colour": "#205388",
         "tooltip": "",
         "helpUrl": ""
-    }
+    },
+    {
+        "type": "motor_set_pwm",
+        "message0": "Set PWM Motor %1 Hz",
+        "args0": [{
+            "type": "input_value",
+            "name": "freq",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#205388",
+        "tooltip": "",
+        "helpUrl": ""
+    },
 ]);

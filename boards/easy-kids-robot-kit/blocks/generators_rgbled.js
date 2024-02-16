@@ -57,6 +57,6 @@ Blockly.Python['rgbled_set_brightness'] = function(block) {
 
   var value_brightness = Blockly.Python.valueToCode(block, 'brightness', Blockly.Python.ORDER_ATOMIC);
 
-  var code = `rgbled_${dropdown_pin}.set_brightness(${value_brightness})`;
+  var code = `rgbled_${dropdown_pin}.set_brightness(${value_brightness})\n`;
   return code;
 };
