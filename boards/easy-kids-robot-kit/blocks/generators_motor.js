@@ -108,7 +108,7 @@ Blockly.Python['motor_stop'] = function(block) {
 };
 
 Blockly.Python['motor_set_pwm'] = function(block) {
-  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import i2c0';
+  Blockly.Python.definitions_['from_board_import_pca9685'] = 'from board import pca9685';
 
   var value_freq = Blockly.Python.valueToCode(block, 'freq', Blockly.Python.ORDER_ATOMIC);
 
@@ -117,11 +117,11 @@ Blockly.Python['motor_set_pwm'] = function(block) {
     [
       'def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(freq):',
       '  # Set frequency',
-      '  i2c0.writeto_mem(self.addr, 0x00, b"\\x10") # Sleep mode',
-      '  i2c0.writeto_mem(self.addr, 0xFE, bytes([ int((25000000 / (4096 * freq)) - 1) ])) # Prescaler',
-      '  i2c0.writeto_mem(self.addr, 0x00, b"\\x80") # Restart',
-      '  i2c0.writeto_mem(self.addr, 0x00, b"\\x20") # Auto-Increment enabled',
-      '  i2c0.writeto_mem(self.addr, 0x01, b"\\x04") # OUTDRV -> 1',
+      '  pca9685.i2c.writeto_mem(pca9685.addr, 0x00, b"\\x10") # Sleep mode',
+      '  pca9685.i2c.writeto_mem(pca9685.addr, 0xFE, bytes([ int((25000000 / (4096 * freq)) - 1) ])) # Prescaler',
+      '  pca9685.i2c.writeto_mem(pca9685.addr, 0x00, b"\\x80") # Restart',
+      '  pca9685.i2c.writeto_mem(pca9685.addr, 0x00, b"\\x20") # Auto-Increment enabled',
+      '  pca9685.i2c.writeto_mem(pca9685.addr, 0x01, b"\\x04") # OUTDRV -> 1',
     ]
   );
 
