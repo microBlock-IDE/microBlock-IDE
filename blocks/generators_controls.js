@@ -1,4 +1,6 @@
 Blockly.Python['controls_wait'] = function (block) {
+  Blockly.Python.definitions_['from_time_import_sleep'] = 'from time import sleep';
+
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   var code = `sleep(${value_time})\n`;
   return code;
@@ -11,6 +13,8 @@ Blockly.JavaScript['controls_wait'] = function (block) {
 };
 
 Blockly.Python['controls_wait_ms'] = function (block) {
+  Blockly.Python.definitions_['from_time_import_sleep_ms'] = 'from time import sleep_ms';
+
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   var code = `sleep_ms(${value_time})\n`;
   return code;
@@ -23,6 +27,8 @@ Blockly.JavaScript['controls_wait_ms'] = function (block) {
 };
 
 Blockly.Python['controls_wait_us'] = function (block) {
+  Blockly.Python.definitions_['from_time_import_sleep_us'] = 'from time import sleep_us';
+
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   var code = `sleep_us(${value_time})\n`;
   return code;
