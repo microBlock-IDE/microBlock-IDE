@@ -108,10 +108,12 @@ Blockly.Python['motor_stop'] = function(block) {
 };
 
 Blockly.Python['motor_set_pwm'] = function(block) {
-  Blockly.Python.definitions_['from_board_import_pca9685'] = 'from board import pca9685';
+  // Blockly.Python.definitions_['from_board_import_pca9685'] = 'from board import pca9685';
+  Blockly.Python.definitions_['from_board_import_motor'] = 'from board import motor';
 
   var value_freq = Blockly.Python.valueToCode(block, 'freq', Blockly.Python.ORDER_ATOMIC);
 
+  /*
   var functionName = Blockly.Python.provideFunction_(
     'motor_set_pwn_frequency',
     [
@@ -126,5 +128,8 @@ Blockly.Python['motor_set_pwm'] = function(block) {
   );
 
   var code = `${functionName}(${value_freq})\n`;
+  */
+  
+  var code = `motor.set_frequency(${value_freq})\n`;
   return code;
 };

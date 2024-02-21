@@ -8,7 +8,7 @@ Blockly.Python.forBlock['gamepad_is_connected'] = function (block) {
 Blockly.Python.forBlock['gamepad_forget_keys'] = function (block) {
     Blockly.Python.definitions_['import_bluepad32'] = 'import bluepad32';
 
-    var code = 'bluepad32.forget_keys()';
+    var code = 'bluepad32.forget_keys()\n';
     return code;
 };
 
