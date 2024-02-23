@@ -113,4 +113,44 @@ Blockly.defineBlocksWithJsonArray([
   "tooltip": "Write PWM value 0 to 1023 to any pin",
   "helpUrl": ""
 },
+{
+  "type": "pin_pulse_in",
+  "message0": "reads a pulse %1 on a pin %2 timeout %3 uS (uS)",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "value",
+      "options": [
+        [ "HIGH", "HIGH" ],
+        [ "LOW", "LOW" ],
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "pin",
+      "options": [
+        [ "D0", "26" ],
+        [ "D1", "13" ],
+        [ "D2", "14" ],
+        [ "D3", "15" ],
+        [ "D4", "27" ],
+        [ "D5", "32" ],
+        [ "D6", "33" ],
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "timeout",
+      "check": "Number"
+    },
+  ],
+  "output": [
+    "Number",
+    "Boolean"
+  ],
+  "inputsInline": true,
+  "colour": "#E74C3C",
+  "tooltip": "",
+  "helpUrl": ""
+},
 ]);

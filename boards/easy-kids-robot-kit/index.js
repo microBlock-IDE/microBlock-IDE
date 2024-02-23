@@ -749,6 +749,19 @@ addBoard({
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="pin_pulse_in">
+                                    <field name="pin">26</field>
+                                    <field name="value">HIGH</field>
+                                    <value name="timeout">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1000000</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {

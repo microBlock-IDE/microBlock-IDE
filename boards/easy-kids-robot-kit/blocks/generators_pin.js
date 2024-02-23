@@ -51,3 +51,14 @@ Blockly.Python['pin_analog_write'] = function (block) {
     var code = `${functionName}(${dropdown_pin}, ${value_value})\n`;
     return code;
 };
+
+Blockly.Python['pin_pulse_in'] = function (block) {
+    Blockly.Python.definitions_['from_machine_import_time_pulse_us'] = 'from machine import time_pulse_us';
+
+    var dropdown_value = block.getFieldValue('value');
+    var dropdown_pin = block.getFieldValue('pin');
+    var value_timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
+
+    var code = `time_pulse_us(Pin(${dropdown_pin}, mode=Pin.IN, pull=None), ${dropdown_value === "HIGH" ? "1" : "0"}, ${value_timeout})`;
+    return [code, Blockly.Python.ORDER_NONE];
+};
