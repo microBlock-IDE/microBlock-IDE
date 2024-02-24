@@ -21,7 +21,7 @@ const ARDUINO_CLI_PATH = path?.normalize(sharedObj.rootPath + "/../bin/arduino-c
 const ARDUINO_CONFIG_FILE = isInstalledVersion ? path?.normalize(USERDATA_PATH + "/settings.yaml") : path?.normalize(sharedObj.rootPath + "/../bin/arduino-cli/settings.yaml") || null;
 const ARDUINO_CLI_OPTION = `--config-file "${ARDUINO_CONFIG_FILE}"`;
 
-const arduino_dir_init = () => {
+const arduino_dir_init = (additional_urls) => {
     const fs = nodeFS;
     for (const directoryPath of [ ARDUINO_HOME_PATH, ARDUINO_DATA_PATH, ARDUINO_DOWNLOAD_PATH, ARDUINO_USER_PATH]) {
         if (!fs.existsSync(directoryPath)) {
@@ -35,6 +35,8 @@ const arduino_dir_init = () => {
   data: ${JSON.stringify(ARDUINO_DATA_PATH)}
   downloads: ${JSON.stringify(ARDUINO_DOWNLOAD_PATH)}
   user: ${JSON.stringify(ARDUINO_USER_PATH)}
+board_manager:
+  additional_urls: ${JSON.stringify(additional_urls || "")}
 updater:
   enable_notification: false
 `, err => {
@@ -94,9 +96,9 @@ const runGetOutput = async cmd => {
 async function arduino_board_init() {
     arduino_busy(true);
 
-    arduino_dir_init();
-
     const { fqbn, platform, depends } = boards.find(board => board.id === boardId);
+
+    arduino_dir_init(platform?.package_index || "");
 
     const updateBoardIndex = async () => {
         statusLog(`Updating board index`);
@@ -141,7 +143,7 @@ async function arduino_board_init() {
         }
     }
     
-    if (depends) {
+    if (Array.isArray(depends) && depends.length > 0) {
         await arduino_check_and_install_library(depends);
     }
 

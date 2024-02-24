@@ -1,206 +1,120 @@
+Blockly.Events.disableOrphansCustom = function (event) {
+    if (event.type == Blockly.Events.MOVE ||
+        event.type == Blockly.Events.CREATE) {
+        if (!event.workspaceId) {
+            return;
+        }
+        var workspace = Blockly.Workspace.getById(event.workspaceId);
+        var block = workspace.getBlockById(event.blockId);
+        if (block) {
+            if (!workspace.isDragging()) {
+                let block_is_valid = false;
+
+                const valid_top_block = [ 
+                    "controls_on_start", 
+                    "controls_forever_no_connect", 
+                    "procedures_defnoreturn",
+                    "procedures_defreturn",
+                    "procedures_mutatorcontainer",
+                    "procedures_mutatorarg",
+                ];
+
+                if (valid_top_block.indexOf(block.type) >= 0) {
+                    block_is_valid = true;
+                } else {
+                    // Find parent block
+                    let parent = block.getParent();
+                    // console.log("first parent", block.type, parent);
+                    while (parent) {
+                        // console.log("loop parent", block.type, parent.type);
+                        if (valid_top_block.indexOf(parent.type) >= 0) {
+                            block_is_valid = true;
+                            break;
+                        }
+                        parent = parent.getParent();
+                    }
+                }
+
+                // Enable / Disable block
+                block.setEnabled(block_is_valid);
+                var children = block.getDescendants(false);
+                for (var i = 0, child; (child = children[i]); i++) {
+                    child.setEnabled(block_is_valid);
+                }
+            }
+        }
+    }
+};  
+
 addBoard({
-    id: "kidmotor-v4",
-    name: "KidMotor V4i",
+    id: "pop-32",
+    name: "POP-32",
     description: "",
     image: "images/cover.jpg",
     tags: [
-        "RP2040",
+        "STM32",
         "INEX",
         "Robot"
     ],
-    uploadMode: "MSC",
-    mscSize: 1417216,
-    chip: "RP2",
-    pins_define: {
-        digital: [
-            [ "D1", 10 ],
-            [ "D2", 11 ],
-            [ "D3", 12 ],
-            [ "D4", 26 ],
-            [ "D5", 27 ],
-            [ "SV1", 18 ],
-            [ "SV2", 19 ],
-            [ "SV3", 20 ],
-        ],
-        analog: [
-            [ "D4", 26 ],
-            [ "D5", 27 ],
-        ],
+    chip: "STM32",
+    isArduinoPlatform: true,
+    fqbn: "INEX_STM32:stm32:POP32",
+    platform: {
+        id: "INEX_STM32:stm32",
+        version: "2.4.0",
+        package_index: "https://raw.githubusercontent.com/INEXdev/ArduinoSTM32/main/package_inex_stm32_index.json", // package_xxx_index.json
     },
+    depends: [ // Arduino libraries that are needed to build the current board
+        
+    ],
     script: [ 
         "../ipst-wifi/js/field_bitmap.js",
+        "../kidbright32/js/field_note.js",
+        "../kidbright32/js/sound.js",
     ],
     css: [
         "../ipst-wifi/css/field_bitmap.css",
+        "../kidbright32/css/field_note.css",
     ],
     blocks: [
-        "blocks/blocks_motor.js",
         "../ipst-wifi/blocks/blocks_display.js",
-        "blocks/blocks_switch.js",
-        "blocks/blocks_servo.js",
+        "../kidbright32/blocks/blocks_servo.js",
+        "../kidbright32/blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
-        "blocks/blocks_advanced.js",
+        "../kidbright32/blocks/blocks_buzzer.js",
 
-        "blocks/generators_motor.js",
-        "../ipst-wifi/blocks/generators_display.js",
-        "../kidbright32/blocks/generators_switch.js",
-        "../kidbright32/blocks/generators_servo.js",
+        "blocks/generators_display.js",
         "blocks/generators_pin.js",
-        "blocks/generators_avanced.js",
     ],
     modules: [ ],
-    firmware: [
-        {
-            name: "MicroPython for KidMotorV4 V1.19-microblock-dirty",
-            path: "firmware/MicroPython.for.KidMotorV4.V1.19-microblock-dirty.uf2",
-            version: "v1.19-microblock-dirty",
-            date: "2022-12-01",
-            board: "KidMotor V4",
-            cpu: "RP2040"
-        },
-        {
-            name: "MicroPython for KidMotorV4 V1.9.0-dirty",
-            path: "firmware/MicroPython.for.KidMotorV4.V1.9.0-dirty.uf2",
-            version: "V1.9.0-dirty",
-            date: "2022-01-10",
-            board: "KidMotor V4",
-            cpu: "RP2040"
-        },
-        {
-            name: "MicroPython for KidMotorV4 V1.0.0",
-            path: "firmware/MicroPython.for.KidMotorV4.V1.0.0.uf2",
-            version: "V1.8.5-3-gc7ed62f8d-dirty",
-            date: "2021-12-08",
-            board: "KidMotor V4",
-            cpu: "RP2040"
-        }
-    ],
     usb: [
         {
-            vendorId: "2E8A",
-            productId: "0005"
+            vendorId: "2341",
+            productId: "1002"
         }
     ],
     autoCompletion: { },
+    defaultCode: `
+        <xml>
+            <block type="controls_on_start" x="0" y="0">
+                <next>
+                    <block type="controls_forever_no_connect"></block>
+                </next>
+            </block>
+        </xml>
+    `,
+    onLoad: async (workspace, board) => {
+        workspace.addChangeListener(Blockly.Events.disableOrphansCustom);
+    },
+    onDispose: async (workspace, board) => {
+        workspace.removeChangeListener(Blockly.Events.disableOrphansCustom);
+    },
     level: [
         {
             name: "Beginner",
             description: "",
             icon: "../kidbright32/images/puzzle.png",
             blocks: [
-                {
-                    name: "Moving",
-                    icon: `images/tire.png`,
-                    color: "#28B463",
-                    blocks: [
-                        {
-                            xml: `
-                                <block type="motor_forward">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_backward">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_turn_left">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_turn_right">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">1</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_move">
-                                    <value name="speed">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="motor_wheel">
-                                    <value name="speed1">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="speed2">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        "motor_stop",
-                        {
-                            xml: '<label text="Servo"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="external_servo">
-                                    <value name="angle">
-                                        <shadow type="math_number">
-                                            <field name="NUM">90</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                    ]
-                },
                 {
                     name: "Display",
                     icon: `../ipst-wifi/images/display.png`,
@@ -297,11 +211,11 @@ addBoard({
                         },
                         "display_fill",
                         "display_clear",
-                        "display_show"
+                        // "display_show"
                     ]
                 },
                 {
-                    name: "Switch",
+                    name: "Input",
                     icon: `../kidbright32/images/filter.png`,
                     color: "#fbbd5e",
                     blocks: [
@@ -309,18 +223,88 @@ addBoard({
                             xml: '<label text="Switch"></label>',
                         },
                         "switch_on_pressed",
-                        // "switch_on_press",
-                        // "switch_on_release",
+                        "switch_on_press",
+                        "switch_on_release",
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
+                        {
+                            xml: '<label text="Sensor"></label>',
+                        },
+                        "sensor_light",
+                        "sensor_temp",
+                        {
+                            xml: '<label text="External Input"></label>',
+                        },
+                        "pin_digital_read",
+                        "pin_analog_read",
+                        "pin_touch_read"
                     ]
                 },
                 {
-                    name: "Pin",
-                    icon: "/images/icon/led.png",
-                    color: "#e64c3c",
+                    name: "Output",
+                    icon: `../kidbright32/images/usb.png`,
+                    color: "#fbbd5e",
                     blocks: [
+                        {
+                            xml: '<label text="Buzzer"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_tone">
+                                    <value name="freq">
+                                        <shadow type="math_number">
+                                            <field name="NUM">2000</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="duration">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_notes">
+                                    <value name="notes">
+                                        <block type="make_note">
+                                            <field name="notes">C5</field>
+                                        </block>
+                                    </value>
+                                    <field name="duration">1 / 2</field>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="buzzer_volume">
+                                    <value name="level">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: '<label text="External Output"></label>',
+                        },
                         {
                             xml: `
                                 <block type="pin_digital_write">
@@ -343,9 +327,6 @@ addBoard({
                                 </block>
                             `
                         },
-                        "pin_digital_read",
-                        "pin_analog_read_calibrated",
-                        "pin_analog_read",
                     ]
                 },
                 {
@@ -408,6 +389,17 @@ addBoard({
                         },
                         "controls_wait_until",
                         "controls_whileUntil",
+                        {
+                            xml: `
+                                <block type="controls_wait_us">
+                                    <value name="time">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {
@@ -423,7 +415,7 @@ addBoard({
                                 <block type="math_number">
                                     <field name="NUM">0</field>
                                 </block>
-                            `
+                            `,
                         },
                         {
                             xml: `
@@ -550,6 +542,37 @@ addBoard({
                             `
                         },
                         {
+                            xml: `
+                                <block type="math_map">
+                                    <value name="value">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="from_min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="from_max">
+                                        <shadow type="math_number">
+                                            <field name="NUM">1023</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="to_min">
+                                        <shadow type="math_number">
+                                            <field name="NUM">0</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="to_max">
+                                        <shadow type="math_number">
+                                            <field name="NUM">255</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
                             xml: '<label text="Logic"></label>',
                         },
                         {
@@ -668,12 +691,23 @@ addBoard({
                             `
                         },
                         {
-                            xml: '<label text="Debug"></label>',
+                            xml: '<label text="Serial"></label>',
                         },
                         {
                             xml: `
-                                <block type="print">
-                                    <value name="value">
+                                <block type="serial_begin">
+                                    <value name="baud">
+                                        <shadow type="math_number">
+                                            <field name="NUM">9600</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="serial_print">
+                                    <value name="text">
                                         <shadow type="text">
                                             <field name="TEXT">Hello, world!</field>
                                         </shadow>
@@ -682,113 +716,35 @@ addBoard({
                             `
                         },
                         {
+                            xml: `
+                                <block type="serial_println">
+                                    <value name="text">
+                                        <shadow type="text">
+                                            <field name="TEXT">Hello, world!</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="serial_set_timeout">
+                                    <value name="timeout">
+                                        <shadow type="math_number">
+                                            <field name="NUM">100</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "serial_available",
+                        "serial_read_string",
+                        "serial_read_number",
+                        {
                             xml: '<label text="Import"></label>',
                         },
                         "import",
                         "call_import",
-                        {
-                            xml: '<label text="Sensor"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="dht_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="ds18x20_read">
-                                    <value name="pin">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: '<label text="RTC"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="rtc_set_time">
-                                    <value name="hour">
-                                        <shadow type="math_number">
-                                            <field name="NUM">16</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="min">
-                                        <shadow type="math_number">
-                                            <field name="NUM">50</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="sec">
-                                        <shadow type="math_number">
-                                            <field name="NUM">0</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="day">
-                                        <shadow type="math_number">
-                                            <field name="NUM">22</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="month">
-                                        <shadow type="math_number">
-                                            <field name="NUM">8</field>
-                                        </shadow>
-                                    </value>
-                                    <value name="year">
-                                        <shadow type="math_number">
-                                            <field name="NUM">2020</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        "rtc_get_hour",
-                        "rtc_get_min",
-                        "rtc_get_sec",
-                        "rtc_get_microsecond",
-                        "rtc_get_day",
-                        "rtc_get_month",
-                        "rtc_get_year",
-                        // "rtc_sync_ntp",
-                        {
-                            xml: '<label text="Task"></label>',
-                        },
-                        "run_in_background",
-                        {
-                            xml: '<label text="Low Power Mode"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="light_sleep">
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        {
-                            xml: `
-                                <block type="deep_sleep">
-                                    <value name="time">
-                                        <shadow type="math_number">
-                                            <field name="NUM">10</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
-                        // "is_woke_from_deep_sleep",
-                        "board_reset"
                     ]
                 }
             ]

@@ -1800,6 +1800,7 @@ ul.switch-mode > li:last-child {
     margin: 0;
     height: 100%;
     line-height: 16px;
+    user-select: text;
 }
 
 #upload-log-dialog {
