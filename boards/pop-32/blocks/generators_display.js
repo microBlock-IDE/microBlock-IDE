@@ -5,7 +5,7 @@ Blockly.JavaScript['display_draw_text'] = function(block) {
   var value_x = Blockly.JavaScript.valueToCode(block, 'x', Blockly.JavaScript.ORDER_ATOMIC);
   var value_y = Blockly.JavaScript.valueToCode(block, 'y', Blockly.JavaScript.ORDER_ATOMIC);
 
-  var code = `oled.text(${value_x}, ${value_y}, ${value_text});\n`;
+  var code = `oled.text(${value_x}, ${value_y}, ${value_text}.c_str());\n`;
   return code;
 };
 
@@ -48,14 +48,12 @@ Blockly.JavaScript['display_clear'] = function(block) {
   return code;
 };
 
-/*
 Blockly.JavaScript['display_show'] = function(block) {
   Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
   
-  var code = 'oled.show()\n';
+  var code = 'oled.show();\n';
   return code;
 };
-*/
 
 Blockly.JavaScript['display_draw_bitmap'] = function(block) {
   Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';

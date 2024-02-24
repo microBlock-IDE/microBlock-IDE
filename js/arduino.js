@@ -197,8 +197,10 @@ async function arduino_upload(code) {
         throw "Arduino init now, wait finish at soon~"
     }
 
+    const { skipSerialPortSelect } = boards.find(board => board.id === boardId);
+
     let portName = serialPort?.path || null;
-    if (!portName) {
+    if (!portName && !skipSerialPortSelect) {
         try {
             portName = await showPortSelect();
         } catch(e) {

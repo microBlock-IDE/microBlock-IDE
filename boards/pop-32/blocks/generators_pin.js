@@ -1,4 +1,6 @@
 Blockly.JavaScript['pin_mode'] = function (block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+
     var dropdown_pin = block.getFieldValue('pin');
     var dropdown_mode = block.getFieldValue('mode');
 
@@ -7,24 +9,30 @@ Blockly.JavaScript['pin_mode'] = function (block) {
 };
 
 Blockly.JavaScript['pin_digital_write'] = function (block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+
     var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
     var dropdown_pin = block.getFieldValue('pin');
 
-    var code = `digitalWrite(${dropdown_pin}, ${value_value});\n`;
+    var code = `out(${dropdown_pin}, ${value_value});\n`;
     return code;
 };
 
 Blockly.JavaScript['pin_digital_read'] = function (block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+
     var dropdown_pin = block.getFieldValue('pin');
 
-    var code = `digitalRead(${dropdown_pin})`;
+    var code = `in(${dropdown_pin})`;
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['pin_analog_read'] = function (block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+    
     var dropdown_pin = block.getFieldValue('pin');
 
-    var code = `analogRead(${dropdown_pin})`;
+    var code = `analog(${dropdown_pin})`;
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

@@ -467,7 +467,7 @@ ul.switch-mode > li:last-child {
     /* display: flex; */
     flex-direction: column;
     height: 100%;
-    z-index: 3988;
+    z-index: 3979;
     overflow: hidden;
     width: 300px;
 

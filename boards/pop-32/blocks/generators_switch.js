@@ -1,30 +1,31 @@
 Blockly.JavaScript['switch_is_press'] = function (block) {
-    Blockly.JavaScript.definitions_['import_switch'] = 'import switch';
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
 
     var dropdown_n = block.getFieldValue('n');
 
-    var code = `switch.value(switch.${dropdown_n}) == 1`;
+    var code = `SW_${dropdown_n}() == 1`;
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['switch_is_release'] = function (block) {
-    Blockly.JavaScript.definitions_['import_switch'] = 'import switch';
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
 
     var dropdown_n = block.getFieldValue('n');
 
-    var code = `switch.value(switch.${dropdown_n}) == 0`;
+    var code = `SW_${dropdown_n}() == 0`;
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['switch_get_value'] = function (block) {
-    Blockly.JavaScript.definitions_['import_switch'] = 'import switch';
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
 
     var dropdown_n = block.getFieldValue('n');
 
-    var code = `switch.value(switch.${dropdown_n})`;
+    var code = `SW_${dropdown_n}()`;
     return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+/*
 Blockly.JavaScript['switch_on_press'] = function(block) {
     Blockly.JavaScript.definitions_['import_switch'] = 'import switch';
 
@@ -141,3 +142,4 @@ Blockly.JavaScript['switch_on_pressed'] = function(block) {
     var code = `switch.pressed(switch.${dropdown_pin}, ${functionName})\n`;
     return code;
 };
+*/

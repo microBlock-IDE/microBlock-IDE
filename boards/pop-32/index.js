@@ -57,6 +57,7 @@ addBoard({
         "Robot"
     ],
     chip: "STM32",
+    // skipSerialPortSelect: true,
     isArduinoPlatform: true,
     fqbn: "INEX_STM32:stm32:POP32",
     platform: {
@@ -78,19 +79,22 @@ addBoard({
     ],
     blocks: [
         "../ipst-wifi/blocks/blocks_display.js",
-        "../kidbright32/blocks/blocks_servo.js",
-        "../kidbright32/blocks/blocks_switch.js",
+        "blocks/blocks_servo.js",
+        "blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
         "../kidbright32/blocks/blocks_buzzer.js",
 
         "blocks/generators_display.js",
+        "blocks/generators_servo.js",
+        "blocks/generators_switch.js",
         "blocks/generators_pin.js",
+        "blocks/generators_buzzer.js",
     ],
     modules: [ ],
     usb: [
         {
-            vendorId: "2341",
-            productId: "1002"
+            vendorId: "0483",
+            productId: "5740"
         }
     ],
     autoCompletion: { },
@@ -211,7 +215,7 @@ addBoard({
                         },
                         "display_fill",
                         "display_clear",
-                        // "display_show"
+                        "display_show"
                     ]
                 },
                 {
@@ -222,9 +226,9 @@ addBoard({
                         {
                             xml: '<label text="Switch"></label>',
                         },
-                        "switch_on_pressed",
+                        /*"switch_on_pressed",
                         "switch_on_press",
-                        "switch_on_release",
+                        "switch_on_release",*/
                         "switch_is_press",
                         "switch_is_release",
                         "switch_get_value",
@@ -277,7 +281,7 @@ addBoard({
                                 </block>
                             `
                         },
-                        {
+                        /*{
                             xml: `
                                 <block type="buzzer_volume">
                                     <value name="level">
@@ -287,7 +291,7 @@ addBoard({
                                     </value>
                                 </block>
                             `
-                        },
+                        },*/
                         {
                             xml: '<label text="Servo"></label>',
                         },
