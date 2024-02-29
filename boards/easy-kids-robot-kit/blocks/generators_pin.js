@@ -53,6 +53,7 @@ Blockly.Python['pin_analog_write'] = function (block) {
 };
 
 Blockly.Python['pin_pulse_in'] = function (block) {
+    Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_time_pulse_us'] = 'from machine import time_pulse_us';
 
     var dropdown_value = block.getFieldValue('value');
