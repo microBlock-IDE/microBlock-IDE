@@ -78,12 +78,14 @@ addBoard({
         "../kidbright32/css/field_note.css",
     ],
     blocks: [
+        "blocks/blocks_motor.js",
         "../ipst-wifi/blocks/blocks_display.js",
         "blocks/blocks_servo.js",
         "blocks/blocks_switch.js",
         "blocks/blocks_pin.js",
-        "../kidbright32/blocks/blocks_buzzer.js",
+        "blocks/blocks_buzzer.js",
 
+        "blocks/generators_motor.js",
         "blocks/generators_display.js",
         "blocks/generators_servo.js",
         "blocks/generators_switch.js",
@@ -119,6 +121,51 @@ addBoard({
             description: "",
             icon: "../kidbright32/images/puzzle.png",
             blocks: [
+                {
+                    name: "Moving",
+                    icon: `../kidmotor-v4/images/tire.png`,
+                    color: "#28B463",
+                    blocks: [
+                        {
+                            xml: `
+                                <block type="motor1">
+                                    <value name="speed">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="motor2">
+                                    <value name="speed1">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed3">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed4">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        "motor_stop",
+                    ]
+                },
                 {
                     name: "Display",
                     icon: `../ipst-wifi/images/display.png`,
@@ -241,7 +288,13 @@ addBoard({
                             xml: '<label text="External Input"></label>',
                         },
                         "pin_digital_read",
-                        "pin_analog_read",
+                        {
+                            xml: `
+                                <block type="pin_analog_read">
+                                    <field name="pin">PB1</field>
+                                </block>
+                            `
+                        },
                         "pin_touch_read"
                     ]
                 },
@@ -277,7 +330,7 @@ addBoard({
                                             <field name="notes">C5</field>
                                         </block>
                                     </value>
-                                    <field name="duration">1 / 2</field>
+                                    <field name="duration">1.0f / 2.0f</field>
                                 </block>
                             `
                         },

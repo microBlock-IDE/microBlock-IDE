@@ -1011,15 +1011,24 @@ function ${b.FUNCTION_NAME_PLACEHOLDER_}(haystack, needle, replacement) {
         finish(a) {
             // console.log(Blockly.JavaScript?.dbNameType_);
             this.definitions_['variables'] = this.definitions_['variables'].map(name => `${Blockly.JavaScript?.dbNameType_?.[name] || "float"} ${name};`).join("\n");
+            if (this.definitions_['variables']) {
+              this.definitions_['variables'] += "\n\n";
+            }
             // console.log(this.definitions_);
             this.definitions_['include'] = Object.values(this.definitions_['include']).join("\n");
+            if (this.definitions_['include']) {
+              this.definitions_['include'] += "\n\n";
+            }
             this.definitions_['define'] = Object.values(this.definitions_['define']).join("\n");
+            if (this.definitions_['define']) {
+              this.definitions_['define'] += "\n\n";
+            }
 
             const b = Object.values(this.definitions_);
             super.finish(a);
             this.isInitialized = !1;
             this.nameDB_.reset();
-            return b.join("\n\n") + "\n\n\n" + a
+            return b.join("") + a
         }
         scrubNakedValue(a) {
             return a + ";\n"
