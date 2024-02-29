@@ -62,6 +62,104 @@ Blockly.defineBlocksWithJsonArray([
         "helpUrl": ""
     },
     {
+        "type": "motor_move",
+        "message0": "%1 speed %2",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "move",
+            "options": [
+                ["move forward", "fd"],
+                ["move backward", "bk"],
+                ["turn left", "tl"],
+                ["turn right", "tr"],
+                ["spin left", "sl"],
+                ["spin right", "sr"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "speed",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#3498DB",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "motor_move2",
+        "message0": "%1 speed1 %2 speed2 %3",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "move",
+            "options": [
+                ["move forward", "fd2"],
+                ["move backward", "bk2"],
+            ]
+        }, {
+            "type": "input_value",
+            "name": "speed1",
+        }, {
+            "type": "input_value",
+            "name": "speed2",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#3498DB",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "motor_move_4wd",
+        "message0": "4 WD %1 speed %2",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "move",
+            "options": [
+                ["move forward", "FD"],
+                ["move backward", "BK"],
+                ["turn left", "TL"],
+                ["turn right", "TR"],
+                ["spin left", "SL"],
+                ["spin right", "SR"]
+            ]
+        }, {
+            "type": "input_value",
+            "name": "speed",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#3498DB",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "motor_move2_4wd",
+        "message0": "4 WD %1 speed1 %2 speed2 %3",
+        "args0": [{
+            "type": "field_dropdown",
+            "name": "move",
+            "options": [
+                ["move forward", "FD2"],
+                ["move backward", "BK2"],
+            ]
+        }, {
+            "type": "input_value",
+            "name": "speed1",
+        }, {
+            "type": "input_value",
+            "name": "speed2",
+        }],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#3498DB",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
         "type": "turn",
         "message0": "Turn %1 speed %2",
         "args0": [

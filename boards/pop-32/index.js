@@ -163,7 +163,75 @@ addBoard({
                                 </block>
                             `
                         },
+                        {
+                            xml: `
+                                <block type="motor_move">
+                                    <value name="speed">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="motor_move2">
+                                    <value name="speed1">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="motor_move_4wd">
+                                    <value name="speed">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
+                        {
+                            xml: `
+                                <block type="motor_move2_4wd">
+                                    <value name="speed1">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                    <value name="speed2">
+                                        <shadow type="math_number">
+                                            <field name="NUM">50</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                         "motor_stop",
+                        {
+                            xml: '<label text="Servo"></label>',
+                        },
+                        {
+                            xml: `
+                                <block type="external_servo">
+                                    <value name="angle">
+                                        <shadow type="math_number">
+                                            <field name="NUM">90</field>
+                                        </shadow>
+                                    </value>
+                                </block>
+                            `
+                        },
                     ]
                 },
                 {
@@ -280,11 +348,6 @@ addBoard({
                         "switch_is_release",
                         "switch_get_value",
                         {
-                            xml: '<label text="Sensor"></label>',
-                        },
-                        "sensor_light",
-                        "sensor_temp",
-                        {
                             xml: '<label text="External Input"></label>',
                         },
                         "pin_digital_read",
@@ -345,20 +408,6 @@ addBoard({
                                 </block>
                             `
                         },*/
-                        {
-                            xml: '<label text="Servo"></label>',
-                        },
-                        {
-                            xml: `
-                                <block type="external_servo">
-                                    <value name="angle">
-                                        <shadow type="math_number">
-                                            <field name="NUM">90</field>
-                                        </shadow>
-                                    </value>
-                                </block>
-                            `
-                        },
                         {
                             xml: '<label text="External Output"></label>',
                         },

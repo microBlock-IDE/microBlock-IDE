@@ -20,13 +20,55 @@ Blockly.JavaScript['motor2'] = function (block) {
     return code;
 };
 
+Blockly.JavaScript['motor_move'] = function(block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+  
+    var dropdown_move = block.getFieldValue('move');
+    var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
+  
+    var code = `${dropdown_move}(${value_speed});\n`;
+    return code;
+};
+
+Blockly.JavaScript['motor_move2'] = function(block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+  
+    var dropdown_move = block.getFieldValue('move');
+    var value_speed1 = Blockly.JavaScript.valueToCode(block, 'speed1', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_speed2 = Blockly.JavaScript.valueToCode(block, 'speed2', Blockly.JavaScript.ORDER_ATOMIC);
+  
+    var code = `${dropdown_move}(${value_speed1}, ${value_speed2});\n`;
+    return code;
+};
+
+Blockly.JavaScript['motor_move_4wd'] = function(block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+  
+    var dropdown_move = block.getFieldValue('move');
+    var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
+  
+    var code = `${dropdown_move}(${value_speed});\n`;
+    return code;
+};
+
+Blockly.JavaScript['motor_move2_4wd'] = function(block) {
+    Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
+  
+    var dropdown_move = block.getFieldValue('move');
+    var value_speed1 = Blockly.JavaScript.valueToCode(block, 'speed1', Blockly.JavaScript.ORDER_ATOMIC);
+    var value_speed2 = Blockly.JavaScript.valueToCode(block, 'speed2', Blockly.JavaScript.ORDER_ATOMIC);
+  
+    var code = `${dropdown_move}(${value_speed1}, ${value_speed2});\n`;
+    return code;
+};
+
 Blockly.JavaScript['turn'] = function (block) {
     Blockly.JavaScript.definitions_['include']['POP32.h'] = '#include <POP32.h>';
 
     var dropdown_dir = block.getFieldValue('dir');
     var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC);
 
-    var code = `iBIT.M1.set(${dropdown_dir === "RIGHT" ? value_speed : 0}); iBIT.M2.set(${dropdown_dir === "LEFT" ? value_speed : 0})\n`;
+    var code = `fd(${dropdown_dir === "RIGHT" ? value_speed : 0}); iBIT.M2.set(${dropdown_dir === "LEFT" ? value_speed : 0})\n`;
     return code;
 };
 
