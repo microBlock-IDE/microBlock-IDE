@@ -9,31 +9,31 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "SV1",
-          "SV1"
+          "servo.SV1"
         ],
         [
           "SV2",
-          "SV2"
+          "servo.SV2"
         ],
         [
           "OUT1",
-          "26"
+          "Pin(26)"
         ],
         [
           "OUT2",
-          "27"
+          "Pin(27)"
         ],
         [
           "23",
-          "23"
+          "Pin(23)"
         ],
         [
           "19",
-          "19"
+          "Pin(19)"
         ],
         [
           "18",
-          "18"
+          "Pin(18)"
         ]
       ]
     },
