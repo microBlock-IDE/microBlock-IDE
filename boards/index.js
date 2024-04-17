@@ -29,6 +29,7 @@ for (const id of [
     "arduino-pro-mini",
     "arduino-uno-r4-wifi",
     "pop-32",
+    "hanuman",
 ]) {
     document.write(`<script src="${rootPath}/boards/${id}/index.js"></script>`);
     // import(`${rootPath}/boards/${id}/index.js`);
