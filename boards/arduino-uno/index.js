@@ -570,7 +570,7 @@ addBoard({
                                 <block type="serial_begin">
                                     <value name="baud">
                                         <shadow type="math_number">
-                                            <field name="NUM">9600</field>
+                                            <field name="NUM">115200</field>
                                         </shadow>
                                     </value>
                                 </block>
