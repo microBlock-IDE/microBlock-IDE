@@ -40,14 +40,14 @@ Blockly.JavaScript['switch_on_press'] = function(block) {
     for (var i = 0, variable; variable = variables[i]; i++) {
       varName = variable.name;
       if (block.getVars().indexOf(varName) == -1) {
-        globals.push(Blockly.JavaScript.variableDB_.getName(varName,
+        globals.push(Blockly.JavaScript.nameDB_.getName(varName,
             Blockly.VARIABLE_CATEGORY_NAME));
       }
     }
     // Add developer variables.
     var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
     for (var i = 0; i < devVarList.length; i++) {
-      globals.push(Blockly.JavaScript.variableDB_.getName(devVarList[i],
+      globals.push(Blockly.JavaScript.nameDB_.getName(devVarList[i],
           Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     }
   
@@ -79,14 +79,14 @@ Blockly.JavaScript['switch_on_release'] = function(block) {
     for (var i = 0, variable; variable = variables[i]; i++) {
       varName = variable.name;
       if (block.getVars().indexOf(varName) == -1) {
-        globals.push(Blockly.JavaScript.variableDB_.getName(varName,
+        globals.push(Blockly.JavaScript.nameDB_.getName(varName,
             Blockly.VARIABLE_CATEGORY_NAME));
       }
     }
     // Add developer variables.
     var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
     for (var i = 0; i < devVarList.length; i++) {
-      globals.push(Blockly.JavaScript.variableDB_.getName(devVarList[i],
+      globals.push(Blockly.JavaScript.nameDB_.getName(devVarList[i],
           Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     }
   
@@ -118,14 +118,14 @@ Blockly.JavaScript['switch_on_pressed'] = function(block) {
     for (var i = 0, variable; variable = variables[i]; i++) {
       varName = variable.name;
       if (block.getVars().indexOf(varName) == -1) {
-        globals.push(Blockly.JavaScript.variableDB_.getName(varName,
+        globals.push(Blockly.JavaScript.nameDB_.getName(varName,
             Blockly.VARIABLE_CATEGORY_NAME));
       }
     }
     // Add developer variables.
     var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
     for (var i = 0; i < devVarList.length; i++) {
-      globals.push(Blockly.JavaScript.variableDB_.getName(devVarList[i],
+      globals.push(Blockly.JavaScript.nameDB_.getName(devVarList[i],
           Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     }
   
