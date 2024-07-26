@@ -1,7 +1,7 @@
 Blockly.defineBlocksWithJsonArray([
 {
   "type": "gamepad_is_connected",
-  "message0": "Gamepad is Connected",
+  "message0": "gamepad is Connected",
   "inputsInline": true,
   "output": [
     "Number",
@@ -13,7 +13,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_forget_keys",
-  "message0": "Gamepad Forget Keys",
+  "message0": "gamepad Forget Keys",
   "previousStatement": null,
   "nextStatement": null,
   "colour": "#E67E22",
@@ -22,7 +22,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_enable_new_bluetooth_connections",
-  "message0": "Gamepad %1 New Bluetooth Connections",
+  "message0": "gamepad %1 New Bluetooth Connections",
   "args0": [
     {
       "type": "field_dropdown",
@@ -47,7 +47,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_axis",
-  "message0": "Gamepad Axis %1",
+  "message0": "gamepad Axis %1",
   "args0": [
     {
       "type": "field_dropdown",
@@ -103,7 +103,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_button_is_press",
-  "message0": "Gamepad Button %1 is Pressed",
+  "message0": "gamepad Button %1 is Pressed",
   "args0": [
     {
       "type": "field_dropdown",
@@ -170,7 +170,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_temperature",
-  "message0": "Gamepad Temperature",
+  "message0": "gamepad Temperature",
   "output": "Number",
   "colour": "#E67E22",
   "tooltip": "",
@@ -178,7 +178,7 @@ Blockly.defineBlocksWithJsonArray([
 },
 {
   "type": "gamepad_battery_level",
-  "message0": "Gamepad Battery Level",
+  "message0": "gamepad Battery Level",
   "output": "Number",
   "colour": "#E67E22",
   "tooltip": "",

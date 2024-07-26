@@ -154,6 +154,9 @@ addBoard({
                     color: "#28B463",
                     blocks: [
                         {
+                            xml: '<label text="Motor"></label>',
+                        },
+                        {
                             xml: `
                                 <block type="motor_forward">
                                     <value name="speed">

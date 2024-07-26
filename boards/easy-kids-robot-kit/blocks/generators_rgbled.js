@@ -35,7 +35,7 @@ Blockly.Python['rgbled_clear'] = function(block) {
 
   Blockly.Python.definitions_[`rom_board_import_rgbled_${dropdown_pin}`] = `from board import rgbled_${dropdown_pin}`;
 
-  var code = `rgbled_${dropdown_pin}.clear()\n`;
+  var code = `rgbled_${dropdown_pin}.clear(); rgbled_${dropdown_pin}.show()\n`;
   return code;
 };
 

@@ -8,7 +8,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "n",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
@@ -28,7 +28,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "n",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
@@ -48,7 +48,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "n",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
@@ -68,7 +68,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "pin",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
@@ -96,7 +96,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "pin",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
@@ -124,7 +124,7 @@ Blockly.defineBlocksWithJsonArray([
       "name": "pin",
       "options": [
         [
-          "SW1",
+          "Start",
           "SW1"
         ],
       ]
