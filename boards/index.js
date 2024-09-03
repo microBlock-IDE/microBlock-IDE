@@ -12,6 +12,7 @@ for (const id of [
     "esp32-dev-board", // Add ESP32 Dev Board
     "raspberry-pi-pico", // Add Raspberry Pi Pico
     "raspberry-pi-pico-w", // Add Raspberry Pi Pico W
+    "raspberry-pi-pico-2", // Add Raspberry Pi Pico W
     "mbits", // Add Mbits
     "openbit", // Add OpenBit
     "kidmotor-v4", // Add KidMotor V4.0
