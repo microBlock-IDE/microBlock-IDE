@@ -11,21 +11,21 @@ convert24to16 = (input) => {
   return `0x${((r << 11) | (g << 5) | (b)).toString(16)}`;
 }
 
-Blockly.Python['colour_picker'] = function(block) {
+Blockly.Python.forBlock['colour_picker'] = function(block) {
   // Colour picker.
   var code = block.getFieldValue('COLOUR');
   code = convert24to16(code);
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
-Blockly.Python['colour_random'] = function(block) {
+Blockly.Python.forBlock['colour_random'] = function(block) {
   // Generate a random colour.
   Blockly.Python.definitions_['import_random'] = 'import random';
   var code = 'random.randint(0, 2**16 - 1)';
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Python['colour_rgb'] = function(block) {
+Blockly.Python.forBlock['colour_rgb'] = function(block) {
   // Compose a colour from RGB components expressed as percentages.
   var functionName = Blockly.Python.provideFunction_(
       'colour_rgb',
@@ -44,7 +44,7 @@ Blockly.Python['colour_rgb'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Python['colour_blend'] = function(block) {
+Blockly.Python.forBlock['colour_blend'] = function(block) {
   // Blend two colours together.
   var functionName = Blockly.Python.provideFunction_(
       'colour_blend',

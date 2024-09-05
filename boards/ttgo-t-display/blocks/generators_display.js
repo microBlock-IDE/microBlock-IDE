@@ -1,4 +1,4 @@
-Blockly.Python['display_draw_text'] = function(block) {
+Blockly.Python.forBlock['display_draw_text'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
   
   var value_text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
@@ -11,7 +11,7 @@ Blockly.Python['display_draw_text'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_line'] = function(block) {
+Blockly.Python.forBlock['display_draw_line'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
   var value_x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC);
@@ -24,7 +24,7 @@ Blockly.Python['display_draw_line'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_rect'] = function(block) {
+Blockly.Python.forBlock['display_draw_rect'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
   var value_x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
@@ -38,7 +38,7 @@ Blockly.Python['display_draw_rect'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_circle'] = function(block) {
+Blockly.Python.forBlock['display_draw_circle'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
   var value_x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
@@ -51,7 +51,7 @@ Blockly.Python['display_draw_circle'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_fill'] = function(block) {
+Blockly.Python.forBlock['display_fill'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
 
   var value_color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
@@ -60,7 +60,7 @@ Blockly.Python['display_fill'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_bitmap'] = function(block) {
+Blockly.Python.forBlock['display_draw_bitmap'] = function(block) {
   Blockly.Python.definitions_['import_display'] = 'import display';
   Blockly.Python.definitions_['import_framebuf'] = 'import framebuf';
 

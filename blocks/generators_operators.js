@@ -1,4 +1,4 @@
-Blockly.Python['math_map'] = function (block) {
+Blockly.Python.forBlock['math_map'] = function (block) {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
     var value_from_min = Blockly.Python.valueToCode(block, 'from_min', Blockly.Python.ORDER_ATOMIC);
     var value_from_max = Blockly.Python.valueToCode(block, 'from_max', Blockly.Python.ORDER_ATOMIC);

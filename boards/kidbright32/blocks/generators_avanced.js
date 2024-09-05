@@ -1,4 +1,4 @@
-Blockly.Python['dht_read'] = function(block) {
+Blockly.Python.forBlock['dht_read'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['import_dht'] = 'import dht';
 
@@ -25,7 +25,7 @@ Blockly.Python['dht_read'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['ds18x20_read'] = function(block) {
+Blockly.Python.forBlock['ds18x20_read'] = function(block) {
     Blockly.Python.definitions_['from_time_import_sleep'] = 'from time import sleep';
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['import_onewire'] = 'import onewire';

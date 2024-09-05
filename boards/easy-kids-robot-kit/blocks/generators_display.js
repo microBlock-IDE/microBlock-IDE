@@ -1,4 +1,4 @@
-Blockly.Python['display_draw_text'] = function(block) {
+Blockly.Python.forBlock['display_draw_text'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
   Blockly.Python.definitions_['from_board_import_color_hex'] = 'from board import color_hex';
   
@@ -12,7 +12,7 @@ Blockly.Python['display_draw_text'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_line'] = function(block) {
+Blockly.Python.forBlock['display_draw_line'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
   Blockly.Python.definitions_['from_board_import_color_hex'] = 'from board import color_hex';
 
@@ -26,7 +26,7 @@ Blockly.Python['display_draw_line'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_rect'] = function(block) {
+Blockly.Python.forBlock['display_draw_rect'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
   Blockly.Python.definitions_['from_board_import_color_hex'] = 'from board import color_hex';
 
@@ -41,7 +41,7 @@ Blockly.Python['display_draw_rect'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_circle'] = function(block) {
+Blockly.Python.forBlock['display_draw_circle'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
   Blockly.Python.definitions_['from_board_import_color_hex'] = 'from board import color_hex';
 
@@ -55,7 +55,7 @@ Blockly.Python['display_draw_circle'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_fill'] = function(block) {
+Blockly.Python.forBlock['display_fill'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
   Blockly.Python.definitions_['from_board_import_color_hex'] = 'from board import color_hex';
 
@@ -65,7 +65,7 @@ Blockly.Python['display_fill'] = function(block) {
   return code;
 };
 
-Blockly.Python['display_draw_bitmap'] = function(block) {
+Blockly.Python.forBlock['display_draw_bitmap'] = function(block) {
   Blockly.Python.definitions_['from_board_import_display'] = 'from board import display';
 
   var bitmap_image = block.getFieldValue('image');

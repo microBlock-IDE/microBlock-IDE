@@ -1,4 +1,4 @@
-Blockly.Python['sensor_light_is_color'] = function(block) {
+Blockly.Python.forBlock['sensor_light_is_color'] = function(block) {
     Blockly.Python.definitions_['import_sensor'] = 'import sensor';
 
     var dropdown_sensor = block.getFieldValue('sensor');
@@ -8,7 +8,7 @@ Blockly.Python['sensor_light_is_color'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['sensor_set_threshold'] = function(block) {
+Blockly.Python.forBlock['sensor_set_threshold'] = function(block) {
     Blockly.Python.definitions_['import_sensor'] = 'import sensor';
 
     var dropdown_color = block.getFieldValue('color');
@@ -18,7 +18,7 @@ Blockly.Python['sensor_set_threshold'] = function(block) {
     return code;
 };
 
-Blockly.Python['sensor_light'] = function(block) {
+Blockly.Python.forBlock['sensor_light'] = function(block) {
     Blockly.Python.definitions_['import_sensor'] = 'import sensor';
 
     var dropdown_sensor = block.getFieldValue('sensor');
@@ -27,7 +27,7 @@ Blockly.Python['sensor_light'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['ultrasonic_read'] = function(block) {
+Blockly.Python.forBlock['ultrasonic_read'] = function(block) {
     Blockly.Python.definitions_['import_sensor'] = 'import sensor';
   
     var code = `sensor.distance()`;

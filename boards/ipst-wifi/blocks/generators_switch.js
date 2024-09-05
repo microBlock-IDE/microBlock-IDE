@@ -1,25 +1,25 @@
-Blockly.Python['switch_is_press'] = function (block) {
+Blockly.Python.forBlock['switch_is_press'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var code = `switch.value() == 1`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_is_release'] = function (block) {
+Blockly.Python.forBlock['switch_is_release'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var code = `switch.value() == 0`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_get_value'] = function (block) {
+Blockly.Python.forBlock['switch_get_value'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var code = `switch.value()`;
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_on_press'] = function(block) {
+Blockly.Python.forBlock['switch_on_press'] = function(block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var statements_callback = Blockly.Python.statementToCode(block, 'callback');
@@ -57,7 +57,7 @@ Blockly.Python['switch_on_press'] = function(block) {
     return code;
 };
 
-Blockly.Python['switch_on_release'] = function(block) {
+Blockly.Python.forBlock['switch_on_release'] = function(block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var statements_callback = Blockly.Python.statementToCode(block, 'callback');

@@ -1,4 +1,4 @@
-Blockly.Python['motor_forward'] = function(block) {
+Blockly.Python.forBlock['motor_forward'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var number_speed = block.getFieldValue('speed');
@@ -8,7 +8,7 @@ Blockly.Python['motor_forward'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_backward'] = function(block) {
+Blockly.Python.forBlock['motor_backward'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var number_speed = block.getFieldValue('speed');
@@ -18,7 +18,7 @@ Blockly.Python['motor_backward'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_turn_left'] = function(block) {
+Blockly.Python.forBlock['motor_turn_left'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var number_speed = block.getFieldValue('speed');
@@ -28,7 +28,7 @@ Blockly.Python['motor_turn_left'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_turn_right'] = function(block) {
+Blockly.Python.forBlock['motor_turn_right'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var number_speed = block.getFieldValue('speed');
@@ -38,7 +38,7 @@ Blockly.Python['motor_turn_right'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_move'] = function(block) {
+Blockly.Python.forBlock['motor_move'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var dropdown_move = block.getFieldValue('move');
@@ -48,7 +48,7 @@ Blockly.Python['motor_move'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_wheel'] = function(block) {
+Blockly.Python.forBlock['motor_wheel'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var number_speed1 = block.getFieldValue('speed1');
@@ -58,7 +58,7 @@ Blockly.Python['motor_wheel'] = function(block) {
   return code;
 };
 
-Blockly.Python['motor_stop'] = function(block) {
+Blockly.Python.forBlock['motor_stop'] = function(block) {
   Blockly.Python.definitions_['import_motor'] = 'import motor';
 
   var code = `motor.stop()\n`;

@@ -67,6 +67,7 @@ addBoard({
     depends: [ // Arduino libraries that are needed to build the current board
         "Hanuman@1.0.0"
     ],
+    skipSerialPortSelect: true,
     script: [ 
 
     ],

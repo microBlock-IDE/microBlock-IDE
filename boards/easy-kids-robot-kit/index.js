@@ -105,7 +105,7 @@ addBoard({
         {
             // name: "MicroPython (No Gamepad) for EasyKids Robot Kit V1.9.1-5-g79adb87da-dirty",
             name: "EasyKids_Standard",
-            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty-3-no-bluepad.bin",
+            path: "firmware/MicroPython.for.EasyKids.Robot.Kit.v1.2.0-dirty-4-no-bluepad.bin",
             version: "v1.2.0-dirty",
             date: "2023-07-22",
             board: "EasyKids Robot Kit",
@@ -837,7 +837,7 @@ addBoard({
                         },
                         "controls_wait_until",
                         "controls_whileUntil",
-                        // "controls_flow_statements",
+                        "controls_flow_statements",
                     ]
                 },
                 {

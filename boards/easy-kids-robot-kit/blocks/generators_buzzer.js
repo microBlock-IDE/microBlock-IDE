@@ -1,4 +1,4 @@
-Blockly.Python['buzzer_tone'] = function(block) {
+Blockly.Python.forBlock['buzzer_tone'] = function(block) {
     Blockly.Python.definitions_['from_board_import_buzzer'] = 'from board import buzzer';
 
     var value_freq = Blockly.Python.valueToCode(block, 'freq', Blockly.Python.ORDER_ATOMIC);
@@ -7,7 +7,7 @@ Blockly.Python['buzzer_tone'] = function(block) {
     return code;
 };
 
-Blockly.Python['buzzer_notes'] = function(block) {
+Blockly.Python.forBlock['buzzer_notes'] = function(block) {
     Blockly.Python.definitions_['from_board_import_buzzer'] = 'from board import buzzer';
 
     var value_notes = Blockly.Python.valueToCode(block, 'notes', Blockly.Python.ORDER_ATOMIC);
@@ -17,7 +17,7 @@ Blockly.Python['buzzer_notes'] = function(block) {
     return code;
 };
 
-Blockly.Python['buzzer_volume'] = function(block) {
+Blockly.Python.forBlock['buzzer_volume'] = function(block) {
     Blockly.Python.definitions_['from_board_import_buzzer'] = 'from board import buzzer';
 
     var value_level = Blockly.Python.valueToCode(block, 'level', Blockly.Python.ORDER_ATOMIC);
@@ -25,7 +25,7 @@ Blockly.Python['buzzer_volume'] = function(block) {
     return code;
 };
 
-Blockly.Python['make_note'] = function(block) {
+Blockly.Python.forBlock['make_note'] = function(block) {
     var text_notes = block.getFieldValue('notes');
     var code = `'${text_notes}'`;
     return [code, Blockly.Python.ORDER_NONE];

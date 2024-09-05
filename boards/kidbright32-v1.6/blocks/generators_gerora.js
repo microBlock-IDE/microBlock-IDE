@@ -1,4 +1,4 @@
-Blockly.Python['gerora_setup'] = function(block) {
+Blockly.Python.forBlock['gerora_setup'] = function(block) {
   Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['from_gerora_import_neopixel'] = 'from neopixel import NeoPixel';
 
@@ -6,7 +6,7 @@ Blockly.Python['gerora_setup'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_set_color1'] = function(block) {
+Blockly.Python.forBlock['gerora_set_color1'] = function(block) {
   var value_n = Blockly.Python.valueToCode(block, 'n', Blockly.Python.ORDER_ATOMIC);
   var colour_color = block.getFieldValue('color');
 
@@ -19,7 +19,7 @@ Blockly.Python['gerora_set_color1'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_set_color2'] = function(block) {
+Blockly.Python.forBlock['gerora_set_color2'] = function(block) {
   var value_n = Blockly.Python.valueToCode(block, 'n', Blockly.Python.ORDER_ATOMIC);
   var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
   var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
@@ -29,7 +29,7 @@ Blockly.Python['gerora_set_color2'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_fill_color1'] = function(block) {
+Blockly.Python.forBlock['gerora_fill_color1'] = function(block) {
   var colour_color = block.getFieldValue('color');
 
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(colour_color);
@@ -41,7 +41,7 @@ Blockly.Python['gerora_fill_color1'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_fill_color2'] = function(block) {
+Blockly.Python.forBlock['gerora_fill_color2'] = function(block) {
   var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
   var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
   var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
@@ -50,17 +50,17 @@ Blockly.Python['gerora_fill_color2'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_show'] = function(block) {
+Blockly.Python.forBlock['gerora_show'] = function(block) {
   var code = 'np.write()\n';
   return code;
 };
 
-Blockly.Python['gerora_clear'] = function(block) {
+Blockly.Python.forBlock['gerora_clear'] = function(block) {
   var code = 'for i in range(np.n): np[i] = (0, 0, 0)\n';
   return code;
 };
 
-Blockly.Python['gerora_rainbow'] = function(block) {
+Blockly.Python.forBlock['gerora_rainbow'] = function(block) {
   var value_wait = Blockly.Python.valueToCode(block, 'wait', Blockly.Python.ORDER_ATOMIC) || '30';
 
   Blockly.Python.definitions_['from_time_import_sleep_ms'] = 'from time import sleep_ms';
@@ -86,7 +86,7 @@ Blockly.Python['gerora_rainbow'] = function(block) {
   return code;
 };
 
-Blockly.Python['gerora_set_brightness'] = function(block) {
+Blockly.Python.forBlock['gerora_set_brightness'] = function(block) {
   var value_brightness = Blockly.Python.valueToCode(block, 'brightness', Blockly.Python.ORDER_ATOMIC);
   var code = `np.bright = ${value_brightness}\n`;
   return code;

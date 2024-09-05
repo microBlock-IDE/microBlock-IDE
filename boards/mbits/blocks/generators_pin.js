@@ -1,4 +1,4 @@
-Blockly.Python['pin_digital_write'] = function (block) {
+Blockly.Python.forBlock['pin_digital_write'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
@@ -8,7 +8,7 @@ Blockly.Python['pin_digital_write'] = function (block) {
     return code;
 };
 
-Blockly.Python['pin_digital_read'] = function (block) {
+Blockly.Python.forBlock['pin_digital_read'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -17,7 +17,7 @@ Blockly.Python['pin_digital_read'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['pin_touch_read'] = function (block) {
+Blockly.Python.forBlock['pin_touch_read'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_touchpad'] = 'from machine import TouchPad';
 
@@ -27,7 +27,7 @@ Blockly.Python['pin_touch_read'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['pin_analog_read'] = function (block) {
+Blockly.Python.forBlock['pin_analog_read'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
 
@@ -45,7 +45,7 @@ Blockly.Python['pin_analog_read'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['pin_analog_write'] = function (block) {
+Blockly.Python.forBlock['pin_analog_write'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_pwm'] = 'from machine import PWM';
 
@@ -55,7 +55,7 @@ Blockly.Python['pin_analog_write'] = function (block) {
     return code;
 };
 
-Blockly.Python['servo_write'] = function (block) {
+Blockly.Python.forBlock['servo_write'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_pwm'] = 'from machine import PWM';
 

@@ -1,16 +1,16 @@
-Blockly.Python['print'] = function(block) {
+Blockly.Python.forBlock['print'] = function(block) {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
     var code = `print(${value_value})\n`;
     return code;
 };
 
-Blockly.JavaScript['print'] = function(block) {
+Blockly.JavaScript.forBlock['print'] = function(block) {
     var value_value = Blockly.JavaScript.valueToCode(block, 'value', Blockly.JavaScript.ORDER_ATOMIC);
     var code = `Serial.println(${value_value})\n`;
     return code;
 };
 
-Blockly.Python['dht_read'] = function(block) {
+Blockly.Python.forBlock['dht_read'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['import_dht'] = 'import dht';
 
@@ -37,7 +37,7 @@ Blockly.Python['dht_read'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['ds18x20_read'] = function(block) {
+Blockly.Python.forBlock['ds18x20_read'] = function(block) {
     Blockly.Python.definitions_['from_time_import_sleep'] = 'from time import sleep';
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['import_onewire'] = 'import onewire';
@@ -62,7 +62,7 @@ Blockly.Python['ds18x20_read'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
   
-Blockly.Python['rtc_set_time'] = function(block) {
+Blockly.Python.forBlock['rtc_set_time'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var value_hour = Blockly.Python.valueToCode(block, 'hour', Blockly.Python.ORDER_ATOMIC);
@@ -76,56 +76,56 @@ Blockly.Python['rtc_set_time'] = function(block) {
     return code;
 };
 
-Blockly.Python['rtc_get_hour'] = function(block) {
+Blockly.Python.forBlock['rtc_get_hour'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
   var code = 'RTC().datetime()[4]';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_min'] = function(block) {
+Blockly.Python.forBlock['rtc_get_min'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[5]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_sec'] = function(block) {
+Blockly.Python.forBlock['rtc_get_sec'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[6]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_day'] = function(block) {
+Blockly.Python.forBlock['rtc_get_day'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[2]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_month'] = function(block) {
+Blockly.Python.forBlock['rtc_get_month'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[1]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_year'] = function(block) {
+Blockly.Python.forBlock['rtc_get_year'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[0]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_get_microsecond'] = function(block) {
+Blockly.Python.forBlock['rtc_get_microsecond'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
 
     var code = 'RTC().datetime()[6]';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['rtc_sync_ntp'] = function(block) {
+Blockly.Python.forBlock['rtc_sync_ntp'] = function(block) {
     Blockly.Python.definitions_['from_machine_import_RTC'] = 'from machine import RTC';
     Blockly.Python.definitions_['import_ntptime'] = 'import ntptime';
 
@@ -133,7 +133,7 @@ Blockly.Python['rtc_sync_ntp'] = function(block) {
     return code;
   };
 
-Blockly.Python['light_sleep'] = function(block) {
+Blockly.Python.forBlock['light_sleep'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 
     var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -141,7 +141,7 @@ Blockly.Python['light_sleep'] = function(block) {
     return code;
 };
 
-Blockly.Python['deep_sleep'] = function(block) {
+Blockly.Python.forBlock['deep_sleep'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 
     var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -149,14 +149,14 @@ Blockly.Python['deep_sleep'] = function(block) {
     return code;
 };
 
-Blockly.Python['is_woke_from_deep_sleep'] = function(block) {
+Blockly.Python.forBlock['is_woke_from_deep_sleep'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 
     var code = '(machine.reset_cause() == machine.DEEPSLEEP_RESET)';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['send_into_source'] = function(block) {
+Blockly.Python.forBlock['send_into_source'] = function(block) {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
     var value_source = Blockly.Python.valueToCode(block, 'source', Blockly.Python.ORDER_ATOMIC);
 
@@ -172,14 +172,14 @@ Blockly.JavaScript['send_into_source'] = function(block) {
     return code;
 };
 
-Blockly.Python['board_reset'] = function(block) {
+Blockly.Python.forBlock['board_reset'] = function(block) {
     Blockly.Python.definitions_['import_machine'] = 'import machine';
 
     var code = `machine.reset()\n`;
     return code;
 };
 
-Blockly.Python['run_in_background'] = function(block) {
+Blockly.Python.forBlock['run_in_background'] = function(block) {
     Blockly.Python.definitions_['import__thread'] = 'import _thread';
 
     var statements_callback = Blockly.Python.statementToCode(block, 'callback');
@@ -223,14 +223,14 @@ Blockly.Python['run_in_background'] = function(block) {
     return code;
 };
 
-Blockly.Python['import'] = function(block) {
+Blockly.Python.forBlock['import'] = function(block) {
     var dropdown_file_name = block.getFieldValue('file_name');
     Blockly.Python.definitions_['import_' + dropdown_file_name] = 'import ' + dropdown_file_name.replace(/\.(py|xml)/, "");
     
     return "";
 };
 
-Blockly.Python['call_import'] = function(block) {
+Blockly.Python.forBlock['call_import'] = function(block) {
     const function_detail = JSON.parse(block.getFieldValue('object')) || { };
     const file_name = function_detail?.file || "";
 

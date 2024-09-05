@@ -1,4 +1,4 @@
-Blockly.Python['switch_is_press'] = function (block) {
+Blockly.Python.forBlock['switch_is_press'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_n = block.getFieldValue('n');
@@ -7,7 +7,7 @@ Blockly.Python['switch_is_press'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_is_release'] = function (block) {
+Blockly.Python.forBlock['switch_is_release'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_n = block.getFieldValue('n');
@@ -16,7 +16,7 @@ Blockly.Python['switch_is_release'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_get_value'] = function (block) {
+Blockly.Python.forBlock['switch_get_value'] = function (block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_n = block.getFieldValue('n');
@@ -25,7 +25,7 @@ Blockly.Python['switch_get_value'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['switch_on_press'] = function(block) {
+Blockly.Python.forBlock['switch_on_press'] = function(block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -64,7 +64,7 @@ Blockly.Python['switch_on_press'] = function(block) {
     return code;
 };
 
-Blockly.Python['switch_on_release'] = function(block) {
+Blockly.Python.forBlock['switch_on_release'] = function(block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -103,7 +103,7 @@ Blockly.Python['switch_on_release'] = function(block) {
     return code;
 };
 
-Blockly.Python['switch_on_pressed'] = function(block) {
+Blockly.Python.forBlock['switch_on_pressed'] = function(block) {
     Blockly.Python.definitions_['import_switch'] = 'import switch';
 
     var dropdown_pin = block.getFieldValue('pin');

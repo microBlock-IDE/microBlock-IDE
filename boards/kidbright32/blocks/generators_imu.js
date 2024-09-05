@@ -1,11 +1,11 @@
-Blockly.Python['imu_update'] = function(block) {
+Blockly.Python.forBlock['imu_update'] = function(block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var code = 'imu.update()\n';
     return code;
 };
 
-Blockly.Python['imu_is_gesture'] = function(block) {
+Blockly.Python.forBlock['imu_is_gesture'] = function(block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_gesture = block.getFieldValue('gesture');
@@ -14,7 +14,7 @@ Blockly.Python['imu_is_gesture'] = function(block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_acceleration'] = function (block) {
+Blockly.Python.forBlock['imu_acceleration'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_axis = block.getFieldValue('axis');
@@ -23,14 +23,14 @@ Blockly.Python['imu_acceleration'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_compass_heading'] = function (block) {
+Blockly.Python.forBlock['imu_compass_heading'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var code = 'int(imu.heading())';
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_rotation'] = function (block) {
+Blockly.Python.forBlock['imu_rotation'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_axis = block.getFieldValue('axis');
@@ -39,7 +39,7 @@ Blockly.Python['imu_rotation'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_magnetic_force'] = function (block) {
+Blockly.Python.forBlock['imu_magnetic_force'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_axis = block.getFieldValue('axis');
@@ -48,14 +48,14 @@ Blockly.Python['imu_magnetic_force'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_calibrate_compass'] = function (block) {
+Blockly.Python.forBlock['imu_calibrate_compass'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var code = 'imu.calibrate_compass()\n';
     return code;
 };
 
-Blockly.Python['imu_raw_gyro'] = function (block) {
+Blockly.Python.forBlock['imu_raw_gyro'] = function (block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_axis = block.getFieldValue('axis');
@@ -64,7 +64,7 @@ Blockly.Python['imu_raw_gyro'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['imu_on_gesture'] = function(block) {
+Blockly.Python.forBlock['imu_on_gesture'] = function(block) {
     Blockly.Python.definitions_['import_imu'] = 'import imu';
 
     var dropdown_gesture = block.getFieldValue('gesture');

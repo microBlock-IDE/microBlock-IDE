@@ -1,4 +1,4 @@
-Blockly.Python['controls_wait'] = function (block) {
+Blockly.Python.forBlock['controls_wait'] = function (block) {
   Blockly.Python.definitions_['from_time_import_sleep'] = 'from time import sleep';
 
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -6,13 +6,13 @@ Blockly.Python['controls_wait'] = function (block) {
   return code;
 };
 
-Blockly.JavaScript['controls_wait'] = function (block) {
+Blockly.JavaScript.forBlock['controls_wait'] = function (block) {
   var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
   var code = `delay(${value_time} * 1000);\n`;
   return code;
 };
 
-Blockly.Python['controls_wait_ms'] = function (block) {
+Blockly.Python.forBlock['controls_wait_ms'] = function (block) {
   Blockly.Python.definitions_['from_time_import_sleep_ms'] = 'from time import sleep_ms';
 
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -20,13 +20,13 @@ Blockly.Python['controls_wait_ms'] = function (block) {
   return code;
 };
 
-Blockly.JavaScript['controls_wait_ms'] = function (block) {
+Blockly.JavaScript.forBlock['controls_wait_ms'] = function (block) {
   var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
   var code = `delay(${value_time});\n`;
   return code;
 };
 
-Blockly.Python['controls_wait_us'] = function (block) {
+Blockly.Python.forBlock['controls_wait_us'] = function (block) {
   Blockly.Python.definitions_['from_time_import_sleep_us'] = 'from time import sleep_us';
 
   var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
@@ -34,69 +34,69 @@ Blockly.Python['controls_wait_us'] = function (block) {
   return code;
 };
 
-Blockly.JavaScript['controls_wait_us'] = function (block) {
+Blockly.JavaScript.forBlock['controls_wait_us'] = function (block) {
   var value_time = Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC);
   var code = `delayMicroseconds(${value_time});\n`;
   return code;
 };
 
-Blockly.Python['controls_wait_until'] = function (block) {
+Blockly.Python.forBlock['controls_wait_until'] = function (block) {
   var value_condition = Blockly.Python.valueToCode(block, 'condition', Blockly.Python.ORDER_ATOMIC);
   var code = `while not ${value_condition}: pass\n`;
   return code;
 };
 
-Blockly.JavaScript['controls_wait_until'] = function (block) {
+Blockly.JavaScript.forBlock['controls_wait_until'] = function (block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'condition', Blockly.JavaScript.ORDER_ATOMIC);
   var code = `while (!${value_condition}) ;\n`;
   return code;
 };
 
-Blockly.Python['controls_forever'] = function (block) {
+Blockly.Python.forBlock['controls_forever'] = function (block) {
   var statements_block = Blockly.Python.statementToCode(block, 'block');
   var code = `while True:\n${statements_block}`;
   return code;
 };
 
-Blockly.JavaScript['controls_forever'] = function (block) {
+Blockly.JavaScript.forBlock['controls_forever'] = function (block) {
   var statements_block = Blockly.JavaScript.statementToCode(block, 'block');
   var code = `while(1) {\n${statements_block}}\n`;
   return code;
 };
 
-Blockly.Python['controls_on_start'] = function (block) {
+Blockly.Python.forBlock['controls_on_start'] = function (block) {
   var statements_block = Blockly.Python.statementToCode(block, 'block');
   const line = statements_block.split(/\r\n|\r|\n/);
   const code = line.map(a => a.substring(2)).join("\n") + "\n";
   return code;
 };
 
-Blockly.JavaScript['controls_on_start'] = function (block) {
+Blockly.JavaScript.forBlock['controls_on_start'] = function (block) {
   var statements_block = Blockly.JavaScript.statementToCode(block, 'block');
   var code = `void setup() {\n${statements_block}}\n\n`;
   return code;
 };
 
-Blockly.Python['controls_forever_no_connect'] = function (block) {
+Blockly.Python.forBlock['controls_forever_no_connect'] = function (block) {
   var statements_block = Blockly.Python.statementToCode(block, 'block');
   var code = `while True:\n${statements_block || "  pass"}\n`;
   return code;
 };
 
-Blockly.JavaScript['controls_forever_no_connect'] = function (block) {
+Blockly.JavaScript.forBlock['controls_forever_no_connect'] = function (block) {
   var statements_block = Blockly.JavaScript.statementToCode(block, 'block');
   var code = `void loop() {\n${statements_block}}\n`;
   return code;
 };
 
-Blockly.Python['while_loop'] = function (block) {
+Blockly.Python.forBlock['while_loop'] = function (block) {
   var value_condition = Blockly.Python.valueToCode(block, 'condition', Blockly.Python.ORDER_ATOMIC);
   var statements_DO = Blockly.Python.statementToCode(block, 'DO');
   var code = `while ${value_condition}:\n${statements_DO}`;
   return code;
 };
 
-Blockly.JavaScript['while_loop'] = function (block) {
+Blockly.JavaScript.forBlock['while_loop'] = function (block) {
   var value_condition = Blockly.JavaScript.valueToCode(block, 'condition', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_DO = Blockly.JavaScript.statementToCode(block, 'DO');
   var code = `while (${value_condition}) {\n${statements_DO}}\n`;

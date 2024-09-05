@@ -1,4 +1,4 @@
-Blockly.Python['pin_digital_write'] = function (block) {
+Blockly.Python.forBlock['pin_digital_write'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
@@ -8,7 +8,7 @@ Blockly.Python['pin_digital_write'] = function (block) {
     return code;
 };
 
-Blockly.Python['pin_digital_read'] = function (block) {
+Blockly.Python.forBlock['pin_digital_read'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -17,7 +17,7 @@ Blockly.Python['pin_digital_read'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['pin_analog_read'] = function (block) {
+Blockly.Python.forBlock['pin_analog_read'] = function (block) {
     Blockly.Python.definitions_['from_analog_import_analog_read'] = 'from analog import analog_read';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -39,7 +39,7 @@ Blockly.Python['pin_analog_read'] = function (block) {
     }
 };
 
-Blockly.Python['pin_analog_read_calibrated'] = function (block) {
+Blockly.Python.forBlock['pin_analog_read_calibrated'] = function (block) {
     Blockly.Python.definitions_['from_analog_import_analog_read_dalibrated'] = 'from analog import analog_read_calibrated';
 
     var dropdown_pin = block.getFieldValue('pin');
@@ -48,7 +48,7 @@ Blockly.Python['pin_analog_read_calibrated'] = function (block) {
     return [code, Blockly.Python.ORDER_NONE];
 };
 
-Blockly.Python['pin_analog_write'] = function (block) {
+Blockly.Python.forBlock['pin_analog_write'] = function (block) {
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_pwm'] = 'from machine import PWM';
 
@@ -65,7 +65,7 @@ Blockly.Python['pin_analog_write'] = function (block) {
     return code;
 };
 
-Blockly.Python['analog_view'] = function (block) {
+Blockly.Python.forBlock['analog_view'] = function (block) {
     Blockly.Python.definitions_['from_analog_import_analog_read'] = 'from analog import analog_read';
     Blockly.Python.definitions_['from_machine_import_pin'] = 'from machine import Pin';
     Blockly.Python.definitions_['from_machine_import_adc'] = 'from machine import ADC';
