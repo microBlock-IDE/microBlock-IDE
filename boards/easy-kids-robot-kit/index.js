@@ -150,7 +150,7 @@ addBoard({
             blocks: [
                 {
                     name: "Moving",
-                    icon: `images/tire.png`,
+                    icon: `images/Moving.png`,
                     color: "#28B463",
                     blocks: [
                         {
@@ -637,7 +637,7 @@ addBoard({
                 },
                 {
                     name: "I/O",
-                    icon: "/images/icon/led.png",
+                    icon: "images/IO.png",
                     color: "#e64c3c",
                     blocks: [
                         {
@@ -1055,7 +1055,7 @@ addBoard({
                 },
                 {
                     name: "Advanced",
-                    icon: `/images/icon/expert.png`,
+                    icon: `images/Advanced.png`,
                     color: "#8E44AD",
                     blocks: [
                         {
