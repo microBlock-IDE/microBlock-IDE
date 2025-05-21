@@ -9,15 +9,15 @@ Blockly.defineBlocksWithJsonArray([
       "options": [
         [
           "SV1",
-          "SV1"
+          "servo.SV1"
         ],
         [
           "SV2",
-          "SV2"
+          "servo.SV2"
         ],
         [
           "SV3",
-          "SV3"
+          "servo.SV3"
         ],
       ]
     },
